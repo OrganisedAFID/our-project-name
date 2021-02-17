@@ -20,7 +20,7 @@
 # THE SOFTWARE.
 #
 
-cmake_minimum_required(VERSION 3.19)
+cmake_minimum_required(VERSION 3.12.4)
 project("sound-pirates")
 
 if (NOT URHO3D_SAMPLES)
