@@ -60,4 +60,5 @@ private:
     void SubscribeToEvents();
     /// Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
+    void HandleClick(StringHash eventType, VariantMap& eventData);
 };

@@ -24,6 +24,7 @@
 #include <memory>
 #include <fstream>
 #include <sstream>
+#include <iostream>
 
 #include <Urho3D/Urho3D.h>
 #include <Urho3D/Core/CoreEvents.h>
@@ -96,8 +97,30 @@ void HelloWorld::Start()
 
 void HelloWorld::CreateText()
 {
+    auto* ui = GetSubsystem<UI>();
     auto* cache = GetSubsystem<ResourceCache>();
+    auto* b = new Button(context_);
+    
+    UIElement* root = ui->GetRoot();
+    // Load the style sheet from xml
+    root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
+    root->AddChild(b);
+    // Reference a style from the style sheet loaded earlier:
+    b->SetStyleAuto();
+    b->SetMinWidth(250);
+    b->SetPosition(IntVector2(50, 50));
 
+    // Enable the bring-to-front flag and set the initial priority
+    b->SetBringToFront(true);
+    b->SetPriority(1);
+
+    // Set the layout mode to make the child text elements aligned vertically
+    b->SetLayout(LM_VERTICAL, 20, {40, 40, 40, 40});
+    auto dragInfos = {"Num Touch", "Text", "Event Touch"};
+    for (auto name: dragInfos)
+        b->CreateChild<Text>(name)->SetStyleAuto();
+
+    b->AddTag("SomeTag");
     // Construct new Text object
     SharedPtr<Text> helloText(new Text(context_));
 
@@ -111,18 +134,40 @@ void HelloWorld::CreateText()
     // Align Text center-screen
     helloText->SetHorizontalAlignment(HA_CENTER);
     helloText->SetVerticalAlignment(VA_CENTER);
+    helloText->AddTag("welcomeText");
 
     // Add Text instance to the UI root element
     GetSubsystem<UI>()->GetRoot()->AddChild(helloText);
+    SubscribeToEvent(helloText, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleClick));
+    SubscribeToEvent(b, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleClick));
+
 }
 
 void HelloWorld::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(HelloWorld, HandleUpdate));
+    
 }
 
 void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
     // Do nothing for now, could be extended to eg. animate the display
+}
+
+// when you click on the button, the UI elements dissapear
+void HelloWorld::HandleClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+    
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* cache = GetSubsystem<ResourceCache>();
+    
+    // erase welcome text
+    Urho3D::PODVector<Urho3D::UIElement*> welcomeText = root->GetChildrenWithTag("welcomeText");
+    welcomeText[0]->SetVisible(false);
+    
+    // erase button
+    auto* element = (Button*)eventData[P_ELEMENT].GetVoidPtr();
+    element->SetVisible(false);    
 }
