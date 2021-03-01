@@ -60,5 +60,14 @@ private:
     void SubscribeToEvents();
     /// Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
-    void HandleClick(StringHash eventType, VariantMap& eventData);
+    void HandleStartClick(StringHash eventType, VariantMap& eventData);
+    void HandleCloserClick(StringHash eventType, VariantMap& eventData);
+    void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
+    void MoveCamera(float timeStep);
+    void SetupViewport();
+    void CreateScene();
+    Node* CreatePlane();
+    Node* CreateShip();
+    Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
+     int x, int y);
 };
