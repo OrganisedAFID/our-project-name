@@ -90,7 +90,7 @@ void processBuffer()
     std::vector<double> output;
     fft(window, output);
     for (i = 0; i < n; i++) {
-//        std::cout << i*44100.0/(n*2) << ' ' << (output[i]) << std::endl; //use log10 or not?
+       std::cout << i*44100.0/(n*2) << ' ' << (output[i]) << std::endl; //use log10 or not?
     }
     v = returnSubbands(output, bandNumber);
     if (historyBuffer.size() < bandNumber) {
