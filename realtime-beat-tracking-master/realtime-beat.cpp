@@ -91,7 +91,7 @@ void processBuffer()
     std::vector<double> output;
     fft(window, output);
     for (i = 0; i < n; i++) {
-<<<<<<< HEAD
+
         
         if (i > 0 && i < 200){
             if (output[i] > output[freqMaxIndex]){
@@ -104,9 +104,8 @@ void processBuffer()
     //std::cout << i*44100.0/(n*2) << ' ' << (output[i]) << std::endl; //use log10 or not?
     //std::cout << freqMaxIndex << std::endl;
     //std::cout << "------------------ " << std::endl; //use log10 or not?
-=======
-       std::cout << i*44100.0/(n*2) << ' ' << (output[i]) << std::endl; //use log10 or not?
->>>>>>> 2aca1faa3db00679e416d3efd8dfe159a00abd85
+
+
     }
     v = returnSubbands(output, bandNumber);
     if (historyBuffer.size() < bandNumber) {
