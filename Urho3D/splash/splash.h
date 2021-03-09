@@ -68,10 +68,11 @@ private:
     void CreateScene1();
     void DeleteScene1();
     void CreateScene2();
+    void ChangeTexts(String note="None");
     
     Node* CreatePlane();
     Node* CreateShip();
-    Text* CreateText(String content, String tagName, Urho3D::Font* font);
+    Text* CreateText(String content, String tagName, Urho3D::Font* font, int x, int y);
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
-     int x, int y);
+     int x, int y, int width=250);
 };

@@ -106,11 +106,12 @@ void HelloWorld::CreateScene1()
     auto* startButton = CreateButton
     (root, "StartButton", "StartText", "Start Game!", 400, 500);
     auto* helloText = 
-    CreateText("Welcome to Sound Pirates!", "welcomeText", cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"));
+    CreateText("Welcome to Sound Pirates!", "welcomeText", 
+                cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 400, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleStartClick));
 }
 
-Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font)
+Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font, int x, int y)
 {  
     // Construct new Text object
     SharedPtr<Text> text(new Text(context_));
@@ -121,10 +122,7 @@ Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font)
     // Set font and text color
     text->SetFont(font, 30);
     text->SetColor(Color(0.0f, 10.0f, 1.0f));
-
-    // Align Text center-screen
-    text->SetHorizontalAlignment(HA_CENTER);
-    text->SetVerticalAlignment(VA_CENTER);
+    text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
 
     // Add Text instance to the UI root element
@@ -142,7 +140,7 @@ Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font)
  */ 
 Button* HelloWorld::CreateButton
 (UIElement* root, String tag, String txtName, String txtCont, 
-  int x, int y)
+  int x, int y, int width)
 {
     auto* b = new Button(context_);
     
@@ -150,7 +148,7 @@ Button* HelloWorld::CreateButton
     // Reference a style from the style sheet loaded earlier:
     b->SetStyleAuto();
     
-    b->SetMinWidth(250);
+    b->SetWidth(width);
     
     b->AddTag(tag);
     b->SetPosition(IntVector2(x, y));
@@ -176,13 +174,42 @@ void HelloWorld::SubscribeToEvents()
 
 void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
-   using namespace Update;
+    using namespace Update;
 
     // Take the frame time step, which is stored as a float
     float timeStep = eventData[P_TIMESTEP].GetFloat();
 
     // Move the camera, scale movement with time step
     MoveCamera(timeStep);
+
+    // Need to pass a note to this function to make the UI register it has been played
+    ChangeTexts("A4");
+
+}
+
+void HelloWorld::ChangeTexts(String note)
+{
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* cache = GetSubsystem<ResourceCache>();
+
+    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
+
+
+    // Make relevant note more opaque and all others less opaque
+    for(int i= 0; i<8; i++){
+        if(notes[i] == note){
+            Urho3D::PODVector<Urho3D::UIElement*> noteText = 
+                root->GetChildrenWithTag(note+"Text");
+            noteText[0]->SetOpacity(1);
+        }
+        else{
+            Urho3D::PODVector<Urho3D::UIElement*> otherText = 
+                root->GetChildrenWithTag(notes[i]+"Text");
+            otherText[0]->SetOpacity(0.5);
+        }
+    }
+    
+
 }
 
 /** 
@@ -214,46 +241,6 @@ void HelloWorld::DeleteScene1()
     // erase button
     Urho3D::PODVector<Urho3D::UIElement*> button = root->GetChildrenWithTag("StartButton");
     button[0]->SetVisible(false);
-}
-
-/** 
- * when you click on the closer button, the ship moves closer to you (the camera)
- * 
- */
-void HelloWorld::HandleCloserClick(StringHash eventType, VariantMap& eventData)
-{
-    using namespace Click;
-    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
-    Vector3 shipPos = ship[0]->GetPosition();
-    Vector3 cameraPos = cameraNode_->GetPosition();
-    float x = shipPos.x_ - cameraPos.x_;
-    float y = shipPos.y_ - cameraPos.y_;
-    float z = shipPos.z_ - cameraPos.z_;
-    //if(x > 0 && y > 0 && z > 0)
-    //{
-        Vector3* newPos = new Vector3(shipPos.x_-1, shipPos.y_-1, shipPos.z_-1);
-        ship[0]->SetPosition(*newPos);
-    //}
-}
-
-/** 
- * when you click on the closer button, the ship moves closer to you (the camera)
- * 
- */
-void HelloWorld::HandleFurtherClick(StringHash eventType, VariantMap& eventData)
-{
-    using namespace Click;
-    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
-    Vector3 shipPos = ship[0]->GetPosition();
-    Vector3 cameraPos = cameraNode_->GetPosition();
-    float x = shipPos.x_ - cameraPos.x_;
-    float y = shipPos.y_ - cameraPos.y_;
-    float z = shipPos.z_ - cameraPos.z_;
-    //if(x > 0 && y > 0 && z > 0)
-    //{
-        Vector3* newPos = new Vector3(shipPos.x_+1, shipPos.y_+1, shipPos.z_+1);
-        ship[0]->SetPosition(*newPos);
-      
 }
 
 /**
@@ -294,15 +281,27 @@ void HelloWorld::CreateScene2()
     cameraNode_->SetPosition(Vector3(0.0f, 10.0f, -15.0f));
     
     
-    // Create two buttons to move the ship closer or further away from the camera
+    // Create 7 buttons, one for each note
     auto* ui = GetSubsystem<UI>();
     UIElement* root = ui->GetRoot();
-    auto* closerButton = 
-        CreateButton(root, "closerButt", "CloserText", "Closer", 200, 550);
-    auto* furtherButton = 
-        CreateButton(root, "furtherButt", "FurtherText", "Further", 600, 550); 
-    SubscribeToEvent(closerButton, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleCloserClick));
-    SubscribeToEvent(furtherButton, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleFurtherClick));
+    Button* noteButtons[7];
+    Text* noteTexts[8];
+    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
+    int leftOffset = 20;
+    int spacing = 20;
+    int width = 80;
+    int buttonHeight = 550;
+    int textHeight = 450;
+    for(int i = 0; i < 7; i++){
+        noteButtons[i] = CreateButton(root, notes[i]+"Butt", notes[i]+"ButtText", notes[i], 
+                                      leftOffset+i*(width+spacing), buttonHeight, width);
+        
+    }
+    for(int i = 0; i<8; i++){
+        noteTexts[i] = CreateText
+            (notes[i], notes[i]+"Text", cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 
+                leftOffset+i*(width+spacing)+width/2, textHeight);
+    }
 }
 
 /**
