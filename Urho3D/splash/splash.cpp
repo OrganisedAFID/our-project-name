@@ -90,41 +90,46 @@ void HelloWorld::Start()
     Sample::Start();
 
     // Create "Hello World" Text
-    CreateText();
+    CreateScene1();
     
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
 
-void HelloWorld::CreateText()
+void HelloWorld::CreateScene1()
 {
     auto* ui = GetSubsystem<UI>();
     UIElement* root = ui->GetRoot();
     auto* cache = GetSubsystem<ResourceCache>();
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-    
     auto* startButton = CreateButton
     (root, "StartButton", "StartText", "Start Game!", 400, 500);
-    
+    auto* helloText = 
+    CreateText("Welcome to Sound Pirates!", "welcomeText", cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"));
+    SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleStartClick));
+}
+
+Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font)
+{  
     // Construct new Text object
-    SharedPtr<Text> helloText(new Text(context_));
+    SharedPtr<Text> text(new Text(context_));
 
     // Set String to display
-    helloText->SetText("Welcome to Sound Pirates!");
+    text->SetText(content);
 
     // Set font and text color
-    helloText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 30);
-    helloText->SetColor(Color(0.0f, 10.0f, 1.0f));
+    text->SetFont(font, 30);
+    text->SetColor(Color(0.0f, 10.0f, 1.0f));
 
     // Align Text center-screen
-    helloText->SetHorizontalAlignment(HA_CENTER);
-    helloText->SetVerticalAlignment(VA_CENTER);
-    helloText->AddTag("welcomeText");
+    text->SetHorizontalAlignment(HA_CENTER);
+    text->SetVerticalAlignment(VA_CENTER);
+    text->AddTag(tagName);
 
     // Add Text instance to the UI root element
-    GetSubsystem<UI>()->GetRoot()->AddChild(helloText);
-    SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleStartClick));
+    GetSubsystem<UI>()->GetRoot()->AddChild(text);  
+    return text; 
 }
 
 /**

@@ -65,9 +65,12 @@ private:
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     void SetupViewport();
+    void CreateScene1();
     void CreateScene();
+    
     Node* CreatePlane();
     Node* CreateShip();
+    Text* CreateText(String content, String tagName, Urho3D::Font* font);
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y);
 };
