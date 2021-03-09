@@ -192,7 +192,18 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
 void HelloWorld::HandleStartClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
-    
+      
+    DeleteScene1();
+    //Show the main game screen
+    CreateScene2();
+    SetupViewport();
+
+    // Finally subscribe to the update event so we can move the camera.
+    SubscribeToEvents();    
+}
+
+void HelloWorld::DeleteScene1()
+{
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* cache = GetSubsystem<ResourceCache>();
     
@@ -201,15 +212,8 @@ void HelloWorld::HandleStartClick(StringHash eventType, VariantMap& eventData)
     welcomeText[0]->SetVisible(false);
     
     // erase button
-    auto* element = (Button*)eventData[P_ELEMENT].GetVoidPtr();
-    element->SetVisible(false);
-    
-    //Show the main game screen
-    CreateScene();
-    SetupViewport();
-
-    // Finally subscribe to the update event so we can move the camera.
-    SubscribeToEvents();    
+    Urho3D::PODVector<Urho3D::UIElement*> button = root->GetChildrenWithTag("StartButton");
+    button[0]->SetVisible(false);
 }
 
 /** 
@@ -257,7 +261,7 @@ void HelloWorld::HandleFurtherClick(StringHash eventType, VariantMap& eventData)
  * 
  * 
  */ 
-void HelloWorld::CreateScene()
+void HelloWorld::CreateScene2()
 {
     auto* cache = GetSubsystem<ResourceCache>();
     scene_ = new Scene(context_);

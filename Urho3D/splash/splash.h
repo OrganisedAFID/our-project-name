@@ -66,7 +66,8 @@ private:
     void MoveCamera(float timeStep);
     void SetupViewport();
     void CreateScene1();
-    void CreateScene();
+    void DeleteScene1();
+    void CreateScene2();
     
     Node* CreatePlane();
     Node* CreateShip();
