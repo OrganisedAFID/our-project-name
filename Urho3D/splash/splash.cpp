@@ -26,13 +26,19 @@
 // THE SOFTWARE.
 //
 
-
+ #include <sys/types.h>
+ #include <stdlib.h>
+ #include <fcntl.h>
 
 #include <string>
 #include <memory>
 #include <fstream>
 #include <sstream>
 #include <iostream>
+#include <stdio.h>
+#include <unistd.h>
+#include <poll.h>
+
 
 #include <Urho3D/Urho3D.h>
 #include <Urho3D/Core/CoreEvents.h>
@@ -79,19 +85,55 @@
 // Expands to this example's entry-point
 URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
 
+int pipefds[2];
+
+
 HelloWorld::HelloWorld(Context* context) :
     Sample(context)
 {
+    ::pipefds[2];
+    int returnstatus;
+    int pid;
+    char writemessages[2][20]={"Hi", "C4"};
+    char readmessage[20];
+    returnstatus = pipe(pipefds);
+    if (returnstatus == -1) {
+        printf("Unable to create pipe\n");
+        return;
+    }   
+    pid = fork();
+    
+    // Child process
+    if (pid == 0) {
+        read(pipefds[0], readmessage, sizeof(readmessage));
+        printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
+        
+    } else { //Parent process
+        printf("Parent Process - Writing to pipe - Message 1 is %s\n", writemessages[0]);
+        write(pipefds[1], writemessages[0], sizeof(writemessages[0]));
+        engine_->Exit();
+        printf("After engine end");
+        WriteToPipe(pipefds);
+    }
+    printf("Got after pipe stuff \n");
+}
+
+void HelloWorld::WriteToPipe(int pipefds[2])
+{
+    char message[20] = "C4";
+    printf("Parent Process - Writing to pipe - Message 2 is %s\n", message);
+    write(pipefds[1], message, sizeof(message));
 }
 
 void HelloWorld::Start()
 {
+    
     // Execute base class startup
     Sample::Start();
 
     // Create "Hello World" Text
     CreateScene1();
-    
+
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
@@ -182,8 +224,26 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
     // Move the camera, scale movement with time step
     MoveCamera(timeStep);
 
-    // Need to pass a note to this function to make the UI register it has been played
-    ChangeTexts("A4");
+    int fd = ::pipefds[0];
+    struct pollfd *fds;
+    fds = (pollfd*) calloc(1, sizeof(pollfd));
+    fds[0].fd = fd; fds[0].events |= POLLIN;
+    int rv = poll(fds, 1, 0);
+    if (rv == -1) {
+        printf("An error occurred: %d\n", errno);
+        return;
+    }
+    
+    if (rv==1) {
+        printf("Events occurred: %d.", rv);
+        char readmessage[20];
+        read(::pipefds[0], readmessage, sizeof(readmessage));
+        printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
+        ChangeTexts(readmessage);
+    }
+
+
+    
 
 }
 
@@ -221,11 +281,15 @@ void HelloWorld::HandleStartClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
       
     DeleteScene1();
+    printf("Deleted scene1");
     //Show the main game screen
     CreateScene2();
+    printf("created scene 2");
     SetupViewport();
+    printf("setup viewport");
 
     // Finally subscribe to the update event so we can move the camera.
+    printf("sub");
     SubscribeToEvents();    
 }
 

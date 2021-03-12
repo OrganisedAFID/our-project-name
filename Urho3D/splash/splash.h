@@ -69,6 +69,7 @@ private:
     void DeleteScene1();
     void CreateScene2();
     void ChangeTexts(String note="None");
+    void WriteToPipe(int pipefds[2]);
     
     Node* CreatePlane();
     Node* CreateShip();
