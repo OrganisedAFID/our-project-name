@@ -38,6 +38,8 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <poll.h>
+#include <thread>
+#include <chrono>
 
 
 #include <Urho3D/Urho3D.h>
@@ -120,9 +122,21 @@ HelloWorld::HelloWorld(Context* context) :
 
 void HelloWorld::WriteToPipe(int pipefds[2])
 {
-    char message[20] = "C4";
-    printf("Parent Process - Writing to pipe - Message 2 is %s\n", message);
-    write(pipefds[1], message, sizeof(message));
+    using namespace std::chrono_literals;
+    auto start = std::chrono::high_resolution_clock::now();
+    std::this_thread::sleep_for(5000ms);
+    auto end = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<double, std::milli> elapsed = end-start;
+    char messages[5][20] = {"C4", "A4", "B4", "D4", "E4"};
+    for(int i = 0; i < 5; i++){
+        printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
+        write(pipefds[1], messages[i], sizeof(messages[i]));
+        using namespace std::chrono_literals;
+        auto start = std::chrono::high_resolution_clock::now();
+        std::this_thread::sleep_for(2000ms);
+        auto end = std::chrono::high_resolution_clock::now();
+        std::chrono::duration<double, std::milli> elapsed = end-start;
+    }
 }
 
 void HelloWorld::Start()
