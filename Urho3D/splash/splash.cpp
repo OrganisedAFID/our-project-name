@@ -111,7 +111,6 @@ HelloWorld::HelloWorld(Context* context) :
     { 
         engine_->Exit();
         //YOUR CODE HERE
-        WriteToPipe(pipefds);
     }
 }
 
