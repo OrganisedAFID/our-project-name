@@ -96,38 +96,35 @@ HelloWorld::HelloWorld(Context* context) :
     ::pipefds[2];
     int returnstatus;
     int pid;
-    char writemessages[2][20]={"Hi", "C4"};
-    char readmessage[20];
     returnstatus = pipe(pipefds);
-    if (returnstatus == -1) {
+    if (returnstatus == -1) 
+    {
         printf("Unable to create pipe\n");
         return;
     }   
     pid = fork();
-    
-    // Child process
-    if (pid == 0) {
-        read(pipefds[0], readmessage, sizeof(readmessage));
-        printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
-        
-    } else { //Parent process
-        printf("Parent Process - Writing to pipe - Message 1 is %s\n", writemessages[0]);
-        write(pipefds[1], writemessages[0], sizeof(writemessages[0]));
+    printf("pid is "+pid);
+    //Game process
+    if (pid == 0){}  
+    //SP process
+    else
+    { 
         engine_->Exit();
-        printf("After engine end");
+        //YOUR CODE HERE
         WriteToPipe(pipefds);
     }
-    printf("Got after pipe stuff \n");
 }
 
 void HelloWorld::WriteToPipe(int pipefds[2])
 {
     using namespace std::chrono_literals;
+
     auto start = std::chrono::high_resolution_clock::now();
     std::this_thread::sleep_for(5000ms);
     auto end = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<double, std::milli> elapsed = end-start;
+
     char messages[5][20] = {"C4", "A4", "B4", "D4", "E4"};
+
     for(int i = 0; i < 5; i++){
         printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
         write(pipefds[1], messages[i], sizeof(messages[i]));
@@ -135,7 +132,6 @@ void HelloWorld::WriteToPipe(int pipefds[2])
         auto start = std::chrono::high_resolution_clock::now();
         std::this_thread::sleep_for(2000ms);
         auto end = std::chrono::high_resolution_clock::now();
-        std::chrono::duration<double, std::milli> elapsed = end-start;
     }
 }
 
@@ -255,10 +251,6 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
         printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
         ChangeTexts(readmessage);
     }
-
-
-    
-
 }
 
 void HelloWorld::ChangeTexts(String note)
