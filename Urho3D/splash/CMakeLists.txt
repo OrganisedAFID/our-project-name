@@ -31,3 +31,14 @@ define_source_files ()
 setup_main_executable ()
 # Activate C++11
 add_compile_options ("-std=c++11")
+
+find_path (FFTW_INCLUDES fftw3.h)
+
+find_library (FFTW_LIBRARIES NAMES fftw3)
+
+
+set(CMAKE_MODULE_PATH "${CMAKE_SOURCE_DIR}/cmake_modules" ${CMAKE_MODULE_PATH})
+find_package(SFML 2.0 REQUIRED system window graphics network audio)
+FIND_LIBRARY(REQ_LIBRARIES NAMES libfftw3 librtaudio5a)
+
+target_link_libraries(Splash ${SFML_LIBRARIES} rtaudio fftw3)
