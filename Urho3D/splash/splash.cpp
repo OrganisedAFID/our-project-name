@@ -26,9 +26,26 @@
 // THE SOFTWARE.
 //
 
- #include <sys/types.h>
- #include <stdlib.h>
- #include <fcntl.h>
+#include "RtAudio.h"
+#include <fftw3.h>
+#include <iostream>
+#include <cstdlib>
+#include <math.h>
+#include <SFML/Graphics.hpp>
+#include <cstring>
+#include <stdio.h>
+#include <SFML/Audio.hpp>
+#include <vector>
+// #include "sinewave.h"
+#include <complex>     
+#include <string>
+#include "lol.h"
+
+
+#include <sys/types.h>
+#include <stdlib.h>
+#include <fcntl.h>
+
 
 #include <string>
 #include <memory>
@@ -83,25 +100,7 @@
 #include "splash.h"
 
 #include <Urho3D/DebugNew.h>
-
-
-#include "RtAudio.h"
-#include <fftw3.h>
-#include <iostream>
-#include <cstdlib>
-#include <math.h>
-#include <SFML/Graphics.hpp>
-#include <cstring>
-#include <stdio.h>
-#include <SFML/Audio.hpp>
-#include <vector>
-// #include "sinewave.h"
-#include <iostream>
-#include <complex>    
-#include <fstream>
-#include <sstream>  
-#include <string>
-
+int freqMax;  
 
 
 const float pi = 3.14159265;
@@ -145,12 +144,15 @@ void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //mo
     delete[] outputChannel;
 }
 
+
+
 int processBuffer()
 {
+    ::freqMax;
     int i;
     int j;
     int freqMaxIndex = 0;
-    int freqMax = 0;   
+      
     int n = window.size() / 2;
 
     std::vector<double> output;
@@ -166,51 +168,12 @@ int processBuffer()
                 
             }
         }   
+  
+    std::cout << freqMax << std::endl;
     
-    if ( freqMax > 256 && freqMax < 268 ){
-        freqMax = 262;
-        std::string C4 = std::to_string(freqMax);
-        std::cout << freqMax;
 
-    }
-    else if (freqMax > 288 && freqMax < 300){
-        freqMax = 294;
-        std::string D4 = std::to_string(freqMax);
-        std::cout << freqMax;
-
-    }
-    else if (freqMax > 324 && freqMax < 336){
-        freqMax = 330;
-        std::string E4 = std::to_string(freqMax);
-        std::cout << freqMax;
-    }  
-    else if (freqMax  > 343 && freqMax < 349){
-        freqMax  = 349;
-        std::string F4 = std::to_string(freqMax);
-        std::cout << freqMax;
-    }  
-    else if (freqMax > 386 && freqMax < 398){
-        freqMax = 392;
-        std::string G4 = std::to_string(freqMax);
-        std::cout << freqMax;
-    }    
-    else if (freqMax > 334 && freqMax < 446){
-        freqMax = 440;
-        std::string A4 = std::to_string(freqMax);
-    }  
-    else if (freqMax > 482 && freqMax < 500){
-        freqMax = 494;
-        std::string B4 = std::to_string(freqMax);
-    }
-    else{
-        std::string no = std::to_string(freqMax);
-        std::cout << "std::cout: " << no << '\n';
-    }  
-    //std::cout << X << std::endl;
-    }
-
-    return freqMax;
-
+}
+return freqMax;
 }
 
 
@@ -237,46 +200,48 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     return 0;
 }
 
-// Expands to this example's entry-point
-URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
 
-int pipefds[2];
-
-
-HelloWorld::HelloWorld(Context* context) :
-    Sample(context)
+int lol()
 {
-    ::pipefds[2];
-    int returnstatus;
-    int pid;
-    returnstatus = pipe(pipefds);
-    if (returnstatus == -1) 
-    {
-        printf("Unable to create pipe\n");
-        return;
-    }   
-    pid = fork();
-    printf("pid is "+pid);
-    //Game process
-    if (pid == 0){}  
-    //SP process
-    else
-    { 
-        engine_->Exit();
-        //YOUR CODE HERE
-            //access audio device
-    RtAudio adc;
+    
+          std::cout << "HELLO THERE" << std::endl;
+    //access audio device
+   RtAudio adc;
     if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
-        return;
+        std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
+        std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
+        return -1;
     }
+    //unsigned int i=0;
+    
+        std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
+        std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
+         std::cout << "Device Count " << adc.getDeviceCount() << std::endl;
+         
+         unsigned int numDev = adc.getDeviceCount();
+RtAudio::DeviceInfo di;
+for ( unsigned int i = 0; i < numDev; ++i )
+{
+    // use the Debugger if you need to know deviceID
+    std::cout << "Device info" << std::endl;
+    di = adc.getDeviceInfo( i );
+    std::cout << " " << std::endl;
+    //printf(di);
+}
 
+/*
     RtAudio::StreamParameters parameters;
-    parameters.deviceId = adc.getDefaultInputDevice();
+    parameters.deviceId = adc.getDeviceCount();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
 
-
+    */
+    
+        RtAudio::StreamParameters parameters;
+    parameters.deviceId = adc.getDefaultInputDevice();
+    parameters.nChannels = 1;
+    parameters.firstChannel = 0;
     try {
         adc.openStream(NULL, &parameters, RTAUDIO_SINT16,
                         sampleRate, &bufferFrames, &record);
@@ -284,7 +249,7 @@ HelloWorld::HelloWorld(Context* context) :
         std::cout << adc.getVersion();
     } catch (RtAudioError& e) {
         e.printMessage();
-        return;
+        return -1;
     }
 
     char input;
@@ -306,7 +271,100 @@ HelloWorld::HelloWorld(Context* context) :
         window.clear();
 
     }
-    return;
+    return 0;
+}
+
+
+// Expands to this example's entry-point
+URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
+
+int pipefds[2];
+
+
+HelloWorld::HelloWorld(Context* context) :
+    Sample(context)
+{   
+    
+    ::pipefds[2];
+    int returnstatus;
+    int pid;
+    returnstatus = pipe(pipefds);
+    if (returnstatus == -1) 
+    {
+        printf("Unable to create pipe\n");
+        return;
+    }   
+    pid = fork();
+    printf("pid is "+pid);
+    //Game process
+    if (pid == 0){}  
+    //SP process
+    else
+    { 
+
+        engine_->Exit();
+        //YOUR CODE HERE
+        lol();
+    
+        if ( freqMax > 256 && freqMax < 268 ){
+        freqMax = 262;
+        std::string C4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "C4", sizeof("C4"));
+
+    }
+    else if (freqMax > 288 && freqMax < 300){
+        freqMax = 294;
+        std::string D4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "D4", sizeof("D4"));
+
+    }
+    else if (freqMax > 324 && freqMax < 336){
+        freqMax = 330;
+        std::string E4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "E4", sizeof("E4"));
+    }  
+    else if (freqMax  > 343 && freqMax < 349){
+        freqMax  = 349;
+        std::string F4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "F4", sizeof("F4"));
+    }  
+    else if (freqMax > 386 && freqMax < 398){
+        freqMax = 392;
+        std::string G4 = std::to_string(freqMax);
+         //std::cout << freqMax;
+        write(pipefds[1], "G4", sizeof("G4"));
+    }    
+    else if (freqMax > 334 && freqMax < 446){
+        freqMax = 440;
+        std::string A4 = std::to_string(freqMax);       
+         //std::cout << freqMax;
+        write(pipefds[1], "A4", sizeof("A4"));
+    }  
+    else if (freqMax > 482 && freqMax < 500){
+        freqMax = 494;
+        std::string B4 = std::to_string(freqMax);
+                //std::cout << freqMax;
+        write(pipefds[1], "B4", sizeof("B4"));
+    }
+    else{
+        std::string no = std::to_string(freqMax);
+        std::cout << "std::cout: " << no << '\n';
+    //std::cout << freqMax;
+        write(pipefds[1], "None", sizeof("None"));
+    }  
+    //std::cout << X << std::endl;
+    
+
+        
+        std::cout << "MAX FREQUENCY IS: " << freqMax << std::endl;
+         
+    
+        
+   
     }
 }
 

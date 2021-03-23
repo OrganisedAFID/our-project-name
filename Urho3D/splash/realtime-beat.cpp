@@ -12,10 +12,11 @@
 #include <iostream>
 #include <complex>    
 #include <fstream>
-#include<sstream>  
+#include <sstream>  
 #include <string>
+#include "lol.h"
 
-
+/*
 
 const float pi = 3.14159265;
 
@@ -132,7 +133,7 @@ int processBuffer()
     //std::cout << freqMax;
         write(pipefds[1], "None", sizeof("None"));
     }  
-    //std::cout << X << std::endl;*/
+    //std::cout << X << std::endl;
     }
   std::cout << freqMax << std::endl;
     return freqMax;
@@ -167,20 +168,38 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 int lol()
 {
+    
           std::cout << "HELLO THERE" << std::endl;
     //access audio device
-    RtAudio adc;
+   RtAudio adc;
     if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
+        std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
+        std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
         return -1;
     }
+    //unsigned int i=0;
+    
+        std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
+        std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
+         std::cout << "Device Count " << adc.getDeviceCount() << std::endl;
+         
+         unsigned int numDev = adc.getDeviceCount();
+RtAudio::DeviceInfo di;
+for ( unsigned int i = 0; i < numDev; ++i )
+{
+    // use the Debugger if you need to know deviceID
+    std::cout << "Device info" << std::endl;
+    di = adc.getDeviceInfo( i );
+    std::cout << " " << std::endl;
+    //printf(di);
+}
 
-    RtAudio::StreamParameters parameters;
+    
+        RtAudio::StreamParameters parameters;
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
-
-
     try {
         adc.openStream(NULL, &parameters, RTAUDIO_SINT16,
                         sampleRate, &bufferFrames, &record);
@@ -212,3 +231,5 @@ int lol()
     }
     return 0;
 }
+*/
+
