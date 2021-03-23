@@ -101,7 +101,7 @@
 
 #include <Urho3D/DebugNew.h>
 int freqMax;  
-
+int pipefds[2];
 
 const float pi = 3.14159265;
 
@@ -148,7 +148,9 @@ void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //mo
 
 int processBuffer()
 {
+    
     ::freqMax;
+     ::pipefds[2];
     int i;
     int j;
     int freqMaxIndex = 0;
@@ -168,11 +170,66 @@ int processBuffer()
                 
             }
         }   
-  
-    std::cout << freqMax << std::endl;
+        //   std::cout << freqMax << std::endl;
     
+            if ( freqMax > 249 && freqMax < 268 ){
+                //if ( freqMax > 256 && freqMax < 268 ){
+        freqMax = 262;
+       // std::string C4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "C4", sizeof("C4"));
 
-}
+    }
+    else if (freqMax > 288 && freqMax < 300){
+        freqMax = 294;
+      //  std::string D4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "D4", sizeof("D4"));
+
+    }
+    else if (freqMax > 324 && freqMax < 336){
+        freqMax = 330;
+     //   std::string E4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "E4", sizeof("E4"));
+    }  
+    else if (freqMax  > 343 && freqMax < 349){
+        freqMax  = 349;
+       // std::string F4 = std::to_string(freqMax);
+        //std::cout << freqMax;
+        write(pipefds[1], "F4", sizeof("F4"));
+    }  
+    else if (freqMax > 386 && freqMax < 398){
+        freqMax = 392;
+       // std::string G4 = std::to_string(freqMax);
+         //std::cout << freqMax;
+        write(pipefds[1], "G4", sizeof("G4"));
+    }    
+    else if (freqMax > 334 && freqMax < 446){
+        freqMax = 440;
+        //std::string A4 = std::to_string(freqMax);       
+         //std::cout << freqMax;
+        write(pipefds[1], "A4", sizeof("A4"));
+    }  
+    else if (freqMax > 482 && freqMax < 500){
+        freqMax = 494;
+        //std::string B4 = std::to_string(freqMax);
+                //std::cout << freqMax;
+        write(pipefds[1], "B4", sizeof("B4"));
+    }
+    else{
+       //std::string no = std::to_string(freqMax);
+        //std::cout << "std::cout: " << no << '\n';
+    //std::cout << freqMax;
+        write(pipefds[1], "None", sizeof("None"));
+    }
+        
+        
+ 
+    }
+  
+  
+
 return freqMax;
 }
 
@@ -278,7 +335,7 @@ for ( unsigned int i = 0; i < numDev; ++i )
 // Expands to this example's entry-point
 URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
 
-int pipefds[2];
+//int pipefds[2];
 
 
 HelloWorld::HelloWorld(Context* context) :
@@ -305,67 +362,8 @@ HelloWorld::HelloWorld(Context* context) :
         engine_->Exit();
         //YOUR CODE HERE
         lol();
-    
-        if ( freqMax > 256 && freqMax < 268 ){
-        freqMax = 262;
-        std::string C4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "C4", sizeof("C4"));
 
-    }
-    else if (freqMax > 288 && freqMax < 300){
-        freqMax = 294;
-        std::string D4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "D4", sizeof("D4"));
-
-    }
-    else if (freqMax > 324 && freqMax < 336){
-        freqMax = 330;
-        std::string E4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "E4", sizeof("E4"));
-    }  
-    else if (freqMax  > 343 && freqMax < 349){
-        freqMax  = 349;
-        std::string F4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "F4", sizeof("F4"));
-    }  
-    else if (freqMax > 386 && freqMax < 398){
-        freqMax = 392;
-        std::string G4 = std::to_string(freqMax);
-         //std::cout << freqMax;
-        write(pipefds[1], "G4", sizeof("G4"));
-    }    
-    else if (freqMax > 334 && freqMax < 446){
-        freqMax = 440;
-        std::string A4 = std::to_string(freqMax);       
-         //std::cout << freqMax;
-        write(pipefds[1], "A4", sizeof("A4"));
-    }  
-    else if (freqMax > 482 && freqMax < 500){
-        freqMax = 494;
-        std::string B4 = std::to_string(freqMax);
-                //std::cout << freqMax;
-        write(pipefds[1], "B4", sizeof("B4"));
-    }
-    else{
-        std::string no = std::to_string(freqMax);
-        std::cout << "std::cout: " << no << '\n';
-    //std::cout << freqMax;
-        write(pipefds[1], "None", sizeof("None"));
-    }  
-    //std::cout << X << std::endl;
-    
-
-        
-        std::cout << "MAX FREQUENCY IS: " << freqMax << std::endl;
-         
-    
-        
-   
-    }
+}
 }
 
 void HelloWorld::WriteToPipe(int pipefds[2])
@@ -376,7 +374,7 @@ void HelloWorld::WriteToPipe(int pipefds[2])
     std::this_thread::sleep_for(5000ms);
     auto end = std::chrono::high_resolution_clock::now();
 
-    char messages[5][20] = {"C4", "A4", "B4", "D4", "E4"};
+    char messages[8][20] = {"C4", "A4", "B4", "D4", "E4", "F4", "G4", "None"};
 
     for(int i = 0; i < 5; i++){
         printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
