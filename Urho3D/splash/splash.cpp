@@ -158,21 +158,16 @@ int processBuffer()
     std::vector<double> output;
     fft(window, output);
     
-    for (i = 0; i < n; i++) {
-
-        
+    for (i = 0; i < n; i++) {        
         if (i > 50 && i < 100){
             if (output[i] > output[freqMaxIndex]){
                 freqMaxIndex = i;
-                freqMax = i*44100.0/(n*2);
-                
+                freqMax = i*44100.0/(n*2);            
             }
         }   
   
     std::cout << freqMax << std::endl;
-    
-
-}
+    }
 return freqMax;
 }
 
@@ -192,7 +187,7 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     }
 
     processBuffer();
-//add a function for processing the data here
+
     if (window.size() == nBufferFrames*2) {
         window.erase(window.begin(), window.begin() + nBufferFrames);
     }
@@ -202,43 +197,32 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 
 int lol()
-{
-    
-          std::cout << "HELLO THERE" << std::endl;
+{  
+    std::cout << "HELLO THERE" << std::endl;
     //access audio device
-   RtAudio adc;
+    RtAudio adc;
     if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
         std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
         std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
         return -1;
     }
-    //unsigned int i=0;
-    
-        std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
-        std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
-         std::cout << "Device Count " << adc.getDeviceCount() << std::endl;
+   
+    std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
+    std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
+    std::cout << "Device Count " << adc.getDeviceCount() << std::endl;
          
-         unsigned int numDev = adc.getDeviceCount();
-RtAudio::DeviceInfo di;
-for ( unsigned int i = 0; i < numDev; ++i )
-{
-    // use the Debugger if you need to know deviceID
-    std::cout << "Device info" << std::endl;
-    di = adc.getDeviceInfo( i );
-    std::cout << " " << std::endl;
-    //printf(di);
-}
-
-/*
+    unsigned int numDev = adc.getDeviceCount();
+    RtAudio::DeviceInfo di;
+    for ( unsigned int i = 0; i < numDev; ++i )
+    {
+        // use the Debugger if you need to know deviceID
+        std::cout << "Device info" << std::endl;
+        di = adc.getDeviceInfo( i );
+        std::cout << " " << std::endl;
+    }
+   
     RtAudio::StreamParameters parameters;
-    parameters.deviceId = adc.getDeviceCount();
-    parameters.nChannels = 1;
-    parameters.firstChannel = 0;
-
-    */
-    
-        RtAudio::StreamParameters parameters;
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
@@ -254,22 +238,18 @@ for ( unsigned int i = 0; i < numDev; ++i )
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-    //processBuffer();
     sf::RenderWindow window(sf::VideoMode(1280, 900), "FFT visualiser");
 
     window.setVerticalSyncEnabled(true);
     int frameCounter = 0;
     while (window.isOpen()) {
-
         sf::Event event;
         while (window.pollEvent(event)) {
             if (event.type == sf::Event::Closed)
                 window.close();
-        }
-        
+        }        
         frameCounter++;
         window.clear();
-
     }
     return 0;
 }
@@ -303,68 +283,57 @@ HelloWorld::HelloWorld(Context* context) :
     { 
 
         engine_->Exit();
-        //YOUR CODE HERE
         lol();
     
         if ( freqMax > 256 && freqMax < 268 ){
-        freqMax = 262;
-        std::string C4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "C4", sizeof("C4"));
+            freqMax = 262;
+            std::string C4 = std::to_string(freqMax);
+            //std::cout << freqMax;
+            write(pipefds[1], "C4", sizeof("C4"));
+        }
+        else if (freqMax > 288 && freqMax < 300){
+            freqMax = 294;
+            std::string D4 = std::to_string(freqMax);
+            //std::cout << freqMax;
+            write(pipefds[1], "D4", sizeof("D4"));
 
-    }
-    else if (freqMax > 288 && freqMax < 300){
-        freqMax = 294;
-        std::string D4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "D4", sizeof("D4"));
-
-    }
-    else if (freqMax > 324 && freqMax < 336){
-        freqMax = 330;
-        std::string E4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "E4", sizeof("E4"));
-    }  
-    else if (freqMax  > 343 && freqMax < 349){
-        freqMax  = 349;
-        std::string F4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "F4", sizeof("F4"));
-    }  
-    else if (freqMax > 386 && freqMax < 398){
-        freqMax = 392;
-        std::string G4 = std::to_string(freqMax);
-         //std::cout << freqMax;
-        write(pipefds[1], "G4", sizeof("G4"));
-    }    
-    else if (freqMax > 334 && freqMax < 446){
-        freqMax = 440;
-        std::string A4 = std::to_string(freqMax);       
-         //std::cout << freqMax;
-        write(pipefds[1], "A4", sizeof("A4"));
-    }  
-    else if (freqMax > 482 && freqMax < 500){
-        freqMax = 494;
-        std::string B4 = std::to_string(freqMax);
-                //std::cout << freqMax;
-        write(pipefds[1], "B4", sizeof("B4"));
-    }
-    else{
-        std::string no = std::to_string(freqMax);
-        std::cout << "std::cout: " << no << '\n';
-    //std::cout << freqMax;
-        write(pipefds[1], "None", sizeof("None"));
-    }  
-    //std::cout << X << std::endl;
-    
-
-        
-        std::cout << "MAX FREQUENCY IS: " << freqMax << std::endl;
-         
-    
-        
-   
+        }
+        else if (freqMax > 324 && freqMax < 336){
+            freqMax = 330;
+            std::string E4 = std::to_string(freqMax);
+            //std::cout << freqMax;
+            write(pipefds[1], "E4", sizeof("E4"));
+        }  
+        else if (freqMax  > 343 && freqMax < 349){
+            freqMax  = 349;
+            std::string F4 = std::to_string(freqMax);
+            //std::cout << freqMax;
+            write(pipefds[1], "F4", sizeof("F4"));
+        }  
+        else if (freqMax > 386 && freqMax < 398){
+            freqMax = 392;
+            std::string G4 = std::to_string(freqMax);
+            //std::cout << freqMax;
+            write(pipefds[1], "G4", sizeof("G4"));
+        }    
+        else if (freqMax > 334 && freqMax < 446){
+            freqMax = 440;
+            std::string A4 = std::to_string(freqMax);       
+            //std::cout << freqMax;
+            write(pipefds[1], "A4", sizeof("A4"));
+        }  
+        else if (freqMax > 482 && freqMax < 500){
+            freqMax = 494;
+            std::string B4 = std::to_string(freqMax);
+            write(pipefds[1], "B4", sizeof("B4"));
+        }
+        else{
+            std::string no = std::to_string(freqMax);
+            std::cout << "std::cout: " << no << '\n';
+            write(pipefds[1], "None", sizeof("None"));
+        }  
+    //std::cout << X << std::endl;       
+    std::cout << "MAX FREQUENCY IS: " << freqMax << std::endl;  
     }
 }
 
