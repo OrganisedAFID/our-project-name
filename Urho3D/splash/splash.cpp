@@ -36,7 +36,7 @@
 #include <stdio.h>
 #include <SFML/Audio.hpp>
 #include <vector>
-// #include "sinewave.h"
+#include "sinewave.h"
 #include <complex>     
 #include <string>
 #include "lol.h"
@@ -144,7 +144,28 @@ void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //mo
     delete[] outputChannel;
 }
 
+int playNote(){
+    srand (time(NULL));
+  	int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
+  	int RandIndex = rand() % 6; //generate a random integer between 0 and 7
+    sf::SoundBuffer buffer;
+	std::vector<sf::Int16> samples;
+	
+	for (int i = 0; i < 44100; i++) {
+		samples.push_back(sound::SineWave(i, noteNum[RandIndex], 1));
+	}
 
+	buffer.loadFromSamples(&samples[0], samples.size(), 2, 44100);
+
+	sf::Sound sound;
+	sound.setBuffer(buffer);
+	sound.play();
+
+    std::cout << "RandIndex is printed: " << noteNum[RandIndex] << "\n";
+
+
+    //return noteNum[RandIndex];
+}
 
 int processBuffer()
 {
@@ -166,75 +187,47 @@ int processBuffer()
                 freqMaxIndex = i;
                 freqMax = i*44100.0/(n*2);            
             }
-        }   
-<<<<<<< HEAD
-        //   std::cout << freqMax << std::endl;
-    
-            if ( freqMax > 249 && freqMax < 268 ){
+        }       
+            
+        if ( freqMax > 249 && freqMax < 268 ){
                 //if ( freqMax > 256 && freqMax < 268 ){
-        freqMax = 262;
-       // std::string C4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "C4", sizeof("C4"));
+            freqMax = 262;
+            write(pipefds[1], "C4", sizeof("C4"));
+        }
+        else if (freqMax > 288 && freqMax < 300){
+            freqMax = 294;
+            write(pipefds[1], "D4", sizeof("D4"));
 
+        }
+        else if (freqMax > 324 && freqMax < 336){
+            freqMax = 330;
+            write(pipefds[1], "E4", sizeof("E4"));
+        }  
+        else if (freqMax  > 343 && freqMax < 349){
+            freqMax  = 349;
+            write(pipefds[1], "F4", sizeof("F4"));
+        }  
+        else if (freqMax > 386 && freqMax < 398){
+            freqMax = 392;
+            write(pipefds[1], "G4", sizeof("G4"));
+        }    
+        else if (freqMax > 334 && freqMax < 446){
+            freqMax = 440;
+            write(pipefds[1], "A4", sizeof("A4"));
+        }  
+        else if (freqMax > 482 && freqMax < 500){
+            freqMax = 494;
+            write(pipefds[1], "B4", sizeof("B4"));
+        }
+        else{
+            write(pipefds[1], "None", sizeof("None"));
+        }
     }
-    else if (freqMax > 288 && freqMax < 300){
-        freqMax = 294;
-      //  std::string D4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "D4", sizeof("D4"));
-
-    }
-    else if (freqMax > 324 && freqMax < 336){
-        freqMax = 330;
-     //   std::string E4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "E4", sizeof("E4"));
-    }  
-    else if (freqMax  > 343 && freqMax < 349){
-        freqMax  = 349;
-       // std::string F4 = std::to_string(freqMax);
-        //std::cout << freqMax;
-        write(pipefds[1], "F4", sizeof("F4"));
-    }  
-    else if (freqMax > 386 && freqMax < 398){
-        freqMax = 392;
-       // std::string G4 = std::to_string(freqMax);
-         //std::cout << freqMax;
-        write(pipefds[1], "G4", sizeof("G4"));
-    }    
-    else if (freqMax > 334 && freqMax < 446){
-        freqMax = 440;
-        //std::string A4 = std::to_string(freqMax);       
-         //std::cout << freqMax;
-        write(pipefds[1], "A4", sizeof("A4"));
-    }  
-    else if (freqMax > 482 && freqMax < 500){
-        freqMax = 494;
-        //std::string B4 = std::to_string(freqMax);
-                //std::cout << freqMax;
-        write(pipefds[1], "B4", sizeof("B4"));
-    }
-    else{
-       //std::string no = std::to_string(freqMax);
-        //std::cout << "std::cout: " << no << '\n';
-    //std::cout << freqMax;
-        write(pipefds[1], "None", sizeof("None"));
-    }
-        
-        
- 
-    }
-  
-  
-
-=======
-  
+    
     std::cout << freqMax << std::endl;
-    }
->>>>>>> ca96d77db479318d8453baede5861c4ff76f52ab
-return freqMax;
+    return freqMax;
 }
+
 
 
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
@@ -303,7 +296,7 @@ int lol()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-    sf::RenderWindow window(sf::VideoMode(1280, 900), "FFT visualiser");
+    sf::RenderWindow window(sf::VideoMode(10, 10), "FFT visualiser");
 
     window.setVerticalSyncEnabled(true);
     int frameCounter = 0;
@@ -349,10 +342,7 @@ HelloWorld::HelloWorld(Context* context) :
 
         engine_->Exit();
         lol();
-<<<<<<< HEAD
-
-}
-=======
+        playNote();
     
         if ( freqMax > 256 && freqMax < 268 ){
             freqMax = 262;
@@ -404,7 +394,6 @@ HelloWorld::HelloWorld(Context* context) :
     //std::cout << X << std::endl;       
     std::cout << "MAX FREQUENCY IS: " << freqMax << std::endl;  
     }
->>>>>>> ca96d77db479318d8453baede5861c4ff76f52ab
 }
 
 void HelloWorld::WriteToPipe(int pipefds[2])
