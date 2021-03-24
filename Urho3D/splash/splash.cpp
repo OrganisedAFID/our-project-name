@@ -296,19 +296,8 @@ int lol()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-    sf::RenderWindow window(sf::VideoMode(10, 10), "FFT visualiser");
+    while(true){}
 
-    window.setVerticalSyncEnabled(true);
-    int frameCounter = 0;
-    while (window.isOpen()) {
-        sf::Event event;
-        while (window.pollEvent(event)) {
-            if (event.type == sf::Event::Closed)
-                window.close();
-        }        
-        frameCounter++;
-        window.clear();
-    }
     return 0;
 }
 
