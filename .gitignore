@@ -33,7 +33,6 @@
 
 #URHO3D
 # Output directories
-/bin/*
 !/bin/**/
 !/bin/*.bat
 !/bin/*.sh
@@ -75,10 +74,6 @@ build/
 # Compiled Lua script
 *.luc
 
-# Generated documentation
-/Docs/html/
-/Docs/qch/
-
 # Saved sample scenes
 /bin/Data/Scenes/Isometric2D.xml
 /bin/Data/Scenes/Platformer2D.xml
@@ -118,7 +113,6 @@ build/
 
 # CMake generated build files
 CMakeCache.txt
-CMakeFiles/
 CMakeScripts/
 Makefile
 cmake_install.cmake
