@@ -331,7 +331,7 @@ void HelloWorld::WriteToPipe(int pipefds[2])
     std::this_thread::sleep_for(5000ms);
     auto end = std::chrono::high_resolution_clock::now();
 
-    char messages[8][20] = {"C4", "A4", "B4", "D4", "E4", "F4", "G4", "None"};
+    char messages[8][20] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
 
     for(int i = 0; i < 8; i++){
         printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
