@@ -259,14 +259,8 @@ int lol()
     RtAudio adc;
     if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
-        std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
-        std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
         return -1;
     }
-   
-    std::cout << "Current API : " << adc.getCurrentApi() << std::endl;
-    std::cout << "index of the default input device.: " << adc.getDefaultInputDevice() << std::endl;
-    std::cout << "Device Count " << adc.getDeviceCount() << std::endl;
          
     unsigned int numDev = adc.getDeviceCount();
     RtAudio::DeviceInfo di;
