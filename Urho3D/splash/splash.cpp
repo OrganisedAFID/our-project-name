@@ -333,7 +333,7 @@ void HelloWorld::WriteToPipe(int pipefds[2])
 
     char messages[8][20] = {"C4", "A4", "B4", "D4", "E4", "F4", "G4", "None"};
 
-    for(int i = 0; i < 5; i++){
+    for(int i = 0; i < 8; i++){
         printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
         write(pipefds[1], messages[i], sizeof(messages[i]));
         using namespace std::chrono_literals;
