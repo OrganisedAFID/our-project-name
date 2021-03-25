@@ -1,9 +1,33 @@
 # Sound PIrates
 ![Sound PIrates logo]({{ site.url }}/assets/bushed-no-eye.png)
 
-Website stuff is going here at the moment
+Turn learning by ear into play with our fun interactive game. Produced on the Raspberry Pi, developed by final year engineering students at #UofG
 
-Write things in markup
+Current status: Version 1 development in progress 
+
+Check out our social media pages to keep up to date with  our progress
+- Instagram:  https://www.instagram.com/soundpirates/
+- Twitter: https://twitter.com/SoundPIrates
+
+Link to our website: https://organisedafid.github.io/sound-pirates/
+
+
+## Installation
+
+Add install instructions 
+
+
+## Usage
+
+
+## Contributing 
+
+
+## License 
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
+## Extra formatting 
 
 **bold**
 
@@ -17,4 +41,4 @@ Write things in markup
 
 Add a line between two lines if you want a carriage return
 
-Link to our website: https://organisedafid.github.io/sound-pirates/
+
