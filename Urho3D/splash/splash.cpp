@@ -170,54 +170,57 @@ int processBuffer()
     ::freqMax;
     ::pipefds[2];
     int i;
-    int freqMaxIndex = 0;
+    int freqMaxIndex = 26;
       
     int n = window.size() / 2;
 
     std::vector<double> output;
     fft(window, output);
+    freqMax = 0;
     
-    for (i = 0; i < n; i++) {        
-        if (i > 50 && i < 100){
-            if (output[i] > output[freqMaxIndex]){
-                freqMaxIndex = i;
-                freqMax = i*44100.0/(n*2);            
-            }
-        }       
-            
-        if ( freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
-            freqMax = 262;
-            write(pipefds[1], "C4", sizeof("C4"));
-        }
-        else if (freqMax > 288 && freqMax < 300){
-            freqMax = 294;
-            write(pipefds[1], "D4", sizeof("D4"));
+    printf("window size is %d \n", window.size());
 
+    for (i = 51; i < 100; i++) {        
+        if (output[i] > output[freqMaxIndex]){
+            freqMaxIndex = i;
+            freqMax = i*44100.0/window.size();            
         }
-        else if (freqMax > 324 && freqMax < 336){
-            freqMax = 330;
-            write(pipefds[1], "E4", sizeof("E4"));
-        }  
-        else if (freqMax  > 343 && freqMax < 349){
-            freqMax  = 349;
-            write(pipefds[1], "F4", sizeof("F4"));
-        }  
-        else if (freqMax > 386 && freqMax < 398){
-            freqMax = 392;
-            write(pipefds[1], "G4", sizeof("G4"));
-        }    
-        else if (freqMax > 334 && freqMax < 446){
-            freqMax = 440;
-            write(pipefds[1], "A4", sizeof("A4"));
-        }  
-        else if (freqMax > 482 && freqMax < 500){
-            freqMax = 494;
-            write(pipefds[1], "B4", sizeof("B4"));
-        }
-        else{
-            write(pipefds[1], "None", sizeof("None"));
-        }
+    }     
+            
+    if ( freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
+        freqMax = 262;
+        write(pipefds[1], "C4", sizeof("C4"));
     }
+    else if (freqMax > 288 && freqMax < 300){
+        freqMax = 294;
+        write(pipefds[1], "D4", sizeof("D4"));
+
+    }
+    else if (freqMax > 324 && freqMax < 336){
+        freqMax = 330;
+        write(pipefds[1], "E4", sizeof("E4"));
+    }  
+    else if (freqMax  > 343 && freqMax < 349){
+        freqMax  = 349;
+        write(pipefds[1], "F4", sizeof("F4"));
+    }  
+    else if (freqMax > 386 && freqMax < 398){
+        freqMax = 392;
+        write(pipefds[1], "G4", sizeof("G4"));
+    }    
+    else if (freqMax > 434 && freqMax < 446){
+        freqMax = 440;
+        write(pipefds[1], "A4", sizeof("A4"));
+    }  
+    else if (freqMax > 482 && freqMax < 500){
+        freqMax = 494;
+        write(pipefds[1], "B4", sizeof("B4"));
+    }
+    else{
+        write(pipefds[1], "None", sizeof("None"));
+        printf("Wrote None \n");
+    }
+
     
     std::cout << freqMax << std::endl;
     return freqMax;
@@ -229,9 +232,6 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
             double streamTime, RtAudioStreamStatus status, void *userData)
 {
     printf("Called Record \n");
-    for (unsigned i=0; i<window.size(); i++)
-        std::cout << ' ' << window[i];
-    printf("Done \n");
     if (status) {
         std::cout << "Stream overflow detected!" << std::endl;
     }
@@ -243,7 +243,6 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     while (window.size() < nBufferFrames*2 && i < nBufferFrames) {
         window.push_back(a[i++]);
     }
-    printf("After push_back window has size %d \n", window.size());
 
     processBuffer();
    
@@ -251,8 +250,6 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
         //get rid of the first half of window
         window.erase(window.begin(), window.begin() + nBufferFrames);
     }
-
-    printf("After erasing, window has size %d \n", window.size());
 
     return 0;
 }
