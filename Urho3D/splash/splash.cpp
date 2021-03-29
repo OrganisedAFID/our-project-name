@@ -118,8 +118,6 @@ const float barWidth = angularWidth * nodeRadius;
 int a = 0;
 std::vector<signed short> window;
 std::vector<double> v;
-std::vector<std::vector<double>> historyBuffer; //rows are frequency, cols are histories
-std::vector<double> meanHistory(bandNumber);
 
 void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //move this over to GPU_FFT
 {
@@ -172,7 +170,6 @@ int processBuffer()
     ::freqMax;
     ::pipefds[2];
     int i;
-    int j;
     int freqMaxIndex = 0;
       
     int n = window.size() / 2;
@@ -231,6 +228,10 @@ int processBuffer()
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
             double streamTime, RtAudioStreamStatus status, void *userData)
 {
+    printf("Called Record \n");
+    for (unsigned i=0; i<window.size(); i++)
+        std::cout << ' ' << window[i];
+    printf("Done \n");
     if (status) {
         std::cout << "Stream overflow detected!" << std::endl;
     }
@@ -238,15 +239,20 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     int i = 0;
     signed short *a = (signed short*)inputBuffer;
 
+    //Add nBufferFrames values from the input buffer into window
     while (window.size() < nBufferFrames*2 && i < nBufferFrames) {
         window.push_back(a[i++]);
     }
+    printf("After push_back window has size %d \n", window.size());
 
     processBuffer();
-
+   
     if (window.size() == nBufferFrames*2) {
+        //get rid of the first half of window
         window.erase(window.begin(), window.begin() + nBufferFrames);
     }
+
+    printf("After erasing, window has size %d \n", window.size());
 
     return 0;
 }
@@ -254,14 +260,14 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 int lol()
 {  
-    std::cout << "HELLO THERE" << std::endl;
     //access audio device
     RtAudio adc;
     if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
         return -1;
     }
-         
+
+    //Print device infos  
     unsigned int numDev = adc.getDeviceCount();
     RtAudio::DeviceInfo di;
     for ( unsigned int i = 0; i < numDev; ++i )
@@ -269,16 +275,18 @@ int lol()
         // use the Debugger if you need to know deviceID
         std::cout << "Device info" << std::endl;
         di = adc.getDeviceInfo( i );
-        std::cout << " " << std::endl;
+        //std::cout << di << std::endl;
     }
    
+    //Set parameters
     RtAudio::StreamParameters parameters;
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
+
     try {
-        adc.openStream(NULL, &parameters, RTAUDIO_SINT16,
-                        sampleRate, &bufferFrames, &record);
+        //Calls the record function
+        adc.openStream(NULL, &parameters, RTAUDIO_SINT16, sampleRate, &bufferFrames, &record);
         adc.startStream();
         std::cout << adc.getVersion();
     } catch (RtAudioError& e) {
@@ -297,7 +305,7 @@ int lol()
 // Expands to this example's entry-point
 URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
 
-
+//Entry point
 HelloWorld::HelloWorld(Context* context) :
     Sample(context)
 {   
@@ -311,7 +319,6 @@ HelloWorld::HelloWorld(Context* context) :
         return;
     }   
     pid = fork();
-    printf("pid is "+pid);
     //Game process
     if (pid == 0){}  
     //SP process
