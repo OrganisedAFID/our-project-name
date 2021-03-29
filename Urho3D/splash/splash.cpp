@@ -169,32 +169,28 @@ int processBuffer()
 {  
     ::freqMax;
     ::pipefds[2];
-    int i;
-    int freqMaxIndex = 26;
-      
-    int n = window.size() / 2;
 
     std::vector<double> output;
     fft(window, output);
-    freqMax = 0;
-    
-    printf("window size is %d \n", window.size());
 
-    for (i = 51; i < 100; i++) {        
-        if (output[i] > output[freqMaxIndex]){
+    freqMax = 0;
+    int freqMaxIndex = 51;
+    int amplitudeThreshold = 10;
+
+    for (int i = 51; i < 100; i++) {        
+        if (output[i] > output[freqMaxIndex] && output[i] > amplitudeThreshold){
             freqMaxIndex = i;
             freqMax = i*44100.0/window.size();            
         }
     }     
             
-    if ( freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
+    if (freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
         freqMax = 262;
         write(pipefds[1], "C4", sizeof("C4"));
     }
     else if (freqMax > 288 && freqMax < 300){
         freqMax = 294;
         write(pipefds[1], "D4", sizeof("D4"));
-
     }
     else if (freqMax > 324 && freqMax < 336){
         freqMax = 330;
