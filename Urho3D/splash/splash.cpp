@@ -103,7 +103,6 @@
 /**
  * global variables list to be incorporated in setup
  */
-
 int freqMax;  
 int pipefds[2];
 const float pi = 3.14159265;
@@ -120,8 +119,8 @@ const float barWidth = angularWidth * nodeRadius;
 int a = 0;
 std::vector<signed short> window;
 std::vector<double> v;
-
 volatile sig_atomic_t stop;
+
 
 
 
@@ -129,7 +128,11 @@ volatile sig_atomic_t stop;
 void inthand(int signum) {
     stop = 1;
 }
-
+/**
+ * fft function. Takes input buffer and performs Fast Fourier Transform to shift into frequency 
+ * domain. Produces new array with frequencies as position and amplitude as value
+ * called by processBuffer function
+ **//
 void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //move this over to GPU_FFT
 {
     int n = rawValues.size();
@@ -152,8 +155,11 @@ void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //mo
     delete[] inputChannel;
     delete[] outputChannel;
 }
-
-void playNote(){
+/**
+ * playNote function. plays random note for player to match
+ * otputs string for note played
+ */
+ void playNote(){
     
      srand (time(NULL));
   	int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
@@ -216,6 +222,10 @@ return;
 
     
 }
+/** 
+ * instructionsStatement function. Prints player instructions on screen to alert when note given and expected
+ * 
+ */
 void instructionsStatements(){
    
     std::cout << "Playing random note (in the 4th octave)" << "\n";
@@ -232,7 +242,12 @@ void instructionsStatements(){
       
 }
 
-
+/**
+ * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
+ * output freqMax
+ * called by record
+ * 
+ */
 int processBuffer()
 {  
     ::freqMax;
@@ -291,7 +306,11 @@ int processBuffer()
 }
 
 
-
+/**
+ * record function. Activate the audio input and write to buffer
+ * called by lol
+ * 
+ */
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
             double streamTime, RtAudioStreamStatus status, void *userData)
 {
@@ -318,7 +337,12 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     return 0;
 }
 
-
+/**
+ * lol function. 
+ * calls record, which calls processBuffer,which calls fft
+ * called by URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
+ * 
+ */
 int lol()
 {  
     //access audio device
@@ -370,10 +394,18 @@ int lol()
 }
 
 
-// Expands to this example's entry-point
+/**
+ * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
+ * 
+ */
 URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
 
-//Entry point
+/** 
+ * HelloWorld function. instigates pipeline, checks and returns error if unable
+ * starts game process
+ * calls lol function and playNote function
+ * 
+ */ 
 HelloWorld::HelloWorld(Context* context) :
     Sample(context)
 {   
@@ -397,7 +429,11 @@ HelloWorld::HelloWorld(Context* context) :
         playNote();   
     }
 }
-
+/**
+ * Start function. Executes base class startup, calls Scene1 for welcome screen
+ * expect and accept mouse input 
+ * 
+ */
 void HelloWorld::Start()
 {   
     // Execute base class startup
@@ -409,7 +445,11 @@ void HelloWorld::Start()
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
-
+/**
+ * CreateScene1 function. Start screen splash, with button
+ * calls CreateText, provides text content, calls Subscribe to events to allow input for state change
+ * 
+ */
 void HelloWorld::CreateScene1()
 {
     auto* ui = GetSubsystem<UI>();
@@ -424,7 +464,11 @@ void HelloWorld::CreateScene1()
                 cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 400, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleStartClick));
 }
-
+/**
+ * CreateText function. defines text parameters font, colour, position
+ * returns text
+ * 
+ */
 Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font, int x, int y)
 {  
     // Construct new Text object
@@ -478,14 +522,20 @@ Button* HelloWorld::CreateButton
     
     return b;
 }
-
+/**
+ * SubscribeToEvents function. Takes described events as inputs to change state
+ * 
+ */
 void HelloWorld::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(HelloWorld, HandleUpdate));
     
 }
-
+/**
+ * 
+ * 
+ */
 void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
     using namespace Update;
@@ -514,7 +564,10 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
         ChangeTexts(readmessage);
     }
 }
-
+/**
+ * 
+ * 
+ */
 void HelloWorld::ChangeTexts(String note)
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
@@ -560,7 +613,10 @@ void HelloWorld::HandleStartClick(StringHash eventType, VariantMap& eventData)
     printf("sub");
     SubscribeToEvents();    
 }
-
+/**
+ * 
+ * 
+ */
 void HelloWorld::DeleteScene1()
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
@@ -585,10 +641,11 @@ void HelloWorld::CreateScene2()
     auto* cache = GetSubsystem<ResourceCache>();
     scene_ = new Scene(context_);
 
-    // Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
-    // show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
-    // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
-    // optimizing manner
+    /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
+     * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
+     * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
+     * optimizing manner
+     */
     scene_->CreateComponent<Octree>();
     
     Node* planeNode = CreatePlane();
@@ -596,24 +653,31 @@ void HelloWorld::CreateScene2()
     Node* shipNode = CreateShip();
     shipNode->AddTag("ship");
     
-    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
-    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
-    // The light will use default settings (white light, no shadows)
+    /**
+     *  Create a directional light to the world so that we can see something. The light scene node's orientation controls the
+     * light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
+     * The light will use default settings (white light, no shadows)
+     */
     Node* lightNode = scene_->CreateChild("DirectionalLight");
     lightNode->SetDirection(Vector3(0.6f, -1.0f, 0.8f)); // The direction vector does not need to be normalized
     auto* light = lightNode->CreateComponent<Light>();
     light->SetLightType(LIGHT_DIRECTIONAL);  
     
-    // Create a scene node for the camera, which we will move around
-    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+    /** Create a scene node for the camera, which we will move around
+     * The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+     */
     cameraNode_ = scene_->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
 
-    // Set an initial position for the camera scene node above the plane
+    /**
+     *  Set an initial position for the camera scene node above the plane
+     */
     cameraNode_->SetPosition(Vector3(0.0f, 10.0f, -15.0f));
     
     
-    // Create 7 buttons, one for each note
+    /**
+     *  Create 7 buttons, one for each note
+     */
     auto* ui = GetSubsystem<UI>();
     UIElement* root = ui->GetRoot();
     Button* noteButtons[7];
@@ -652,7 +716,7 @@ Node* HelloWorld::CreatePlane()
 }
 
 /**
- * Creates the enemy ship to pursue
+ * CreateShip function. Creates the enemy ship to pursue
  */
 Node* HelloWorld::CreateShip()
 {
@@ -666,33 +730,48 @@ Node* HelloWorld::CreateShip()
     coneObject->SetMaterial(cache->GetResource<Material>("Materials/torch_metal.xml")); 
     return coneNode;
 }
-
+/**
+ * 
+ * 
+ */
 void HelloWorld::MoveCamera(float timeStep)
 {
-    // Do not move if the UI has a focused element (the console)
+    /**
+     *  Do not move if the UI has a focused element (the console)
+     */
     if (GetSubsystem<UI>()->GetFocusElement())
         return;
 
     auto* input = GetSubsystem<Input>();
 
-    // Movement speed as world units per second
+    /** 
+     * Movement speed as world units per second
+     */
     const float MOVE_SPEED = 20.0f;
-    // Mouse sensitivity as degrees per pixel
+    /**
+     *  Mouse sensitivity as degrees per pixel
+     */
     const float MOUSE_SENSITIVITY = 0.05f;
     
-    // Use this frame's mouse motion to adjust camera node yaw and pitch. 
-    // Clamp the pitch between -90 and 90 degrees
+    /**
+     *  Use this frame's mouse motion to adjust camera node yaw and pitch.
+     *  Clamp the pitch between -90 and 90 degrees
+     */
     IntVector2 mouseMove = input->GetMouseMove();
     yaw_ += MOUSE_SENSITIVITY * mouseMove.x_;
     pitch_ += MOUSE_SENSITIVITY * mouseMove.y_;
     pitch_ = Clamp(pitch_, -90.0f, 90.0f);
     
-    // Construct new orientation for the camera scene node from yaw and pitch. Roll is fixed to zero
+    /**
+     *  Construct new orientation for the camera scene node from yaw and pitch. Roll is fixed to zero
+     */
     if (input->GetKeyDown(KEY_Q))
         cameraNode_->SetRotation(Quaternion(pitch_, yaw_, 0.0f));
     
-    // Read WASD keys and move the camera scene node to the corresponding direction if they are pressed
-    // Use the Translate() function (default local space) to move relative to the node's orientation.
+    /**
+     * Read WASD keys and move the camera scene node to the corresponding direction if they are pressed
+     * Use the Translate() function (default local space) to move relative to the node's orientation.
+     */
     if (input->GetKeyDown(KEY_W))
         cameraNode_->Translate(Vector3::FORWARD * MOVE_SPEED * timeStep);
     if (input->GetKeyDown(KEY_S))
@@ -702,14 +781,19 @@ void HelloWorld::MoveCamera(float timeStep)
     if (input->GetKeyDown(KEY_D))
         cameraNode_->Translate(Vector3::RIGHT * MOVE_SPEED * timeStep);
 }
-
+/**
+ * 
+ * 
+ */
 void HelloWorld::SetupViewport()
 {
     auto* renderer = GetSubsystem<Renderer>();
 
-    // Set up a viewport to the Renderer subsystem so that the 3D scene can be seen. We need to define the scene and the camera
-    // at minimum. Additionally we could configure the viewport screen size and the rendering path (eg. forward / deferred) to
-    // use, but now we just use full screen and default render path configured in the engine command line options
+    /**
+     * Set up a viewport to the Renderer subsystem so that the 3D scene can be seen. We need to define the scene and the camera
+     * at minimum. Additionally we could configure the viewport screen size and the rendering path (eg. forward / deferred) to
+     * use, but now we just use full screen and default render path configured in the engine command line options
+     */
     SharedPtr<Viewport> viewport(new Viewport(context_, scene_, cameraNode_->GetComponent<Camera>()));
     renderer->SetViewport(0, viewport);
 }
