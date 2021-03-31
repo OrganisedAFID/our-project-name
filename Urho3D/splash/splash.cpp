@@ -97,15 +97,16 @@
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/Terrain.h>
-
 #include "splash.h"
-
 #include <Urho3D/DebugNew.h>
+
+/**
+ * global variables list to be incorporated in setup
+ */
+
 int freqMax;  
 int pipefds[2];
-
 const float pi = 3.14159265;
-
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 const int bandNumber = 128;
@@ -116,12 +117,14 @@ char OutputNote;
 const float nodeRadius = 100;
 const float angularWidth = 2.0 * pi / bandNumber;
 const float barWidth = angularWidth * nodeRadius;
-
 int a = 0;
 std::vector<signed short> window;
 std::vector<double> v;
 
 volatile sig_atomic_t stop;
+
+
+
 
 void inthand(int signum) {
     stop = 1;
