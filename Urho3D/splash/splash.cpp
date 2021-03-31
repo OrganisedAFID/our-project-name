@@ -57,6 +57,7 @@
 #include <poll.h>
 #include <thread>
 #include <chrono>
+#include <signal.h>
 
 
 #include <Urho3D/Urho3D.h>
@@ -110,7 +111,8 @@ unsigned int bufferFrames = 4410; // 512 sample frames
 const int bandNumber = 128;
 const int width = bufferFrames / bandNumber;
 const int historyValues = sampleRate / (bufferFrames * 2);
-
+char note;
+char OutputNote;
 const float nodeRadius = 100;
 const float angularWidth = 2.0 * pi / bandNumber;
 const float barWidth = angularWidth * nodeRadius;
@@ -118,8 +120,12 @@ const float barWidth = angularWidth * nodeRadius;
 int a = 0;
 std::vector<signed short> window;
 std::vector<double> v;
-std::vector<std::vector<double>> historyBuffer; //rows are frequency, cols are histories
-std::vector<double> meanHistory(bandNumber);
+
+volatile sig_atomic_t stop;
+
+void inthand(int signum) {
+    stop = 1;
+}
 
 void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //move this over to GPU_FFT
 {
@@ -144,8 +150,9 @@ void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //mo
     delete[] outputChannel;
 }
 
-int playNote(){
-    srand (time(NULL));
+void playNote(){
+    
+     srand (time(NULL));
   	int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
   	int RandIndex = rand() % 6; //generate a random integer between 0 and 7
     sf::SoundBuffer buffer;
@@ -161,66 +168,120 @@ int playNote(){
 	sound.setBuffer(buffer);
 	sound.play();
 
-    std::cout << "RandIndex is printed: " << noteNum[RandIndex] << "\n";
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    if ( RandIndex == 0 ){
+
+        OutputNote = 'C';
+
+    }
+    else if (RandIndex == 1){
+    OutputNote =  'D';
 
 
-    //return noteNum[RandIndex];
+    }
+    else if (RandIndex == 2){
+   OutputNote = 'E';
+
+    }  
+    else if (RandIndex == 3){
+
+        OutputNote = 'F';
+      
+    }  
+    else if (RandIndex == 4){
+
+        OutputNote = 'G';
+    }    
+    else if (RandIndex == 5){
+
+        OutputNote = 'A';
+  
+    }  
+  else if (RandIndex == 6){
+
+        OutputNote = 'B';
+    }
+    else{
+                note = 'N';
+            }
+        
+     std::cout << "Note played: " << OutputNote << "\n";
+ 
+    
+ 
+return;
+
+    
 }
+void instructionsStatements(){
+   
+    std::cout << "Playing random note (in the 4th octave)" << "\n";
+    playNote();
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    std::cout << "Now you play back in..." << "\n";
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    for (int i=5; i>0; --i) {
+    std::cout << i << std::endl;
+    std::this_thread::sleep_for (std::chrono::seconds(1));
+  }
+  std::cout << "Go!" << "\n";
+      
+}
+
 
 int processBuffer()
 {  
     ::freqMax;
     ::pipefds[2];
-    int i;
-    int j;
-    int freqMaxIndex = 0;
-      
-    int n = window.size() / 2;
 
     std::vector<double> output;
     fft(window, output);
-    
-    for (i = 0; i < n; i++) {        
-        if (i > 50 && i < 100){
-            if (output[i] > output[freqMaxIndex]){
-                freqMaxIndex = i;
-                freqMax = i*44100.0/(n*2);            
-            }
-        }       
-            
-        if ( freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
-            freqMax = 262;
-            write(pipefds[1], "C4", sizeof("C4"));
-        }
-        else if (freqMax > 288 && freqMax < 300){
-            freqMax = 294;
-            write(pipefds[1], "D4", sizeof("D4"));
 
+    freqMax = 0;
+    int freqMaxIndex = 51;
+    int amplitudeThreshold = 10;
+
+    for (int i = 51; i < 100; i++) {        
+        if (output[i] > output[freqMaxIndex] && output[i] > amplitudeThreshold){
+            freqMaxIndex = i;
+            freqMax = i*44100.0/window.size();            
         }
-        else if (freqMax > 324 && freqMax < 336){
-            freqMax = 330;
-            write(pipefds[1], "E4", sizeof("E4"));
-        }  
-        else if (freqMax  > 343 && freqMax < 349){
-            freqMax  = 349;
-            write(pipefds[1], "F4", sizeof("F4"));
-        }  
-        else if (freqMax > 386 && freqMax < 398){
-            freqMax = 392;
-            write(pipefds[1], "G4", sizeof("G4"));
-        }    
-        else if (freqMax > 334 && freqMax < 446){
-            freqMax = 440;
-            write(pipefds[1], "A4", sizeof("A4"));
-        }  
-        else if (freqMax > 482 && freqMax < 500){
-            freqMax = 494;
-            write(pipefds[1], "B4", sizeof("B4"));
-        }
-        else{
-            write(pipefds[1], "None", sizeof("None"));
-        }
+    }     
+            
+    if (freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
+        freqMax = 262;
+        write(pipefds[1], "C4", sizeof("C4"));
     }
+    else if (freqMax > 288 && freqMax < 300){
+        freqMax = 294;
+        write(pipefds[1], "D4", sizeof("D4"));
+    }
+    else if (freqMax > 324 && freqMax < 336){
+        freqMax = 330;
+        write(pipefds[1], "E4", sizeof("E4"));
+    }  
+    else if (freqMax  > 343 && freqMax < 349){
+        freqMax  = 349;
+        write(pipefds[1], "F4", sizeof("F4"));
+    }  
+    else if (freqMax > 386 && freqMax < 398){
+        freqMax = 392;
+        write(pipefds[1], "G4", sizeof("G4"));
+    }    
+    else if (freqMax > 434 && freqMax < 446){
+        freqMax = 440;
+        write(pipefds[1], "A4", sizeof("A4"));
+    }  
+    else if (freqMax > 482 && freqMax < 500){
+        freqMax = 494;
+        write(pipefds[1], "B4", sizeof("B4"));
+    }
+    else{
+        write(pipefds[1], "None", sizeof("None"));
+        printf("Wrote None \n");
+    }
+
     
     std::cout << freqMax << std::endl;
     return freqMax;
@@ -231,6 +292,7 @@ int processBuffer()
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
             double streamTime, RtAudioStreamStatus status, void *userData)
 {
+    printf("Called Record \n");
     if (status) {
         std::cout << "Stream overflow detected!" << std::endl;
     }
@@ -238,13 +300,15 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     int i = 0;
     signed short *a = (signed short*)inputBuffer;
 
+    //Add nBufferFrames values from the input buffer into window
     while (window.size() < nBufferFrames*2 && i < nBufferFrames) {
         window.push_back(a[i++]);
     }
 
     processBuffer();
-
+   
     if (window.size() == nBufferFrames*2) {
+        //get rid of the first half of window
         window.erase(window.begin(), window.begin() + nBufferFrames);
     }
 
@@ -254,14 +318,14 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 int lol()
 {  
-    std::cout << "HELLO THERE" << std::endl;
     //access audio device
     RtAudio adc;
     if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
         return -1;
     }
-         
+
+    //Print device infos  
     unsigned int numDev = adc.getDeviceCount();
     RtAudio::DeviceInfo di;
     for ( unsigned int i = 0; i < numDev; ++i )
@@ -269,16 +333,22 @@ int lol()
         // use the Debugger if you need to know deviceID
         std::cout << "Device info" << std::endl;
         di = adc.getDeviceInfo( i );
-        std::cout << " " << std::endl;
+        //std::cout << di << std::endl;
     }
    
+    //Set parameters
     RtAudio::StreamParameters parameters;
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
+    
+    std::thread t1(instructionsStatements);
+    t1.join();
+   
+
     try {
-        adc.openStream(NULL, &parameters, RTAUDIO_SINT16,
-                        sampleRate, &bufferFrames, &record);
+        //Calls the record function
+        adc.openStream(NULL, &parameters, RTAUDIO_SINT16, sampleRate, &bufferFrames, &record);
         adc.startStream();
         std::cout << adc.getVersion();
     } catch (RtAudioError& e) {
@@ -288,8 +358,11 @@ int lol()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-    while(true){}
-
+    
+    signal(SIGINT, inthand);
+    stop = 0;
+    while(!stop){}
+    adc.closeStream();
     return 0;
 }
 
@@ -297,7 +370,7 @@ int lol()
 // Expands to this example's entry-point
 URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
 
-
+//Entry point
 HelloWorld::HelloWorld(Context* context) :
     Sample(context)
 {   
@@ -311,7 +384,6 @@ HelloWorld::HelloWorld(Context* context) :
         return;
     }   
     pid = fork();
-    printf("pid is "+pid);
     //Game process
     if (pid == 0){}  
     //SP process
@@ -323,29 +395,8 @@ HelloWorld::HelloWorld(Context* context) :
     }
 }
 
-void HelloWorld::WriteToPipe(int pipefds[2])
-{
-    using namespace std::chrono_literals;
-
-    auto start = std::chrono::high_resolution_clock::now();
-    std::this_thread::sleep_for(5000ms);
-    auto end = std::chrono::high_resolution_clock::now();
-
-    char messages[8][20] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-
-    for(int i = 0; i < 8; i++){
-        printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
-        write(pipefds[1], messages[i], sizeof(messages[i]));
-        using namespace std::chrono_literals;
-        auto start = std::chrono::high_resolution_clock::now();
-        std::this_thread::sleep_for(2000ms);
-        auto end = std::chrono::high_resolution_clock::now();
-    }
-}
-
 void HelloWorld::Start()
-{
-    
+{   
     // Execute base class startup
     Sample::Start();
 
