@@ -213,7 +213,7 @@ return;
 
     
 }
-void function_1(){
+void instructionsStatements(){
    
     std::cout << "Playing random note (in the 4th octave)" << "\n";
     playNote();
@@ -342,7 +342,7 @@ int lol()
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
     
-    std::thread t1(function_1);
+    std::thread t1(instructionsStatements);
     t1.join();
    
 
