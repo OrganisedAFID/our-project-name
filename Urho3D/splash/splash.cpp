@@ -110,7 +110,8 @@ unsigned int bufferFrames = 4410; // 512 sample frames
 const int bandNumber = 128;
 const int width = bufferFrames / bandNumber;
 const int historyValues = sampleRate / (bufferFrames * 2);
-
+char note;
+char OutputNote;
 const float nodeRadius = 100;
 const float angularWidth = 2.0 * pi / bandNumber;
 const float barWidth = angularWidth * nodeRadius;
@@ -142,8 +143,9 @@ void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //mo
     delete[] outputChannel;
 }
 
-int playNote(){
-    srand (time(NULL));
+void playNote(){
+    
+     srand (time(NULL));
   	int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
   	int RandIndex = rand() % 6; //generate a random integer between 0 and 7
     sf::SoundBuffer buffer;
@@ -159,11 +161,67 @@ int playNote(){
 	sound.setBuffer(buffer);
 	sound.play();
 
-    std::cout << "RandIndex is printed: " << noteNum[RandIndex] << "\n";
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    if ( RandIndex == 0 ){
+
+        OutputNote = 'C';
+
+    }
+    else if (RandIndex == 1){
+    OutputNote =  'D';
 
 
-    //return noteNum[RandIndex];
+    }
+    else if (RandIndex == 2){
+   OutputNote = 'E';
+
+    }  
+    else if (RandIndex == 3){
+
+        OutputNote = 'F';
+      
+    }  
+    else if (RandIndex == 4){
+
+        OutputNote = 'G';
+    }    
+    else if (RandIndex == 5){
+
+        OutputNote = 'A';
+  
+    }  
+  else if (RandIndex == 6){
+
+        OutputNote = 'B';
+    }
+    else{
+                note = 'N';
+            }
+        
+     std::cout << "Note played: " << OutputNote << "\n";
+ 
+    
+ 
+return;
+
+    
 }
+void function_1(){
+   
+    std::cout << "Playing random note (in the 4th octave)" << "\n";
+    playNote();
+    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+    std::cout << "Now you play back in..." << "\n";
+
+    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    for (int i=5; i>0; --i) {
+    std::cout << i << std::endl;
+    std::this_thread::sleep_for (std::chrono::seconds(1));
+  }
+  std::cout << "Go!" << "\n";
+      
+}
+
 
 int processBuffer()
 {  
@@ -276,6 +334,10 @@ int lol()
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
+    
+    std::thread t1(function_1);
+    t1.join();
+   
 
     try {
         //Calls the record function
