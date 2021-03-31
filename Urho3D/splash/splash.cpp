@@ -344,8 +344,7 @@ void HelloWorld::WriteToPipe(int pipefds[2])
 }
 
 void HelloWorld::Start()
-{
-    
+{   
     // Execute base class startup
     Sample::Start();
 
