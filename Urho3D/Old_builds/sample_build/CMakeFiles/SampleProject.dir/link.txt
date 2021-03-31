@@ -1,0 +1,1 @@
+/usr/bin/c++  -Wno-invalid-offsetof -pipe -mfloat-abi=hard -Wno-psabi -mcpu=cortex-a7 -mfpu=vfpv4-d16 -pthread -O3 -DNDEBUG -rdynamic CMakeFiles/SampleProject.dir/main.cpp.o -o bin/SampleProject  -Wl,-rpath,/opt/vc/lib /opt/vc/lib/libbcm_host.so -lEGL -lGLESv2 /home/pi/Urho3D_build2/lib/libUrho3D.a -ldl -lrt 

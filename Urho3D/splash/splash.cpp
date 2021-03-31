@@ -57,6 +57,7 @@
 #include <poll.h>
 #include <thread>
 #include <chrono>
+#include <signal.h>
 
 
 #include <Urho3D/Urho3D.h>
@@ -119,6 +120,12 @@ const float barWidth = angularWidth * nodeRadius;
 int a = 0;
 std::vector<signed short> window;
 std::vector<double> v;
+
+volatile sig_atomic_t stop;
+
+void inthand(int signum) {
+    stop = 1;
+}
 
 void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //move this over to GPU_FFT
 {
@@ -351,8 +358,11 @@ int lol()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-    while(true){}
-
+    
+    signal(SIGINT, inthand);
+    stop = 0;
+    while(!stop){}
+    adc.closeStream();
     return 0;
 }
 
@@ -382,26 +392,6 @@ HelloWorld::HelloWorld(Context* context) :
         engine_->Exit();
         lol();
         playNote();   
-    }
-}
-
-void HelloWorld::WriteToPipe(int pipefds[2])
-{
-    using namespace std::chrono_literals;
-
-    auto start = std::chrono::high_resolution_clock::now();
-    std::this_thread::sleep_for(5000ms);
-    auto end = std::chrono::high_resolution_clock::now();
-
-    char messages[8][20] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-
-    for(int i = 0; i < 8; i++){
-        printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
-        write(pipefds[1], messages[i], sizeof(messages[i]));
-        using namespace std::chrono_literals;
-        auto start = std::chrono::high_resolution_clock::now();
-        std::this_thread::sleep_for(2000ms);
-        auto end = std::chrono::high_resolution_clock::now();
     }
 }
 
