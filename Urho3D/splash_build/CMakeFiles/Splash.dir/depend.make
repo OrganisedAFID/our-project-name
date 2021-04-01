@@ -4,6 +4,10 @@
 CMakeFiles/Splash.dir/RtAudio.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.cpp
 CMakeFiles/Splash.dir/RtAudio.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 
+CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
+CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.cpp
+CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/lol.h
+
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/lol.h
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/realtime-beat.cpp
@@ -158,6 +162,7 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Urho3D_build/include/Urho3D/Urho3DC
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/Sample.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/Sample.inl
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/lol.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/sinewave.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/splash.cpp
