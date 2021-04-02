@@ -38,12 +38,11 @@
 #include <vector>
 #include <complex>     
 #include <string>
-#include "lol.h"
+#include "audioIn.h"
 #include "fft.h"
 #include "playNote.h"
 #include "instructionsStatements.h"
 #include "processBuffer.h"
-
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -106,35 +105,9 @@
  * 
  * global variables list to be incorporated in setup
  */
-
-
-const float pi = 3.14159265;
-unsigned int sampleRate = 44100;
-unsigned int bufferFrames = 4410; // 512 sample frames
-const int bandNumber = 128;
-const int width = bufferFrames / bandNumber;
-const int historyValues = sampleRate / (bufferFrames * 2);
-const float nodeRadius = 100;
-const float angularWidth = 2.0 * pi / bandNumber;
-const float barWidth = angularWidth * nodeRadius;
 int a = 0;
-
 std::vector<double> v;
-volatile sig_atomic_t stop;
-
-
-
-
-/**
- * 
- * 
- */
-void inthand(int signum) {
-    stop = 1;
-}
-
-
-
+int pipefds[2];
 
 /**
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
@@ -145,7 +118,7 @@ URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
 /** 
  * HelloWorld function. instigates pipeline, checks and returns error if unable
  * starts game process
- * calls lol function and playNote function
+ * calls audioIn function and playNote function
  * 
  */ 
 HelloWorld::HelloWorld(Context* context) :
@@ -167,7 +140,7 @@ HelloWorld::HelloWorld(Context* context) :
     else
     { 
         engine_->Exit();
-        lol();
+        audioIn();
         playNote();   
     }
 }

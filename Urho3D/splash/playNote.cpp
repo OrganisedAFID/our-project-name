@@ -11,7 +11,7 @@
 #include "sinewave.h"
 #include <complex>     
 #include <string>
-#include "lol.h"
+#include "audioIn.h"
 #include "fft.h"
 
 

@@ -10,7 +10,7 @@
 #include <vector>
 #include <complex>     
 #include <string>
-#include "lol.h"
+#include "audioIn.h"
 #include "fft.h"
 #include "playNote.h"
 #include "instructionsStatements.h"
@@ -35,8 +35,15 @@
 #include <signal.h>
 
 int freqMax;  
-int pipefds[2];
 std::vector<signed short> window;
+const int bandNumber = 128;
+unsigned int sampleRate = 44100;
+unsigned int bufferFrames = 4410; // 512 sample frames
+volatile sig_atomic_t stop;
+const int width = bufferFrames / bandNumber;
+const int historyValues = sampleRate / (bufferFrames * 2);
+int pipefds[2];
+
 
 /**
  * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
@@ -97,14 +104,24 @@ int processBuffer()
     }
     
     std::cout << freqMax << std::endl;
-    return freqMax;
+    return freqMax, pipefds[2];
+}
+
+/**
+ * inthand function allows close of terminal with ctrl C
+ * 
+ */
+
+void inthand(int signum) {
+    stop = 1;
+return;
 }
 
 
 /**
  * record function. Activate the audio input and write to buffer
- * called by lol
- * 
+ * called by audioIn
+ *  
  */
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
             double streamTime, RtAudioStreamStatus status, void *userData)
@@ -133,12 +150,12 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 }
 
 /**
- * lol function. 
+ * audioIn function. 
  * calls record, which calls processBuffer,which calls fft
  * called by URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
  * 
  */
-int lol()
+int audioIn()
 {  
     //access audio device
     RtAudio adc;

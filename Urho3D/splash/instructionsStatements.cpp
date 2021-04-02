@@ -10,7 +10,7 @@
 #include <vector>
 #include <complex>     
 #include <string>
-#include "lol.h"
+#include "audioIn.h"
 #include "fft.h"
 #include "playNote.h"
 

@@ -14,7 +14,7 @@
 #include <fstream>
 #include <sstream>  
 #include <string>
-#include "lol.h"
+#include "audioIn.h"
 
 /*
 
@@ -166,7 +166,7 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 }
 
 
-int lol()
+int audioIn()
 {
     
           std::cout << "HELLO THERE" << std::endl;
