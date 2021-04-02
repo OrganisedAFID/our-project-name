@@ -1278,6 +1278,8 @@ Urho3D/IO/Log.h
 
 /home/pi/sound-pirates/Urho3D/splash/fft.h
 
+/home/pi/sound-pirates/Urho3D/splash/instructionsStatements.h
+
 /home/pi/sound-pirates/Urho3D/splash/lol.h
 
 /home/pi/sound-pirates/Urho3D/splash/playNote.h
@@ -1419,6 +1421,8 @@ splash.h
 /home/pi/sound-pirates/Urho3D/splash/splash.h
 Urho3D/DebugNew.h
 -
+instructionsStatements.h
+/home/pi/sound-pirates/Urho3D/splash/instructionsStatements.h
 
 /home/pi/sound-pirates/Urho3D/splash/splash.h
 Sample.h

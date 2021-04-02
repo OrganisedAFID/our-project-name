@@ -42,6 +42,7 @@
 #include "fft.h"
 #include "playNote.h"
 
+
 #include <sys/types.h>
 #include <stdlib.h>
 #include <fcntl.h>
@@ -99,6 +100,7 @@
 #include <Urho3D/Graphics/Terrain.h>
 #include "splash.h"
 #include <Urho3D/DebugNew.h>
+#include "instructionsStatements.h"
 /**
  * 
  * global variables list to be incorporated in setup
@@ -129,27 +131,6 @@ volatile sig_atomic_t stop;
  */
 void inthand(int signum) {
     stop = 1;
-}
-
-
-/** 
- * instructionsStatement function. Prints player instructions on screen to alert when note given and expected
- * 
- */
-void instructionsStatements(){
-   
-    std::cout << "Playing random note (in the 4th octave)" << "\n";
-    playNote();
-    std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-    std::cout << "Now you play back in..." << "\n";
-
-    std::this_thread::sleep_for(std::chrono::milliseconds(2000));
-    for (int i=5; i>0; --i) {
-    std::cout << i << std::endl;
-    std::this_thread::sleep_for (std::chrono::seconds(1));
-  }
-  std::cout << "Go!" << "\n";
-      
 }
 
 /**
