@@ -18,7 +18,7 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <fcntl.h>
-
+#include "splash.h"
 
 #include <string>
 #include <memory>
