@@ -20,13 +20,6 @@ CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
 CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.cpp
 CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/sinewave.h
 
-CMakeFiles/Splash.dir/processBuffer.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
-CMakeFiles/Splash.dir/processBuffer.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
-CMakeFiles/Splash.dir/processBuffer.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
-CMakeFiles/Splash.dir/processBuffer.cpp.o: /home/pi/sound-pirates/Urho3D/splash/instructionsStatements.h
-CMakeFiles/Splash.dir/processBuffer.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.h
-CMakeFiles/Splash.dir/processBuffer.cpp.o: /home/pi/sound-pirates/Urho3D/splash/processBuffer.cpp
-
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/realtime-beat.cpp
