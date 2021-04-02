@@ -18,7 +18,6 @@
 #include <sys/types.h>
 #include <stdlib.h>
 #include <fcntl.h>
-#include "splash.h"
 
 #include <string>
 #include <memory>
@@ -31,6 +30,9 @@
 #include <thread>
 #include <chrono>
 #include <signal.h>
+
+char note;
+char OutputNote;
 /**
  * playNote function. plays random note for player to match
  * otputs string for note played

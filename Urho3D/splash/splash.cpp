@@ -36,12 +36,11 @@
 #include <stdio.h>
 #include <SFML/Audio.hpp>
 #include <vector>
-#include "sinewave.h"
 #include <complex>     
 #include <string>
 #include "lol.h"
 #include "fft.h"
-
+#include "playNote.h"
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -113,8 +112,6 @@ unsigned int bufferFrames = 4410; // 512 sample frames
 const int bandNumber = 128;
 const int width = bufferFrames / bandNumber;
 const int historyValues = sampleRate / (bufferFrames * 2);
-char note;
-char OutputNote;
 const float nodeRadius = 100;
 const float angularWidth = 2.0 * pi / bandNumber;
 const float barWidth = angularWidth * nodeRadius;
