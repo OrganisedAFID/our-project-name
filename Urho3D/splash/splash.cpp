@@ -113,15 +113,15 @@ int pipefds[2];
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
+URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
 
 /** 
- * HelloWorld function. instigates pipeline, checks and returns error if unable
+ * GameSys function. instigates pipeline, checks and returns error if unable
  * starts game process
  * calls audioIn function and playNote function
  * 
  */ 
-HelloWorld::HelloWorld(Context* context) :
+GameSys::GameSys(Context* context) :
     Sample(context)
 {   
     ::pipefds[2];
@@ -149,7 +149,7 @@ HelloWorld::HelloWorld(Context* context) :
  * expect and accept mouse input 
  * 
  */
-void HelloWorld::Start()
+void GameSys::Start()
 {   
     // Execute base class startup
     Sample::Start();
@@ -165,7 +165,7 @@ void HelloWorld::Start()
  * calls CreateText, provides text content, calls Subscribe to events to allow input for state change
  * 
  */
-void HelloWorld::CreateScene1()
+void GameSys::CreateScene1()
 {
     auto* ui = GetSubsystem<UI>();
     UIElement* root = ui->GetRoot();
@@ -177,14 +177,14 @@ void HelloWorld::CreateScene1()
     auto* helloText = 
     CreateText("Welcome to Sound Pirates!", "welcomeText", 
                 cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 400, 300);
-    SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(HelloWorld, HandleStartClick));
+    SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
 }
 /**
  * CreateText function. defines text parameters font, colour, position
  * returns text
  * 
  */
-Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font, int x, int y)
+Text* GameSys::CreateText(String content, String tagName, Urho3D::Font* font, int x, int y)
 {  
     // Construct new Text object
     SharedPtr<Text> text(new Text(context_));
@@ -211,7 +211,7 @@ Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font,
  * Possible vAlign values =  VA_TOP = 0, VA_CENTER, VA_BOTTOM, VA_CUSTOM 
  * 
  */ 
-Button* HelloWorld::CreateButton
+Button* GameSys::CreateButton
 (UIElement* root, String tag, String txtName, String txtCont, 
   int x, int y, int width)
 {
@@ -241,17 +241,17 @@ Button* HelloWorld::CreateButton
  * SubscribeToEvents function. Takes described events as inputs to change state
  * 
  */
-void HelloWorld::SubscribeToEvents()
+void GameSys::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
-    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(HelloWorld, HandleUpdate));
+    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate));
     
 }
 /**
  * 
  * 
  */
-void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
+void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 {
     using namespace Update;
 
@@ -283,7 +283,7 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
  * 
  * 
  */
-void HelloWorld::ChangeTexts(String note)
+void GameSys::ChangeTexts(String note)
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* cache = GetSubsystem<ResourceCache>();
@@ -312,7 +312,7 @@ void HelloWorld::ChangeTexts(String note)
  * when you click on the start button, the UI elements dissapear
  * 
  */
-void HelloWorld::HandleStartClick(StringHash eventType, VariantMap& eventData)
+void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
       
@@ -332,7 +332,7 @@ void HelloWorld::HandleStartClick(StringHash eventType, VariantMap& eventData)
  * 
  * 
  */
-void HelloWorld::DeleteScene1()
+void GameSys::DeleteScene1()
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* cache = GetSubsystem<ResourceCache>();
@@ -351,7 +351,7 @@ void HelloWorld::DeleteScene1()
  * 
  * 
  */ 
-void HelloWorld::CreateScene2()
+void GameSys::CreateScene2()
 {
     auto* cache = GetSubsystem<ResourceCache>();
     scene_ = new Scene(context_);
@@ -418,7 +418,7 @@ void HelloWorld::CreateScene2()
 /**
  * Creates a plane underneath the entire scene
  */
-Node* HelloWorld::CreatePlane()
+Node* GameSys::CreatePlane()
 {
     auto* cache = GetSubsystem<ResourceCache>();
     
@@ -433,7 +433,7 @@ Node* HelloWorld::CreatePlane()
 /**
  * CreateShip function. Creates the enemy ship to pursue
  */
-Node* HelloWorld::CreateShip()
+Node* GameSys::CreateShip()
 {
     auto* cache = GetSubsystem<ResourceCache>();
     
@@ -449,7 +449,7 @@ Node* HelloWorld::CreateShip()
  * 
  * 
  */
-void HelloWorld::MoveCamera(float timeStep)
+void GameSys::MoveCamera(float timeStep)
 {
     /**
      *  Do not move if the UI has a focused element (the console)
@@ -500,7 +500,7 @@ void HelloWorld::MoveCamera(float timeStep)
  * 
  * 
  */
-void HelloWorld::SetupViewport()
+void GameSys::SetupViewport()
 {
     auto* renderer = GetSubsystem<Renderer>();
 

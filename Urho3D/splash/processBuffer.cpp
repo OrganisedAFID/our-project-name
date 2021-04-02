@@ -36,14 +36,25 @@
 
 int freqMax;  
 std::vector<signed short> window;
+
+
+int pipefds[2];
+
 const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
-const int width = bufferFrames / bandNumber;
-const int historyValues = sampleRate / (bufferFrames * 2);
-int pipefds[2];
 
+
+/**
+ * inthand function allows close of terminal with ctrl C
+ * 
+ */
+
+void inthand(int signum) {
+    stop = 1;
+return;
+}
 
 /**
  * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
@@ -108,17 +119,6 @@ int processBuffer()
 }
 
 /**
- * inthand function allows close of terminal with ctrl C
- * 
- */
-
-void inthand(int signum) {
-    stop = 1;
-return;
-}
-
-
-/**
  * record function. Activate the audio input and write to buffer
  * called by audioIn
  *  
@@ -148,6 +148,8 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
     return 0;
 }
+
+
 
 /**
  * audioIn function. 
@@ -204,3 +206,6 @@ int audioIn()
     adc.closeStream();
     return 0;
 }
+
+
+

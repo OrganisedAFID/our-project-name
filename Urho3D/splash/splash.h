@@ -30,13 +30,13 @@
 ///         run the main loop
 ///     - Adding a Text element to the graphical user interface
 ///     - Subscribing to and handling of update events
-class HelloWorld : public Sample
+class GameSys : public Sample
 {
-    URHO3D_OBJECT(HelloWorld, Sample);
+    URHO3D_OBJECT(GameSys, Sample);
 
 public:
     /// Construct.
-    explicit HelloWorld(Context* context);
+    explicit GameSys(Context* context);
 
     /// Setup after engine initialization and before running the main loop.
     void Start() override;
