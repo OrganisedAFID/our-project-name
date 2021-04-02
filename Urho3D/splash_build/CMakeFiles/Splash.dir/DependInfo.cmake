@@ -8,6 +8,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/pi/sound-pirates/Urho3D/splash/fft.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/fft.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/instructionsStatements.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/playNote.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/playNote.cpp.o"
+  "/home/pi/sound-pirates/Urho3D/splash/processBuffer.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/processBuffer.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/realtime-beat.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/realtime-beat.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/splash.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/splash.cpp.o"
   )
