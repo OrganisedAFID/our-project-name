@@ -6,6 +6,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/pi/sound-pirates/Urho3D/splash/RtAudio.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/RtAudio.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/fft.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/fft.cpp.o"
+  "/home/pi/sound-pirates/Urho3D/splash/playNote.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/playNote.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/realtime-beat.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/realtime-beat.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/splash.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/splash.cpp.o"
   )

@@ -93,12 +93,12 @@ clean: CMakeFiles/Splash.dir/clean
 CMakeFiles/Splash.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Splash.dir/build.make CMakeFiles/Splash.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Splash.dir/build.make CMakeFiles/Splash.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=1,2,3,4,5 "Built target Splash"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=1,2,3,4,5,6 "Built target Splash"
 .PHONY : CMakeFiles/Splash.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/Splash.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles 5
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles 6
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 CMakeFiles/Splash.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles 0
 .PHONY : CMakeFiles/Splash.dir/rule
