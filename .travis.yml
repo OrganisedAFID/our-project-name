@@ -10,3 +10,15 @@ before_script:
     - cmake ..
 
 script: make  
+
+addons:
+  apt:
+    sources:
+      # For cmake >= 2.8.8 (for CMakePackageConfigHelpers)
+      - boost-latest
+    packages:
+      - cmake
+      - libboost-dev
+
+
+
