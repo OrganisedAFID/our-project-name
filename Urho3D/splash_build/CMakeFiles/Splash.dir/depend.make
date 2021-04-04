@@ -107,7 +107,6 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Math/Str
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vector2.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vector3.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vector4.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Physics/RigidBody.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Resource/Image.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Resource/JSONFile.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Resource/JSONValue.h
@@ -124,15 +123,6 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Scene/Sc
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Scene/SceneResolver.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Scene/Serializable.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Scene/ValueAnimationInfo.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btAlignedAllocator.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMatrix3x3.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMinMax.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMotionState.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btQuadWord.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btQuaternion.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btScalar.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btTransform.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btVector3.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/SDL/SDL_blendmode.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/SDL/SDL_config.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/SDL/SDL_endian.h
