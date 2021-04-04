@@ -57,6 +57,7 @@
 #include <poll.h>
 #include <thread>
 #include <chrono>
+#include <signal.h>
 
 
 #include <Urho3D/Urho3D.h>
@@ -96,6 +97,7 @@
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/Terrain.h>
+#include <Urho3D/Physics/RigidBody.h>
 
 #include "splash.h"
 
@@ -119,6 +121,12 @@ const float barWidth = angularWidth * nodeRadius;
 int a = 0;
 std::vector<signed short> window;
 std::vector<double> v;
+
+volatile sig_atomic_t stop;
+
+void inthand(int signum) {
+    stop = 1;
+}
 
 void fft(std::vector<signed short> &rawValues, std::vector<double> &output) //move this over to GPU_FFT
 {
@@ -233,7 +241,7 @@ int processBuffer()
 
     freqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 10;
+    int amplitudeThreshold = 10000;
 
     for (int i = 51; i < 100; i++) {        
         if (output[i] > output[freqMaxIndex] && output[i] > amplitudeThreshold){
@@ -351,8 +359,11 @@ int lol()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-    while(true){}
-
+    
+    signal(SIGINT, inthand);
+    stop = 0;
+    while(!stop){}
+    adc.closeStream();
     return 0;
 }
 
@@ -385,29 +396,8 @@ HelloWorld::HelloWorld(Context* context) :
     }
 }
 
-void HelloWorld::WriteToPipe(int pipefds[2])
-{
-    using namespace std::chrono_literals;
-
-    auto start = std::chrono::high_resolution_clock::now();
-    std::this_thread::sleep_for(5000ms);
-    auto end = std::chrono::high_resolution_clock::now();
-
-    char messages[8][20] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-
-    for(int i = 0; i < 8; i++){
-        printf("Parent Process - Writing to pipe - Message is %s\n", messages[i]);
-        write(pipefds[1], messages[i], sizeof(messages[i]));
-        using namespace std::chrono_literals;
-        auto start = std::chrono::high_resolution_clock::now();
-        std::this_thread::sleep_for(2000ms);
-        auto end = std::chrono::high_resolution_clock::now();
-    }
-}
-
 void HelloWorld::Start()
-{
-    
+{   
     // Execute base class startup
     Sample::Start();
 
@@ -443,7 +433,7 @@ Text* HelloWorld::CreateText(String content, String tagName, Urho3D::Font* font,
 
     // Set font and text color
     text->SetFont(font, 30);
-    text->SetColor(Color(0.0f, 10.0f, 1.0f));
+    text->SetColor(Color(0.0f, 5.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
 
@@ -523,14 +513,59 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap& eventData)
     }
 }
 
-void HelloWorld::ChangeTexts(String note)
+void HelloWorld::ChangeTexts(String note, String OutputNote)
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* cache = GetSubsystem<ResourceCache>();
 
+    const float MOVE_SPEED = 20.0f;
+    const float timestep = 20.0f;
+    float y = 5.0;
+    Node* boxNode = scene_->CreateChild("Box");
+    boxNode->SetPosition(Vector3(0.0f, y, 0.0f));
+    boxNode->SetRotation(Quaternion(0.0f, 90.0f, -45.0f));
+    boxNode->SetScale(Vector3(1.0f, 2.0f, 1.0f));
+    auto* boxObject = boxNode->CreateComponent<StaticModel>();
+    boxObject->SetModel(cache->GetResource<Model>("Models/SpaceFighter.mdl"));
+    boxObject->SetMaterial(cache->GetResource<Material>("Materials/StoneEnvMapSmall.xml"));
+    boxObject->SetCastShadows(true);
+
+
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-
-
+    if ( note == OutputNote ){
+        std::cout << "You played the correct note\n";
+    }
+        else {
+                    std::cout << "You played the wrong note\n";
+                }
+            
+    if(notes[0] == note){
+       boxNode->Translate(Vector3(0.0f, 8.0f, .0f));
+    }
+    else if (notes[1] == note){
+       boxNode->Translate(Vector3(0.0f, y+4.0f, .0f));
+    }
+    else if (notes[2] == note){
+       boxNode->Translate(Vector3(0.0f, y+6.0f, .0f));
+    }
+    else if (notes[3] == note){
+       boxNode->Translate(Vector3(0.0f, 8.0f, .0f));
+    }
+    else if (notes[4] == note){
+       boxNode->Translate(Vector3(0.0f, -2.0f, .0f));
+    }
+    else if (notes[5] == note){
+       boxNode->Translate(Vector3(0.0f, -4.0f, .0f));
+    }
+    else if (notes[6] == note){
+       boxNode->Translate(Vector3(0.0f, -6.0f, .0f));
+    }
+    else if (notes[7] == note){
+       boxNode->Translate(Vector3(0.0f, 5.0f, .0f));
+    }
+    else if {
+       boxNode->SetPosition(Vector3(0.0f, 5.0f, .0f));
+    }
     // Make relevant note more opaque and all others less opaque
     for(int i= 0; i<8; i++){
         if(notes[i] == note){
@@ -544,7 +579,9 @@ void HelloWorld::ChangeTexts(String note)
             otherText[0]->SetOpacity(0.5);
         }
     }
-    
+     
+
+
 
 }
 
@@ -598,7 +635,16 @@ void HelloWorld::CreateScene2()
     // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
     // optimizing manner
     scene_->CreateComponent<Octree>();
+    //scene_->CreateComponent<PhysicsWorld>();
+    scene_->CreateComponent<DebugRenderer>();
     
+    Node* zoneNode = scene_->CreateChild("Zone");
+    auto* zone = zoneNode->CreateComponent<Zone>();
+    zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
+    zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
+    zone->SetFogColor(Color(1.0f, 1.0f, 1.0f));
+    zone->SetFogStart(300.0f);
+    zone->SetFogEnd(500.0f);  
     Node* planeNode = CreatePlane();
     
     Node* shipNode = CreateShip();
@@ -611,14 +657,19 @@ void HelloWorld::CreateScene2()
     lightNode->SetDirection(Vector3(0.6f, -1.0f, 0.8f)); // The direction vector does not need to be normalized
     auto* light = lightNode->CreateComponent<Light>();
     light->SetLightType(LIGHT_DIRECTIONAL);  
-    
+
+    Node* skyNode = scene_->CreateChild("Sky");
+    skyNode->SetScale(500.0f); // The scale actually does not matter
+    auto* skybox = skyNode->CreateComponent<Skybox>();
+    //skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    //skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml"));    
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode_ = scene_->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
-    cameraNode_->SetPosition(Vector3(0.0f, 10.0f, -15.0f));
+    cameraNode_->SetPosition(Vector3(0.0f, 10.0f, 30.0f));
     
     
     // Create 7 buttons, one for each note
@@ -629,9 +680,9 @@ void HelloWorld::CreateScene2()
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
     int leftOffset = 20;
     int spacing = 20;
-    int width = 80;
-    int buttonHeight = 550;
-    int textHeight = 450;
+    int width = 40;
+    int buttonHeight = 40;
+    int textHeight = 40;
     for(int i = 0; i < 7; i++){
         noteButtons[i] = CreateButton(root, notes[i]+"Butt", notes[i]+"ButtText", notes[i], 
                                       leftOffset+i*(width+spacing), buttonHeight, width);
@@ -642,6 +693,14 @@ void HelloWorld::CreateScene2()
             (notes[i], notes[i]+"Text", cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 
                 leftOffset+i*(width+spacing)+width/2, textHeight);
     }
+    
+
+    cameraNode_ = new Node(context_);
+    auto* camera = cameraNode_->CreateComponent<Camera>();
+    camera->SetFarClip(500.0f);
+
+    // Set an initial position for the camera scene node above the floor
+    cameraNode_->SetPosition(Vector3(0.0f, 5.0f, -20.0f));
 }
 
 /**
