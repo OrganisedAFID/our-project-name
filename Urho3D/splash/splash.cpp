@@ -93,6 +93,11 @@
 #include <Urho3D/Graphics/ParticleEmitter.h>
 #include <Urho3D/Graphics/ParticleEffect.h>
 #include <Urho3D/Graphics/Terrain.h>
+#include <Urho3D/Physics/CollisionShape.h>
+#include <Urho3D/Physics/Constraint.h>
+#include <Urho3D/Physics/PhysicsWorld.h>
+#include <Urho3D/Physics/RigidBody.h>
+
 
 #include "splash.h"
 
@@ -242,7 +247,7 @@ int processBuffer()
 
     freqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 10;
+    int amplitudeThreshold = 10000;
 
     for (int i = 51; i < 100; i++)
     {
@@ -527,6 +532,7 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
 
 void HelloWorld::ChangeTexts(String note)
 {
+    
     UIElement *root = GetSubsystem<UI>()->GetRoot();
     auto *cache = GetSubsystem<ResourceCache>();
 
@@ -534,32 +540,43 @@ void HelloWorld::ChangeTexts(String note)
     
     Node *shipNode = CreateShip();
 
+    int timeStep = 2;
+
     if(notes[0] == note){
-       shipNode->Translate(Vector3(0.0f, 8.0f, .0f));
+        shipNode->Translate(Vector3(0.0f, -4.0f, .0f));
+        shipNode->SetScale(Vector3(1.2f, 1.7f, 1.2f));
     }
-    else if (notes[1] == note){
-       shipNode->Translate(Vector3(0.0f, 4.0f, .0f));
+    if (notes[1] == note){
+       shipNode->Translate(Vector3(0.0f, -2.0f, .0f)*2);
+       shipNode->SetScale(Vector3(1.1f, 1.6f, 1.1f));
+
     }
-    else if (notes[2] == note){
+    if (notes[2] == note){
+       shipNode->Translate(Vector3(0.0f, 0.0f, .0f)*2);
+       shipNode->SetScale(Vector3(1.0f, 1.5f, 1.0f));
+    }
+    if (notes[3] == note){
+       shipNode->Translate(Vector3( 0,2,0)*2);
+       shipNode->SetScale(Vector3(0.5f, 1.0f, 0.5));
+    }
+    if (notes[4] == note){
+        shipNode->Translate(Vector3(0.0f, 4.0f, .0f));
+        shipNode->SetScale(Vector3(0.4f, 0.7f, 0.4));
+    }
+    if (notes[5] == note){
        shipNode->Translate(Vector3(0.0f, 6.0f, .0f));
+       shipNode->SetScale(Vector3(0.4f, 0.6f, 0.4));
     }
-    else if (notes[3] == note){
+    if (notes[6] == note){
        shipNode->Translate(Vector3(0.0f, 8.0f, .0f));
+       shipNode->SetScale(Vector3(0.3f, 0.3f, 0.3));
     }
-    else if (notes[4] == note){
-       shipNode->Translate(Vector3(0.0f, -2.0f, .0f));
-    }
-    else if (notes[5] == note){
-       shipNode->Translate(Vector3(0.0f, -4.0f, .0f));
-    }
-    else if (notes[6] == note){
-       shipNode->Translate(Vector3(0.0f, -6.0f, .0f));
-    }
-    else if (notes[7] == note){
-       shipNode->Translate(Vector3(0.0f, 5.0f, .0f));
+    if (notes[7] == note){
+        shipNode->Translate(Vector3(0.0f, 10.0f, .0f));
+        shipNode->SetScale(Vector3(0.2f, 2.0f, 0.2));
     }
     else {
-       shipNode->SetPosition(Vector3(0.0f, 5.0f, .0f));
+        shipNode->SetPosition(Vector3(0.0f, 5.0f, .0f));
     }
     // Make relevant note more opaque and all others less opaque
     for (int i = 0; i < 8; i++)
@@ -629,23 +646,24 @@ void HelloWorld::CreateScene2()
     // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
     // optimizing manner
     scene_->CreateComponent<Octree>();
+    scene_->CreateComponent<PhysicsWorld>();
 
     Node *planeNode = CreatePlane();
     Node *zoneNode = scene_->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
     zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
-    zone->SetFogColor(Color(1.0f, 1.0f, 1.0f));
+    zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
     zone->SetFogStart(300.0f);
     zone->SetFogEnd(500.0f);
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
 
     Node* skyNode = scene_->CreateChild("Sky");
-    skyNode->SetScale(1000.0f); // The scale actually does not matter
+    skyNode->SetScale(500.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    skybox->SetMaterial(cache->GetResource<Material>("Material/Skybox.xml"));
+    skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml"));
 
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
@@ -662,6 +680,7 @@ void HelloWorld::CreateScene2()
 
     // Set an initial position for the camera scene node above the plane
     cameraNode_->SetPosition(Vector3(0.0f, 10.0f, -15.0f));
+
 
     // Create 7 buttons, one for each note
     auto *ui = GetSubsystem<UI>();
@@ -684,6 +703,10 @@ void HelloWorld::CreateScene2()
         noteTexts[i] = CreateText(notes[i], notes[i] + "Text", cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),
                                   leftOffset + i * (width + spacing) + width / 2, textHeight);
     }
+    SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,HandleUpdate));
+    //SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,ChangeTexts));
+
+
 }
 
 /**
@@ -713,7 +736,7 @@ Node *HelloWorld::CreateShip()
     boxNode->SetScale(Vector3(0.8f, 1.3f, 0.8f));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
     boxObject->SetModel(cache->GetResource<Model>("Models/SpaceFighter.mdl"));
-    boxObject->SetMaterial(cache->GetResource<Material>("Materials/Planet_dsn.xml"));
+    boxObject->SetMaterial(cache->GetResource<Material>("Materials/GreenTransparent.xml"));
 
     //boxObject->SetCastShadows(true);
 

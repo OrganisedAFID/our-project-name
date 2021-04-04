@@ -108,6 +108,10 @@ CMakeFiles/Splash.dir/splash.cpp.o
  /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vector2.h
  /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vector3.h
  /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vector4.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/Physics/CollisionShape.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/Physics/Constraint.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/Physics/PhysicsWorld.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/Physics/RigidBody.h
  /home/pi/Uhro/Urho3D/include/Urho3D/Resource/Image.h
  /home/pi/Uhro/Urho3D/include/Urho3D/Resource/JSONFile.h
  /home/pi/Uhro/Urho3D/include/Urho3D/Resource/JSONValue.h
@@ -124,6 +128,16 @@ CMakeFiles/Splash.dir/splash.cpp.o
  /home/pi/Uhro/Urho3D/include/Urho3D/Scene/SceneResolver.h
  /home/pi/Uhro/Urho3D/include/Urho3D/Scene/Serializable.h
  /home/pi/Uhro/Urho3D/include/Urho3D/Scene/ValueAnimationInfo.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btAlignedAllocator.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btIDebugDraw.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMatrix3x3.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMinMax.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMotionState.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btQuadWord.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btQuaternion.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btScalar.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btTransform.h
+ /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btVector3.h
  /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/SDL/SDL_blendmode.h
  /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/SDL/SDL_config.h
  /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/SDL/SDL_endian.h
