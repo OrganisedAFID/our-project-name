@@ -14,6 +14,11 @@
 
 char note_string;
 
+/**
+ * define_note. Takes input maximum frequency and checks what note (in the 4th octave) that it corresponds to through a series of if else statements. 
+ * Returns char variable note_string that correponses to note detected. 
+ **/
+
 char define_note(int freqMax){
 if (freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
         freqMax = 262;
