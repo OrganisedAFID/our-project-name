@@ -5,6 +5,7 @@ set(CMAKE_DEPENDS_LANGUAGES
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
   "/home/pi/sound-pirates/Urho3D/splash/RtAudio.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/RtAudio.cpp.o"
+  "/home/pi/sound-pirates/Urho3D/splash/Start.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/Start.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/fft.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/fft.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/instructionsStatements.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/playNote.cpp" "/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles/Splash.dir/playNote.cpp.o"

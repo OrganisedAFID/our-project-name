@@ -1276,6 +1276,8 @@ Urho3D/Resource/XMLFile.h
 Urho3D/IO/Log.h
 -
 
+/home/pi/sound-pirates/Urho3D/splash/Start.h
+
 /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 
 /home/pi/sound-pirates/Urho3D/splash/fft.h
@@ -1427,6 +1429,8 @@ splash.h
 /home/pi/sound-pirates/Urho3D/splash/splash.h
 Urho3D/DebugNew.h
 -
+Start.h
+/home/pi/sound-pirates/Urho3D/splash/Start.h
 
 /home/pi/sound-pirates/Urho3D/splash/splash.h
 Sample.h

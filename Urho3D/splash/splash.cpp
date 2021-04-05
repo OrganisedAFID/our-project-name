@@ -48,7 +48,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-
 #include <string>
 #include <memory>
 #include <fstream>
@@ -101,6 +100,8 @@
 #include <Urho3D/Graphics/Terrain.h>
 #include "splash.h"
 #include <Urho3D/DebugNew.h>
+#include "Start.h"
+
 /**
  * 
  * global variables list to be incorporated in setup
@@ -322,12 +323,17 @@ void GameSys::Start()
     // Execute base class startup
     Sample::Start();
 
-    // Create "Hello World" Text
+    // Create "Welcome to Sound Pirates!" Text
     CreateScene1();
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
+    
+return;
 }
+
+
+
 /**
  * CreateScene1 function. Start screen splash, with button
  * calls CreateText, provides text content, calls Subscribe to events to allow input for state change

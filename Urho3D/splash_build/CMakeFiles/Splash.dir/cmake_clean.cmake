@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Splash.dir/RtAudio.cpp.o"
+  "CMakeFiles/Splash.dir/Start.cpp.o"
   "CMakeFiles/Splash.dir/fft.cpp.o"
   "CMakeFiles/Splash.dir/instructionsStatements.cpp.o"
   "CMakeFiles/Splash.dir/playNote.cpp.o"
