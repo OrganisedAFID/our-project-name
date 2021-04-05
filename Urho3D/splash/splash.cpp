@@ -313,9 +313,10 @@ void GameSys::Start()
     if(audioIn() != -1){
     CreateScene1();
     }
-    auto* cache = GetSubsystem<ResourceCache>();
+    else {auto* cache = GetSubsystem<ResourceCache>();
      CreateText("Please insert sound card", "errorText", 
                 cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 300, 300);
+            }
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
