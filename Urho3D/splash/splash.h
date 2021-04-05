@@ -69,7 +69,7 @@ private:
     void CreateTitleScene();
     void DeleteTitleScene();
     void DeleteInstructionsScene();
-    void CreateScene2();
+    void CreateMainScene();
     void CreateInstructionsScene();
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);

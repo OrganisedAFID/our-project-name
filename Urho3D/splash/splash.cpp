@@ -495,7 +495,7 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
       
     DeleteTitleScene();
     //Show the main game screen
-    CreateScene2();
+    CreateMainScene();
     SetupViewport();
 
     // Finally subscribe to the update event so we can move the camera.
@@ -589,7 +589,7 @@ void GameSys::DeleteTitleScene()
  * 
  * 
  */ 
-void GameSys::CreateScene2()
+void GameSys::CreateMainScene()
 {
     auto* cache = GetSubsystem<ResourceCache>();
     scene_ = new Scene(context_);
