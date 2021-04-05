@@ -66,8 +66,8 @@ private:
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     void SetupViewport();
-    void CreateScene1();
-    void DeleteScene1();
+    void CreateTitleScene();
+    void DeleteTitleScene();
     void DeleteInstructionsScene();
     void CreateScene2();
     void CreateInstructionsScene();

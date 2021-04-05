@@ -313,8 +313,8 @@ GameSys::GameSys(Context* context) :
     }
 }
 /**
- * Start function. Executes base class startup, calls Scene1 for welcome screen
- * expect and accept mouse input 
+ * Start function. Executes base class startup, creates the title scene 
+ * and accepts mouse input 
  * 
  */
 void GameSys::Start()
@@ -323,7 +323,7 @@ void GameSys::Start()
     Sample::Start();
 
     // Create "Welcome to Sound Pirates!" Text
-    CreateScene1();
+    CreateTitleScene();
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
@@ -334,11 +334,11 @@ return;
 
 
 /**
- * CreateScene1 function. Start screen splash, with button
+ * CreateTitleScene function. Start screen splash, with button
  * calls CreateText, provides text content, calls Subscribe to events to allow input for state change
  * 
  */
-void GameSys::CreateScene1()
+void GameSys::CreateTitleScene()
 {
     auto* ui = GetSubsystem<UI>();
     UIElement* root = ui->GetRoot();
@@ -493,16 +493,12 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
       
-    DeleteScene1();
-    printf("Deleted scene1");
+    DeleteTitleScene();
     //Show the main game screen
     CreateScene2();
-    printf("created scene 2");
     SetupViewport();
-    printf("setup viewport");
 
     // Finally subscribe to the update event so we can move the camera.
-    printf("sub");
     SubscribeToEvents();    
 }
 
@@ -514,8 +510,8 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
       
-    DeleteScene1();
-    printf("Deleted scene1");
+    DeleteTitleScene();
+    printf("Deleted title scene");
 
     //Show the instructions
     CreateInstructionsScene();
@@ -546,7 +542,7 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
     DeleteInstructionsScene();
 
     //Create the title scene again
-    CreateScene1();
+    CreateTitleScene();
 }
 
 /**
@@ -570,7 +566,7 @@ void GameSys::DeleteInstructionsScene()
  * Deletes the first scene
  * 
  */
-void GameSys::DeleteScene1()
+void GameSys::DeleteTitleScene()
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* cache = GetSubsystem<ResourceCache>();
