@@ -62,17 +62,21 @@ private:
     void HandleStartClick(StringHash eventType, VariantMap& eventData);
     void HandleCloserClick(StringHash eventType, VariantMap& eventData);
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
+    void HandleInsClick(StringHash eventType, VariantMap& eventData);
+    void HandleBackClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     void SetupViewport();
-    void CreateScene1();
-    void DeleteScene1();
-    void CreateScene2();
+    void CreateTitleScene();
+    void DeleteTitleScene();
+    void DeleteInstructionsScene();
+    void CreateMainScene();
+    void CreateInstructionsScene();
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
     
     Node* CreatePlane();
     Node* CreateShip();
-    Text* CreateText(String content, String tagName, Urho3D::Font* font, int x, int y);
+    Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);
 };
