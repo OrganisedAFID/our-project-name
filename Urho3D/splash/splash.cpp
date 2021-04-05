@@ -100,7 +100,6 @@
 #include <Urho3D/Graphics/Terrain.h>
 #include "splash.h"
 #include <Urho3D/DebugNew.h>
-#include "Start.h"
 
 /**
  * 
@@ -346,20 +345,24 @@ void GameSys::CreateScene1()
     auto* cache = GetSubsystem<ResourceCache>();
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-    auto* startButton = CreateButton
-    (root, "StartButton", "StartText", "Start Game!", 400, 500);
+    auto* startButton = 
+    CreateButton(root, "StartButton", "StartText", "Start Game!", 250, 500);
+    auto* insButton = 
+    CreateButton(root, "InsButton", "InsText", "Instructions", 600, 500);
     auto* helloText = 
-    CreateText("Welcome to Sound Pirates!", "welcomeText", 
-                cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 400, 300);
+    CreateText("Welcome to Sound Pirates!", "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
+    SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
 }
 /**
- * CreateText function. defines text parameters font, colour, position
+ * CreateText function. Defines text parameters font (optional), colour, position
  * returns text
  * 
  */
-Text* GameSys::CreateText(String content, String tagName, Urho3D::Font* font, int x, int y)
+Text* GameSys::CreateText(String content, String tagName, int x, int y, String fontText)
 {  
+    auto* cache = GetSubsystem<ResourceCache>();
+    Urho3D::Font* font = cache->GetResource<Font>(fontText);
     // Construct new Text object
     SharedPtr<Text> text(new Text(context_));
 
@@ -483,7 +486,7 @@ void GameSys::ChangeTexts(String note)
 }
 
 /** 
- * when you click on the start button, the UI elements dissapear
+ * when you click on the start button, the second scene appears
  * 
  */
 void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
@@ -502,8 +505,69 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
     printf("sub");
     SubscribeToEvents();    
 }
-/**
+
+/** 
+ * when you click on the instructions button, the instructions appear
  * 
+ */
+void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+      
+    DeleteScene1();
+    printf("Deleted scene1");
+
+    //Show the instructions
+    CreateInstructionsScene();
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateInstructionsScene()
+{
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* backButton = 
+    CreateButton(root, "BackButton", "BackText", "Back to title screen", 400, 500);   
+    auto* instructionsText = CreateText("Instruction text goes here", "Instructions", 0, 0);
+    SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
+}
+
+/** 
+ * when you click on the back button, the instructions dissappear 
+ * and the title screen comes back
+ * 
+ */
+void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+
+    //Delete the instructions
+    DeleteInstructionsScene();
+
+    //Create the title scene again
+    CreateScene1();
+}
+
+/**
+ * Deletes the instructions scene
+ * 
+ */
+void GameSys::DeleteInstructionsScene()
+{
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    
+    // erase instruction text
+    Urho3D::PODVector<Urho3D::UIElement*> insText = root->GetChildrenWithTag("Instructions");
+    insText[0]->Remove();
+    
+    // erase back button
+    Urho3D::PODVector<Urho3D::UIElement*> backButton = root->GetChildrenWithTag("BackButton");
+    backButton[0]->Remove();
+}
+
+/**
+ * Deletes the first scene
  * 
  */
 void GameSys::DeleteScene1()
@@ -513,11 +577,15 @@ void GameSys::DeleteScene1()
     
     // erase welcome text
     Urho3D::PODVector<Urho3D::UIElement*> welcomeText = root->GetChildrenWithTag("welcomeText");
-    welcomeText[0]->SetVisible(false);
+    welcomeText[0]->Remove();
     
-    // erase button
-    Urho3D::PODVector<Urho3D::UIElement*> button = root->GetChildrenWithTag("StartButton");
-    button[0]->SetVisible(false);
+    // erase start button
+    Urho3D::PODVector<Urho3D::UIElement*> startButton = root->GetChildrenWithTag("StartButton");
+    startButton[0]->Remove();
+
+    // erase instructions button
+    Urho3D::PODVector<Urho3D::UIElement*> insButton = root->GetChildrenWithTag("InsButton");
+    insButton[0]->Remove();
 }
 
 /**
@@ -584,8 +652,7 @@ void GameSys::CreateScene2()
     }
     for(int i = 0; i<8; i++){
         noteTexts[i] = CreateText
-            (notes[i], notes[i]+"Text", cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 
-                leftOffset+i*(width+spacing)+width/2, textHeight);
+            (notes[i], notes[i]+"Text", leftOffset+i*(width+spacing)+width/2, textHeight);
     }
 }
 
