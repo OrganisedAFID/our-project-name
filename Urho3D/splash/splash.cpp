@@ -117,6 +117,7 @@ char OutputNote;
 const float nodeRadius = 100;
 const float angularWidth = 2.0 * pi / bandNumber;
 const float barWidth = angularWidth * nodeRadius;
+float time_;
 
 int a = 0;
 std::vector<signed short> window;
@@ -507,6 +508,16 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
 
     // Take the frame time step, which is stored as a float
     float timeStep = eventData[P_TIMESTEP].GetFloat();
+    float MOVE_SPEED=10.0f;
+
+    //framecount_++;
+    time_+=timeStep;
+
+    std::cout << "Note played: " << OutputNote << "\n";
+
+    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
+    Vector3 shipPos = ship[0]->GetPosition();
+    Node* shipNode = ship[0];
 
     int fd = ::pipefds[0];
     struct pollfd *fds;
@@ -526,58 +537,113 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
         char readmessage[20];
         read(::pipefds[0], readmessage, sizeof(readmessage));
         printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
-        ChangeTexts(readmessage);
+        //ChangeTexts(readmessage);
+
+    UIElement *root = GetSubsystem<UI>()->GetRoot();
+    auto *cache = GetSubsystem<ResourceCache>();
+    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
+    
+    std::cout << "Note played: " << OutputNote << "\n";
+
+    if(notes[0] == readmessage){
+        shipNode->SetPosition(Vector3(0.0f, -8.0f, 30.0f));
+        shipNode->SetScale(Vector3(1.2f, 1.7f, 1.2f));
+        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+
+
+    }
+    if (notes[1] == readmessage){
+       shipNode->SetPosition(Vector3(0.0f, -7.0f, 30.0f));
+       shipNode->SetScale(Vector3(1.1f, 1.6f, 1.1f));
+        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+
+
+    }
+    if (notes[2] == readmessage){
+       shipNode->Translate(Vector3(0.0f, -6.0f, 30.0f));
+       shipNode->SetScale(Vector3(1.0f, 1.5f, 1.0f));
+       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+    }
+    else if (notes[3] == readmessage){
+       shipNode->SetPosition(Vector3( 0,-5,0));
+       shipNode->SetScale(Vector3(0.5f, 1.0f, 30.5));
+       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+    }
+    else if (notes[4] == readmessage){
+        shipNode->SetPosition(Vector3(0.0f, -4.0f, 30.0f));
+        shipNode->SetScale(Vector3(0.4f, 0.7f, 0.4));
+        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+    }
+    else if (notes[5] == readmessage){
+       shipNode->SetPosition(Vector3(0.0f, -3.0f, 30.0f));
+       shipNode->SetScale(Vector3(0.4f, 0.6f, 0.4));
+       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+    }
+    else if (notes[6] == readmessage){
+       shipNode->SetPosition(Vector3(0.0f, -2.0f, 30.0f));
+       shipNode->SetScale(Vector3(0.3f, 0.3f, 0.3));
+       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+    }
+    else if (notes[7] == readmessage){
+        shipNode->SetPosition(Vector3(0.0f, -4.0f, 60.0f));
+        shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
+        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f)); 
+    }
+    else {
+        shipNode->SetPosition(Vector3(0.0f, -4.0f, 30.0f));
+        shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
+        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));   
+    }
     }
 }
 
 void HelloWorld::ChangeTexts(String note)
 {
-    
+
     UIElement *root = GetSubsystem<UI>()->GetRoot();
     auto *cache = GetSubsystem<ResourceCache>();
 
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
     
-    Node *shipNode = CreateShip();
-
-    int timeStep = 2;
-
+        std::cout << "Note played: " << OutputNote << "\n";
+/*
     if(notes[0] == note){
-        shipNode->Translate(Vector3(0.0f, -4.0f, .0f));
-        shipNode->SetScale(Vector3(1.2f, 1.7f, 1.2f));
+        shipNode->Translate(Vector3(0.0f, -4.0f, 35f));
+        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
     }
     if (notes[1] == note){
-       shipNode->Translate(Vector3(0.0f, -2.0f, .0f)*2);
-       shipNode->SetScale(Vector3(1.1f, 1.6f, 1.1f));
+        shipNode->Translate(Vector3(0.0f, -3.0f, 35f));
+        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
 
     }
-    if (notes[2] == note){
-       shipNode->Translate(Vector3(0.0f, 0.0f, .0f)*2);
-       shipNode->SetScale(Vector3(1.0f, 1.5f, 1.0f));
+        shipNode->Translate(Vector3(0.0f, -2.0f, 35f));
+        shipNode->SetScale(Vector3(0.7f, 0.7f, 0.7f));
     }
     if (notes[3] == note){
-       shipNode->Translate(Vector3( 0,2,0)*2);
-       shipNode->SetScale(Vector3(0.5f, 1.0f, 0.5));
+        shipNode->Translate(Vector3(0.0f, -1.0f, 35f));
+        shipNode->SetScale(Vector3(0.7f, 0.7f, 0.7f));
     }
     if (notes[4] == note){
-        shipNode->Translate(Vector3(0.0f, 4.0f, .0f));
-        shipNode->SetScale(Vector3(0.4f, 0.7f, 0.4));
+        shipNode->Translate(Vector3(0.0f, 0.0f, 35f));
+        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
     }
     if (notes[5] == note){
-       shipNode->Translate(Vector3(0.0f, 6.0f, .0f));
-       shipNode->SetScale(Vector3(0.4f, 0.6f, 0.4));
+        shipNode->Translate(Vector3(0.0f, 1.0f, 35f));
+        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
     }
     if (notes[6] == note){
-       shipNode->Translate(Vector3(0.0f, 8.0f, .0f));
-       shipNode->SetScale(Vector3(0.3f, 0.3f, 0.3));
+        shipNode->Translate(Vector3(0.0f, 2.0f, 35f));
+        shipNode->SetScale(Vector3(0.9f, 0.9f, 0.9f));
     }
     if (notes[7] == note){
-        shipNode->Translate(Vector3(0.0f, 10.0f, .0f));
-        shipNode->SetScale(Vector3(0.2f, 2.0f, 0.2));
+        shipNode->Translate(Vector3(0.0f, 3.0f, 35f));
+        shipNode->SetScale(Vector3(0.9f, 0.9f, 0.9f));
     }
     else {
-        shipNode->SetPosition(Vector3(0.0f, 5.0f, .0f));
+        shipNode->Translate(Vector3(0.0f, -4.0f, 35f));
+        shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
     }
+    */
     // Make relevant note more opaque and all others less opaque
     for (int i = 0; i < 8; i++)
     {
@@ -608,6 +674,7 @@ void HelloWorld::HandleStartClick(StringHash eventType, VariantMap &eventData)
     printf("Deleted scene1");
     //Show the main game screen
     CreateScene2();
+
     printf("created scene 2");
     SetupViewport();
     printf("setup viewport");
@@ -641,14 +708,16 @@ void HelloWorld::CreateScene2()
     auto *cache = GetSubsystem<ResourceCache>();
     scene_ = new Scene(context_);
 
+
     // Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
     // show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
     // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
     // optimizing manner
     scene_->CreateComponent<Octree>();
     scene_->CreateComponent<PhysicsWorld>();
+    
 
-    Node *planeNode = CreatePlane();
+    //Node *planeNode = CreatePlane();
     Node *zoneNode = scene_->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
@@ -668,10 +737,23 @@ void HelloWorld::CreateScene2()
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
     // The light will use default settings (white light, no shadows)
-    Node *lightNode = scene_->CreateChild("DirectionalLight");
-    lightNode->SetDirection(Vector3(0.6f, -1.0f, 0.8f)); // The direction vector does not need to be normalized
+            // Create a red directional light (sun)
+        
+            Node* lightNode=scene_->CreateChild();
+            lightNode->SetDirection(Vector3::FORWARD);
+            lightNode->Yaw(50);     // horizontal
+            lightNode->Pitch(10);   // vertical
+            Light* light=lightNode->CreateComponent<Light>();
+            light->SetLightType(LIGHT_DIRECTIONAL);
+            light->SetBrightness(3);
+            light->SetColor(Color(1.0,.6,0.3,1));
+            light->SetCastShadows(true);
+        
+        
+    /*Node *lightNode = scene_->CreateChild("DirectionalLight");
+    lightNode->SetDirection(Vector3(0.9f, -1.0f, 0.6f)); // The direction vector does not need to be normalized
     auto *light = lightNode->CreateComponent<Light>();
-    light->SetLightType(LIGHT_DIRECTIONAL);
+    light->SetLightType(LIGHT_DIRECTIONAL);*/
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -679,7 +761,9 @@ void HelloWorld::CreateScene2()
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
-    cameraNode_->SetPosition(Vector3(0.0f, 10.0f, -15.0f));
+   // cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
+    cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
+
 
 
     // Create 7 buttons, one for each note
@@ -731,12 +815,12 @@ Node *HelloWorld::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = scene_->CreateChild("Box");
-    boxNode->SetPosition(Vector3(0.0f, 10.0f, 0.0f));
-    boxNode->SetRotation(Quaternion(0.0f, 90.0f, -45.0f));
-    boxNode->SetScale(Vector3(0.8f, 1.3f, 0.8f));
+    boxNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+    boxNode->SetPosition(Vector3(0.0f, -1.0f, 35.0f));
+    boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
-    boxObject->SetModel(cache->GetResource<Model>("Models/SpaceFighter.mdl"));
-    boxObject->SetMaterial(cache->GetResource<Material>("Materials/GreenTransparent.xml"));
+    boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
+    boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
 
     //boxObject->SetCastShadows(true);
 
