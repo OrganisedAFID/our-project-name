@@ -30,8 +30,9 @@ matrix:
 before_script:  
     - cmake .
 script: make  
+
 addons:
-    apt:
+  apt:
     sources:
       # For cmake >= 2.8.8 (for CMakePackageConfigHelpers)
       - boost-latest
