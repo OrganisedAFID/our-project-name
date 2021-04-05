@@ -80,7 +80,8 @@ clean: test/clean
 # Directory level rules for directory test
 
 # Recursive "all" directory target.
-test/all: test/CMakeFiles/Test.dir/all
+test/all: test/CMakeFiles/FFT_TEST.dir/all
+test/all: test/CMakeFiles/DEFINE_NOTE_TEST.dir/all
 .PHONY : test/all
 
 # Recursive "preinstall" directory target.
@@ -88,7 +89,8 @@ test/preinstall:
 .PHONY : test/preinstall
 
 # Recursive "clean" directory target.
-test/clean: test/CMakeFiles/Test.dir/clean
+test/clean: test/CMakeFiles/FFT_TEST.dir/clean
+test/clean: test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean
 .PHONY : test/clean
 
 #=============================================================================
@@ -98,7 +100,7 @@ test/clean: test/CMakeFiles/Test.dir/clean
 CMakeFiles/Splash.dir/all:
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Splash.dir/build.make CMakeFiles/Splash.dir/depend
 	$(MAKE) $(MAKESILENT) -f CMakeFiles/Splash.dir/build.make CMakeFiles/Splash.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=1,2,3,4,5,6,7,8 "Built target Splash"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=7,8,9,10,11,12,13,14 "Built target Splash"
 .PHONY : CMakeFiles/Splash.dir/all
 
 # Build rule for subdir invocation for target.
@@ -118,30 +120,56 @@ CMakeFiles/Splash.dir/clean:
 .PHONY : CMakeFiles/Splash.dir/clean
 
 #=============================================================================
-# Target rules for target test/CMakeFiles/Test.dir
+# Target rules for target test/CMakeFiles/FFT_TEST.dir
 
 # All Build rule for target.
-test/CMakeFiles/Test.dir/all:
-	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/Test.dir/build.make test/CMakeFiles/Test.dir/depend
-	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/Test.dir/build.make test/CMakeFiles/Test.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=9,10,11 "Built target Test"
-.PHONY : test/CMakeFiles/Test.dir/all
+test/CMakeFiles/FFT_TEST.dir/all:
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/FFT_TEST.dir/build.make test/CMakeFiles/FFT_TEST.dir/depend
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/FFT_TEST.dir/build.make test/CMakeFiles/FFT_TEST.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=4,5,6 "Built target FFT_TEST"
+.PHONY : test/CMakeFiles/FFT_TEST.dir/all
 
 # Build rule for subdir invocation for target.
-test/CMakeFiles/Test.dir/rule: cmake_check_build_system
+test/CMakeFiles/FFT_TEST.dir/rule: cmake_check_build_system
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles 3
-	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/Test.dir/all
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/FFT_TEST.dir/all
 	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles 0
-.PHONY : test/CMakeFiles/Test.dir/rule
+.PHONY : test/CMakeFiles/FFT_TEST.dir/rule
 
 # Convenience name for target.
-Test: test/CMakeFiles/Test.dir/rule
-.PHONY : Test
+FFT_TEST: test/CMakeFiles/FFT_TEST.dir/rule
+.PHONY : FFT_TEST
 
 # clean rule for target.
-test/CMakeFiles/Test.dir/clean:
-	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/Test.dir/build.make test/CMakeFiles/Test.dir/clean
-.PHONY : test/CMakeFiles/Test.dir/clean
+test/CMakeFiles/FFT_TEST.dir/clean:
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/FFT_TEST.dir/build.make test/CMakeFiles/FFT_TEST.dir/clean
+.PHONY : test/CMakeFiles/FFT_TEST.dir/clean
+
+#=============================================================================
+# Target rules for target test/CMakeFiles/DEFINE_NOTE_TEST.dir
+
+# All Build rule for target.
+test/CMakeFiles/DEFINE_NOTE_TEST.dir/all:
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/DEFINE_NOTE_TEST.dir/build.make test/CMakeFiles/DEFINE_NOTE_TEST.dir/depend
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/DEFINE_NOTE_TEST.dir/build.make test/CMakeFiles/DEFINE_NOTE_TEST.dir/build
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=1,2,3 "Built target DEFINE_NOTE_TEST"
+.PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/all
+
+# Build rule for subdir invocation for target.
+test/CMakeFiles/DEFINE_NOTE_TEST.dir/rule: cmake_check_build_system
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles 3
+	$(MAKE) $(MAKESILENT) -f CMakeFiles/Makefile2 test/CMakeFiles/DEFINE_NOTE_TEST.dir/all
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles 0
+.PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/rule
+
+# Convenience name for target.
+DEFINE_NOTE_TEST: test/CMakeFiles/DEFINE_NOTE_TEST.dir/rule
+.PHONY : DEFINE_NOTE_TEST
+
+# clean rule for target.
+test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean:
+	$(MAKE) $(MAKESILENT) -f test/CMakeFiles/DEFINE_NOTE_TEST.dir/build.make test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean
+.PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean
 
 #=============================================================================
 # Special targets to cleanup operation of make.

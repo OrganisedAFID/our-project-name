@@ -8,8 +8,8 @@ set(CMAKE_DEPENDS_LANGUAGES
 
 # The set of dependency files which are needed:
 set(CMAKE_DEPENDS_DEPENDENCY_FILES
-  "/home/pi/sound-pirates/Urho3D/splash/fft.cpp" "test/CMakeFiles/Test.dir/__/fft.cpp.o" "gcc" "test/CMakeFiles/Test.dir/__/fft.cpp.o.d"
-  "/home/pi/sound-pirates/Urho3D/splash/test/test.cpp" "test/CMakeFiles/Test.dir/test.cpp.o" "gcc" "test/CMakeFiles/Test.dir/test.cpp.o.d"
+  "/home/pi/sound-pirates/Urho3D/splash/fft.cpp" "test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o" "gcc" "test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o.d"
+  "/home/pi/sound-pirates/Urho3D/splash/test/fft_test.cpp" "test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o" "gcc" "test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o.d"
   )
 
 # Targets to which this target links.

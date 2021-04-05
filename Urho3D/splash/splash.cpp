@@ -112,7 +112,7 @@ int a = 0;
 std::vector<double> v;
 int pipefds[2];
 int freqMax;  
-std::vector<signed short> window;
+std::vector<double> window;
 const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames

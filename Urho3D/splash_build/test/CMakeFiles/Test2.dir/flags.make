@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = -DBOOST_TEST_DYN_LINK
 
-CXX_INCLUDES = -I/splash -I/home/pi/sound-pirates/Urho3D/splash -I/home/pi/sound-pirates/Urho3D/splash/test/D_src -I/home/pi/sound-pirates/Urho3D/splash..
+CXX_INCLUDES = -I/splash -I/home/pi/sound-pirates/Urho3D/splash -I/home/pi/sound-pirates/Urho3D/splash/test/D_src
 
 CXX_FLAGS = -O3 -DNDEBUG
 
