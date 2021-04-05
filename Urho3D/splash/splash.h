@@ -24,21 +24,20 @@
 
 #include "Sample.h"
 
-/// This first example, maintaining tradition, prints a "Hello World" message.
-/// Furthermore it shows:
-///     - Using the Sample / Application classes, which initialize the Urho3D engine and 
-///         run the main loop
-///     - Adding a Text element to the graphical user interface
-///     - Subscribing to and handling of update events
-class HelloWorld : public Sample
+/**
+ * Creates Gamesys class begin game processes.
+ * 
+ */
+class GameSys : public Sample
 {
-    URHO3D_OBJECT(HelloWorld, Sample);
+    URHO3D_OBJECT(GameSys, Sample);
 
 public:
     /// Construct.
-    explicit HelloWorld(Context* context);
+    explicit GameSys(Context* context);
 
     /// Setup after engine initialization and before running the main loop.
+    /// Default Start function overridden to allow game loop to begin
     void Start() override;
 
 protected:
@@ -53,7 +52,7 @@ protected:
     }
 
 private:
-    /// Construct a new Text instance, containing the 'Hello World' String, and 
+    /// Construct a new Text instance, containing the 'Welcome to Sound Pirates!' String, and 
     /// add it to the UI root element.
     void CreateText();
     /// Subscribe to application-wide logic update events.
