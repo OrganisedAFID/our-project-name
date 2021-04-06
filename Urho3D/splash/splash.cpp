@@ -119,6 +119,7 @@ const float angularWidth = 2.0 * pi / bandNumber;
 const float barWidth = angularWidth * nodeRadius;
 float time_;
 
+
 int a = 0;
 std::vector<signed short> window;
 std::vector<double> v;
@@ -508,7 +509,7 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
 
     // Take the frame time step, which is stored as a float
     float timeStep = eventData[P_TIMESTEP].GetFloat();
-    float MOVE_SPEED=10.0f;
+    float MOVE_SPEED=2.0f;
 
     //framecount_++;
     time_+=timeStep;
@@ -541,58 +542,49 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
 
     UIElement *root = GetSubsystem<UI>()->GetRoot();
     auto *cache = GetSubsystem<ResourceCache>();
+    auto* ui = GetSubsystem<UI>();
+
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
     
     std::cout << "Note played: " << OutputNote << "\n";
-
-    if(notes[0] == readmessage){
-        shipNode->SetPosition(Vector3(0.0f, -8.0f, 30.0f));
-        shipNode->SetScale(Vector3(1.2f, 1.7f, 1.2f));
-        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-
-
-    }
-    if (notes[1] == readmessage){
-       shipNode->SetPosition(Vector3(0.0f, -7.0f, 30.0f));
-       shipNode->SetScale(Vector3(1.1f, 1.6f, 1.1f));
-        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-
-
-    }
-    if (notes[2] == readmessage){
-       shipNode->Translate(Vector3(0.0f, -6.0f, 30.0f));
-       shipNode->SetScale(Vector3(1.0f, 1.5f, 1.0f));
-       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-    }
-    else if (notes[3] == readmessage){
-       shipNode->SetPosition(Vector3( 0,-5,0));
-       shipNode->SetScale(Vector3(0.5f, 1.0f, 30.5));
-       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-    }
-    else if (notes[4] == readmessage){
-        shipNode->SetPosition(Vector3(0.0f, -4.0f, 30.0f));
-        shipNode->SetScale(Vector3(0.4f, 0.7f, 0.4));
-        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-    }
-    else if (notes[5] == readmessage){
-       shipNode->SetPosition(Vector3(0.0f, -3.0f, 30.0f));
-       shipNode->SetScale(Vector3(0.4f, 0.6f, 0.4));
-       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-    }
-    else if (notes[6] == readmessage){
-       shipNode->SetPosition(Vector3(0.0f, -2.0f, 30.0f));
-       shipNode->SetScale(Vector3(0.3f, 0.3f, 0.3));
-       shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-    }
-    else if (notes[7] == readmessage){
-        shipNode->SetPosition(Vector3(0.0f, -4.0f, 60.0f));
+    if ( readmessage[20] == OutputNote ){
+        std::cout << "You played the correct note\n";
+        shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
         shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f)); 
+
+
+    // Construct new Text object, set string to display and font to use
+    auto* feedback = ui->GetRoot()->CreateChild<Text>();
+    feedback->SetText(
+        "You played the CORRECT note"
+    );
+    feedback->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 20);
+
+    // Position the text relative to the screen center
+    feedback->SetHorizontalAlignment(HA_CENTER);
+    feedback->SetVerticalAlignment(VA_CENTER);
+    feedback->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
+        
+        //shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f)); 
+
     }
-    else {
-        shipNode->SetPosition(Vector3(0.0f, -4.0f, 30.0f));
+    else if ( readmessage[20] != OutputNote ){
+        std::cout << "You played the INCORRECT note\n";
+        shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
         shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-        shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));   
+        SharedPtr<Text> feedback2_;
+
+        feedback2_=new Text(context_);
+        // Text will be updated later in the E_UPDATE handler. Keep readin'.
+        feedback2_->SetText("You played an INCORRECT note");
+        // If the engine cannot find the font, it comes with Urho3D.
+        // Set the environment variables URHO3D_HOME, URHO3D_PREFIX_PATH or
+        // change the engine parameter "ResourcePrefixPath" in the Setup method.
+        feedback2_->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),20);
+        feedback2_->SetColor(Color(.3,0,.3));
+        feedback2_->SetHorizontalAlignment(HA_CENTER);
+        feedback2_->SetVerticalAlignment(VA_CENTER);
+        GetSubsystem<UI>()->GetRoot()->AddChild(feedback2_);
     }
     }
 }
@@ -606,44 +598,7 @@ void HelloWorld::ChangeTexts(String note)
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
     
         std::cout << "Note played: " << OutputNote << "\n";
-/*
-    if(notes[0] == note){
-        shipNode->Translate(Vector3(0.0f, -4.0f, 35f));
-        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
-    }
-    if (notes[1] == note){
-        shipNode->Translate(Vector3(0.0f, -3.0f, 35f));
-        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
 
-    }
-        shipNode->Translate(Vector3(0.0f, -2.0f, 35f));
-        shipNode->SetScale(Vector3(0.7f, 0.7f, 0.7f));
-    }
-    if (notes[3] == note){
-        shipNode->Translate(Vector3(0.0f, -1.0f, 35f));
-        shipNode->SetScale(Vector3(0.7f, 0.7f, 0.7f));
-    }
-    if (notes[4] == note){
-        shipNode->Translate(Vector3(0.0f, 0.0f, 35f));
-        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
-    }
-    if (notes[5] == note){
-        shipNode->Translate(Vector3(0.0f, 1.0f, 35f));
-        shipNode->SetScale(Vector3(0.8f, 0.8f, 0.8f));
-    }
-    if (notes[6] == note){
-        shipNode->Translate(Vector3(0.0f, 2.0f, 35f));
-        shipNode->SetScale(Vector3(0.9f, 0.9f, 0.9f));
-    }
-    if (notes[7] == note){
-        shipNode->Translate(Vector3(0.0f, 3.0f, 35f));
-        shipNode->SetScale(Vector3(0.9f, 0.9f, 0.9f));
-    }
-    else {
-        shipNode->Translate(Vector3(0.0f, -4.0f, 35f));
-        shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
-    }
-    */
     // Make relevant note more opaque and all others less opaque
     for (int i = 0; i < 8; i++)
     {
