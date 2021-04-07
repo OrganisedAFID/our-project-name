@@ -547,9 +547,7 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
         auto* ui = GetSubsystem<UI>();
 
         String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-        
-        std::cout << "Note played: " << OutputNote << "\n";
-        
+                
             float timeStep = eventData[P_TIMESTEP].GetFloat();
             float MOVE_SPEED=30.0f;
             int i;
@@ -717,13 +715,12 @@ void HelloWorld::CreateScene2()
     int i;
     
     //SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,ChangeTexts));
-    for (i=0;i<5;i++){
-        playNote();
+    //for (i=0;i<5;i++){
             
         std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
         SubscribeToEvents();
-    }
+   // }
 
 }
 
