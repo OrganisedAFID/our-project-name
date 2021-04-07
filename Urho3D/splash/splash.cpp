@@ -316,8 +316,7 @@ void GameSys::Start()
  
     }
     else {auto* cache = GetSubsystem<ResourceCache>();
-     CreateText("Please insert sound card", "errorText", 
-                cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 300, 300);
+     CreateText("Please insert sound card", "errorText", 300, 300);
             }
 
 
