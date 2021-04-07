@@ -206,8 +206,7 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
  * 
  */
 int audioIn()
-{  
-    
+{    
     snd_pcm_t * _soundDevice;
     snd_pcm_hw_params_t *hw_params;
     //access audio device
@@ -308,16 +307,8 @@ void GameSys::Start()
     // Execute base class startup
     Sample::Start();
 
-    // Create "Welcome to Sound Pirates!" Text
-
-    if(audioIn() != -1){  
-      CreateTitleScene();
- 
- 
-    }
-    else {auto* cache = GetSubsystem<ResourceCache>();
-     CreateText("Please insert sound card", "errorText", 300, 300);
-            }
+    // Create title scene
+    CreateTitleScene();
 
 
     // Set the mouse mode to use in the sample
