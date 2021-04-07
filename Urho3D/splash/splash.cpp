@@ -224,7 +224,7 @@ void instructionsStatements()
 
     std::cout << "Playing random note (in the 4th octave)"
               << "\n";
-    playNote();
+    //playNote();
     std::this_thread::sleep_for(std::chrono::milliseconds(3000));
     std::cout << "Now you play back in..."
               << "\n";
@@ -414,7 +414,7 @@ HelloWorld::HelloWorld(Context *context) : Sample(context)
     {
         engine_->Exit();
         lol();
-        playNote();
+       // playNote();
     }
 }
 
@@ -509,7 +509,8 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
 
     // Take the frame time step, which is stored as a float
     float timeStep = eventData[P_TIMESTEP].GetFloat();
-    float MOVE_SPEED=2.0f;
+    float MOVE_SPEED=30.0f;
+    int i;
 
     //framecount_++;
     time_+=timeStep;
@@ -526,6 +527,7 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
     fds[0].fd = fd;
     fds[0].events |= POLLIN;
     int rv = poll(fds, 1, 0);
+
     if (rv == -1)
     {
         printf("An error occurred: %d\n", errno);
@@ -540,52 +542,57 @@ void HelloWorld::HandleUpdate(StringHash eventType, VariantMap &eventData)
         printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
         //ChangeTexts(readmessage);
 
-    UIElement *root = GetSubsystem<UI>()->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
-    auto* ui = GetSubsystem<UI>();
+        UIElement *root = GetSubsystem<UI>()->GetRoot();
+        auto *cache = GetSubsystem<ResourceCache>();
+        auto* ui = GetSubsystem<UI>();
 
-    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-    
-    std::cout << "Note played: " << OutputNote << "\n";
-    if ( readmessage[20] == OutputNote ){
-        std::cout << "You played the correct note\n";
-        shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
-        shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-
-
-    // Construct new Text object, set string to display and font to use
-    auto* feedback = ui->GetRoot()->CreateChild<Text>();
-    feedback->SetText(
-        "You played the CORRECT note"
-    );
-    feedback->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 20);
-
-    // Position the text relative to the screen center
-    feedback->SetHorizontalAlignment(HA_CENTER);
-    feedback->SetVerticalAlignment(VA_CENTER);
-    feedback->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
+        String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
         
-        //shipNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f)); 
+        std::cout << "Note played: " << OutputNote << "\n";
+        
+            float timeStep = eventData[P_TIMESTEP].GetFloat();
+            float MOVE_SPEED=30.0f;
+            int i;
+            playNote();
 
-    }
-    else if ( readmessage[20] != OutputNote ){
-        std::cout << "You played the INCORRECT note\n";
-        shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
-        shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-        SharedPtr<Text> feedback2_;
+            if ( readmessage[20] == OutputNote ){
+                std::cout << "You played the correct note\n";
+                shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
+                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
+                // Construct new Text object, set string to display and font to use
+                auto* feedback = ui->GetRoot()->CreateChild<Text>();
+                feedback->SetText(
+                    "You played the CORRECT note"
+                );
+                feedback->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 20);
 
-        feedback2_=new Text(context_);
-        // Text will be updated later in the E_UPDATE handler. Keep readin'.
-        feedback2_->SetText("You played an INCORRECT note");
-        // If the engine cannot find the font, it comes with Urho3D.
-        // Set the environment variables URHO3D_HOME, URHO3D_PREFIX_PATH or
-        // change the engine parameter "ResourcePrefixPath" in the Setup method.
-        feedback2_->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),20);
-        feedback2_->SetColor(Color(.3,0,.3));
-        feedback2_->SetHorizontalAlignment(HA_CENTER);
-        feedback2_->SetVerticalAlignment(VA_CENTER);
-        GetSubsystem<UI>()->GetRoot()->AddChild(feedback2_);
-    }
+                // Position the text relative to the screen center
+                feedback->SetHorizontalAlignment(HA_CENTER);
+                feedback->SetVerticalAlignment(VA_CENTER);
+                feedback->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
+                    
+            }
+            else if ( readmessage[20] != OutputNote ){
+                shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
+                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
+                SharedPtr<Text> feedback2_;
+                feedback2_=new Text(context_);
+                // Text will be updated later in the E_UPDATE handler. Keep readin'.
+                feedback2_->SetText("You played an INCORRECT note");
+                // If the engine cannot find the font, it comes with Urho3D.
+                // Set the environment variables URHO3D_HOME, URHO3D_PREFIX_PATH or
+                // change the engine parameter "ResourcePrefixPath" in the Setup method.
+                feedback2_->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),20);
+                feedback2_->SetColor(Color(.3,0,.3));
+                feedback2_->SetHorizontalAlignment(HA_CENTER);
+                feedback2_->SetVerticalAlignment(VA_CENTER);
+                GetSubsystem<UI>()->GetRoot()->AddChild(feedback2_);
+                std::cout << "You played the INCORRECT note\n";
+
+            }
+            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
+        
+
     }
 }
 
@@ -598,23 +605,10 @@ void HelloWorld::ChangeTexts(String note)
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
     
         std::cout << "Note played: " << OutputNote << "\n";
+    
 
     // Make relevant note more opaque and all others less opaque
-    for (int i = 0; i < 8; i++)
-    {
-        if (notes[i] == note)
-        {
-            Urho3D::PODVector<Urho3D::UIElement *> noteText =
-                root->GetChildrenWithTag(note + "Text");
-            noteText[0]->SetOpacity(1);
-        }
-        else
-        {
-            Urho3D::PODVector<Urho3D::UIElement *> otherText =
-                root->GetChildrenWithTag(notes[i] + "Text");
-            otherText[0]->SetOpacity(0.5);
-        }
-    }
+    
 }
 
 /** 
@@ -636,7 +630,7 @@ void HelloWorld::HandleStartClick(StringHash eventType, VariantMap &eventData)
 
     // Finally subscribe to the update event so we can move the camera.
     printf("sub");
-    SubscribeToEvents();
+    //SubscribeToEvents();
 }
 
 void HelloWorld::DeleteScene1()
@@ -669,10 +663,9 @@ void HelloWorld::CreateScene2()
     // is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
     // optimizing manner
     scene_->CreateComponent<Octree>();
-    scene_->CreateComponent<PhysicsWorld>();
     
 
-    //Node *planeNode = CreatePlane();
+    Node *planeNode = CreatePlane();
     Node *zoneNode = scene_->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
@@ -720,31 +713,17 @@ void HelloWorld::CreateScene2()
     cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
 
 
-
-    // Create 7 buttons, one for each note
-    auto *ui = GetSubsystem<UI>();
-    UIElement *root = ui->GetRoot();
-    Button *noteButtons[7];
-    Text *noteTexts[8];
-    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-    int leftOffset = 10;
-    int spacing = 10;
-    int width = 40;
-    int buttonHeight = 40;
-    int textHeight = 40;
-    for (int i = 0; i < 7; i++)
-    {
-        noteButtons[i] = CreateButton(root, notes[i] + "Butt", notes[i] + "ButtText", notes[i],
-                                      leftOffset + i * (width + spacing), buttonHeight, width);
-    }
-    for (int i = 0; i < 8; i++)
-    {
-        noteTexts[i] = CreateText(notes[i], notes[i] + "Text", cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),
-                                  leftOffset + i * (width + spacing) + width / 2, textHeight);
-    }
-    SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,HandleUpdate));
+      //  SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,HandleUpdate));
+    int i;
+    
     //SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,ChangeTexts));
+    for (i=0;i<5;i++){
+        playNote();
+            
+        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
 
+        SubscribeToEvents();
+    }
 
 }
 
@@ -756,7 +735,9 @@ Node *HelloWorld::CreatePlane()
     auto *cache = GetSubsystem<ResourceCache>();
 
     Node *planeNode = scene_->CreateChild("Plane");
-    planeNode->SetScale(Vector3(100.0f, 1.0f, 100.0f));
+    planeNode->SetScale(Vector3(100.0f, 100.0f, 100.0f));
+    planeNode->SetRotation(Quaternion(90.0f, 0.0f, 0.0f));
+
     auto *planeObject = planeNode->CreateComponent<StaticModel>();
     planeObject->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
     planeObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
