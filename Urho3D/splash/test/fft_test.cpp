@@ -1,3 +1,13 @@
+//  (C) Copyright Gennadiy Rozental 2002-2006.
+//  (C) Copyright Gennadiy Rozental & Ullrich Koethe 2001.
+//  Distributed under the Boost Software License, Version 1.0.
+//  (See accompanying file LICENSE_1_0.txt or copy at 
+//  http://www.boost.org/LICENSE_1_0.txt)
+
+//  See http://www.boost.org/libs/test for the library home page.
+
+
+
 #define BOOST_TEST_MODULE SplashTests
 #include <boost/test/unit_test.hpp>
 #include "fft.h"
@@ -13,6 +23,7 @@
 #include <complex>     
 #include <string>
 #include <algorithm>
+#include "defineNote.h"
 using namespace std;
 
 
@@ -323,21 +334,13 @@ std::vector<double> expected={0,
 };
 
 
-/*
-BOOST_AUTO_TEST_CASE(mytest_1)
-{
-	
- BOOST_CHECK_EQUAL(60, fft(result, output));
+/**
+ * Unit test to check that the resultant fast fourier transform vector of a sine wave matches up to its expected fast fourier transform vector
+ * 
+ */
 
-}
 
-BOOST_AUTO_TEST_CASE(mytest_2)
-{
-	
- BOOST_CHECK_EQUAL(30, fft(result, output));
-
-}
-*/
+BOOST_AUTO_TEST_SUITE( test_suite1 )
 
 BOOST_AUTO_TEST_CASE(mytest_1){
 //BOOST_REQUIRE_EQUAL(output.size(), expected.size());
@@ -346,5 +349,9 @@ for( int i = 0; i < result.size()-180; ++i )
 {
     BOOST_CHECK_EQUAL(output[i], expected[i]);
     
+    
 }
 }
+
+
+BOOST_AUTO_TEST_SUITE_END()

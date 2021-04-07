@@ -43,6 +43,8 @@
 #include "playNote.h"
 #include "instructionsStatements.h"
 #include "processBuffer.h"
+#include "defineNote.h"
+#include <alsa/asoundlib.h>
 
 #include <sys/types.h>
 #include <stdlib.h>
@@ -109,12 +111,12 @@ int a = 0;
 std::vector<double> v;
 int pipefds[2];
 int freqMax;  
-std::vector<signed short> window;
+std::vector<double> window;
 const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
-
+char note_to_write;
 
 /**
  * inthand function allows close of terminal with ctrl C
@@ -149,42 +151,18 @@ int processBuffer()
             freqMaxIndex = i;
             freqMax = i*44100.0/window.size();            
         }
-    }     
-            
-    if (freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
-        freqMax = 262;
-        write(pipefds[1], "C4", sizeof("C4"));
-    }
-    else if (freqMax > 288 && freqMax < 300){
-        freqMax = 294;
-        write(pipefds[1], "D4", sizeof("D4"));
-    }
-    else if (freqMax > 324 && freqMax < 336){
-        freqMax = 330;
-        write(pipefds[1], "E4", sizeof("E4"));
-    }  
-    else if (freqMax  > 343 && freqMax < 349){
-        freqMax  = 349;
-        write(pipefds[1], "F4", sizeof("F4"));
-    }  
-    else if (freqMax > 386 && freqMax < 398){
-        freqMax = 392;
-        write(pipefds[1], "G4", sizeof("G4"));
-    }    
-    else if (freqMax > 434 && freqMax < 446){
-        freqMax = 440;
-        write(pipefds[1], "A4", sizeof("A4"));
-    }  
-    else if (freqMax > 482 && freqMax < 500){
-        freqMax = 494;
-        write(pipefds[1], "B4", sizeof("B4"));
-    }
-    else{
-        write(pipefds[1], "None", sizeof("None"));
-        printf("Wrote None \n");
+    } 
+    note_to_write = define_note(freqMax); 
+       
+    if(note_to_write  != 'N'){
+    write(pipefds[1], note_to_write + "4", sizeof(note_to_write  + "4"));
+}
+else{
+    write(pipefds[1], "None", sizeof("None"));
     }
     
     std::cout << freqMax << std::endl;
+
     return freqMax, pipefds[2];
 }
 
@@ -229,12 +207,19 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
  */
 int audioIn()
 {  
+    
+    snd_pcm_t * _soundDevice;
+    snd_pcm_hw_params_t *hw_params;
     //access audio device
     RtAudio adc;
-    if (adc.getDeviceCount() < 1) {
+    int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
+    //if (adc.getDeviceCount() < 1) {
+    if (err < 1) {
         std::cout << "No audio devices found!\n";
         return -1;
     }
+    
+    
 
     //Print device infos  
     unsigned int numDev = adc.getDeviceCount();
@@ -245,6 +230,7 @@ int audioIn()
         std::cout << "Device info" << std::endl;
         di = adc.getDeviceInfo( i );
         //std::cout << di << std::endl;
+        
     }
    
     //Set parameters
@@ -323,7 +309,17 @@ void GameSys::Start()
     Sample::Start();
 
     // Create "Welcome to Sound Pirates!" Text
-    CreateTitleScene();
+
+    if(audioIn() != -1){  
+      CreateTitleScene();
+ 
+ 
+    }
+    else {auto* cache = GetSubsystem<ResourceCache>();
+     CreateText("Please insert sound card", "errorText", 
+                cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 300, 300);
+            }
+
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);

@@ -19,7 +19,7 @@
  * domain. Produces new array with frequencies as position and amplitude as value
  * called by processBuffer function
  **/
-void fft(std::vector<signed short> &rawValues, std::vector<double> &output) 
+void fft(std::vector<double> &rawValues, std::vector<double> &output) 
 {
     int n = rawValues.size();
     int i;

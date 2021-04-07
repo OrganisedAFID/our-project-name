@@ -7,7 +7,8 @@ set (TARGET_NAME Splash)
 
 add_subdirectory (test)
 enable_testing ()
-add_test (NAME MyTest COMMAND Test)
+add_test (NAME FFT_TEST COMMAND FFT_TEST)
+add_test (NAME DEFINE_NOTE_TEST COMMAND DEFINE_NOTE_TEST)
 
 
 # Set minimum version
