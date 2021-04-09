@@ -3,6 +3,14 @@ project (Splash)
 # Define target name
 set (TARGET_NAME Splash)
 ######################################
+
+
+add_subdirectory (test)
+enable_testing ()
+add_test (NAME FFT_TEST COMMAND FFT_TEST)
+add_test (NAME DEFINE_NOTE_TEST COMMAND DEFINE_NOTE_TEST)
+
+
 # Set minimum version
 cmake_minimum_required (VERSION 3.0.0)
 if (COMMAND cmake_policy)

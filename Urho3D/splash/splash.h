@@ -24,21 +24,20 @@
 
 #include "Sample.h"
 
-/// This first example, maintaining tradition, prints a "Hello World" message.
-/// Furthermore it shows:
-///     - Using the Sample / Application classes, which initialize the Urho3D engine and 
-///         run the main loop
-///     - Adding a Text element to the graphical user interface
-///     - Subscribing to and handling of update events
-class HelloWorld : public Sample
+/**
+ * Creates Gamesys class begin game processes.
+ * 
+ */
+class GameSys : public Sample
 {
-    URHO3D_OBJECT(HelloWorld, Sample);
+    URHO3D_OBJECT(GameSys, Sample);
 
 public:
     /// Construct.
-    explicit HelloWorld(Context* context);
+    explicit GameSys(Context* context);
 
     /// Setup after engine initialization and before running the main loop.
+    /// Default Start function overridden to allow game loop to begin
     void Start() override;
 
 protected:
@@ -53,7 +52,7 @@ protected:
     }
 
 private:
-    /// Construct a new Text instance, containing the 'Hello World' String, and 
+    /// Construct a new Text instance, containing the 'Welcome to Sound Pirates!' String, and 
     /// add it to the UI root element.
     void CreateText();
     /// Subscribe to application-wide logic update events.
@@ -63,17 +62,21 @@ private:
     void HandleStartClick(StringHash eventType, VariantMap& eventData);
     void HandleCloserClick(StringHash eventType, VariantMap& eventData);
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
+    void HandleInsClick(StringHash eventType, VariantMap& eventData);
+    void HandleBackClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     void SetupViewport();
-    void CreateScene1();
-    void DeleteScene1();
-    void CreateScene2();
+    void CreateTitleScene();
+    void DeleteTitleScene();
+    void DeleteInstructionsScene();
+    void CreateMainScene();
+    void CreateInstructionsScene();
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
     
     Node* CreatePlane();
     Node* CreateShip();
-    Text* CreateText(String content, String tagName, Urho3D::Font* font, int x, int y);
+    Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);
 };

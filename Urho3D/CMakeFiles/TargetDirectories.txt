@@ -1,0 +1,2 @@
+/home/pi/sound-pirates/Urho3D/CMakeFiles/rebuild_cache.dir
+/home/pi/sound-pirates/Urho3D/CMakeFiles/edit_cache.dir
