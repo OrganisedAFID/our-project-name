@@ -1,2 +1,2 @@
 
-void playNote();
+char playNote();

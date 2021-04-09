@@ -37,7 +37,7 @@ char OutputNote;
  * playNote function. plays random note for player to match
  * otputs string for note played
  */
- void playNote(){
+ char playNote(){
     
      srand (time(NULL));
   	int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
@@ -96,7 +96,7 @@ char OutputNote;
  
     
  
-return;
+return OutputNote;
 
     
 }

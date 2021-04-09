@@ -4,8 +4,26 @@
 CMakeFiles/Splash.dir/RtAudio.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.cpp
 CMakeFiles/Splash.dir/RtAudio.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 
+CMakeFiles/Splash.dir/defineNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/defineNote.cpp
+
+CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
+CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
+CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.cpp
+
+CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
+CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
+CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
+CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp
+CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.h
+
+CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
+CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
+CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
+CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.cpp
+CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/sinewave.h
+
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
-CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/lol.h
+CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 CMakeFiles/Splash.dir/realtime-beat.cpp.o: /home/pi/sound-pirates/Urho3D/splash/realtime-beat.cpp
 
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Audio/Audio.h
@@ -109,7 +127,6 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vec
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Math/Vector4.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Physics/CollisionShape.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Physics/Constraint.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Physics/PhysicsWorld.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Physics/RigidBody.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Resource/Image.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Resource/JSONFile.h
@@ -128,7 +145,6 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Scene/Sc
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Scene/Serializable.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Scene/ValueAnimationInfo.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btAlignedAllocator.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btIDebugDraw.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMatrix3x3.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMinMax.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet/LinearMath/btMotionState.h
@@ -172,8 +188,12 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Urho3DCo
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/Sample.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/Sample.inl
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/lol.h
-CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/sinewave.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/defineNote.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/instructionsStatements.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/processBuffer.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/splash.cpp
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/splash.h
 

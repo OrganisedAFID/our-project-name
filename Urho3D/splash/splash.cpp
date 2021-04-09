@@ -125,8 +125,13 @@ unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
 char note_to_write;
+char time_;
 
-
+/**
+ * playNote function. plays random note for player to match
+ * otputs string for note played
+ */
+ 
 /**
  * inthand function allows close of terminal with ctrl C
  * 
@@ -230,13 +235,7 @@ int audioIn()
     //access audio device
     RtAudio adc;
     int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
-    //if (adc.getDeviceCount() < 1) {
-    if (err < 1) {
-
-        std::cout << "No audio devices found!\n";
-        return -1;
-    }
-    
+    //if (adc.getDeviceCount() < 1) {    
     
 
     //Print device infos
@@ -451,11 +450,10 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     float timeStep = eventData[P_TIMESTEP].GetFloat();
     float MOVE_SPEED=30.0f;
     int i;
-
-    //framecount_++;
     time_+=timeStep;
 
-    std::cout << "Note played: " << OutputNote << "\n";
+    //framecount_++;
+
 
     PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
     Vector3 shipPos = ship[0]->GetPosition();
@@ -491,6 +489,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
             float timeStep = eventData[P_TIMESTEP].GetFloat();
             float MOVE_SPEED=30.0f;
             int i;
+            char OutputNote = playNote();
             playNote();
 
             if ( readmessage[20] == OutputNote ){
@@ -544,9 +543,7 @@ void GameSys::ChangeTexts(String note)
     auto *cache = GetSubsystem<ResourceCache>();
 
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-    
-        std::cout << "Note played: " << OutputNote << "\n";
-    
+        
 
     // Make relevant note more opaque and all others less opaque
     

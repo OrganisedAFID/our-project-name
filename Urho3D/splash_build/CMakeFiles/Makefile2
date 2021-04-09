@@ -73,18 +73,19 @@ CMAKE_BINARY_DIR = /home/pi/sound-pirates/Urho3D/splash_build
 
 # The main recursive "all" target.
 all: CMakeFiles/Splash.dir/all
-
 all: test/all
+
 .PHONY : all
 
 # The main recursive "preinstall" target.
 preinstall: test/preinstall
+
 .PHONY : preinstall
 
 # The main recursive "clean" target.
 clean: CMakeFiles/Splash.dir/clean
-
 clean: test/clean
+
 .PHONY : clean
 
 #=============================================================================
@@ -93,15 +94,18 @@ clean: test/clean
 # Recursive "all" directory target.
 test/all: test/CMakeFiles/FFT_TEST.dir/all
 test/all: test/CMakeFiles/DEFINE_NOTE_TEST.dir/all
+
 .PHONY : test/all
 
 # Recursive "preinstall" directory target.
 test/preinstall:
+
 .PHONY : test/preinstall
 
 # Recursive "clean" directory target.
 test/clean: test/CMakeFiles/FFT_TEST.dir/clean
 test/clean: test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean
+
 .PHONY : test/clean
 
 #=============================================================================
@@ -150,6 +154,7 @@ test/CMakeFiles/FFT_TEST.dir/rule: cmake_check_build_system
 
 # Convenience name for target.
 FFT_TEST: test/CMakeFiles/FFT_TEST.dir/rule
+
 .PHONY : FFT_TEST
 
 # clean rule for target.
@@ -176,6 +181,7 @@ test/CMakeFiles/DEFINE_NOTE_TEST.dir/rule: cmake_check_build_system
 
 # Convenience name for target.
 DEFINE_NOTE_TEST: test/CMakeFiles/DEFINE_NOTE_TEST.dir/rule
+
 .PHONY : DEFINE_NOTE_TEST
 
 # clean rule for target.
