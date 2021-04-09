@@ -586,8 +586,16 @@ void GameSys::CreateMainScene()
      * optimizing manner
      */
     scene_->CreateComponent<Octree>();
+
+    Node* skyNode = scene_->CreateChild("Sky");
+    skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f));  // The scale actually does matter
+    skyNode->SetPosition(Vector3(-10.0f, 6.0f, 50.0f));
+    auto* skybox = skyNode->CreateComponent<Skybox>();
+    auto* skyObject = skyNode->CreateComponent<StaticModel>();
+    skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
     
-    Node* planeNode = CreatePlane();
+    //Node* planeNode = CreatePlane();
     
     Node* shipNode = CreateShip();
     shipNode->AddTag("ship");
@@ -665,7 +673,7 @@ Node* GameSys::CreateShip()
     coneNode->SetScale(Vector3(10.0f, 10.0f, 10.0f));
     auto* coneObject = coneNode->CreateComponent<StaticModel>();
     coneObject->SetModel(cache->GetResource<Model>("Models/Cone.mdl"));
-    coneObject->SetMaterial(cache->GetResource<Material>("Materials/torch_metal.xml")); 
+    coneObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml")); 
     return coneNode;
 }
 /**
