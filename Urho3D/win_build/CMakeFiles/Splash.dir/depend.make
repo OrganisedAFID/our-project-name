@@ -4,6 +4,8 @@
 CMakeFiles/Splash.dir/RtAudio.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.cpp
 CMakeFiles/Splash.dir/RtAudio.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 
+CMakeFiles/Splash.dir/defineNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/defineNote.cpp
+
 CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.cpp
@@ -28,6 +30,7 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/Sample.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/Sample.inl
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/defineNote.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/instructionsStatements.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.h

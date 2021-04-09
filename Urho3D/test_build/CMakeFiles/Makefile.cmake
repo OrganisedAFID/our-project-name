@@ -13,6 +13,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/home/pi/sound-pirates/Urho3D/splash/CMake/Modules/Urho3D-CMake-common.cmake"
   "/home/pi/sound-pirates/Urho3D/splash/CMakeLists.txt"
   "/home/pi/sound-pirates/Urho3D/splash/cmake_modules/FindSFML.cmake"
+  "/home/pi/sound-pirates/Urho3D/splash/test/CMakeLists.txt"
   "CMakeFiles/3.16.3/CMakeCCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeCXXCompiler.cmake"
   "CMakeFiles/3.16.3/CMakeSystem.cmake"
@@ -37,6 +38,7 @@ set(CMAKE_MAKEFILE_DEPENDS
   "/usr/share/cmake-3.16/Modules/Compiler/GNU-CXX.cmake"
   "/usr/share/cmake-3.16/Modules/Compiler/GNU.cmake"
   "/usr/share/cmake-3.16/Modules/FindALSA.cmake"
+  "/usr/share/cmake-3.16/Modules/FindBoost.cmake"
   "/usr/share/cmake-3.16/Modules/FindPackageHandleStandardArgs.cmake"
   "/usr/share/cmake-3.16/Modules/FindPackageMessage.cmake"
   "/usr/share/cmake-3.16/Modules/FindThreads.cmake"
@@ -57,9 +59,12 @@ set(CMAKE_MAKEFILE_OUTPUTS
 # Byproducts of CMake generate step:
 set(CMAKE_MAKEFILE_PRODUCTS
   "CMakeFiles/CMakeDirectoryInformation.cmake"
+  "test/CMakeFiles/CMakeDirectoryInformation.cmake"
   )
 
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Splash.dir/DependInfo.cmake"
+  "test/CMakeFiles/FFT_TEST.dir/DependInfo.cmake"
+  "test/CMakeFiles/DEFINE_NOTE_TEST.dir/DependInfo.cmake"
   )
