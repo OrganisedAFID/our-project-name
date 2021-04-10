@@ -158,14 +158,16 @@ int processBuffer()
 
     freqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 10000;
+    int amplitudeThreshold = 20000;
 
     for (int i = 51; i < 100; i++)
     {
         if (output[i] > output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
             freqMaxIndex = i;
-            freqMax = i * 44100.0 / window.size();
+            freqMax = i * 44100.0 / window.size();    
+            std::cout<<"apmlitide   "<< output[i] <<"\n" ;
+
         }
 
 
