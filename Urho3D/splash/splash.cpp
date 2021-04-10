@@ -125,13 +125,9 @@ unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
 char note_to_write;
-char time_;
+float time_ = 0;
 
-/**
- * playNote function. plays random note for player to match
- * otputs string for note played
- */
- 
+
 /**
  * inthand function allows close of terminal with ctrl C
  * 
@@ -235,7 +231,13 @@ int audioIn()
     //access audio device
     RtAudio adc;
     int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
-    //if (adc.getDeviceCount() < 1) {    
+    //if (adc.getDeviceCount() < 1) {
+    if (err < 1) {
+
+        std::cout << "No audio devices found!\n";
+        return -1;
+    }
+    
     
 
     //Print device infos
@@ -319,7 +321,6 @@ GameSys::GameSys(Context* context) :
         engine_->Exit();
 
         audioIn();
-        playNote();   
     }
 }
 /**
@@ -449,105 +450,61 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     // Take the frame time step, which is stored as a float
     float timeStep = eventData[P_TIMESTEP].GetFloat();
     float MOVE_SPEED=30.0f;
-    int i;
+
     time_+=timeStep;
+    printf("%d \n", time_);
+    if(remainder(time_, 3.0f) == 0){
+        char OutputNote = 'A'; //playNote();
 
-    //framecount_++;
+        PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
+        Vector3 shipPos = ship[0]->GetPosition();
+        Node* shipNode = ship[0];
 
+        int fd = ::pipefds[0];
+        struct pollfd *fds;
+        fds = (pollfd *)calloc(1, sizeof(pollfd));
+        fds[0].fd = fd;
+        fds[0].events |= POLLIN;
+        int rv = poll(fds, 1, 0);
 
-    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
-    Vector3 shipPos = ship[0]->GetPosition();
-    Node* shipNode = ship[0];
+        if (rv == -1)
+        {
+            printf("An error occurred: %d\n", errno);
+            return;
+        }
 
-    int fd = ::pipefds[0];
-    struct pollfd *fds;
-    fds = (pollfd *)calloc(1, sizeof(pollfd));
-    fds[0].fd = fd;
-    fds[0].events |= POLLIN;
-    int rv = poll(fds, 1, 0);
+        if (rv == 1)
+        {
+            printf("Events occurred: %d.", rv);
+            char readmessage[20];
+            read(::pipefds[0], readmessage, sizeof(readmessage));
+            printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
 
-    if (rv == -1)
-    {
-        printf("An error occurred: %d\n", errno);
-        return;
-    }
-
-    if (rv == 1)
-    {
-        printf("Events occurred: %d.", rv);
-        char readmessage[20];
-        read(::pipefds[0], readmessage, sizeof(readmessage));
-        printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
-        //ChangeTexts(readmessage);
-
-        UIElement *root = GetSubsystem<UI>()->GetRoot();
-        auto *cache = GetSubsystem<ResourceCache>();
-        auto* ui = GetSubsystem<UI>();
-
-        String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-                
+            UIElement *root = GetSubsystem<UI>()->GetRoot();
+            auto *cache = GetSubsystem<ResourceCache>();
+            auto* ui = GetSubsystem<UI>();
+                    
             float timeStep = eventData[P_TIMESTEP].GetFloat();
             float MOVE_SPEED=30.0f;
-            int i;
-            char OutputNote = playNote();
-            playNote();
-
+        
             if ( readmessage[20] == OutputNote ){
                 std::cout << "You played the correct note\n";
                 shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-                // Construct new Text object, set string to display and font to use
-                auto* feedback = ui->GetRoot()->CreateChild<Text>();
-                feedback->SetText(
-                    "You played the CORRECT note"
-                );
-                feedback->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 20);
-
-                // Position the text relative to the screen center
-                feedback->SetHorizontalAlignment(HA_CENTER);
-                feedback->SetVerticalAlignment(VA_CENTER);
-                feedback->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
-                    
+                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
+                CreateText("You played the CORRECT note", "correctNoteText",
+                    0, ui->GetRoot()->GetHeight() / 4);                   
             }
             else if ( readmessage[20] != OutputNote ){
                 shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-                SharedPtr<Text> feedback2_;
-                feedback2_=new Text(context_);
-                // Text will be updated later in the E_UPDATE handler. Keep readin'.
-                feedback2_->SetText("You played an INCORRECT note");
-                // If the engine cannot find the font, it comes with Urho3D.
-                // Set the environment variables URHO3D_HOME, URHO3D_PREFIX_PATH or
-                // change the engine parameter "ResourcePrefixPath" in the Setup method.
-                feedback2_->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),20);
-                feedback2_->SetColor(Color(.3,0,.3));
-                feedback2_->SetHorizontalAlignment(HA_CENTER);
-                feedback2_->SetVerticalAlignment(VA_CENTER);
-                GetSubsystem<UI>()->GetRoot()->AddChild(feedback2_);
+                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
+                CreateText("You played the INCORRECT note", "incorrectNoteText",
+                    0, ui->GetRoot()->GetHeight() / 4);  
                 std::cout << "You played the INCORRECT note\n";
-
             }
-            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        
-
+        }
     }
 }
-/**
- * 
- * 
- */
-void GameSys::ChangeTexts(String note)
-{
 
-    UIElement *root = GetSubsystem<UI>()->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
-
-    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-        
-
-    // Make relevant note more opaque and all others less opaque
-    
-}
 
 /** 
  * when you click on the start button, the second scene appears
@@ -692,21 +649,16 @@ void GameSys::CreateMainScene()
     // The light will use default settings (white light, no shadows)
             // Create a red directional light (sun)
         
-            Node* lightNode=scene_->CreateChild();
-            lightNode->SetDirection(Vector3::FORWARD);
-            lightNode->Yaw(50);     // horizontal
-            lightNode->Pitch(10);   // vertical
-            Light* light=lightNode->CreateComponent<Light>();
-            light->SetLightType(LIGHT_DIRECTIONAL);
-            light->SetBrightness(3);
-            light->SetColor(Color(1.0,.6,0.3,1));
-            light->SetCastShadows(true);
+    Node* lightNode=scene_->CreateChild();
+    lightNode->SetDirection(Vector3::FORWARD);
+    lightNode->Yaw(50);     // horizontal
+    lightNode->Pitch(10);   // vertical
+    Light* light=lightNode->CreateComponent<Light>();
+    light->SetLightType(LIGHT_DIRECTIONAL);
+    light->SetBrightness(3);
+    light->SetColor(Color(1.0,.6,0.3,1));
+    light->SetCastShadows(true);
         
-        
-    /*Node *lightNode = scene_->CreateChild("DirectionalLight");
-    lightNode->SetDirection(Vector3(0.9f, -1.0f, 0.6f)); // The direction vector does not need to be normalized
-    auto *light = lightNode->CreateComponent<Light>();
-    light->SetLightType(LIGHT_DIRECTIONAL);*/
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -716,18 +668,6 @@ void GameSys::CreateMainScene()
     // Set an initial position for the camera scene node above the plane
    // cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
     cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
-
-
-      //  SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,HandleUpdate));
-    int i;
-    
-    //SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,ChangeTexts));
-    //for (i=0;i<5;i++){
-            
-        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-
-        SubscribeToEvents();
-   // }
 }
 
 /**
