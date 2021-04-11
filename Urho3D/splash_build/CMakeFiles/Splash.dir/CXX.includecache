@@ -6,6 +6,7 @@
 
 #IncludeRegexTransform: 
 
+
 /home/pi/Urho3D/include/Urho3D/Audio/Audio.h
 ../Audio/AudioDefs.h
 /home/pi/Urho3D/include/Urho3D/Audio/AudioDefs.h
@@ -54,6 +55,7 @@ Urho3D/Urho3D.h
 cstddef
 -
 
+
 /home/pi/Urho3D/include/Urho3D/Container/ArrayPtr.h
 ../Container/HashBase.h
 /home/pi/Urho3D/include/Urho3D/Container/HashBase.h
@@ -96,6 +98,7 @@ cassert
 initializer_list
 -
 
+
 /home/pi/Urho3D/include/Urho3D/Container/HashSet.h
 ../Container/HashBase.h
 /home/pi/Urho3D/include/Urho3D/Container/HashBase.h
@@ -106,6 +109,7 @@ cassert
 initializer_list
 -
 
+
 /home/pi/Urho3D/include/Urho3D/Container/LinkedList.h
 Urho3D.h
 /home/pi/Urho3D/include/Urho3D/Container/Urho3D.h
@@ -113,6 +117,7 @@ Urho3D/Urho3D.h
 -
 initializer_list
 -
+
 
 /home/pi/Urho3D/include/Urho3D/Container/List.h
 ../Container/ListBase.h
@@ -146,6 +151,7 @@ cstddef
 utility
 -
 
+
 /home/pi/Urho3D/include/Urho3D/Container/RefCounted.h
 Urho3D.h
 /home/pi/Urho3D/include/Urho3D/Container/Urho3D.h
@@ -168,6 +174,7 @@ cstring
 cctype
 -
 
+
 /home/pi/Urho3D/include/Urho3D/Container/Swap.h
 
 /home/pi/Urho3D/include/Urho3D/Container/Vector.h
@@ -185,6 +192,7 @@ new
 -
 utility
 -
+
 
 /home/pi/Urho3D/include/Urho3D/Container/VectorBase.h
 Urho3D.h
@@ -226,6 +234,7 @@ windows.h
 crtdbg.h
 -
 
+
 /home/pi/Urho3D/include/Urho3D/Core/MiniDump.h
 
 /home/pi/Urho3D/include/Urho3D/Core/Mutex.h
@@ -245,6 +254,7 @@ functional
 -
 utility
 -
+
 
 /home/pi/Urho3D/include/Urho3D/Core/ProcessUtils.h
 ../Container/Str.h
@@ -674,6 +684,7 @@ SDL/SDL_keycode.h
 SDL/SDL_mouse.h
 -
 
+
 /home/pi/Urho3D/include/Urho3D/Input/InputEvents.h
 ../Core/Object.h
 /home/pi/Urho3D/include/Urho3D/Core/Object.h
@@ -715,6 +726,7 @@ limits
 -
 type_traits
 -
+
 
 /home/pi/Urho3D/include/Urho3D/Math/Matrix3.h
 ../Math/Vector3.h
@@ -1074,6 +1086,7 @@ stdlib.h
 sal.h
 -
 begin_code.h
+
 /home/pi/Urho3D/include/Urho3D/ThirdParty/SDL/begin_code.h
 close_code.h
 /home/pi/Urho3D/include/Urho3D/ThirdParty/SDL/close_code.h
@@ -1290,6 +1303,7 @@ errno.h
 math.h
 -
 
+
 /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 string
 -
@@ -1365,6 +1379,7 @@ Urho3D/Resource/XMLFile.h
 -
 Urho3D/IO/Log.h
 -
+
 
 /home/pi/sound-pirates/Urho3D/splash/Start.cpp
 splash.h
@@ -1493,6 +1508,7 @@ complex
 -
 string
 -
+
 audioIn.h
 /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 fft.h
@@ -1705,10 +1721,12 @@ Urho3D/Graphics/ParticleEffect.h
 -
 Urho3D/Graphics/Terrain.h
 -
+
 splash.h
 /home/pi/sound-pirates/Urho3D/splash/splash.h
 Urho3D/DebugNew.h
 -
+
 Start.h
 /home/pi/sound-pirates/Urho3D/splash/Start.h
 
