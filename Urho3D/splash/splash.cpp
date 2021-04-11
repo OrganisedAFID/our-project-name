@@ -238,7 +238,7 @@ int audioIn()
         std::cout << "No audio devices found!\n";
         return -1;
     }
-      
+     
 
     //Print device infos
     unsigned int numDev = adc.getDeviceCount();
@@ -314,7 +314,6 @@ GameSys::GameSys(Context* context) :
     else
     {
         engine_->Exit();
-
         audioIn();
     }
 }
@@ -337,7 +336,6 @@ void GameSys::Start()
     
 return;
 }
-
 
 
 /**
@@ -451,7 +449,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     if(countDownTimer_.GetMSec(false) >= 1000){
         countDownTimer_.Reset();
         printf("One second has passed\n");
-        char OutputNote = 'A'; //playNote();
+        char OutputNote = playNote();
 
         PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
         Vector3 shipPos = ship[0]->GetPosition();
