@@ -169,7 +169,7 @@ int processBuffer()
     note_to_write = define_note(freqMax); 
        
     if(note_to_write  != 'N'){
-        write(pipefds[1], note_to_write + "4", sizeof(note_to_write  + "4"));
+        write(pipefds[1], note_to_write, sizeof(note_to_write));
     }
     else{
         write(pipefds[1], "None", sizeof("None"));
