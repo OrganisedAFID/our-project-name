@@ -54,7 +54,7 @@ char OutputNote;
     sound.setBuffer(buffer);
     sound.play();
 
-    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(500));
     if ( RandIndex == 0 ){
         OutputNote = 'C';
     }

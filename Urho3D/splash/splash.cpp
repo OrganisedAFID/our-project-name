@@ -126,6 +126,9 @@ unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
 float time_ = 0;
 Timer countDownTimer_ = Timer();
+int pid;
+int parentpid;
+char OutputNote;
 
 
 /**
@@ -158,7 +161,7 @@ int processBuffer()
 
     for (int i = 51; i < 100; i++)
     {
-        if (output[i] > output[freqMaxIndex] && output[i] > amplitudeThreshold)
+        if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
             freqMaxIndex = i;
             freqMax = i * 44100.0 / window.size();    
@@ -166,9 +169,14 @@ int processBuffer()
         }
     } 
     char note_to_write = define_note(freqMax); 
-       
-    write(pipefds[1], "A4", sizeof("A4"));
 
+    if(freqMax != 0){
+        if(note_to_write == OutputNote){
+            kill(0, SIGUSR1);
+        } else{
+            kill(0, SIGUSR2);
+        }
+    }
     
     std::cout << freqMax << std::endl;
 
@@ -263,14 +271,21 @@ int audioIn()
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
     
+    signal(SIGUSR1, readyHandler);
+
     //This code keeps the recording going and enables us to stop it be using ctrl-c on the command line
     signal(SIGINT, inthand);
     stop = 0;
     while(!stop){}
+    adc.stopStream();
     adc.closeStream();
     return 0;
 }
 
+void readyHandler(){
+    signal(SIGUSR1, readyHandler);
+    ::OutputNote = playNote();
+}
 
 /**
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
@@ -289,7 +304,8 @@ GameSys::GameSys(Context* context) :
 {   
     ::pipefds[2];
     int returnstatus;
-    int pid;
+    ::pid;
+    ::parentpid = getpid();
     returnstatus = pipe(pipefds);
     if (returnstatus == -1)
     {
@@ -314,6 +330,8 @@ GameSys::GameSys(Context* context) :
  */
 void GameSys::Start()
 {   
+    signal(SIGUSR1, correctHandler);
+    signal(SIGUSR2, incorrectHandler);
     // Execute base class startup
     Sample::Start();
 
@@ -323,10 +341,25 @@ void GameSys::Start()
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
-    
-return;
 }
 
+void correctHandler(){
+    signal(SIGUSR1, correctHandler);
+    std::cout << "You played the correct note\n";
+    shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
+    shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
+    CreateText("You played the CORRECT note", "correctNoteText",
+        0, ui->GetRoot()->GetHeight() / 4); 
+}
+
+void incorrectHandler(){
+    signal(SIGUSR2, incorrectHandler);
+    shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
+    shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
+    CreateText("You played the INCORRECT note", "incorrectNoteText",
+        0, ui->GetRoot()->GetHeight() / 4);  
+    std::cout << "You played the INCORRECT note\n";
+}
 
 /**
  * CreateTitleScene function. Start screen splash, with button
@@ -438,6 +471,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     if(countDownTimer_.GetMSec(false) >= 1000){
         countDownTimer_.Reset();
         printf("One second has passed\n");
+        
         std::string OutputNote = std::string() + playNote() + '4';
 
         PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
@@ -445,6 +479,9 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
         Node* shipNode = ship[0];
 
         int fd = ::pipefds[0];
+
+        write(fd, "Ready", sizeof("Ready"));
+        
         struct pollfd *fds;
         fds = (pollfd *)calloc(1, sizeof(pollfd));
         fds[0].fd = fd;
