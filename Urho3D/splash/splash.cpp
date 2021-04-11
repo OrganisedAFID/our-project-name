@@ -231,15 +231,12 @@ int audioIn()
     snd_pcm_hw_params_t *hw_params;
     //access audio device
     RtAudio adc;
-    int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
-    //if (adc.getDeviceCount() < 1) {
-    if (err < 1) {
-
+    //int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
+    if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
         return -1;
     }
-    
-    
+      
 
     //Print device infos
     unsigned int numDev = adc.getDeviceCount();
@@ -248,9 +245,7 @@ int audioIn()
     {
         // use the Debugger if you need to know deviceID
         std::cout << "Device info" << std::endl;
-        di = adc.getDeviceInfo(i);
-        //std::cout << di << std::endl;
-        
+        di = adc.getDeviceInfo(i);     
     }
 
     //Set parameters
@@ -258,9 +253,6 @@ int audioIn()
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
-
-    std::thread t1(instructionsStatements);
-    t1.join();
 
     try
     {
