@@ -131,6 +131,11 @@ int parentpid;
 char OutputNote;
 float timestep;
 
+Node* ship;
+UI* ui;
+ResourceCache* cache;
+Context* context_;
+
 
 /**
  * inthand function allows close of terminal with ctrl C
@@ -227,17 +232,17 @@ void readyHandler(int signum){
     return;
 }
 
-void correctHandler(int signum){
+static void correctHandler(int signum){
     printf("Called correct\n");
     signal(SIGUSR1, correctHandler);
     //GameSys::AnswerHandler(true);
     return;
 }
 
-void incorrectHandler(int signum){
+static void incorrectHandler(int signum){
     printf("Called incorrect\n");
     signal(SIGUSR2, incorrectHandler);
-    GameSys::AnswerHandler(false);
+    AnswerHandler(false);
     return;
 }
 
@@ -356,12 +361,9 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
-void GameSys::AnswerHandler(bool isCorrect){
-    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
-    Vector3 shipPos = ship[0]->GetPosition();
-    Node* shipNode = ship[0];
-    UIElement *root = GetSubsystem<UI>()->GetRoot();
-    auto* ui = GetSubsystem<UI>();
+void AnswerHandler(bool isCorrect){
+    Vector3 shipPos = ship->GetPosition();
+    UIElement *root = ui->GetRoot();
         
     float MOVE_SPEED=30.0f;
     std::string correctness;
@@ -378,8 +380,8 @@ void GameSys::AnswerHandler(bool isCorrect){
         z = .0f;
     }
     ::timestep;
-    shipNode->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-    shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
+    ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
+    ship->SetScale(Vector3(0.2f, 0.2f, 0.2f));
     std::string txt = "You played the "+correctness+" note";
     String txtMessage = String(txt.c_str());
     std::string tag = correctness+"NoteText";
@@ -397,9 +399,10 @@ void GameSys::AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-    auto *ui = GetSubsystem<UI>();
+    ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
+    cache = GetSubsystem<ResourceCache>();
+    context_ = context_;
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 
@@ -417,9 +420,8 @@ void GameSys::CreateTitleScene()
  * returns text
  * 
  */
-Text* GameSys::CreateText(String content, String tagName, int x, int y, String fontText)
+Text* CreateText(String content, String tagName, int x, int y, String fontText)
 {  
-    auto* cache = GetSubsystem<ResourceCache>();
     Urho3D::Font* font = cache->GetResource<Font>(fontText);
     // Construct new Text object
     SharedPtr<Text> text(new Text(context_));
@@ -434,7 +436,7 @@ Text* GameSys::CreateText(String content, String tagName, int x, int y, String f
     text->AddTag(tagName);
 
     // Add Text instance to the UI root element
-    GetSubsystem<UI>()->GetRoot()->AddChild(text);
+    ui->GetRoot()->AddChild(text);
     return text;
 }
 
@@ -632,6 +634,7 @@ void GameSys::CreateMainScene()
     zone->SetFogEnd(500.0f);
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
+    ship = shipNode;
 
      Node* skyNode = scene_->CreateChild("Sky");
     skyNode->SetScale(500.0f); // The scale actually does not matter
