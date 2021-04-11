@@ -38,7 +38,6 @@ char OutputNote;
  * otputs string for note played
  */
  char playNote(){
-    
     srand (time(NULL));
     int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
     int RandIndex = rand() % 6; //generate a random integer between 0 and 7
@@ -55,47 +54,34 @@ char OutputNote;
     sound.setBuffer(buffer);
     sound.play();
 
-    //std::this_thread::sleep_for(std::chrono::milliseconds(2000));
+    std::this_thread::sleep_for(std::chrono::milliseconds(1000));
     if ( RandIndex == 0 ){
-
         OutputNote = 'C';
-
     }
     else if (RandIndex == 1){
-    OutputNote =  'D';
-
-
+	OutputNote =  'D';
     }
     else if (RandIndex == 2){
-   OutputNote = 'E';
-
+	OutputNote = 'E';
     }  
     else if (RandIndex == 3){
-
         OutputNote = 'F';
-      
     }  
     else if (RandIndex == 4){
-
         OutputNote = 'G';
     }    
     else if (RandIndex == 5){
-
         OutputNote = 'A';
-  
     }  
-  else if (RandIndex == 6){
-
+    else if (RandIndex == 6){
         OutputNote = 'B';
     }
     else{
-                note = 'N';
-            }
+	note = 'N';
+    }
         
-     std::cout << "Note played: " << OutputNote << "\n";
- 
-    
- 
+    std::cout << "Note played: " << OutputNote << "\n";
+
 return OutputNote;
 
     

@@ -163,19 +163,16 @@ int processBuffer()
         {
             freqMaxIndex = i;
             freqMax = i * 44100.0 / window.size();    
-            std::cout<<"apmlitide   "<< output[i] <<"\n" ;
-
+            std::cout<< "amplitude "<< output[i] <<"\n" ;
         }
-
-
     } 
     note_to_write = define_note(freqMax); 
        
     if(note_to_write  != 'N'){
-    write(pipefds[1], note_to_write + "4", sizeof(note_to_write  + "4"));
-}
-else{
-    write(pipefds[1], "None", sizeof("None"));
+        write(pipefds[1], note_to_write + "4", sizeof(note_to_write  + "4"));
+    }
+    else{
+        write(pipefds[1], "None", sizeof("None"));
     }
     
     std::cout << freqMax << std::endl;
@@ -439,7 +436,6 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     using namespace Update;
 
     // Take the frame time step, which is stored as a float
-    float timeStep = eventData[P_TIMESTEP].GetFloat();
     float MOVE_SPEED=30.0f;
 
     printf("%d\n", countDownTimer_.GetMSec(false));

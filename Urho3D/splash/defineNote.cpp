@@ -20,7 +20,7 @@ char note_string;
  **/
 
 char define_note(int freqMax){
-if (freqMax > 249 && freqMax < 268 ){ //could be 256 instead of 249
+if (freqMax > 249 && freqMax < 268 ){ 
         freqMax = 262;
         note_string = 'C';
     }
