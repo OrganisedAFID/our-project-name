@@ -126,6 +126,7 @@ unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
 char note_to_write;
 float time_ = 0;
+Timer countDownTimer_ = Timer();
 
 
 /**
@@ -451,9 +452,11 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     float timeStep = eventData[P_TIMESTEP].GetFloat();
     float MOVE_SPEED=30.0f;
 
-    time_+=timeStep;
-    printf("%d \n", time_);
-    if(remainder(time_, 3.0f) == 0){
+    printf("%d\n", countDownTimer_.GetMSec(false));
+
+    if(countDownTimer_.GetMSec(false) >= 1000){
+        countDownTimer_.Reset();
+        printf("One second has passed\n");
         char OutputNote = 'A'; //playNote();
 
         PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
@@ -466,7 +469,8 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
         fds[0].fd = fd;
         fds[0].events |= POLLIN;
         int rv = poll(fds, 1, 0);
-
+        printf("rv is %d\n", rv);
+        
         if (rv == -1)
         {
             printf("An error occurred: %d\n", errno);
