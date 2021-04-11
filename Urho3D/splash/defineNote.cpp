@@ -56,7 +56,7 @@ if (freqMax > 249 && freqMax < 268 ){
     }
     else{
         note_string = 'N';
-        printf("Wrote None \n");
+        printf("Got None \n");
     }
     
     

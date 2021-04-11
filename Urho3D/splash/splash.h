@@ -65,6 +65,7 @@ private:
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
+    void AnswerHandler(bool isCorrect);
     void SetupViewport();
     void CreateTitleScene();
     void DeleteTitleScene();
@@ -74,9 +75,16 @@ private:
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
     
+  
+    
     Node* CreatePlane();
     Node* CreateShip();
     Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);
 };
+
+void inthand(int signum);
+void readyHandler(int signum);
+void correctHandler(int signum);
+void incorrectHandler(int signum);

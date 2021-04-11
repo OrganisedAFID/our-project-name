@@ -31,13 +31,12 @@
 #include <chrono>
 #include <signal.h>
 
-char note;
-char OutputNote;
 /**
  * playNote function. plays random note for player to match
  * otputs string for note played
  */
  char playNote(){
+    char OutputNote;
     srand (time(NULL));
     int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
     int RandIndex = rand() % 6; //generate a random integer between 0 and 7
@@ -77,7 +76,7 @@ char OutputNote;
         OutputNote = 'B';
     }
     else{
-	note = 'N';
+        OutputNote = 'N';
     }
         
     std::cout << "Note played: " << OutputNote << "\n";

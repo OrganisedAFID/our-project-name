@@ -129,6 +129,7 @@ Timer countDownTimer_ = Timer();
 int pid;
 int parentpid;
 char OutputNote;
+float timestep;
 
 
 /**
@@ -138,7 +139,7 @@ char OutputNote;
 
 void inthand(int signum) {
     stop = 1;
-return;
+    return;
 }
 
 /**
@@ -172,9 +173,9 @@ int processBuffer()
 
     if(freqMax != 0){
         if(note_to_write == OutputNote){
-            kill(0, SIGUSR1);
+            kill(pid, SIGUSR1);
         } else{
-            kill(0, SIGUSR2);
+            printf("Kill code is %d \n", kill(pid, SIGUSR2));
         }
     }
     
@@ -218,6 +219,27 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     return 0;
 }
 
+
+void readyHandler(int signum){
+    printf("Called ready\n");
+    signal(SIGUSR1, readyHandler);
+    ::OutputNote = playNote();
+    return;
+}
+
+void correctHandler(int signum){
+    printf("Called correct\n");
+    signal(SIGUSR1, correctHandler);
+    //GameSys::AnswerHandler(true);
+    return;
+}
+
+void incorrectHandler(int signum){
+    printf("Called incorrect\n");
+    signal(SIGUSR2, incorrectHandler);
+    GameSys::AnswerHandler(false);
+    return;
+}
 
 
 
@@ -282,10 +304,7 @@ int audioIn()
     return 0;
 }
 
-void readyHandler(){
-    signal(SIGUSR1, readyHandler);
-    ::OutputNote = playNote();
-}
+
 
 /**
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
@@ -299,23 +318,17 @@ URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
  * calls audioIn function and playNote function
  * 
  */ 
-GameSys::GameSys(Context* context) :
-    Sample(context)
+GameSys::GameSys(Context* context) :Sample(context)
 {   
-    ::pipefds[2];
-    int returnstatus;
     ::pid;
     ::parentpid = getpid();
-    returnstatus = pipe(pipefds);
-    if (returnstatus == -1)
-    {
-        printf("Unable to create pipe\n");
-        return;
-    }
     pid = fork();
     //Game process
     if (pid == 0)
-    {}
+    {
+        signal(SIGUSR1, correctHandler);
+        signal(SIGUSR2, incorrectHandler);
+    }
     //SP process
     else
     {
@@ -330,36 +343,52 @@ GameSys::GameSys(Context* context) :
  */
 void GameSys::Start()
 {   
-    signal(SIGUSR1, correctHandler);
-    signal(SIGUSR2, incorrectHandler);
+    
     // Execute base class startup
     Sample::Start();
 
     // Create title scene
     CreateTitleScene();
+    //AnswerHandler(true);
 
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
 
-void correctHandler(){
-    signal(SIGUSR1, correctHandler);
-    std::cout << "You played the correct note\n";
-    shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
+void GameSys::AnswerHandler(bool isCorrect){
+    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
+    Vector3 shipPos = ship[0]->GetPosition();
+    Node* shipNode = ship[0];
+    UIElement *root = GetSubsystem<UI>()->GetRoot();
+    auto* ui = GetSubsystem<UI>();
+        
+    float MOVE_SPEED=30.0f;
+    std::string correctness;
+    float y;
+    float z;
+    if(isCorrect){
+        correctness = "correct";
+        y = -4.0f;
+        z = 30.0f;
+    }
+    else{
+        correctness = "incorrect";
+        y = -30.0f;
+        z = .0f;
+    }
+    ::timestep;
+    shipNode->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
     shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
-    CreateText("You played the CORRECT note", "correctNoteText",
-        0, ui->GetRoot()->GetHeight() / 4); 
+    std::string txt = "You played the "+correctness+" note";
+    String txtMessage = String(txt.c_str());
+    std::string tag = correctness+"NoteText";
+    String txtTag = String(tag.c_str());
+    CreateText(txtMessage, txtTag,0, ui->GetRoot()->GetHeight() / 4);  
+    std::cout << "You played the "+correctness+" note\n";
 }
 
-void incorrectHandler(){
-    signal(SIGUSR2, incorrectHandler);
-    shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
-    shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
-    CreateText("You played the INCORRECT note", "incorrectNoteText",
-        0, ui->GetRoot()->GetHeight() / 4);  
-    std::cout << "You played the INCORRECT note\n";
-}
+
 
 /**
  * CreateTitleScene function. Start screen splash, with button
@@ -452,8 +481,7 @@ void GameSys::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
 
-    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate));
-    
+    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate)); 
 }
 /**
  * 
@@ -464,66 +492,12 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     using namespace Update;
 
     // Take the frame time step, which is stored as a float
-    float MOVE_SPEED=30.0f;
-
-    printf("%d\n", countDownTimer_.GetMSec(false));
+    ::timestep = eventData[P_TIMESTEP].GetFloat();
 
     if(countDownTimer_.GetMSec(false) >= 1000){
         countDownTimer_.Reset();
         printf("One second has passed\n");
-        
-        std::string OutputNote = std::string() + playNote() + '4';
-
-        PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
-        Vector3 shipPos = ship[0]->GetPosition();
-        Node* shipNode = ship[0];
-
-        int fd = ::pipefds[0];
-
-        write(fd, "Ready", sizeof("Ready"));
-        
-        struct pollfd *fds;
-        fds = (pollfd *)calloc(1, sizeof(pollfd));
-        fds[0].fd = fd;
-        fds[0].events |= POLLIN;
-        int rv = poll(fds, 1, 0);
-        printf("rv is %d\n", rv);
-        
-        if (rv == -1)
-        {
-            printf("An error occurred: %d\n", errno);
-            return;
-        }
-
-        if (rv == 1)
-        {
-            printf("Events occurred: %d.", rv);
-            char readmessage[20];
-            read(::pipefds[0], readmessage, sizeof(readmessage));
-            printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
-
-            UIElement *root = GetSubsystem<UI>()->GetRoot();
-            auto *cache = GetSubsystem<ResourceCache>();
-            auto* ui = GetSubsystem<UI>();
-                    
-            float timeStep = eventData[P_TIMESTEP].GetFloat();
-            float MOVE_SPEED=30.0f;
-        
-            if (strcmp(readmessage, OutputNote.c_str()) == 0){
-                std::cout << "You played the correct note\n";
-                shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
-                CreateText("You played the CORRECT note", "correctNoteText",
-                    0, ui->GetRoot()->GetHeight() / 4);                   
-            }
-            else{
-                shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
-                CreateText("You played the INCORRECT note", "incorrectNoteText",
-                    0, ui->GetRoot()->GetHeight() / 4);  
-                std::cout << "You played the INCORRECT note\n";
-            }
-        }
+        kill(parentpid, SIGUSR1);
     }
 }
 
