@@ -17,11 +17,16 @@ Link to our website: https://organisedafid.github.io/sound-pirates/
 - USB Sound Card
 - Microphone with 3.5mm jack connection
 - Headphones or speakers with 3.5mm jack connection
+- Instrument/Voice
+
+<p align="center">
+<img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/SoundPIratesHardware.gif" width="400" height="400" >
+</p>
 
 ## Installation
 
 To build and execute this project, please do the following:
-
+- Install  the following libraries: ```libboost-dev,  libboost-all-dev```
 - Install the Urho3D Game engine: a free lightweight, cross-platform 2D and 3D game engine implemented in C++ and released under the MIT license. Visit https://urho3d.github.io/ and follow install instructions for Raspberry Pi
 - Set the environment variable for the Urho3D folder on command line:\
 ```export URHO3D_HOME=folder_of_installed_Urho3D``` e.g ```export URHO3D_HOME=home/pi/Urho3D```
