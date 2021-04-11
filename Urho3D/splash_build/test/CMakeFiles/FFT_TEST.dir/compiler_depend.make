@@ -192,8 +192,10 @@ test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/
   /usr/include/arm-linux-gnueabihf/bits/mathcalls-narrow.h \
   /usr/include/arm-linux-gnueabihf/bits/iscanonical.h \
   /usr/include/arm-linux-gnueabihf/bits/mathinline.h \
-  /usr/include/SFML/Graphics.hpp \
-  /usr/include/SFML/Window.hpp \
+  /usr/include/c++/8/cstring \
+  /usr/include/string.h \
+  /usr/include/strings.h \
+  /usr/include/SFML/Audio.hpp \
   /usr/include/SFML/System.hpp \
   /usr/include/SFML/Config.hpp \
   /usr/include/SFML/System/Clock.hpp \
@@ -245,61 +247,6 @@ test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/
   /usr/include/SFML/System/Vector2.inl \
   /usr/include/SFML/System/Vector3.hpp \
   /usr/include/SFML/System/Vector3.inl \
-  /usr/include/SFML/Window/Clipboard.hpp \
-  /usr/include/SFML/Window/Export.hpp \
-  /usr/include/SFML/Window/Context.hpp \
-  /usr/include/SFML/Window/GlResource.hpp \
-  /usr/include/SFML/Window/ContextSettings.hpp \
-  /usr/include/SFML/Window/Cursor.hpp \
-  /usr/include/SFML/Window/Event.hpp \
-  /usr/include/SFML/Window/Joystick.hpp \
-  /usr/include/SFML/Window/Keyboard.hpp \
-  /usr/include/SFML/Window/Mouse.hpp \
-  /usr/include/SFML/Window/Sensor.hpp \
-  /usr/include/SFML/Window/Touch.hpp \
-  /usr/include/SFML/Window/VideoMode.hpp \
-  /usr/include/SFML/Window/Window.hpp \
-  /usr/include/SFML/Window/WindowHandle.hpp \
-  /usr/include/SFML/Window/WindowStyle.hpp \
-  /usr/include/SFML/Graphics/BlendMode.hpp \
-  /usr/include/SFML/Graphics/Export.hpp \
-  /usr/include/SFML/Graphics/CircleShape.hpp \
-  /usr/include/SFML/Graphics/Shape.hpp \
-  /usr/include/SFML/Graphics/Drawable.hpp \
-  /usr/include/SFML/Graphics/RenderStates.hpp \
-  /usr/include/SFML/Graphics/Transform.hpp \
-  /usr/include/SFML/Graphics/Rect.hpp \
-  /usr/include/SFML/Graphics/Rect.inl \
-  /usr/include/SFML/Graphics/Transformable.hpp \
-  /usr/include/SFML/Graphics/VertexArray.hpp \
-  /usr/include/SFML/Graphics/Vertex.hpp \
-  /usr/include/SFML/Graphics/Color.hpp \
-  /usr/include/SFML/Graphics/PrimitiveType.hpp \
-  /usr/include/SFML/Graphics/ConvexShape.hpp \
-  /usr/include/SFML/Graphics/Font.hpp \
-  /usr/include/SFML/Graphics/Glyph.hpp \
-  /usr/include/SFML/Graphics/Texture.hpp \
-  /usr/include/SFML/Graphics/Image.hpp \
-  /usr/include/c++/8/map \
-  /usr/include/c++/8/bits/stl_tree.h \
-  /usr/include/c++/8/ext/aligned_buffer.h \
-  /usr/include/c++/8/bits/stl_map.h \
-  /usr/include/c++/8/bits/stl_multimap.h \
-  /usr/include/SFML/Graphics/RectangleShape.hpp \
-  /usr/include/SFML/Graphics/RenderTarget.hpp \
-  /usr/include/SFML/Graphics/View.hpp \
-  /usr/include/SFML/Graphics/RenderTexture.hpp \
-  /usr/include/SFML/Graphics/RenderWindow.hpp \
-  /usr/include/SFML/Graphics/Shader.hpp \
-  /usr/include/SFML/Graphics/Glsl.hpp \
-  /usr/include/SFML/Graphics/Glsl.inl \
-  /usr/include/SFML/Graphics/Sprite.hpp \
-  /usr/include/SFML/Graphics/Text.hpp \
-  /usr/include/SFML/Graphics/VertexBuffer.hpp \
-  /usr/include/c++/8/cstring \
-  /usr/include/string.h \
-  /usr/include/strings.h \
-  /usr/include/SFML/Audio.hpp \
   /usr/include/SFML/Audio/InputSoundFile.hpp \
   /usr/include/SFML/Audio/Export.hpp \
   /usr/include/SFML/Audio/Listener.hpp \
@@ -311,6 +258,8 @@ test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/
   /usr/include/SFML/Audio/Sound.hpp \
   /usr/include/SFML/Audio/SoundBuffer.hpp \
   /usr/include/c++/8/set \
+  /usr/include/c++/8/bits/stl_tree.h \
+  /usr/include/c++/8/ext/aligned_buffer.h \
   /usr/include/c++/8/bits/stl_set.h \
   /usr/include/c++/8/bits/stl_multiset.h \
   /usr/include/SFML/Audio/SoundBufferRecorder.hpp \
@@ -1127,13 +1076,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
   /usr/include/boost/test/tree/global_fixture.hpp \
   /usr/include/boost/config/auto_link.hpp \
   /home/pi/sound-pirates/Urho3D/splash/fft.h \
-  /usr/include/c++/8/math.h \
-  /usr/include/fftw3.h \
-  /usr/include/c++/8/iostream \
-  /home/pi/sound-pirates/Urho3D/splash/defineNote.h
+  /usr/include/fftw3.h
 
-
-/home/pi/sound-pirates/Urho3D/splash/defineNote.h:
 
 /usr/include/boost/config/auto_link.hpp:
 
@@ -1198,6 +1142,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/boost/mpl/begin_end_fwd.hpp:
 
 /usr/include/boost/mpl/is_sequence.hpp:
+
+/usr/include/boost/mpl/for_each.hpp:
 
 /usr/include/boost/test/tree/test_case_template.hpp:
 
@@ -1271,6 +1217,10 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/bitset:
 
+/usr/include/c++/8/bits/stl_multimap.h:
+
+/usr/include/c++/8/bits/stl_map.h:
+
 /usr/include/c++/8/bits/list.tcc:
 
 /usr/include/c++/8/deque:
@@ -1297,6 +1247,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/cstdint.hpp:
 
+/usr/include/boost/integer_fwd.hpp:
+
 /usr/include/boost/test/tools/detail/indirections.hpp:
 
 /usr/include/boost/integer.hpp:
@@ -1321,73 +1273,65 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/aux_/config/pp_counter.hpp:
 
-/usr/include/boost/mpl/assert.hpp:
+/usr/include/c++/8/bits/stl_multiset.h:
 
-/usr/include/boost/type_traits/remove_extent.hpp:
+/usr/include/boost/test/utils/basic_cstring/basic_cstring.hpp:
+
+/usr/include/boost/predef/os/irix.h:
+
+/usr/include/boost/test/detail/global_typedef.hpp:
+
+/usr/include/boost/test/tools/old/impl.hpp:
+
+/usr/include/boost/preprocessor/tuple/rem.hpp:
+
+/usr/include/boost/config/helper_macros.hpp:
+
+/usr/include/boost/preprocessor/facilities/overload.hpp:
+
+/usr/include/boost/preprocessor/seq/seq.hpp:
+
+/usr/include/boost/preprocessor/facilities/empty.hpp:
+
+/usr/include/c++/8/string:
+
+/usr/include/asm-generic/errno.h:
+
+/usr/include/boost/mpl/apply.hpp:
+
+/usr/include/boost/preprocessor/cat.hpp:
+
+/usr/include/boost/preprocessor/control/iif.hpp:
+
+/usr/include/boost/preprocessor/arithmetic/dec.hpp:
+
+/usr/include/boost/preprocessor/seq/for_each.hpp:
+
+/usr/include/boost/preprocessor/variadic/size.hpp:
 
 /usr/include/boost/type_traits/remove_bounds.hpp:
 
-/usr/include/boost/move/core.hpp:
+/usr/include/boost/preprocessor/seq/detail/is_empty.hpp:
 
-/usr/include/boost/type_traits/decay.hpp:
+/usr/include/boost/config/workaround.hpp:
 
-/usr/include/boost/test/tools/interface.hpp:
+/usr/include/boost/test/detail/config.hpp:
 
-/usr/include/arm-linux-gnueabihf/bits/posix2_lim.h:
+/usr/include/arm-linux-gnueabihf/bits/types/FILE.h:
 
-/usr/include/arm-linux-gnueabihf/bits/posix1_lim.h:
+/usr/include/boost/preprocessor/seq/elem.hpp:
 
-/usr/include/limits.h:
+/usr/include/boost/config/detail/posix_features.hpp:
 
-/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed/limits.h:
+/usr/include/boost/config/platform/linux.hpp:
 
-/usr/include/c++/8/climits:
+/usr/include/boost/config/detail/select_platform_config.hpp:
 
-/usr/include/boost/mpl/aux_/preprocessed/gcc/less.hpp:
-
-/usr/include/boost/type_traits/detail/mp_defer.hpp:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/times.hpp:
-
-/usr/include/boost/container_hash/detail/hash_float.hpp:
-
-/usr/include/boost/mpl/aux_/largest_int.hpp:
-
-/usr/include/boost/mpl/aux_/arithmetic_op.hpp:
-
-/usr/include/boost/mpl/aux_/common_name_wknd.hpp:
-
-/usr/include/boost/mpl/times.hpp:
-
-/usr/include/boost/mpl/multiplies.hpp:
-
-/usr/include/boost/numeric/conversion/detail/is_subranged.hpp:
-
-/usr/include/boost/numeric/conversion/udt_builtin_mixture_enum.hpp:
-
-/usr/include/boost/numeric/conversion/detail/sign_mixture.hpp:
-
-/usr/include/boost/mpl/integral_c_fwd.hpp:
-
-/usr/include/boost/numeric/conversion/int_float_mixture_enum.hpp:
-
-/usr/include/boost/mpl/identity.hpp:
-
-/usr/include/boost/mpl/not.hpp:
-
-/usr/include/boost/mpl/aux_/is_msvc_eti_arg.hpp:
-
-/usr/include/boost/mpl/aux_/config/forwarding.hpp:
-
-/usr/include/boost/mpl/void.hpp:
-
-/usr/include/boost/mpl/tag.hpp:
+/usr/include/boost/mpl/if.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/confname.h:
 
 /usr/include/arm-linux-gnueabihf/bits/getopt_core.h:
-
-/usr/include/SFML/Window.hpp:
 
 /usr/include/c++/8/bits/stl_algo.h:
 
@@ -1403,6 +1347,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/config/stdlib/libstdcpp3.hpp:
 
+/usr/include/boost/test/detail/suppress_warnings.hpp:
+
 /usr/include/c++/8/cstddef:
 
 /usr/include/boost/predef/os/windows.h:
@@ -1415,9 +1361,19 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/config/user.hpp:
 
+/usr/include/boost/preprocessor/seq/size.hpp:
+
+/usr/include/boost/test/test_tools.hpp:
+
 /usr/include/boost/preprocessor/repetition/repeat.hpp:
 
 /home/pi/sound-pirates/Urho3D/splash/test/fft_test.cpp:
+
+/usr/include/c++/8/iosfwd:
+
+/home/pi/sound-pirates/Urho3D/splash/audioIn.h:
+
+/usr/include/c++/8/debug/assertions.h:
 
 /usr/include/SFML/Audio/SoundFileWriter.hpp:
 
@@ -1427,117 +1383,23 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/SFML/Audio/SoundFileReader.hpp:
 
-/usr/include/SFML/Audio/SoundRecorder.hpp:
-
-/usr/include/SFML/Audio/SoundBufferRecorder.hpp:
-
-/usr/include/SFML/Graphics/PrimitiveType.hpp:
-
-/usr/include/SFML/Audio/Sound.hpp:
-
-/usr/include/boost/test/utils/basic_cstring/bcs_char_traits.hpp:
-
 /usr/include/SFML/Audio/InputSoundFile.hpp:
 
 /usr/include/arm-linux-gnueabihf/c++/8/bits/c++allocator.h:
 
-/usr/include/arm-linux-gnueabihf/bits/xopen_lim.h:
+/usr/include/SFML/Audio/SoundRecorder.hpp:
 
-/usr/include/boost/type_traits/is_complete.hpp:
+/usr/include/SFML/Audio/SoundBufferRecorder.hpp:
 
-/usr/include/c++/8/bits/localefwd.h:
+/usr/include/c++/8/set:
 
-/usr/include/boost/mpl/for_each.hpp:
+/usr/include/c++/8/ext/aligned_buffer.h:
 
-/usr/include/SFML/Graphics/View.hpp:
+/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed/syslimits.h:
 
-/home/pi/sound-pirates/Urho3D/splash/audioIn.h:
+/usr/include/SFML/Audio/Sound.hpp:
 
-/usr/include/c++/8/debug/assertions.h:
-
-/usr/include/SFML/Graphics/RenderTarget.hpp:
-
-/usr/include/boost/core/demangle.hpp:
-
-/usr/include/boost/mpl/aux_/lambda_support.hpp:
-
-/usr/include/c++/8/bits/stl_multimap.h:
-
-/usr/include/boost/mpl/aux_/template_arity.hpp:
-
-/usr/include/boost/predef/compiler/edg.h:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/and.hpp:
-
-/usr/include/c++/8/bits/stl_heap.h:
-
-/usr/include/SFML/Graphics/Texture.hpp:
-
-/usr/include/SFML/System/Thread.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/mathcalls-helper-functions.h:
-
-/usr/include/SFML/Graphics/Shape.hpp:
-
-/usr/include/boost/predef/detail/_exception.h:
-
-/usr/include/boost/mpl/less.hpp:
-
-/usr/include/boost/test/detail/fwd_decl.hpp:
-
-/usr/include/SFML/Graphics/ConvexShape.hpp:
-
-/usr/include/SFML/Graphics/Color.hpp:
-
-/usr/include/boost/predef/architecture/z.h:
-
-/usr/include/SFML/Graphics/Transformable.hpp:
-
-/usr/include/SFML/Graphics/Rect.inl:
-
-/usr/include/boost/container_hash/detail/limits.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/types/__sigset_t.h:
-
-/usr/include/SFML/Graphics/RenderStates.hpp:
-
-/usr/include/c++/8/bits/postypes.h:
-
-/usr/include/SFML/Graphics/CircleShape.hpp:
-
-/usr/include/SFML/Window/WindowHandle.hpp:
-
-/usr/include/boost/test/test_tools.hpp:
-
-/usr/include/SFML/Window/Window.hpp:
-
-/usr/include/SFML/Graphics/Sprite.hpp:
-
-/usr/include/c++/8/iosfwd:
-
-/usr/include/SFML/Window/VideoMode.hpp:
-
-/usr/include/boost/mpl/aux_/config/gpu.hpp:
-
-/usr/include/SFML/Audio/Music.hpp:
-
-/usr/include/SFML/Graphics/Image.hpp:
-
-/usr/include/SFML/Window/Joystick.hpp:
-
-/usr/include/boost/mpl/aux_/nested_type_wknd.hpp:
-
-/usr/include/SFML/Graphics/Rect.hpp:
-
-/usr/include/boost/predef/compiler/visualc.h:
-
-/usr/include/boost/predef/library/std/modena.h:
-
-/usr/include/boost/integer_fwd.hpp:
-
-/usr/include/SFML/Window/Export.hpp:
-
-/usr/include/boost/predef/other/endian.h:
+/usr/include/boost/test/utils/basic_cstring/bcs_char_traits.hpp:
 
 /usr/include/SFML/Audio/Export.hpp:
 
@@ -1547,7 +1409,13 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/limits/arity.hpp:
 
+/usr/include/arm-linux-gnueabihf/bits/stdio.h:
+
+/usr/include/boost/preprocessor/repetition/detail/for.hpp:
+
 /usr/include/c++/8/bits/stream_iterator.h:
+
+/usr/include/boost/mpl/aux_/is_msvc_eti_arg.hpp:
 
 /usr/include/c++/8/iterator:
 
@@ -1561,6 +1429,10 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/bits/atomic_base.h:
 
+/usr/include/SFML/System/Vector3.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/floatn-common.h:
+
 /usr/include/c++/8/bits/unique_ptr.h:
 
 /usr/include/c++/8/bits/locale_facets_nonio.tcc:
@@ -1569,17 +1441,15 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/compiler/digitalmars.h:
 
-/usr/include/SFML/Window/ContextSettings.hpp:
-
-/usr/include/boost/mpl/aux_/na.hpp:
-
 /usr/include/arm-linux-gnueabihf/c++/8/bits/messages_members.h:
 
 /usr/include/boost/smart_ptr/detail/sp_counted_base_std_atomic.hpp:
 
-/usr/include/SFML/Window/Mouse.hpp:
-
 /usr/include/c++/8/bits/exception_ptr.h:
+
+/usr/include/boost/type_traits/cv_traits.hpp:
+
+/usr/include/boost/config/detail/suffix.hpp:
 
 /usr/include/c++/8/bits/locale_facets_nonio.h:
 
@@ -1590,6 +1460,10 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/c++/8/locale:
 
 /usr/include/c++/8/limits:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/and.hpp:
+
+/usr/include/c++/8/bits/stl_heap.h:
 
 /usr/include/errno.h:
 
@@ -1605,43 +1479,25 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/SFML/System/Vector2.hpp:
 
-/usr/include/boost/predef/library/std/cxx.h:
-
-/usr/include/c++/8/bits/std_abs.h:
-
-/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed/syslimits.h:
-
-/usr/include/c++/8/ext/aligned_buffer.h:
-
-/usr/include/boost/config/platform/linux.hpp:
-
 /usr/include/SFML/System/Time.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/stdlib-bsearch.h:
 
 /usr/include/boost/preprocessor/empty.hpp:
 
-/usr/include/SFML/Window/Context.hpp:
-
 /usr/include/SFML/System/Export.hpp:
 
 /usr/include/SFML/System/ThreadLocalPtr.hpp:
 
-/usr/include/c++/8/set:
+/usr/include/arm-linux-gnueabihf/bits/mathcalls-helper-functions.h:
 
-/usr/include/boost/test/tools/assertion_result.hpp:
-
-/usr/include/SFML/System/Vector3.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/floatn-common.h:
+/usr/include/boost/predef/detail/_exception.h:
 
 /usr/include/SFML/Audio/Listener.hpp:
 
 /usr/include/SFML/Audio/SoundSource.hpp:
 
 /usr/include/pthread.h:
-
-/usr/include/SFML/Graphics/Text.hpp:
 
 /usr/include/stdint.h:
 
@@ -1663,19 +1519,15 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/sstream:
 
+/usr/include/boost/preprocessor/tuple/elem.hpp:
+
 /usr/include/arm-linux-gnueabihf/sys/select.h:
 
 /usr/include/c++/8/bits/locale_facets.tcc:
 
 /usr/include/boost/preprocessor/arithmetic/inc.hpp:
 
-/usr/include/boost/mpl/and.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/wctype-wchar.h:
-
 /usr/include/boost/preprocessor/control/detail/while.hpp:
-
-/usr/include/SFML/Audio/AlResource.hpp:
 
 /usr/include/boost/config/no_tr1/cmath.hpp:
 
@@ -1685,27 +1537,13 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/c++/8/bits/ctype_inline.h:
 
-/usr/include/arm-linux-gnueabihf/c++/8/bits/error_constants.h:
-
-/usr/include/c++/8/bits/ostream.tcc:
-
-/usr/include/c++/8/bits/shared_ptr_base.h:
-
 /usr/include/boost/smart_ptr/detail/sp_nullptr_t.hpp:
 
-/usr/include/boost/config/helper_macros.hpp:
+/usr/include/SFML/Audio/AlResource.hpp:
 
-/usr/include/boost/preprocessor/tuple/rem.hpp:
+/usr/include/boost/mpl/assert.hpp:
 
 /usr/include/boost/predef/compiler/iar.h:
-
-/usr/include/SFML/Graphics/RenderTexture.hpp:
-
-/usr/include/boost/type.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/timex.h:
-
-/usr/include/c++/8/bits/hash_bytes.h:
 
 /usr/include/ctype.h:
 
@@ -1729,15 +1567,7 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/stdint-uintn.h:
 
-/usr/include/SFML/Graphics/Glsl.hpp:
-
 /usr/include/libintl.h:
-
-/usr/include/boost/predef/hardware/simd/x86.h:
-
-/usr/include/arm-linux-gnueabihf/c++/8/bits/time_members.h:
-
-/usr/include/c++/8/ext/string_conversions.h:
 
 /usr/include/arm-linux-gnueabihf/bits/stdint-intn.h:
 
@@ -1755,8 +1585,6 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/types/__fpos64_t.h:
 
-/usr/include/SFML/Window/Touch.hpp:
-
 /usr/include/SFML/System/Mutex.hpp:
 
 /usr/include/c++/8/cstring:
@@ -1765,17 +1593,21 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/bits/atomic_lockfree_defines.h:
 
+/usr/include/boost/predef/language.h:
+
 /usr/include/c++/8/bits/exception_defines.h:
 
-/usr/include/linux/limits.h:
+/usr/include/boost/preprocessor/control/expr_iif.hpp:
 
-/usr/include/SFML/System.hpp:
-
-/usr/include/boost/test/detail/workaround.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/types/__mbstate_t.h:
+/usr/include/arm-linux-gnueabihf/bits/types/time_t.h:
 
 /usr/include/arm-linux-gnueabihf/bits/environments.h:
+
+/usr/include/boost/preprocessor/control/if.hpp:
+
+/usr/lib/gcc/arm-linux-gnueabihf/8/include/stdint.h:
+
+/usr/include/boost/type_traits/add_reference.hpp:
 
 /usr/include/boost/mpl/aux_/arity.hpp:
 
@@ -1783,23 +1615,25 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/floatn.h:
 
+/usr/include/SFML/System.hpp:
+
+/usr/include/linux/limits.h:
+
 /usr/include/SFML/Audio/SoundFileFactory.hpp:
 
 /usr/include/boost/preprocessor/variadic/elem.hpp:
-
-/usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp:
-
-/usr/include/boost/test/utils/wrap_stringstream.hpp:
 
 /usr/include/boost/mpl/deref.hpp:
 
 /usr/include/boost/test/utils/basic_cstring/io.hpp:
 
+/usr/include/boost/test/tools/context.hpp:
+
+/usr/include/SFML/Audio/SoundStream.hpp:
+
 /usr/include/arm-linux-gnueabihf/c++/8/bits/c++locale.h:
 
 /usr/include/arm-linux-gnueabihf/bits/types/struct_FILE.h:
-
-/usr/include/SFML/Graphics/RectangleShape.hpp:
 
 /usr/include/boost/predef/os/haiku.h:
 
@@ -1810,6 +1644,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/c++/8/bits/memoryfwd.h:
 
 /usr/include/boost/smart_ptr/detail/operator_bool.hpp:
+
+/usr/include/boost/smart_ptr/detail/sp_has_sync.hpp:
 
 /usr/include/c++/8/bits/uniform_int_dist.h:
 
@@ -1831,15 +1667,21 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/pthreadtypes-arch.h:
 
-/usr/include/SFML/Graphics/BlendMode.hpp:
+/usr/include/boost/test/tools/old/interface.hpp:
+
+/usr/include/linux/errno.h:
+
+/usr/include/boost/predef/language/stdc.h:
+
+/usr/include/boost/predef/library/std/stdcpp3.h:
+
+/usr/include/boost/preprocessor/list/fold_left.hpp:
+
+/usr/include/boost/type_traits/declval.hpp:
 
 /usr/include/SFML/System/String.hpp:
 
 /usr/include/boost/predef/architecture/alpha.h:
-
-/usr/include/boost/mpl/aux_/has_tag.hpp:
-
-/usr/include/boost/predef/compiler.h:
 
 /usr/include/c++/8/bits/char_traits.h:
 
@@ -1847,9 +1689,25 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/types/__locale_t.h:
 
+/usr/include/c++/8/bits/postypes.h:
+
 /usr/include/stdc-predef.h:
 
 /usr/include/SFML/System/String.inl:
+
+/usr/include/c++/8/bits/localefwd.h:
+
+/usr/include/c++/8/bits/ostream.tcc:
+
+/usr/include/c++/8/bits/shared_ptr_base.h:
+
+/usr/include/arm-linux-gnueabihf/c++/8/bits/error_constants.h:
+
+/usr/include/arm-linux-gnueabihf/c++/8/bits/time_members.h:
+
+/usr/include/c++/8/ext/string_conversions.h:
+
+/usr/include/boost/predef/hardware/simd/x86.h:
 
 /usr/include/c++/8/array:
 
@@ -1861,17 +1719,21 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/gnu/stubs.h:
 
+/usr/include/boost/integer/static_log2.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/types/locale_t.h:
+
+/usr/include/strings.h:
+
 /home/pi/sound-pirates/Urho3D/splash/RtAudio.h:
-
-/usr/include/boost/numeric/conversion/detail/int_float_mixture.hpp:
-
-/usr/include/boost/predef/architecture/ia64.h:
 
 /usr/include/arm-linux-gnueabihf/bits/posix_opt.h:
 
 /usr/include/boost/mpl/bool.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/types.h:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/less.hpp:
 
 /usr/include/boost/aligned_storage.hpp:
 
@@ -1883,11 +1745,21 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/long-double.h:
 
+/usr/include/boost/type_traits/is_lvalue_reference.hpp:
+
+/usr/include/boost/preprocessor/logical/compl.hpp:
+
+/usr/include/boost/preprocessor/facilities/expand.hpp:
+
 /usr/include/c++/8/bits/stringfwd.h:
 
 /home/pi/sound-pirates/Urho3D/splash/fft.cpp:
 
 /usr/include/c++/8/system_error:
+
+/usr/include/c++/8/iostream:
+
+/usr/include/boost/predef/architecture/x86/64.h:
 
 /usr/include/c++/8/bits/cpp_type_traits.h:
 
@@ -1899,33 +1771,21 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/type_traits/is_pointer.hpp:
 
+/usr/include/boost/type_traits/remove_extent.hpp:
+
 /usr/include/arm-linux-gnueabihf/bits/libc-header-start.h:
 
 /usr/include/c++/8/bits/nested_exception.h:
 
 /usr/include/c++/8/ext/type_traits.h:
 
-/usr/include/SFML/Graphics/Font.hpp:
-
 /usr/include/arm-linux-gnueabihf/bits/mathcalls.h:
-
-/usr/include/SFML/Window/Sensor.hpp:
-
-/usr/include/c++/8/clocale:
-
-/usr/include/c++/8/bits/locale_classes.h:
 
 /usr/include/boost/config/detail/select_compiler_config.hpp:
 
 /usr/include/boost/config.hpp:
 
 /usr/include/boost/predef/compiler/mpw.h:
-
-/usr/include/c++/8/string:
-
-/usr/include/asm-generic/errno.h:
-
-/usr/include/boost/preprocessor/facilities/empty.hpp:
 
 /usr/include/c++/8/bits/exception.h:
 
@@ -1951,15 +1811,13 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/os/bsd/bsdi.h:
 
+/usr/include/boost/numeric/conversion/int_float_mixture_enum.hpp:
+
 /usr/include/c++/8/bits/stl_iterator_base_funcs.h:
 
 /usr/include/c++/8/complex:
 
-/usr/include/SFML/Window/Keyboard.hpp:
-
 /usr/include/boost/predef/version_number.h:
-
-/usr/include/boost/mpl/aux_/include_preprocessed.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/types/struct_tm.h:
 
@@ -1967,7 +1825,17 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/cassert:
 
+/usr/include/boost/numeric/conversion/udt_builtin_mixture_enum.hpp:
+
 /usr/include/arm-linux-gnueabihf/sys/types.h:
+
+/usr/include/boost/preprocessor/repetition/for.hpp:
+
+/usr/include/boost/config/detail/select_stdlib_config.hpp:
+
+/usr/include/boost/predef/architecture/x86/32.h:
+
+/usr/include/boost/test/tree/observer.hpp:
 
 /usr/include/boost/numeric/conversion/conversion_traits.hpp:
 
@@ -1975,15 +1843,7 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/bits/locale_classes.tcc:
 
-/usr/include/arm-linux-gnueabihf/bits/types/FILE.h:
-
-/usr/include/boost/test/detail/config.hpp:
-
-/usr/include/boost/preprocessor/seq/elem.hpp:
-
 /usr/include/c++/8/bits/stl_iterator.h:
-
-/usr/include/SFML/Graphics/RenderWindow.hpp:
 
 /usr/include/boost/type_traits/is_floating_point.hpp:
 
@@ -1994,6 +1854,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/SFML/System/Clock.hpp:
 
 /usr/include/boost/predef/compiler/gcc_xml.h:
+
+/usr/include/SFML/System/Thread.hpp:
 
 /usr/include/c++/8/bits/sstream.tcc:
 
@@ -2011,17 +1873,9 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/uintn-identity.h:
 
-/usr/include/boost/test/detail/pp_variadic.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/types/sigset_t.h:
-
-/usr/include/SFML/Graphics/Glsl.inl:
-
-/usr/include/boost/current_function.hpp:
-
-/usr/include/SFML/Graphics/VertexArray.hpp:
-
 /usr/include/arm-linux-gnueabihf/bits/thread-shared-types.h:
+
+/usr/include/boost/preprocessor/tuple/detail/is_single_return.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/cpu-set.h:
 
@@ -2035,10 +1889,6 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/c++/8/bits/atomic_word.h:
 
-/usr/include/boost/predef/architecture/rs6k.h:
-
-/usr/include/boost/predef/architecture.h:
-
 /usr/include/SFML/Audio/OutputSoundFile.hpp:
 
 /usr/include/c++/8/ext/new_allocator.h:
@@ -2051,9 +1901,23 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/bits/range_access.h:
 
+/usr/include/boost/container_hash/detail/limits.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/types/__sigset_t.h:
+
 /usr/include/stdio.h:
 
+/usr/include/c++/8/map:
+
+/usr/include/boost/test/detail/enable_warnings.hpp:
+
+/usr/include/boost/predef/library/std/roguewave.h:
+
 /usr/include/c++/8/bits/basic_string.tcc:
+
+/usr/include/boost/preprocessor/tuple/eat.hpp:
+
+/usr/include/c++/8/ostream:
 
 /usr/include/wchar.h:
 
@@ -2067,29 +1931,9 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/language/objc.h:
 
-/usr/include/SFML/Window/Cursor.hpp:
-
 /usr/include/c++/8/backward/binders.h:
 
 /usr/include/c++/8/bits/basic_string.h:
-
-/usr/include/c++/8/bits/stl_map.h:
-
-/usr/include/arm-linux-gnueabihf/bits/math-vector.h:
-
-/usr/include/boost/core/addressof.hpp:
-
-/usr/include/boost/predef/compiler/hp_acc.h:
-
-/usr/include/locale.h:
-
-/usr/include/boost/predef/library/c/gnu.h:
-
-/usr/include/boost/predef/platform/mingw32.h:
-
-/usr/include/boost/mpl/aux_/config/adl.hpp:
-
-/usr/include/boost/config/detail/posix_features.hpp:
 
 /usr/include/c++/8/ext/atomicity.h:
 
@@ -2115,6 +1959,14 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/hardware/simd/ppc/versions.h:
 
+/usr/include/boost/mpl/bind.hpp:
+
+/usr/include/string.h:
+
+/usr/include/boost/preprocessor/seq/to_tuple.hpp:
+
+/usr/include/arm-linux-gnueabihf/c++/8/bits/gthr-default.h:
+
 /usr/include/arm-linux-gnueabihf/c++/8/bits/cpu_defines.h:
 
 /usr/include/time.h:
@@ -2135,27 +1987,11 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/utility:
 
-/usr/lib/gcc/arm-linux-gnueabihf/8/include/stdint.h:
-
-/usr/include/boost/preprocessor/control/if.hpp:
-
-/usr/include/boost/type_traits/add_reference.hpp:
-
-/usr/include/SFML/Graphics.hpp:
-
 /usr/include/stdlib.h:
 
 /usr/include/c++/8/bits/stl_tempbuf.h:
 
 /usr/include/boost/preprocessor/array/data.hpp:
-
-/usr/include/boost/predef/architecture/sparc.h:
-
-/usr/include/boost/mpl/or.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/types/time_t.h:
-
-/usr/include/boost/preprocessor/control/expr_iif.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/types/clock_t.h:
 
@@ -2165,19 +2001,17 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/wctype.h:
 
+/usr/include/c++/8/bits/locale_classes.h:
+
+/usr/include/c++/8/clocale:
+
+/usr/include/boost/type_traits/is_complete.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/xopen_lim.h:
+
 /usr/include/math.h:
 
 /usr/include/arm-linux-gnueabihf/bits/errno.h:
-
-/usr/include/boost/integer/static_log2.hpp:
-
-/usr/include/strings.h:
-
-/usr/include/arm-linux-gnueabihf/bits/types/locale_t.h:
-
-/usr/include/boost/type_traits/cv_traits.hpp:
-
-/usr/include/boost/config/detail/suffix.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/arg.hpp:
 
@@ -2187,33 +2021,25 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/arm-linux-gnueabihf/bits/types/__fpos_t.h:
 
-/usr/include/SFML/Graphics/Drawable.hpp:
-
 /usr/include/asm-generic/errno-base.h:
 
 /usr/include/boost/mpl/aux_/preprocessed/gcc/bind_fwd.hpp:
 
 /usr/include/boost/predef/os/solaris.h:
 
-/usr/include/SFML/Window/GlResource.hpp:
+/usr/include/boost/mpl/aux_/arithmetic_op.hpp:
 
 /usr/include/fftw3.h:
 
 /usr/include/arm-linux-gnueabihf/bits/types/struct_itimerspec.h:
 
-/usr/include/c++/8/bits/stl_multiset.h:
+/usr/include/boost/type_traits/add_const.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/stdio_lim.h:
-
-/usr/include/boost/type_traits/add_const.hpp:
 
 /usr/include/arm-linux-gnueabihf/bits/sys_errlist.h:
 
 /usr/include/boost/mpl/int.hpp:
-
-/usr/include/boost/preprocessor/repetition/detail/for.hpp:
-
-/usr/include/arm-linux-gnueabihf/bits/stdio.h:
 
 /usr/include/boost/mpl/int_fwd.hpp:
 
@@ -2243,6 +2069,10 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/SFML/System/Sleep.hpp:
 
+/usr/include/boost/move/core.hpp:
+
+/usr/include/boost/type_traits/decay.hpp:
+
 /usr/include/c++/8/bits/stl_construct.h:
 
 /usr/include/c++/8/bits/stl_uninitialized.h:
@@ -2257,131 +2087,17 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/c++/8/stdexcept:
 
-/usr/include/c++/8/bits/basic_ios.h:
-
-/usr/include/boost/type_traits/is_same.hpp:
-
-/usr/include/boost/mpl/bind.hpp:
-
-/usr/include/string.h:
-
-/usr/include/arm-linux-gnueabihf/c++/8/bits/gthr-default.h:
-
-/usr/include/boost/preprocessor/seq/to_tuple.hpp:
-
-/usr/include/c++/8/iostream:
-
-/usr/include/boost/predef/architecture/x86/64.h:
-
-/usr/include/boost/mpl/aux_/preprocessed/gcc/equal_to.hpp:
-
-/usr/include/boost/mpl/aux_/msvc_eti_base.hpp:
-
-/usr/include/SFML/System/ThreadLocalPtr.inl:
-
-/usr/include/arm-linux-gnueabihf/bits/types/timer_t.h:
-
-/usr/include/c++/8/ostream:
-
-/usr/include/boost/preprocessor/tuple/eat.hpp:
-
-/usr/include/c++/8/bits/ios_base.h:
-
-/usr/include/arm-linux-gnueabihf/bits/local_lim.h:
-
-/usr/include/boost/type_traits/add_pointer.hpp:
-
-/usr/include/c++/8/bits/streambuf.tcc:
-
-/usr/include/boost/config/detail/select_platform_config.hpp:
-
-/usr/include/boost/mpl/if.hpp:
-
-/usr/include/boost/config/workaround.hpp:
-
-/usr/include/SFML/Audio/SoundStream.hpp:
-
-/usr/include/boost/test/tools/context.hpp:
-
-/usr/include/boost/predef/language.h:
-
-/usr/include/boost/test/detail/suppress_warnings.hpp:
-
-/usr/include/c++/8/map:
-
-/usr/include/boost/test/detail/enable_warnings.hpp:
-
-/usr/include/boost/predef/library/std/roguewave.h:
-
-/usr/include/boost/test/tools/old/interface.hpp:
-
-/usr/include/linux/errno.h:
-
-/usr/include/boost/predef/language/stdc.h:
-
-/usr/include/boost/predef/library/std/stdcpp3.h:
-
-/usr/include/boost/preprocessor/list/fold_left.hpp:
-
-/usr/include/boost/type_traits/declval.hpp:
-
-/usr/include/boost/preprocessor/seq/for_each.hpp:
-
-/usr/include/boost/preprocessor/variadic/size.hpp:
-
-/usr/include/boost/preprocessor/arithmetic/dec.hpp:
-
-/usr/include/SFML/Graphics/Transform.hpp:
-
-/usr/include/boost/preprocessor/control/iif.hpp:
-
-/usr/include/boost/config/detail/select_stdlib_config.hpp:
-
-/usr/include/boost/preprocessor/repetition/for.hpp:
-
-/usr/include/boost/smart_ptr/detail/sp_has_sync.hpp:
-
-/usr/include/boost/mpl/apply.hpp:
-
-/usr/include/boost/preprocessor/cat.hpp:
-
-/usr/include/boost/mpl/integral_c.hpp:
-
-/usr/include/boost/preprocessor/detail/auto_rec.hpp:
-
-/usr/include/boost/preprocessor/seq/seq.hpp:
-
-/usr/include/boost/preprocessor/seq/size.hpp:
-
-/usr/include/boost/preprocessor/seq/detail/is_empty.hpp:
-
-/usr/include/boost/type_traits/is_lvalue_reference.hpp:
-
-/usr/include/boost/preprocessor/logical/compl.hpp:
-
-/usr/include/boost/preprocessor/tuple/elem.hpp:
-
-/usr/include/boost/preprocessor/facilities/expand.hpp:
-
-/usr/include/boost/preprocessor/facilities/overload.hpp:
-
-/usr/include/boost/preprocessor/tuple/detail/is_single_return.hpp:
-
 /usr/include/boost/preprocessor/seq/enum.hpp:
 
 /usr/include/boost/mpl/apply_wrap.hpp:
 
-/usr/include/boost/test/tools/old/impl.hpp:
+/usr/include/c++/8/bits/basic_ios.h:
 
-/usr/include/boost/predef/architecture/x86/32.h:
+/usr/include/boost/type_traits/is_same.hpp:
 
-/usr/include/boost/test/tree/observer.hpp:
+/usr/include/c++/8/bits/ios_base.h:
 
-/usr/include/boost/test/detail/global_typedef.hpp:
-
-/usr/include/boost/test/utils/basic_cstring/basic_cstring.hpp:
-
-/usr/include/boost/predef/os/irix.h:
+/usr/include/c++/8/bits/streambuf.tcc:
 
 /usr/include/c++/8/typeinfo:
 
@@ -2389,15 +2105,17 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/test/utils/basic_cstring/basic_cstring_fwd.hpp:
 
-/usr/include/boost/preprocessor/list/fold_right.hpp:
-
-/usr/include/boost/type_traits/is_arithmetic.hpp:
-
-/usr/include/boost/version.hpp:
+/usr/include/boost/test/tools/assertion_result.hpp:
 
 /usr/include/c++/8/bits/shared_ptr_atomic.h:
 
 /usr/include/boost/type_traits/remove_cv.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/types/__mbstate_t.h:
+
+/usr/include/boost/test/detail/workaround.hpp:
+
+/usr/include/boost/mpl/aux_/na.hpp:
 
 /usr/include/boost/test/detail/log_level.hpp:
 
@@ -2425,8 +2143,6 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/hardware/simd/x86_amd.h:
 
-/usr/include/SFML/Graphics/VertexBuffer.hpp:
-
 /usr/include/boost/preprocessor/comma_if.hpp:
 
 /usr/include/boost/type_traits/is_function.hpp:
@@ -2437,6 +2153,22 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/platform/mingw.h:
 
+/usr/include/boost/mpl/tag.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/math-vector.h:
+
+/usr/include/boost/core/addressof.hpp:
+
+/usr/include/boost/predef/compiler/hp_acc.h:
+
+/usr/include/locale.h:
+
+/usr/include/boost/predef/library/c/gnu.h:
+
+/usr/include/boost/predef/platform/mingw32.h:
+
+/usr/include/boost/mpl/aux_/config/adl.hpp:
+
 /usr/include/boost/mpl/aux_/preprocessed/gcc/apply_wrap.hpp:
 
 /usr/include/boost/shared_ptr.hpp:
@@ -2446,6 +2178,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/boost/preprocessor/detail/check.hpp:
 
 /usr/include/c++/8/bits/stl_raw_storage_iter.h:
+
+/usr/include/boost/numeric/conversion/detail/is_subranged.hpp:
 
 /usr/include/boost/mpl/aux_/preprocessor/params.hpp:
 
@@ -2469,6 +2203,10 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/aux_/preprocessor/enum.hpp:
 
+/usr/include/boost/preprocessor/detail/auto_rec.hpp:
+
+/usr/include/boost/mpl/integral_c.hpp:
+
 /usr/include/c++/8/backward/auto_ptr.h:
 
 /usr/include/boost/predef/os/bsd/net.h:
@@ -2477,6 +2215,8 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/assert.hpp:
 
+/usr/include/arm-linux-gnueabihf/bits/posix2_lim.h:
+
 /usr/include/boost/preprocessor/comparison/equal.hpp:
 
 /usr/include/boost/core/checked_delete.hpp:
@@ -2484,6 +2224,10 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/boost/throw_exception.hpp:
 
 /usr/include/boost/mpl/aux_/config/msvc_typename.hpp:
+
+/usr/include/boost/current_function.hpp:
+
+/usr/include/boost/predef/other/endian.h:
 
 /usr/include/boost/test/tools/detail/it_pair.hpp:
 
@@ -2501,9 +2245,11 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/detail/sp_typeinfo.hpp:
 
-/usr/include/c++/8/cxxabi.h:
+/usr/include/boost/core/demangle.hpp:
 
-/usr/include/SFML/Window/WindowStyle.hpp:
+/usr/include/boost/mpl/aux_/lambda_support.hpp:
+
+/usr/include/c++/8/cxxabi.h:
 
 /usr/include/arm-linux-gnueabihf/c++/8/bits/cxxabi_tweaks.h:
 
@@ -2523,15 +2269,11 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/type_traits/alignment_of.hpp:
 
-/usr/include/boost/predef/compiler/palm.h:
-
 /usr/include/c++/8/bits/move.h:
 
+/usr/include/boost/predef/compiler/palm.h:
+
 /usr/include/c++/8/bits/std_function.h:
-
-/usr/include/boost/mpl/aux_/preprocessor/default_params.hpp:
-
-/usr/include/boost/smart_ptr/detail/sp_convertible.hpp:
 
 /usr/include/boost/smart_ptr/detail/sp_noexcept.hpp:
 
@@ -2565,11 +2307,7 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/aux_/config/overload_resolution.hpp:
 
-/usr/include/SFML/Window/Clipboard.hpp:
-
 /usr/include/boost/predef/architecture/blackfin.h:
-
-/usr/include/SFML/Graphics/Export.hpp:
 
 /usr/include/boost/predef/architecture/convex.h:
 
@@ -2590,6 +2328,24 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/boost/core/no_exceptions_support.hpp:
 
 /usr/include/boost/predef/architecture/pyramid.h:
+
+/usr/include/boost/predef/architecture.h:
+
+/usr/include/boost/predef/architecture/rs6k.h:
+
+/usr/include/boost/mpl/aux_/template_arity.hpp:
+
+/usr/include/boost/predef/compiler/edg.h:
+
+/usr/include/c++/8/bits/std_abs.h:
+
+/usr/include/boost/predef/library/std/cxx.h:
+
+/usr/include/boost/mpl/or.hpp:
+
+/usr/include/boost/predef/architecture/sparc.h:
+
+/usr/include/boost/predef/architecture/z.h:
 
 /usr/include/arm-linux-gnueabihf/bits/byteswap.h:
 
@@ -2631,10 +2387,6 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/compiler/llvm.h:
 
-/usr/include/boost/predef/library/std/msl.h:
-
-/usr/include/boost/predef/compiler/metaware.h:
-
 /usr/include/boost/predef/os/qnxnto.h:
 
 /usr/include/boost/predef/compiler/metrowerks.h:
@@ -2648,6 +2400,18 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/boost/preprocessor/detail/is_binary.hpp:
 
 /usr/include/boost/predef/compiler/sgi_mipspro.h:
+
+/usr/include/boost/predef/compiler/visualc.h:
+
+/usr/include/boost/type_traits/is_arithmetic.hpp:
+
+/usr/include/boost/version.hpp:
+
+/usr/include/boost/preprocessor/list/fold_right.hpp:
+
+/usr/include/boost/type_traits/detail/mp_defer.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/times.hpp:
 
 /usr/include/c++/8/cwctype:
 
@@ -2675,6 +2439,12 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/predef/library/std/libcomo.h:
 
+/usr/include/boost/predef/library/std/modena.h:
+
+/usr/include/boost/predef/compiler/metaware.h:
+
+/usr/include/boost/predef/library/std/msl.h:
+
 /usr/include/boost/predef/library/std/sgi.h:
 
 /usr/include/boost/predef/detail/test.h:
@@ -2684,8 +2454,6 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 /usr/include/c++/8/bits/stl_tree.h:
 
 /usr/include/boost/predef/library/std/vacpp.h:
-
-/usr/include/SFML/Window/Event.hpp:
 
 /usr/include/boost/predef/os.h:
 
@@ -2831,15 +2599,21 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/test/tools/detail/print_helper.hpp:
 
+/usr/include/boost/mpl/aux_/nested_type_wknd.hpp:
+
 /usr/include/boost/predef/architecture/x86.h:
 
 /usr/include/boost/mpl/lambda_fwd.hpp:
 
-/usr/include/boost/numeric/conversion/sign_mixture_enum.hpp:
+/usr/include/boost/container_hash/detail/hash_float.hpp:
+
+/usr/include/boost/mpl/aux_/largest_int.hpp:
+
+/usr/include/boost/mpl/aux_/na_fwd.hpp:
 
 /usr/include/boost/mpl/void_fwd.hpp:
 
-/usr/include/boost/mpl/aux_/na_fwd.hpp:
+/usr/include/boost/numeric/conversion/sign_mixture_enum.hpp:
 
 /usr/include/boost/mpl/aux_/config/lambda.hpp:
 
@@ -2853,15 +2627,11 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/aux_/config/nttp.hpp:
 
-/usr/include/SFML/Graphics/Shader.hpp:
-
 /usr/include/boost/mpl/aux_/template_arity_fwd.hpp:
 
 /usr/include/boost/container_hash/extensions.hpp:
 
 /usr/include/boost/mpl/aux_/config/dtp.hpp:
-
-/usr/include/SFML/Graphics/Glyph.hpp:
 
 /usr/include/boost/preprocessor/punctuation/comma.hpp:
 
@@ -2879,11 +2649,19 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/preprocessor/arithmetic/add.hpp:
 
+/usr/include/boost/mpl/aux_/common_name_wknd.hpp:
+
+/usr/include/boost/mpl/times.hpp:
+
 /usr/include/boost/preprocessor/list/detail/fold_left.hpp:
 
 /usr/include/boost/preprocessor/list/adt.hpp:
 
 /usr/include/boost/preprocessor/arithmetic/sub.hpp:
+
+/usr/include/boost/mpl/aux_/include_preprocessed.hpp:
+
+/usr/include/boost/numeric/conversion/detail/sign_mixture.hpp:
 
 /usr/include/boost/mpl/aux_/config/compiler.hpp:
 
@@ -2903,6 +2681,10 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/aux_/type_wrapper.hpp:
 
+/usr/include/arm-linux-gnueabihf/bits/types/sigset_t.h:
+
+/usr/include/boost/test/detail/pp_variadic.hpp:
+
 /usr/include/boost/type_traits/detail/is_function_ptr_helper.hpp:
 
 /usr/include/boost/type_traits/make_void.hpp:
@@ -2915,17 +2697,15 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/aux_/config/use_preprocessed.hpp:
 
-/usr/include/SFML/Graphics/Vertex.hpp:
-
 /usr/include/boost/type_traits/is_void.hpp:
-
-/usr/include/boost/test/tools/assertion.hpp:
-
-/usr/include/boost/type_traits/detail/yes_no_type.hpp:
 
 /usr/include/boost/predef/platform/windows_store.h:
 
 /usr/include/boost/type_traits/add_lvalue_reference.hpp:
+
+/usr/include/SFML/Audio/Music.hpp:
+
+/usr/include/boost/mpl/aux_/config/gpu.hpp:
 
 /usr/include/c++/8/ctime:
 
@@ -2951,8 +2731,76 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o: /home/pi/sound-pirates/Urho3D/splas
 
 /usr/include/boost/mpl/aux_/config/arrays.hpp:
 
+/usr/include/boost/mpl/aux_/config/forwarding.hpp:
+
 /usr/include/endian.h:
 
 /usr/include/boost/preprocessor/array/elem.hpp:
 
 /usr/include/boost/mpl/aux_/config/has_apply.hpp:
+
+/usr/include/boost/mpl/void.hpp:
+
+/usr/include/boost/mpl/not.hpp:
+
+/usr/include/boost/predef/compiler.h:
+
+/usr/include/boost/mpl/aux_/has_tag.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessed/gcc/equal_to.hpp:
+
+/usr/include/SFML/System/ThreadLocalPtr.inl:
+
+/usr/include/arm-linux-gnueabihf/bits/types/timer_t.h:
+
+/usr/include/boost/mpl/aux_/msvc_eti_base.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/wctype-wchar.h:
+
+/usr/include/boost/mpl/and.hpp:
+
+/usr/include/boost/mpl/identity.hpp:
+
+/usr/include/boost/predef/architecture/ia64.h:
+
+/usr/include/boost/numeric/conversion/detail/int_float_mixture.hpp:
+
+/usr/include/boost/mpl/integral_c_fwd.hpp:
+
+/usr/include/boost/test/utils/wrap_stringstream.hpp:
+
+/usr/include/boost/numeric/conversion/detail/udt_builtin_mixture.hpp:
+
+/usr/include/boost/mpl/multiplies.hpp:
+
+/usr/include/boost/smart_ptr/detail/sp_convertible.hpp:
+
+/usr/include/boost/mpl/aux_/preprocessor/default_params.hpp:
+
+/usr/include/limits.h:
+
+/usr/include/boost/test/detail/fwd_decl.hpp:
+
+/usr/include/boost/mpl/less.hpp:
+
+/usr/include/c++/8/climits:
+
+/usr/lib/gcc/arm-linux-gnueabihf/8/include-fixed/limits.h:
+
+/usr/include/arm-linux-gnueabihf/bits/posix1_lim.h:
+
+/usr/include/boost/type_traits/add_pointer.hpp:
+
+/usr/include/arm-linux-gnueabihf/bits/local_lim.h:
+
+/usr/include/boost/test/tools/interface.hpp:
+
+/usr/include/boost/type_traits/detail/yes_no_type.hpp:
+
+/usr/include/boost/test/tools/assertion.hpp:
+
+/usr/include/c++/8/bits/hash_bytes.h:
+
+/usr/include/arm-linux-gnueabihf/bits/timex.h:
+
+/usr/include/boost/type.hpp:

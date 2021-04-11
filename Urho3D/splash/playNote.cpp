@@ -1,42 +1,23 @@
-#include "RtAudio.h"
-#include <fftw3.h>
-#include <iostream>
-#include <cstdlib>
-#include <math.h>
-#include <SFML/Graphics.hpp>
-#include <cstring>
-#include <stdio.h>
-#include <SFML/Audio.hpp>
-#include <vector>
-#include "sinewave.h"
-#include <complex>     
-#include <string>
-#include "audioIn.h"
-#include "fft.h"
-
-
-#include <sys/types.h>
-#include <stdlib.h>
-#include <fcntl.h>
-
-#include <string>
-#include <memory>
-#include <fstream>
-#include <sstream>
-#include <iostream>
-#include <stdio.h>
-#include <unistd.h>
-#include <poll.h>
-#include <thread>
-#include <chrono>
-#include <signal.h>
-
-char note;
-char OutputNote;
 /**
- * playNote function. plays random note for player to match
- * otputs string for note played
+ * @file playNote.cpp
+ * playNote function. Plays random note for player to match
+ * outputs string for note played
  */
+
+#include <iostream>
+#include <stdio.h>
+#include <vector>
+#include <SFML/Audio.hpp>
+#include "sinewave.h"
+#include <chrono>
+#include <thread>
+
+/**
+ * Define "OutputNote" variable to define letter note that is played to user
+ */
+char OutputNote;
+
+
  void playNote(){
     
      srand (time(NULL));
@@ -89,7 +70,7 @@ char OutputNote;
         OutputNote = 'B';
     }
     else{
-                note = 'N';
+               OutputNote = 'N';
             }
         
      std::cout << "Note played: " << OutputNote << "\n";
