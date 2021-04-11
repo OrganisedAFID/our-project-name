@@ -332,7 +332,7 @@ void GameSys::Start()
 {   
     // Execute base class startup
     Sample::Start();
-
+  
     // Create title scene
     CreateTitleScene();
 

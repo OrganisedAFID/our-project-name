@@ -1,1 +1,5 @@
-void fft(std::vector<double> &rawValues, std::vector<double> &output); //move this over to GPU_FFT
+#ifndef FFT_H
+#define FFT_H
+void fft(std::vector<double> &rawValues, std::vector<double> &output); 
+#endif
+
