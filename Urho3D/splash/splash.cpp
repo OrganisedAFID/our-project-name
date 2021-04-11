@@ -224,7 +224,6 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 /**
  * audioIn function. 
  * calls record, which calls processBuffer,which calls fft
- * called by URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
  * 
  */
 int audioIn()
@@ -271,8 +270,8 @@ int audioIn()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-
     
+    //This code keeps the recording going and enables us to stop it be using ctrl-c on the command line
     signal(SIGINT, inthand);
     stop = 0;
     while(!stop){}
@@ -308,8 +307,7 @@ GameSys::GameSys(Context* context) :
     pid = fork();
     //Game process
     if (pid == 0)
-    {
-    }
+    {}
     //SP process
     else
     {
@@ -530,7 +528,6 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
       
     DeleteTitleScene();
-    printf("Deleted title scene");
 
     //Show the instructions
     CreateInstructionsScene();
@@ -687,7 +684,6 @@ Node* GameSys::CreatePlane()
 /**
  * CreateShip function. Creates the enemy ship to pursue
  */
-
 Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
@@ -698,12 +694,9 @@ Node* GameSys::CreateShip()
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
     boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
-
-    //boxObject->SetCastShadows(true);
-
-    return boxNode;
-    
+    return boxNode;  
 }
+
 /**
  * 
  * 
