@@ -124,7 +124,6 @@ const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
-char note_to_write;
 float time_ = 0;
 Timer countDownTimer_ = Timer();
 
@@ -166,14 +165,10 @@ int processBuffer()
             std::cout<< "amplitude "<< output[i] <<"\n" ;
         }
     } 
-    note_to_write = define_note(freqMax); 
+    char note_to_write = define_note(freqMax); 
        
-    if(note_to_write  != 'N'){
-        write(pipefds[1], note_to_write, sizeof(note_to_write));
-    }
-    else{
-        write(pipefds[1], "None", sizeof("None"));
-    }
+    write(pipefds[1], "A4", sizeof("A4"));
+
     
     std::cout << freqMax << std::endl;
 
@@ -443,7 +438,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     if(countDownTimer_.GetMSec(false) >= 1000){
         countDownTimer_.Reset();
         printf("One second has passed\n");
-        char OutputNote = playNote();
+        std::string OutputNote = std::string() + playNote() + '4';
 
         PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
         Vector3 shipPos = ship[0]->GetPosition();
@@ -477,14 +472,14 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
             float timeStep = eventData[P_TIMESTEP].GetFloat();
             float MOVE_SPEED=30.0f;
         
-            if ( readmessage[20] == OutputNote ){
+            if (strcmp(readmessage, OutputNote.c_str()) == 0){
                 std::cout << "You played the correct note\n";
                 shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
                 shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
                 CreateText("You played the CORRECT note", "correctNoteText",
                     0, ui->GetRoot()->GetHeight() / 4);                   
             }
-            else if ( readmessage[20] != OutputNote ){
+            else{
                 shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
                 shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2f));
                 CreateText("You played the INCORRECT note", "incorrectNoteText",
