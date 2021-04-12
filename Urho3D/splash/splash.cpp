@@ -668,9 +668,10 @@ void GameSys::CreateMainScene()
      * optimizing manner
      */
     scene_->CreateComponent<Octree>();
-    
 
-    Node *planeNode = CreatePlane();
+    //Creates the background for the scene
+    Node* bgNode = CreateBackground();
+    
     Node *zoneNode = scene_->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
@@ -731,21 +732,21 @@ void GameSys::CreateMainScene()
 }
 
 /**
- * Creates a plane underneath the entire scene
+ * Create a background for the main scene.
+ * Implemented as a cube positioned in front of the camera with the 
+ * background png as a texture.
  */
-
-Node* GameSys::CreatePlane()
+Node* GameSys::CreateBackground()
 {
-    auto *cache = GetSubsystem<ResourceCache>();
+    auto* cache = GetSubsystem<ResourceCache>();
 
-    Node *planeNode = scene_->CreateChild("Plane");
-    planeNode->SetScale(Vector3(100.0f, 100.0f, 100.0f));
-    planeNode->SetRotation(Quaternion(90.0f, 0.0f, 0.0f));
-
-    auto *planeObject = planeNode->CreateComponent<StaticModel>();
-    planeObject->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
-    planeObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
-    return planeNode;
+    Node* skyNode = scene_->CreateChild("Sky");
+    skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f)); 
+    skyNode->SetPosition(Vector3(-10.0f, 6.0f, 50.0f));
+    auto* skyObject = skyNode->CreateComponent<StaticModel>();
+    skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+    return skyNode;
 }
 
 /**
@@ -766,7 +767,6 @@ Node* GameSys::CreateShip()
     //boxObject->SetCastShadows(true);
 
     return boxNode;
-    
 }
 /**
  * 

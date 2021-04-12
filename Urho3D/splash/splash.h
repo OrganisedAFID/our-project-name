@@ -77,7 +77,7 @@ private:
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
     
-    Node* CreatePlane();
+    Node* CreateBackground();
     Node* CreateShip();
     Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
