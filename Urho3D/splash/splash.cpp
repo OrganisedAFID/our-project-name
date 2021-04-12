@@ -125,6 +125,7 @@ unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
 char note_to_write;
+char time_=0;
 
 
 /**
@@ -320,7 +321,7 @@ GameSys::GameSys(Context* context) :
         engine_->Exit();
 
         audioIn();
-        playNote();   
+       
     }
 }
 /**
@@ -394,7 +395,8 @@ Text* GameSys::CreateText(String content, String tagName, int x, int y, String f
 }
 
 /**
- * Creates a button on the given root, with the given tag.
+ * Creates a button on the gchar OutputNote=playNote();   
+       playNote();iven root, with the given tag.
  * It also adds a text to the button given a name with txtName, and a content with txtCont.
  * It will place the button according to x and y coordinates.
  * Possible hAlign values = HA_LEFT, HA_CENTER, HA_RIGHT, HA_CUSTOM
@@ -455,7 +457,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     //framecount_++;
     time_+=timeStep;
 
-    std::cout << "Note played: " << OutputNote << "\n";
+    //std::cout << "Note played: " << OutputNote << "\n";
 
     PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
     Vector3 shipPos = ship[0]->GetPosition();
@@ -491,7 +493,8 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
             float timeStep = eventData[P_TIMESTEP].GetFloat();
             float MOVE_SPEED=30.0f;
             int i;
-            playNote();
+            char OutputNote=playNote();   
+       playNote();
 
             if ( readmessage[20] == OutputNote ){
                 std::cout << "You played the correct note\n";
@@ -545,7 +548,7 @@ void GameSys::ChangeTexts(String note)
 
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
     
-        std::cout << "Note played: " << OutputNote << "\n";
+     // std::cout << "Note played: " << OutputNote << "\n";
     
 
     // Make relevant note more opaque and all others less opaque
