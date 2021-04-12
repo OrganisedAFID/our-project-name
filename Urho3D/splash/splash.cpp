@@ -130,7 +130,18 @@ const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
-char note_to_write;
+float time_ = 0;
+Timer countDownTimer_ = Timer();
+int pid;
+int parentpid;
+char OutputNote;
+float timestep;
+bool ready;
+
+Node* ship;
+UI* ui;
+ResourceCache* cache;
+Context* globalContext_;
 
 
 /**
@@ -140,7 +151,7 @@ char note_to_write;
 
 void inthand(int signum) {
     stop = 1;
-return;
+    return;
 }
 
 /**
@@ -159,25 +170,26 @@ int processBuffer()
 
     freqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 10000;
+    int amplitudeThreshold = 20000;
 
     for (int i = 51; i < 100; i++)
     {
-        if (output[i] > output[freqMaxIndex] && output[i] > amplitudeThreshold)
+        if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
             freqMaxIndex = i;
-            freqMax = i * 44100.0 / window.size();
+            freqMax = i * 44100.0 / window.size();    
+            //std::cout<< "amplitude "<< output[i] <<"\n" ;
         }
-
-
     } 
-    note_to_write = define_note(freqMax); 
-       
-    if(note_to_write  != 'N'){
-    write(pipefds[1], note_to_write + "4", sizeof(note_to_write  + "4"));
-}
-else{
-    write(pipefds[1], "None", sizeof("None"));
+    char note_to_write = define_note(freqMax); 
+
+    if(freqMax != 0 && ready){
+        if(note_to_write == OutputNote){
+            kill(pid, SIGUSR1);           
+        } else{
+            kill(pid, SIGUSR2);
+        }
+        ready = false;
     }
     
     std::cout << freqMax << std::endl;
@@ -221,12 +233,34 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 }
 
 
+void readyHandler(int signum){
+    signal(SIGUSR1, readyHandler);  
+    ready = false;  
+    printf("Called ready\n");  
+    ::OutputNote = playNote();
+    ready = true;
+    return;
+}
+
+static void correctHandler(int signum){
+    signal(SIGUSR1, correctHandler);
+    printf("Called correct\n");  
+    AnswerHandler(true);
+    return;
+}
+
+static void incorrectHandler(int signum){
+    signal(SIGUSR2, incorrectHandler);
+    printf("Called incorrect\n");   
+    AnswerHandler(false);
+    return;
+}
+
 
 
 /**
  * audioIn function. 
  * calls record, which calls processBuffer,which calls fft
- * called by URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
  * 
  */
 int audioIn()
@@ -235,15 +269,12 @@ int audioIn()
     snd_pcm_hw_params_t *hw_params;
     //access audio device
     RtAudio adc;
-    int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
-    //if (adc.getDeviceCount() < 1) {
-    if (err < 1) {
-
+    //int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
+    if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
         return -1;
     }
-    
-    
+     
 
     //Print device infos
     unsigned int numDev = adc.getDeviceCount();
@@ -252,9 +283,7 @@ int audioIn()
     {
         // use the Debugger if you need to know deviceID
         std::cout << "Device info" << std::endl;
-        di = adc.getDeviceInfo(i);
-        //std::cout << di << std::endl;
-        
+        di = adc.getDeviceInfo(i);     
     }
 
     //Set parameters
@@ -262,9 +291,6 @@ int audioIn()
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
-
-    std::thread t1(instructionsStatements);
-    t1.join();
 
     try
     {
@@ -281,14 +307,18 @@ int audioIn()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-
     
+    signal(SIGUSR1, readyHandler);
+
+    //This code keeps the recording going and enables us to stop it be using ctrl-c on the command line
     signal(SIGINT, inthand);
     stop = 0;
     while(!stop){}
+    adc.stopStream();
     adc.closeStream();
     return 0;
 }
+
 
 
 /**
@@ -303,30 +333,24 @@ URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
  * calls audioIn function and playNote function
  * 
  */ 
-GameSys::GameSys(Context* context) :
-    Sample(context)
+GameSys::GameSys(Context* context) :Sample(context)
 {   
-    ::pipefds[2];
-    int returnstatus;
-    int pid;
-    returnstatus = pipe(pipefds);
-    if (returnstatus == -1)
-    {
-        printf("Unable to create pipe\n");
-        return;
-    }
+    ::pid;
+    ::parentpid = getpid();
     pid = fork();
     //Game process
     if (pid == 0)
     {
+        signal(SIGUSR1, correctHandler);
+        signal(SIGUSR2, incorrectHandler);
+    
     }
     //SP process
     else
     {
         engine_->Exit();
-
         audioIn();
-        playNote();   
+        
     }
 }
 /**
@@ -336,6 +360,7 @@ GameSys::GameSys(Context* context) :
  */
 void GameSys::Start()
 {   
+    
     // Execute base class startup
     Sample::Start();
 
@@ -346,8 +371,35 @@ void GameSys::Start()
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
-    
-return;
+}
+
+void AnswerHandler(bool isCorrect){
+    Vector3 shipPos = ship->GetPosition();
+    UIElement *root = ui->GetRoot();
+        
+    float MOVE_SPEED=30.0f;
+    std::string correctness;
+    float y;
+    float z;
+    if(isCorrect){
+        correctness = "correct";
+        y = 10.0f;
+        z = 0.0f;
+    }
+    else{
+        correctness = "incorrect";
+        y = -10.0f;
+        z = 0.0f;
+    }
+    ::timestep;
+    ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
+    std::string txt = "You played the "+correctness+" note";
+    String txtMessage = String(txt.c_str());
+    std::string tag = correctness+"NoteText";
+    String txtTag = String(tag.c_str());
+    CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
+        (ui->GetRoot()->GetHeight() / 4)*3);  
+    std::cout << "You played the "+correctness+" note\n";
 }
 
 
@@ -359,9 +411,10 @@ return;
  */
 void GameSys::CreateTitleScene()
 {
-    auto *ui = GetSubsystem<UI>();
+    ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
+    cache = GetSubsystem<ResourceCache>();
+    globalContext_ = context_;
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 
@@ -369,8 +422,8 @@ void GameSys::CreateTitleScene()
     CreateButton(root, "StartButton", "StartText", "Start Game!", 250, 500);
     auto* insButton = 
     CreateButton(root, "InsButton", "InsText", "Instructions", 600, 500);
-    auto* helloText = 
-    CreateText("Welcome to Sound Pirates!", "welcomeText", 300, 300);
+    auto* helloText = CreateText("Welcome to Sound Pirates!", 
+        "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
 }
@@ -379,24 +432,21 @@ void GameSys::CreateTitleScene()
  * returns text
  * 
  */
-Text* GameSys::CreateText(String content, String tagName, int x, int y, String fontText)
+Text* CreateText(String content, String tagName, int x, int y, String fontText)
 {  
-    auto* cache = GetSubsystem<ResourceCache>();
     Urho3D::Font* font = cache->GetResource<Font>(fontText);
     // Construct new Text object
-    SharedPtr<Text> text(new Text(context_));
+    SharedPtr<Text> text(new Text(globalContext_));
 
     // Set String to display
     text->SetText(content);
-
     // Set font and text color
     text->SetFont(font, 30);
     text->SetColor(Color(0.0f, 10.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
-
     // Add Text instance to the UI root element
-    GetSubsystem<UI>()->GetRoot()->AddChild(text);
+    ui->GetRoot()->AddChild(text);
     return text;
 }
 
@@ -443,8 +493,7 @@ void GameSys::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
 
-    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate));
-    
+    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate)); 
 }
 /**
  * 
@@ -455,109 +504,13 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     using namespace Update;
 
     // Take the frame time step, which is stored as a float
-    float timeStep = eventData[P_TIMESTEP].GetFloat();
-    float MOVE_SPEED=30.0f;
-    int i;
-
-    //framecount_++;
-    time_+=timeStep;
-
-    std::cout << "Note played: " << OutputNote << "\n";
-
-    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
-    Vector3 shipPos = ship[0]->GetPosition();
-    Node* shipNode = ship[0];
-
-    int fd = ::pipefds[0];
-    struct pollfd *fds;
-    fds = (pollfd *)calloc(1, sizeof(pollfd));
-    fds[0].fd = fd;
-    fds[0].events |= POLLIN;
-    int rv = poll(fds, 1, 0);
-
-    if (rv == -1)
-    {
-        printf("An error occurred: %d\n", errno);
-        return;
-    }
-
-    if (rv == 1)
-    {
-        printf("Events occurred: %d.", rv);
-        char readmessage[20];
-        read(::pipefds[0], readmessage, sizeof(readmessage));
-        printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
-        //ChangeTexts(readmessage);
-
-        UIElement *root = GetSubsystem<UI>()->GetRoot();
-        auto *cache = GetSubsystem<ResourceCache>();
-        auto* ui = GetSubsystem<UI>();
-
-        String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-                
-            float timeStep = eventData[P_TIMESTEP].GetFloat();
-            float MOVE_SPEED=30.0f;
-            int i;
-            playNote();
-
-            if ( readmessage[20] == OutputNote ){
-                std::cout << "You played the correct note\n";
-                shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-                // Construct new Text object, set string to display and font to use
-                auto* feedback = ui->GetRoot()->CreateChild<Text>();
-                feedback->SetText(
-                    "You played the CORRECT note"
-                );
-                feedback->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 20);
-
-                // Position the text relative to the screen center
-                feedback->SetHorizontalAlignment(HA_CENTER);
-                feedback->SetVerticalAlignment(VA_CENTER);
-                feedback->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
-                    
-            }
-            else if ( readmessage[20] != OutputNote ){
-                shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-                SharedPtr<Text> feedback2_;
-                feedback2_=new Text(context_);
-                // Text will be updated later in the E_UPDATE handler. Keep readin'.
-                feedback2_->SetText("You played an INCORRECT note");
-                // If the engine cannot find the font, it comes with Urho3D.
-                // Set the environment variables URHO3D_HOME, URHO3D_PREFIX_PATH or
-                // change the engine parameter "ResourcePrefixPath" in the Setup method.
-                feedback2_->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),20);
-                feedback2_->SetColor(Color(.3,0,.3));
-                feedback2_->SetHorizontalAlignment(HA_CENTER);
-                feedback2_->SetVerticalAlignment(VA_CENTER);
-                GetSubsystem<UI>()->GetRoot()->AddChild(feedback2_);
-                std::cout << "You played the INCORRECT note\n";
-
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        
-
+    ::timestep = eventData[P_TIMESTEP].GetFloat();
+    if(countDownTimer_.GetMSec(false) >= 3000){
+        countDownTimer_.Reset();
+        kill(parentpid, SIGUSR1);
     }
 }
-/**
- * 
- * 
- */
-void GameSys::ChangeTexts(String note)
-{
 
-    UIElement *root = GetSubsystem<UI>()->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
-
-    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-    
-        std::cout << "Note played: " << OutputNote << "\n";
-    
-
-    // Make relevant note more opaque and all others less opaque
-    
-}
 
 /** 
  * when you click on the start button, the second scene appears
@@ -599,8 +552,8 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 void GameSys::CreateInstructionsScene()
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
-    auto* backButton = 
-    CreateButton(root, "BackButton", "BackText", "Back to title screen", 400, 500);   
+    auto* backButton = CreateButton(root, "BackButton", 
+        "BackText", "Back to title screen", 400, 500);   
     auto* instructionsText = CreateText("Instruction text goes here", "Instructions", 0, 0);
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
 }
@@ -616,7 +569,24 @@ void GameSys::CreateWinScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
     CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
-    auto* winText = CreateText("You won!", "WinText", 0, 0);
+    auto* winText = CreateText("You won!", "WinText", 
+        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateLossScene()
+{
+    //delete main scene
+    scene_->Clear();
+
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = 
+    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    auto* lossText = CreateText("You lose!", "LossText", 
+        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -681,6 +651,7 @@ void GameSys::CreateMainScene()
     zone->SetFogEnd(500.0f);
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
+    ship = shipNode;
 
      Node* skyNode = scene_->CreateChild("Sky");
     skyNode->SetScale(500.0f); // The scale actually does not matter
@@ -693,21 +664,16 @@ void GameSys::CreateMainScene()
     // The light will use default settings (white light, no shadows)
             // Create a red directional light (sun)
         
-            Node* lightNode=scene_->CreateChild();
-            lightNode->SetDirection(Vector3::FORWARD);
-            lightNode->Yaw(50);     // horizontal
-            lightNode->Pitch(10);   // vertical
-            Light* light=lightNode->CreateComponent<Light>();
-            light->SetLightType(LIGHT_DIRECTIONAL);
-            light->SetBrightness(3);
-            light->SetColor(Color(1.0,.6,0.3,1));
-            light->SetCastShadows(true);
+    Node* lightNode=scene_->CreateChild();
+    lightNode->SetDirection(Vector3::FORWARD);
+    lightNode->Yaw(50);     // horizontal
+    lightNode->Pitch(10);   // vertical
+    Light* light=lightNode->CreateComponent<Light>();
+    light->SetLightType(LIGHT_DIRECTIONAL);
+    light->SetBrightness(3);
+    light->SetColor(Color(1.0,.6,0.3,1));
+    light->SetCastShadows(true);
         
-        
-    /*Node *lightNode = scene_->CreateChild("DirectionalLight");
-    lightNode->SetDirection(Vector3(0.9f, -1.0f, 0.6f)); // The direction vector does not need to be normalized
-    auto *light = lightNode->CreateComponent<Light>();
-    light->SetLightType(LIGHT_DIRECTIONAL);*/
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -717,18 +683,6 @@ void GameSys::CreateMainScene()
     // Set an initial position for the camera scene node above the plane
    // cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
     cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
-
-
-      //  SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,HandleUpdate));
-    int i;
-    
-    //SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,ChangeTexts));
-    //for (i=0;i<5;i++){
-            
-        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-
-        SubscribeToEvents();
-   // }
 }
 
 /**
@@ -752,7 +706,6 @@ Node* GameSys::CreateBackground()
 /**
  * CreateShip function. Creates the enemy ship to pursue
  */
-
 Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
@@ -763,11 +716,9 @@ Node* GameSys::CreateShip()
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
     boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
-
-    //boxObject->SetCastShadows(true);
-
-    return boxNode;
+    return boxNode;  
 }
+
 /**
  * 
  * 

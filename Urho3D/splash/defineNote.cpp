@@ -27,12 +27,12 @@ if (freqMax > 249 && freqMax < 268 ){
         note_string = 'E';
     
     }  
-    else if (freqMax  > 343 && freqMax < 349){
+    else if (freqMax  > 343 && freqMax < 358){
         freqMax  = 349;
         note_string = 'F';
        
     }  
-    else if (freqMax > 386 && freqMax < 398){
+    else if (freqMax > 386 && freqMax < 400){
         freqMax = 392;
         note_string = 'G';
         
@@ -42,14 +42,14 @@ if (freqMax > 249 && freqMax < 268 ){
         note_string = 'A';
       
     }  
-    else if (freqMax > 482 && freqMax < 500){
+    else if (freqMax > 480 && freqMax < 500){
         freqMax = 494;
         note_string = 'B';
    
     }
     else{
         note_string = 'N';
-        printf("Wrote None \n");
+        printf("Got None \n");
     }
     
     
