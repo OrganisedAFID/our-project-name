@@ -40,6 +40,8 @@ public:
     /// Setup after engine initialization and before running the main loop.
     /// Default Start function overridden to allow game loop to begin
     void Start() override;
+    void CreateWinScene();
+    void CreateLossScene();
 
 protected:
     /// Return XML patch instructions for screen joystick layout for a specific sample app, 
@@ -67,7 +69,7 @@ private:
     
     void SetupViewport();
     void CreateTitleScene();
-    void CreateWinScene();
+    
     void DeleteTitleScene();
     void DeleteInstructionsScene();
     void CreateMainScene();
