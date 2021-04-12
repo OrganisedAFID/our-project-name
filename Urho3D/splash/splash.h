@@ -64,9 +64,11 @@ private:
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
+    void HandleResetClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     void SetupViewport();
     void CreateTitleScene();
+    void CreateWinScene();
     void DeleteTitleScene();
     void DeleteInstructionsScene();
     void CreateMainScene();

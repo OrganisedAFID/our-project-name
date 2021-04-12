@@ -560,8 +560,9 @@ void GameSys::ChangeTexts(String note)
 void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
-      
-    DeleteTitleScene();
+    //delete title scene
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+
     //Show the main game screen
     CreateMainScene();
     SetupViewport();
@@ -578,9 +579,8 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
-      
-    DeleteTitleScene();
-    printf("Deleted title scene");
+    //Delete the title scene
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
 
     //Show the instructions
     CreateInstructionsScene();
@@ -598,6 +598,34 @@ void GameSys::CreateInstructionsScene()
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
 }
 
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateWinScene()
+{
+    //delete main scene
+    scene_->Clear();
+
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = 
+    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    auto* winText = CreateText("You won!", "WinText", 0, 0);
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+}
+
+/** 
+ * when you click on the instructions button, the instructions appear
+ * 
+ */
+void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+
+    //Show the instructions
+    CreateTitleScene();
+}
+
 /** 
  * when you click on the back button, the instructions dissappear 
  * and the title screen comes back
@@ -608,50 +636,12 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
 
     //Delete the instructions
-    DeleteInstructionsScene();
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
 
     //Create the title scene again
     CreateTitleScene();
 }
 
-/**
- * Deletes the instructions scene
- * 
- */
-void GameSys::DeleteInstructionsScene()
-{
-    UIElement* root = GetSubsystem<UI>()->GetRoot();
-    
-    // erase instruction text
-    Urho3D::PODVector<Urho3D::UIElement*> insText = root->GetChildrenWithTag("Instructions");
-    insText[0]->Remove();
-    
-    // erase back button
-    Urho3D::PODVector<Urho3D::UIElement*> backButton = root->GetChildrenWithTag("BackButton");
-    backButton[0]->Remove();
-}
-
-/**
- * Deletes the first scene
- * 
- */
-void GameSys::DeleteTitleScene()
-{
-    UIElement *root = GetSubsystem<UI>()->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
-
-
-    Urho3D::PODVector<Urho3D::UIElement*> welcomeText = root->GetChildrenWithTag("welcomeText");
-    welcomeText[0]->Remove();
-    
-    // erase start button
-    Urho3D::PODVector<Urho3D::UIElement*> startButton = root->GetChildrenWithTag("StartButton");
-    startButton[0]->Remove();
-
-    // erase instructions button
-    Urho3D::PODVector<Urho3D::UIElement*> insButton = root->GetChildrenWithTag("InsButton");
-    insButton[0]->Remove();
-}
 
 /**
  * Creates the scene with the ship
