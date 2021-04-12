@@ -1,5 +1,5 @@
 # Sound PIrates
-![alt text](https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/bushed-no-eye.svg)
+![alt text](https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/Logo.svg)
 
 Turn learning by ear into play with our fun interactive game. Produced on the Raspberry Pi, developed by final year engineering students at #UofG
 
