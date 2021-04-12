@@ -68,6 +68,7 @@ private:
     void SetupViewport();
     void CreateTitleScene();
     void CreateWinScene();
+    void CreateLossScene();
     void DeleteTitleScene();
     void DeleteInstructionsScene();
     void CreateMainScene();

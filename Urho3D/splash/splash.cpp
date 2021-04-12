@@ -137,11 +137,13 @@ int parentpid;
 char OutputNote;
 float timestep;
 bool ready;
+bool endGame;
 
 Node* ship;
 UI* ui;
 ResourceCache* cache;
 Context* globalContext_;
+Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 
 
 /**
@@ -400,6 +402,9 @@ void AnswerHandler(bool isCorrect){
     CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
         (ui->GetRoot()->GetHeight() / 4)*3);  
     std::cout << "You played the "+correctness+" note\n";
+    //Check if the ship is close/far enoguh to call the win/loss scene
+    Vector3 newShipPos = ship->GetPosition();
+    newShipPos.DistanceToPoint(cameraPos);
 }
 
 
@@ -505,7 +510,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 3000){
+    if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
         countDownTimer_.Reset();
         kill(parentpid, SIGUSR1);
     }
@@ -682,7 +687,7 @@ void GameSys::CreateMainScene()
 
     // Set an initial position for the camera scene node above the plane
    // cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
-    cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
+    cameraNode_->SetPosition(cameraPos);
 }
 
 /**
