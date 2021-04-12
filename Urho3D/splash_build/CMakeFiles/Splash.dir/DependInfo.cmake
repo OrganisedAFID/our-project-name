@@ -36,7 +36,6 @@ set(CMAKE_DEPENDS_DEPENDENCY_FILES
   "/home/pi/sound-pirates/Urho3D/splash/fft.cpp" "CMakeFiles/Splash.dir/fft.cpp.o" "gcc" "CMakeFiles/Splash.dir/fft.cpp.o.d"
   "/home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp" "CMakeFiles/Splash.dir/instructionsStatements.cpp.o" "gcc" "CMakeFiles/Splash.dir/instructionsStatements.cpp.o.d"
   "/home/pi/sound-pirates/Urho3D/splash/playNote.cpp" "CMakeFiles/Splash.dir/playNote.cpp.o" "gcc" "CMakeFiles/Splash.dir/playNote.cpp.o.d"
-  "/home/pi/sound-pirates/Urho3D/splash/realtime-beat.cpp" "CMakeFiles/Splash.dir/realtime-beat.cpp.o" "gcc" "CMakeFiles/Splash.dir/realtime-beat.cpp.o.d"
   "/home/pi/sound-pirates/Urho3D/splash/splash.cpp" "CMakeFiles/Splash.dir/splash.cpp.o" "gcc" "CMakeFiles/Splash.dir/splash.cpp.o.d"
   "/opt/vc/include"
   "/opt/vc/include/interface/vcos/pthreads"

@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG  -rdynamic CMakeFiles/Test.dir/test.cpp.o CMakeFiles/Test.dir/fft.cpp.o  -o Test   -L/home/pi/sound-pirates/Urho3D/splash  -Wl,-rpath,/home/pi/sound-pirates/Urho3D/splash -lboost_filesystem -lboost_system -lboost_unit_test_framework -lfftw3 

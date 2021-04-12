@@ -1,3 +1,6 @@
+/************************************************************************/
+/*!\class Gamesys
+    \brief Creates Gamesys class begin game processes.
 //
 // Copyright (c) 2008-2020 the Urho3D project.
 //
@@ -19,15 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-
+*/
+/************************************************************************/
 #pragma once
 
 #include "Sample.h"
 
-/**
- * Creates Gamesys class begin game processes.
- * 
- */
+
 class GameSys : public Sample
 {
     URHO3D_OBJECT(GameSys, Sample);
@@ -64,9 +65,11 @@ private:
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
+    void HandleResetClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     void SetupViewport();
     void CreateTitleScene();
+    void CreateWinScene();
     void DeleteTitleScene();
     void DeleteInstructionsScene();
     void CreateMainScene();
