@@ -1,4 +1,5 @@
-//
+/************************************************************************/
+/*!
 // Copyright (c) 2008-2020 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -19,7 +20,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-
+*/
+/************************************************************************/
 #pragma once
 
 #include <Urho3D/Engine/Application.h>

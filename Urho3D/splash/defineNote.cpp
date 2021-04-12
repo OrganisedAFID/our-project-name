@@ -1,23 +1,16 @@
+/**
+ * @file define_note.cpp
+ * define_note function. Takes input maximum frequency and checks what note (in the 4th octave) that it corresponds to through a series of if else statements. 
+ * Returns char variable note_string that correponses to note detected. 
+ */
 
-#include <string>
-#include <memory>
-#include <fstream>
-#include <sstream>
-#include <iostream>
+
 #include <stdio.h>
-#include <unistd.h>
-#include <poll.h>
-#include <thread>
-#include <chrono>
-#include <signal.h>
-#include <math.h>
-
-char note_string;
 
 /**
- * define_note. Takes input maximum frequency and checks what note (in the 4th octave) that it corresponds to through a series of if else statements. 
- * Returns char variable note_string that correponses to note detected. 
- **/
+ * Define "note_string" variable to define letter note for each frequecy range
+ */
+char note_string;
 
 char define_note(int freqMax){
 if (freqMax > 249 && freqMax < 268 ){ 

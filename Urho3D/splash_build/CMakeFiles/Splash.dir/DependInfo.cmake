@@ -33,8 +33,19 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
   "__LINUX_ALSA__"
   )
 
+<<<<<<< HEAD
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+=======
+# The set of dependency files which are needed:
+set(CMAKE_DEPENDS_DEPENDENCY_FILES
+  "/home/pi/sound-pirates/Urho3D/splash/RtAudio.cpp" "CMakeFiles/Splash.dir/RtAudio.cpp.o" "gcc" "CMakeFiles/Splash.dir/RtAudio.cpp.o.d"
+  "/home/pi/sound-pirates/Urho3D/splash/defineNote.cpp" "CMakeFiles/Splash.dir/defineNote.cpp.o" "gcc" "CMakeFiles/Splash.dir/defineNote.cpp.o.d"
+  "/home/pi/sound-pirates/Urho3D/splash/fft.cpp" "CMakeFiles/Splash.dir/fft.cpp.o" "gcc" "CMakeFiles/Splash.dir/fft.cpp.o.d"
+  "/home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp" "CMakeFiles/Splash.dir/instructionsStatements.cpp.o" "gcc" "CMakeFiles/Splash.dir/instructionsStatements.cpp.o.d"
+  "/home/pi/sound-pirates/Urho3D/splash/playNote.cpp" "CMakeFiles/Splash.dir/playNote.cpp.o" "gcc" "CMakeFiles/Splash.dir/playNote.cpp.o.d"
+  "/home/pi/sound-pirates/Urho3D/splash/splash.cpp" "CMakeFiles/Splash.dir/splash.cpp.o" "gcc" "CMakeFiles/Splash.dir/splash.cpp.o.d"
+>>>>>>> main
   "/opt/vc/include"
   "/opt/vc/include/interface/vcos/pthreads"
   "/home/pi/Uhro/Urho3D/include"
