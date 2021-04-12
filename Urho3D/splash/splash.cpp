@@ -393,12 +393,12 @@ void AnswerHandler(bool isCorrect){
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-    //ship->SetScale(Vector3(0.2f, 0.2f, 0.2f));
     std::string txt = "You played the "+correctness+" note";
     String txtMessage = String(txt.c_str());
     std::string tag = correctness+"NoteText";
     String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, 0, ui->GetRoot()->GetHeight() / 4);  
+    CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
+        (ui->GetRoot()->GetHeight() / 4)*3);  
     std::cout << "You played the "+correctness+" note\n";
 }
 
@@ -423,7 +423,7 @@ void GameSys::CreateTitleScene()
     auto* insButton = 
     CreateButton(root, "InsButton", "InsText", "Instructions", 600, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
-        "welcomeText", 300, 300, "Fonts/Anonymous Pro.ttf");
+        "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
 }
@@ -507,7 +507,6 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     ::timestep = eventData[P_TIMESTEP].GetFloat();
     if(countDownTimer_.GetMSec(false) >= 3000){
         countDownTimer_.Reset();
-        printf("One second has passed\n");
         kill(parentpid, SIGUSR1);
     }
 }
@@ -570,7 +569,24 @@ void GameSys::CreateWinScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
     CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
-    auto* winText = CreateText("You won!", "WinText", 0, 0);
+    auto* winText = CreateText("You won!", "WinText", 
+        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateLossScene()
+{
+    //delete main scene
+    scene_->Clear();
+
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = 
+    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    auto* lossText = CreateText("You lose!", "LossText", 
+        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
