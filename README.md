@@ -17,6 +17,11 @@ Link to our website: https://organisedafid.github.io/sound-pirates/
 - USB Sound Card
 - Microphone with 3.5mm jack connection
 - Headphones or speakers with 3.5mm jack connection
+- Instrument/Voice
+
+<p align="center">
+<img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/SoundPIratesHardware.gif" width="400" height="400" >
+</p>
 
 ## Installation
 

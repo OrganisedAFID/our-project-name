@@ -10,10 +10,9 @@ file(REMOVE_RECURSE
   "CMakeFiles/Splash.dir/instructionsStatements.cpp.o.d"
   "CMakeFiles/Splash.dir/playNote.cpp.o"
   "CMakeFiles/Splash.dir/playNote.cpp.o.d"
-<<<<<<< HEAD
-=======
+
   "CMakeFiles/Splash.dir/realtime-beat.cpp.o"
->>>>>>> main
+
   "CMakeFiles/Splash.dir/splash.cpp.o"
   "bin/Splash"
   "bin/Splash.pdb"

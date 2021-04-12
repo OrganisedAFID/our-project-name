@@ -3,12 +3,12 @@
  * Creates a splash screen
  */
 
-<<<<<<< HEAD
+
 /************************************************************************/
 /*!
-=======
+
 //
->>>>>>> main
+
 // Copyright (c) 2008-2020 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -339,16 +339,11 @@ void GameSys::Start()
     // Execute base class startup
     Sample::Start();
 
-<<<<<<< HEAD
-    // Create "Welcome to Sound Pirates!" Text
-    CreateTitleScene();
- 
-=======
+
     // Create title scene
     CreateTitleScene();
 
 
->>>>>>> main
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
     
