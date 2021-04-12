@@ -75,10 +75,7 @@ private:
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
     
-    
-  
-    
-    Node* CreatePlane();
+    Node* CreateBackground();
     Node* CreateShip();
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);
