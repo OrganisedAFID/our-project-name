@@ -144,6 +144,8 @@ UI* ui;
 ResourceCache* cache;
 Context* globalContext_;
 Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
+GameSys* ourGame;
+Scene* mainScene;
 
 
 /**
@@ -327,7 +329,15 @@ int audioIn()
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
+//URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
+
+int RunApplication() { 
+    Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); 
+    ourGame = new GameSys(context);
+    Urho3D::SharedPtr<GameSys> application(ourGame); 
+    return application->Run(); 
+} 
+URHO3D_DEFINE_MAIN(RunApplication())
 
 /** 
  * GameSys function. instigates pipeline, checks and returns error if unable
@@ -362,7 +372,8 @@ GameSys::GameSys(Context* context) :Sample(context)
  */
 void GameSys::Start()
 {   
-    
+    globalContext_ = context_;
+    mainScene = new Scene(globalContext_);
     // Execute base class startup
     Sample::Start();
 
@@ -378,6 +389,8 @@ void GameSys::Start()
 void AnswerHandler(bool isCorrect){
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
+    float winThreshold = 10.0f;
+    float lossThreshold = 100.0f;
         
     float MOVE_SPEED=30.0f;
     std::string correctness;
@@ -402,9 +415,17 @@ void AnswerHandler(bool isCorrect){
     CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
         (ui->GetRoot()->GetHeight() / 4)*3);  
     std::cout << "You played the "+correctness+" note\n";
-    //Check if the ship is close/far enoguh to call the win/loss scene
+    //Check if the ship is close/far enough to call the win/loss scene
     Vector3 newShipPos = ship->GetPosition();
-    newShipPos.DistanceToPoint(cameraPos);
+    float distance = newShipPos.DistanceToPoint(cameraPos);
+    if (distance < winThreshold){
+        ourGame->CreateWinScene();
+        endGame = true;
+    }
+    else if (distance > lossThreshold){
+        ourGame->CreateLossScene();
+        endGame = true;
+    }
 }
 
 
@@ -416,21 +437,27 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
+    printf("inside title\n");
     ui = GetSubsystem<UI>();
+    printf("got ui\n");
     UIElement *root = ui->GetRoot();
+    printf("got root\n");
     cache = GetSubsystem<ResourceCache>();
-    globalContext_ = context_;
+    printf("got cache\n");
+    
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-
-    auto* startButton = 
-    CreateButton(root, "StartButton", "StartText", "Start Game!", 250, 500);
-    auto* insButton = 
-    CreateButton(root, "InsButton", "InsText", "Instructions", 600, 500);
+    printf("set default\n");
+    auto* startButton = CreateButton(root, "StartButton", 
+        "StartText", "Start Game!", 250, 500);
+    auto* insButton = CreateButton(root, "InsButton", "InsText", 
+        "Instructions", 600, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
+    printf("Made texts\n");
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
+    printf("Subscribed!\n");
 }
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
@@ -533,8 +560,7 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
     SetupViewport();
 
     // Finally subscribe to the update event so we can move the camera.
-
-    SubscribeToEvents();    
+    SubscribeToEvents();  
 }
 
 /** 
@@ -569,11 +595,11 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-    scene_->Clear();
+    mainScene->Clear();
 
-    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    UIElement* root = ui->GetRoot();
     auto* resetButton = 
-    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
     auto* winText = CreateText("You won!", "WinText", 
         ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
@@ -585,7 +611,7 @@ void GameSys::CreateWinScene()
 void GameSys::CreateLossScene()
 {
     //delete main scene
-    scene_->Clear();
+    mainScene->Clear();
 
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
@@ -604,7 +630,8 @@ void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
 
-    //Show the instructions
+    endGame = false;
+    UnsubscribeFromAllEvents();
     CreateTitleScene();
 }
 
@@ -634,20 +661,19 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
 void GameSys::CreateMainScene()
 {
     auto *cache = GetSubsystem<ResourceCache>();
-    scene_ = new Scene(context_);
-
-
+    printf("After cache\n");
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
      * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
      * optimizing manner
      */
-    scene_->CreateComponent<Octree>();
+    mainScene->CreateComponent<Octree>();
+    printf("After octree\n");
 
     //Creates the background for the scene
     Node* bgNode = CreateBackground();
-    
-    Node *zoneNode = scene_->CreateChild("Zone");
+    printf("bg\n");
+    Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
     zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
@@ -658,7 +684,7 @@ void GameSys::CreateMainScene()
     shipNode->AddTag("ship");
     ship = shipNode;
 
-     Node* skyNode = scene_->CreateChild("Sky");
+     Node* skyNode = mainScene->CreateChild("Sky");
     skyNode->SetScale(500.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
@@ -669,7 +695,7 @@ void GameSys::CreateMainScene()
     // The light will use default settings (white light, no shadows)
             // Create a red directional light (sun)
         
-    Node* lightNode=scene_->CreateChild();
+    Node* lightNode=mainScene->CreateChild();
     lightNode->SetDirection(Vector3::FORWARD);
     lightNode->Yaw(50);     // horizontal
     lightNode->Pitch(10);   // vertical
@@ -682,7 +708,7 @@ void GameSys::CreateMainScene()
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
-    cameraNode_ = scene_->CreateChild("Camera");
+    cameraNode_ = mainScene->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
@@ -699,7 +725,7 @@ Node* GameSys::CreateBackground()
 {
     auto* cache = GetSubsystem<ResourceCache>();
 
-    Node* skyNode = scene_->CreateChild("Sky");
+    Node* skyNode = mainScene->CreateChild("Sky");
     skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f)); 
     skyNode->SetPosition(Vector3(-10.0f, 6.0f, 50.0f));
     auto* skyObject = skyNode->CreateComponent<StaticModel>();
@@ -714,7 +740,7 @@ Node* GameSys::CreateBackground()
 Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
-    Node *boxNode = scene_->CreateChild("Box");
+    Node *boxNode = mainScene->CreateChild("Box");
     boxNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
     boxNode->SetPosition(Vector3(0.0f, -1.0f, 35.0f));
     boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
@@ -788,6 +814,6 @@ void GameSys::SetupViewport()
      * at minimum. Additionally we could configure the viewport screen size and the rendering path (eg. forward / deferred) to
      * use, but now we just use full screen and default render path configured in the engine command line options
      */
-    SharedPtr<Viewport> viewport(new Viewport(context_, scene_, cameraNode_->GetComponent<Camera>()));
+    SharedPtr<Viewport> viewport(new Viewport(context_, mainScene, cameraNode_->GetComponent<Camera>()));
     renderer->SetViewport(0, viewport);
 }
