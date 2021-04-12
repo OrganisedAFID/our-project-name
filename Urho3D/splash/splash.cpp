@@ -543,8 +543,8 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 void GameSys::CreateInstructionsScene()
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
-    auto* backButton = 
-    CreateButton(root, "BackButton", "BackText", "Back to title screen", 400, 500);   
+    auto* backButton = CreateButton(root, "BackButton", 
+        "BackText", "Back to title screen", 400, 500);   
     auto* instructionsText = CreateText("Instruction text goes here", "Instructions", 0, 0);
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
 }
