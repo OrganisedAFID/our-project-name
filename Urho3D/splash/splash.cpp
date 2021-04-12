@@ -3,7 +3,12 @@
  * Creates a splash screen
  */
 
+
+/************************************************************************/
+/*!
+
 //
+
 // Copyright (c) 2008-2020 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,7 +28,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
+*/
+/************************************************************************/
 
 #include "RtAudio.h"
 #include <fftw3.h>
@@ -332,7 +338,8 @@ void GameSys::Start()
 {   
     // Execute base class startup
     Sample::Start();
-  
+
+
     // Create title scene
     CreateTitleScene();
 

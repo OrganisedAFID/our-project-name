@@ -193,8 +193,10 @@ test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o
  /usr/include/arm-linux-gnueabihf/bits/mathcalls-narrow.h
  /usr/include/arm-linux-gnueabihf/bits/iscanonical.h
  /usr/include/arm-linux-gnueabihf/bits/mathinline.h
- /usr/include/SFML/Graphics.hpp
- /usr/include/SFML/Window.hpp
+ /usr/include/c++/8/cstring
+ /usr/include/string.h
+ /usr/include/strings.h
+ /usr/include/SFML/Audio.hpp
  /usr/include/SFML/System.hpp
  /usr/include/SFML/Config.hpp
  /usr/include/SFML/System/Clock.hpp
@@ -246,61 +248,6 @@ test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o
  /usr/include/SFML/System/Vector2.inl
  /usr/include/SFML/System/Vector3.hpp
  /usr/include/SFML/System/Vector3.inl
- /usr/include/SFML/Window/Clipboard.hpp
- /usr/include/SFML/Window/Export.hpp
- /usr/include/SFML/Window/Context.hpp
- /usr/include/SFML/Window/GlResource.hpp
- /usr/include/SFML/Window/ContextSettings.hpp
- /usr/include/SFML/Window/Cursor.hpp
- /usr/include/SFML/Window/Event.hpp
- /usr/include/SFML/Window/Joystick.hpp
- /usr/include/SFML/Window/Keyboard.hpp
- /usr/include/SFML/Window/Mouse.hpp
- /usr/include/SFML/Window/Sensor.hpp
- /usr/include/SFML/Window/Touch.hpp
- /usr/include/SFML/Window/VideoMode.hpp
- /usr/include/SFML/Window/Window.hpp
- /usr/include/SFML/Window/WindowHandle.hpp
- /usr/include/SFML/Window/WindowStyle.hpp
- /usr/include/SFML/Graphics/BlendMode.hpp
- /usr/include/SFML/Graphics/Export.hpp
- /usr/include/SFML/Graphics/CircleShape.hpp
- /usr/include/SFML/Graphics/Shape.hpp
- /usr/include/SFML/Graphics/Drawable.hpp
- /usr/include/SFML/Graphics/RenderStates.hpp
- /usr/include/SFML/Graphics/Transform.hpp
- /usr/include/SFML/Graphics/Rect.hpp
- /usr/include/SFML/Graphics/Rect.inl
- /usr/include/SFML/Graphics/Transformable.hpp
- /usr/include/SFML/Graphics/VertexArray.hpp
- /usr/include/SFML/Graphics/Vertex.hpp
- /usr/include/SFML/Graphics/Color.hpp
- /usr/include/SFML/Graphics/PrimitiveType.hpp
- /usr/include/SFML/Graphics/ConvexShape.hpp
- /usr/include/SFML/Graphics/Font.hpp
- /usr/include/SFML/Graphics/Glyph.hpp
- /usr/include/SFML/Graphics/Texture.hpp
- /usr/include/SFML/Graphics/Image.hpp
- /usr/include/c++/8/map
- /usr/include/c++/8/bits/stl_tree.h
- /usr/include/c++/8/ext/aligned_buffer.h
- /usr/include/c++/8/bits/stl_map.h
- /usr/include/c++/8/bits/stl_multimap.h
- /usr/include/SFML/Graphics/RectangleShape.hpp
- /usr/include/SFML/Graphics/RenderTarget.hpp
- /usr/include/SFML/Graphics/View.hpp
- /usr/include/SFML/Graphics/RenderTexture.hpp
- /usr/include/SFML/Graphics/RenderWindow.hpp
- /usr/include/SFML/Graphics/Shader.hpp
- /usr/include/SFML/Graphics/Glsl.hpp
- /usr/include/SFML/Graphics/Glsl.inl
- /usr/include/SFML/Graphics/Sprite.hpp
- /usr/include/SFML/Graphics/Text.hpp
- /usr/include/SFML/Graphics/VertexBuffer.hpp
- /usr/include/c++/8/cstring
- /usr/include/string.h
- /usr/include/strings.h
- /usr/include/SFML/Audio.hpp
  /usr/include/SFML/Audio/InputSoundFile.hpp
  /usr/include/SFML/Audio/Export.hpp
  /usr/include/SFML/Audio/Listener.hpp
@@ -312,6 +259,8 @@ test/CMakeFiles/FFT_TEST.dir/__/fft.cpp.o
  /usr/include/SFML/Audio/Sound.hpp
  /usr/include/SFML/Audio/SoundBuffer.hpp
  /usr/include/c++/8/set
+ /usr/include/c++/8/bits/stl_tree.h
+ /usr/include/c++/8/ext/aligned_buffer.h
  /usr/include/c++/8/bits/stl_set.h
  /usr/include/c++/8/bits/stl_multiset.h
  /usr/include/SFML/Audio/SoundBufferRecorder.hpp
@@ -1129,8 +1078,5 @@ test/CMakeFiles/FFT_TEST.dir/fft_test.cpp.o
  /usr/include/boost/test/tree/global_fixture.hpp
  /usr/include/boost/config/auto_link.hpp
  /home/pi/sound-pirates/Urho3D/splash/fft.h
- /usr/include/c++/8/math.h
  /usr/include/fftw3.h
- /usr/include/c++/8/iostream
- /home/pi/sound-pirates/Urho3D/splash/defineNote.h
 
