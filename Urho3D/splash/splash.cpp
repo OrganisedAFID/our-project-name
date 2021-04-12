@@ -130,11 +130,12 @@ int pid;
 int parentpid;
 char OutputNote;
 float timestep;
+bool ready;
 
 Node* ship;
 UI* ui;
 ResourceCache* cache;
-Context* context_;
+Context* globalContext_;
 
 
 /**
@@ -171,17 +172,18 @@ int processBuffer()
         {
             freqMaxIndex = i;
             freqMax = i * 44100.0 / window.size();    
-            std::cout<< "amplitude "<< output[i] <<"\n" ;
+            //std::cout<< "amplitude "<< output[i] <<"\n" ;
         }
     } 
     char note_to_write = define_note(freqMax); 
 
-    if(freqMax != 0){
+    if(freqMax != 0 && ready){
         if(note_to_write == OutputNote){
-            kill(pid, SIGUSR1);
+            kill(pid, SIGUSR1);           
         } else{
-            printf("Kill code is %d \n", kill(pid, SIGUSR2));
+            kill(pid, SIGUSR2);
         }
+        ready = false;
     }
     
     std::cout << freqMax << std::endl;
@@ -226,22 +228,24 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 
 void readyHandler(int signum){
-    printf("Called ready\n");
-    signal(SIGUSR1, readyHandler);
+    signal(SIGUSR1, readyHandler);  
+    ready = false;  
+    printf("Called ready\n");  
     ::OutputNote = playNote();
+    ready = true;
     return;
 }
 
 static void correctHandler(int signum){
-    printf("Called correct\n");
     signal(SIGUSR1, correctHandler);
-    //GameSys::AnswerHandler(true);
+    printf("Called correct\n");  
+    AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
-    printf("Called incorrect\n");
     signal(SIGUSR2, incorrectHandler);
+    printf("Called incorrect\n");   
     AnswerHandler(false);
     return;
 }
@@ -333,12 +337,14 @@ GameSys::GameSys(Context* context) :Sample(context)
     {
         signal(SIGUSR1, correctHandler);
         signal(SIGUSR2, incorrectHandler);
+    
     }
     //SP process
     else
     {
         engine_->Exit();
         audioIn();
+        
     }
 }
 /**
@@ -354,7 +360,6 @@ void GameSys::Start()
 
     // Create title scene
     CreateTitleScene();
-    //AnswerHandler(true);
 
 
     // Set the mouse mode to use in the sample
@@ -386,7 +391,7 @@ void AnswerHandler(bool isCorrect){
     String txtMessage = String(txt.c_str());
     std::string tag = correctness+"NoteText";
     String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag,0, ui->GetRoot()->GetHeight() / 4);  
+    CreateText(txtMessage, txtTag, 0, ui->GetRoot()->GetHeight() / 4);  
     std::cout << "You played the "+correctness+" note\n";
 }
 
@@ -402,7 +407,7 @@ void GameSys::CreateTitleScene()
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
-    context_ = context_;
+    globalContext_ = context_;
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
 
@@ -410,8 +415,8 @@ void GameSys::CreateTitleScene()
     CreateButton(root, "StartButton", "StartText", "Start Game!", 250, 500);
     auto* insButton = 
     CreateButton(root, "InsButton", "InsText", "Instructions", 600, 500);
-    auto* helloText = 
-    CreateText("Welcome to Sound Pirates!", "welcomeText", 300, 300);
+    auto* helloText = CreateText("Welcome to Sound Pirates!", 
+        "welcomeText", 300, 300, "Fonts/Anonymous Pro.ttf");
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
 }
@@ -424,17 +429,15 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
 {  
     Urho3D::Font* font = cache->GetResource<Font>(fontText);
     // Construct new Text object
-    SharedPtr<Text> text(new Text(context_));
+    SharedPtr<Text> text(new Text(globalContext_));
 
     // Set String to display
     text->SetText(content);
-
     // Set font and text color
     text->SetFont(font, 30);
     text->SetColor(Color(0.0f, 10.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
-
     // Add Text instance to the UI root element
     ui->GetRoot()->AddChild(text);
     return text;
@@ -495,7 +498,6 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-
     if(countDownTimer_.GetMSec(false) >= 1000){
         countDownTimer_.Reset();
         printf("One second has passed\n");
@@ -574,8 +576,8 @@ void GameSys::DeleteInstructionsScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     
     // erase instruction text
-    Urho3D::PODVector<Urho3D::UIElement*> insText = root->GetChildrenWithTag("Instructions");
-    insText[0]->Remove();
+    //Urho3D::PODVector<Urho3D::UIElement*> insText = root->GetChildrenWithTag("Instructions");
+    //insText[0]->Remove();
     
     // erase back button
     Urho3D::PODVector<Urho3D::UIElement*> backButton = root->GetChildrenWithTag("BackButton");
