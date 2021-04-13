@@ -418,10 +418,12 @@ void AnswerHandler(bool isCorrect){
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
+        ourGame->DeleteCorrectnessText();
         ourGame->CreateWinScene();
         endGame = true;
     }
     else if (distance > lossThreshold){
+        ourGame->DeleteCorrectnessText();
         ourGame->CreateLossScene();
         endGame = true;
     }
@@ -531,17 +533,19 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     ::timestep = eventData[P_TIMESTEP].GetFloat();
     if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
         countDownTimer_.Reset();
-        //Delete existing correctness text from the screen
-        UIElement* root = ui->GetRoot();
-        Urho3D::PODVector<Urho3D::UIElement*> correctnessText = root->GetChildrenWithTag("correctnessText");
-        printf("size is %d\n", correctnessText.Size());
-        if(correctnessText.Size() > 0)
-            correctnessText[0]->Remove();
+        DeleteCorrectnessText();
         kill(parentpid, SIGUSR1);
     }
 }
 
-
+void GameSys::DeleteCorrectnessText()
+{
+    //Delete existing correctness text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> correctnessText = root->GetChildrenWithTag("correctnessText");
+    if(correctnessText.Size() > 0)
+        correctnessText[0]->Remove();
+}
 /** 
  * when you click on the start button, the second scene appears
  * 

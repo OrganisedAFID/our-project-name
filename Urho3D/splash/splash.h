@@ -42,6 +42,7 @@ public:
     void Start() override;
     void CreateWinScene();
     void CreateLossScene();
+    void DeleteCorrectnessText();
 
 protected:
     /// Return XML patch instructions for screen joystick layout for a specific sample app, 
@@ -69,6 +70,7 @@ private:
     
     void SetupViewport();
     void CreateTitleScene();
+    
     
     void DeleteTitleScene();
     void DeleteInstructionsScene();
