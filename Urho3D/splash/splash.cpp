@@ -193,15 +193,12 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
-<<<<<<< HEAD
 
 
 std::cout<< "OutputNote (Game played): "<< OutputNote <<"\n" ;
 std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
-    if(freqMax != 0 && ready){
-=======
+
     if(freqMax != 0 && ready && !endGame){
->>>>>>> main
         if(note_to_write == OutputNote){
            std::cout<< "SIGUSR1 (correct)" <<"\n" ;
             kill(pid, SIGUSR1);           
@@ -234,14 +231,12 @@ std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
-<<<<<<< HEAD
     using namespace std::literals::chrono_literals;
 
     auto startRec = std::chrono::high_resolution_clock::now();
 
     printf("Called Record \n");
-=======
->>>>>>> main
+
     if (status)
     {
         std::cout << "Stream overflow detected!" << std::endl;
@@ -467,26 +462,16 @@ void AnswerHandler(bool isCorrect){
     std::string txt = { "You played the "+correctness+" note" };
 
     String txtMessage = String(txt.c_str());
-<<<<<<< HEAD
-    std::string tag = correctness+"NoteText";
-    String txtTag = String(tag.c_str()); 
-    auto* screenText = CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
-    (ui->GetRoot()->GetHeight() / 4)*3);  
-    screenText-> CreateChild<Text>(txtMessage);
-=======
+
     std::string tag = "correctnessText";
     String txtTag = String(tag.c_str());
     CreateText(txtMessage, txtTag, 200, 100);  
->>>>>>> main
+
     std::cout << "You played the "+correctness+" note\n";
-    screenText->SetHorizontalAlignment(HA_LEFT);
-    screenText->SetVerticalAlignment(VA_TOP);
+    
 
     //Check if the ship is close/far enough to call the win/loss scene
-<<<<<<< HEAD
-   
-  }
-=======
+
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
@@ -499,7 +484,8 @@ void AnswerHandler(bool isCorrect){
         ourGame->CreateLossScene();
         endGame = true;
     }
->>>>>>> main
+
+}
 }
 
 
@@ -511,10 +497,8 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-<<<<<<< HEAD
-        printf("inside title\n");
-=======
->>>>>>> main
+    printf("inside title\n");
+
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
@@ -804,11 +788,8 @@ void GameSys::CreateMainScene()
     skyNode->SetScale(1.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-<<<<<<< HEAD
     skybox->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
-=======
-    //skybox->SetMaterial(cache->GetResource<Material>("Materials/sun.xml"));
->>>>>>> main
+
 
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
@@ -821,15 +802,9 @@ void GameSys::CreateMainScene()
     lightNode->Pitch(10);   // vertical
     Light* light=lightNode->CreateComponent<Light>();
     light->SetLightType(LIGHT_DIRECTIONAL);
-<<<<<<< HEAD
-    light->SetBrightness(3);
-    light->SetColor(Color(1.0,.6,0.3,1));
-    light->SetCastShadows(true);
-    
+       
    
-=======
 
->>>>>>> main
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -837,22 +812,16 @@ void GameSys::CreateMainScene()
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
-<<<<<<< HEAD
-     cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
 
-
-
-        auto* instructionText = ui->GetRoot()->CreateChild<Text>();
 
     auto endMain = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationM = endMain -startMain;
     std::cout << "duration to create main scene " << durationM.count() << "s " <<std::endl;
-=======
     cameraNode_->SetPosition(cameraPos);
     cameraNode_->SetScale(Vector3(0, 0, 0));
    
     
->>>>>>> main
+
 }
 
 /**
@@ -865,15 +834,10 @@ Node* GameSys::CreateBackground()
     auto* cache = GetSubsystem<ResourceCache>();
 
     Node* skyNode = mainScene->CreateChild("Sky");
-<<<<<<< HEAD
-    skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f)); 
-     skyNode->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
-         auto* skyObject = skyNode->CreateComponent<StaticModel>();
-=======
+
     skyNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
     skyNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
     auto* skyObject = skyNode->CreateComponent<StaticModel>();
->>>>>>> main
     skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
     
