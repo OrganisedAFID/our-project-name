@@ -33,7 +33,6 @@
 
 #URHO3D
 # Output directories
-!/bin/**/
 !/bin/*.bat
 !/bin/*.sh
 /bin/*.app/
