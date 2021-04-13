@@ -187,14 +187,23 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
+
+
+std::cout<< "OutputNote (Game played): "<< OutputNote <<"\n" ;
+std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
     if(freqMax != 0 && ready){
         if(note_to_write == OutputNote){
+           std::cout<< "SIGUSR1 (correct)" <<"\n" ;
             kill(pid, SIGUSR1);           
         } else{
+            std::cout<< "SIGUSR2 (incorrect)" <<"\n" ;
             kill(pid, SIGUSR2);
         }
         ready = false;
+    } else {
+      std::cout<< "neither SIGUSR1 (correct) or SIGUSR2 (incorrect) called" <<"\n" ; 
     }
+    
     
     std::cout << freqMax << std::endl;
 
@@ -386,11 +395,31 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
+
 void AnswerHandler(bool isCorrect){
-    Vector3 shipPos = ship->GetPosition();
-    UIElement *root = ui->GetRoot();
+    
+    Vector3 newShipPos = ship->GetPosition();
+    float distance = newShipPos.DistanceToPoint(cameraPos);
     float winThreshold = 10.0f;
     float lossThreshold = 100.0f;
+    
+    if (distance < winThreshold){
+       
+        endGame = true;
+        ourGame->CreateWinScene();
+        
+    }
+    else if (distance > lossThreshold){
+       
+        endGame = true;
+        ourGame->CreateLossScene();
+        
+    }
+    else{
+
+    Vector3 shipPos = ship->GetPosition();
+    UIElement *root = ui->GetRoot();
+  
         
     float MOVE_SPEED=30.0f;
     std::string correctness;
@@ -408,24 +437,18 @@ void AnswerHandler(bool isCorrect){
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-    std::string txt = "You played the "+correctness+" note";
+    std::string txt = { "You played the "+correctness+" note" };
     String txtMessage = String(txt.c_str());
     std::string tag = correctness+"NoteText";
-    String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
-        (ui->GetRoot()->GetHeight() / 4)*3);  
+    String txtTag = String(tag.c_str()); 
+ 
+    auto* screenText = CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
+    (ui->GetRoot()->GetHeight() / 4)*3);  
+       screenText-> CreateChild<Text>(txtMessage);
     std::cout << "You played the "+correctness+" note\n";
     //Check if the ship is close/far enough to call the win/loss scene
-    Vector3 newShipPos = ship->GetPosition();
-    float distance = newShipPos.DistanceToPoint(cameraPos);
-    if (distance < winThreshold){
-        ourGame->CreateWinScene();
-        endGame = true;
-    }
-    else if (distance > lossThreshold){
-        ourGame->CreateLossScene();
-        endGame = true;
-    }
+   
+  }
 }
 
 
@@ -481,6 +504,7 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
     ui->GetRoot()->AddChild(text);
     return text;
 }
+
 
 /**
  * Creates a button on the given root, with the given tag.
@@ -595,7 +619,8 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-    mainScene->Clear();
+    mainScene->Clear();  
+
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
@@ -612,6 +637,7 @@ void GameSys::CreateLossScene()
 {
     //delete main scene
     mainScene->Clear();
+
 
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
@@ -712,8 +738,6 @@ void GameSys::CreateMainScene()
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
-    cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
-    //cameraNode_->SetPosition(cameraPos);
      cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
 }
 
@@ -728,8 +752,8 @@ Node* GameSys::CreateBackground()
 
     Node* skyNode = mainScene->CreateChild("Sky");
     skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f)); 
-    skyNode->SetPosition(Vector3(-10.0f, 6.0f, 50.0f));
-    auto* skyObject = skyNode->CreateComponent<StaticModel>();
+     skyNode->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
+         auto* skyObject = skyNode->CreateComponent<StaticModel>();
     skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
     return skyNode;
