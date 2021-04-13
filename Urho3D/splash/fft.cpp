@@ -18,10 +18,15 @@
 #include <complex>     
 #include <string>
 #include "audioIn.h"
+#include "chrono"
 
 
 void fft(std::vector<double> &rawValues, std::vector<double> &output) 
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startFFT = std::chrono::high_resolution_clock::now();
+
     int n = rawValues.size();
     int i;
     fftw_complex *inputChannel = new fftw_complex[n];
@@ -41,6 +46,10 @@ void fft(std::vector<double> &rawValues, std::vector<double> &output)
     output[0] = 0;
     delete[] inputChannel;
     delete[] outputChannel;
-    
+
+    auto endFFT = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> duration2 = endFFT -startFFT;
+    std::cout << "duration of FFT" << duration2.count() << "s" <<std::endl;
+  
     return;
 }

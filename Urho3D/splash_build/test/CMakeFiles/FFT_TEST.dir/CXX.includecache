@@ -57,6 +57,8 @@ string
 -
 audioIn.h
 /home/pi/sound-pirates/Urho3D/splash/audioIn.h
+chrono
+/home/pi/sound-pirates/Urho3D/splash/chrono
 
 /home/pi/sound-pirates/Urho3D/splash/fft.h
 

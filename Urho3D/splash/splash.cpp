@@ -167,6 +167,11 @@ void inthand(int signum) {
  */
 int processBuffer()
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startBuf = std::chrono::high_resolution_clock::now();
+
+    
     ::freqMax;
     ::pipefds[2];
 
@@ -175,7 +180,7 @@ int processBuffer()
 
     freqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 20000;
+    int amplitudeThreshold = 45000;
 
     for (int i = 51; i < 100; i++)
     {
@@ -188,16 +193,31 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
+
+
+std::cout<< "OutputNote (Game played): "<< OutputNote <<"\n" ;
+std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
+
     if(freqMax != 0 && ready && !endGame){
         if(note_to_write == OutputNote){
+           std::cout<< "SIGUSR1 (correct)" <<"\n" ;
             kill(pid, SIGUSR1);           
         } else{
+            std::cout<< "SIGUSR2 (incorrect)" <<"\n" ;
             kill(pid, SIGUSR2);
         }
         ready = false;
+    } else {
+        
+      std::cout<< "neither SIGUSR1 (correct) or SIGUSR2 (incorrect) called" <<"\n" ; 
     }
     
+    
     std::cout << freqMax << std::endl;
+
+    auto endBuf = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationB = endBuf -startBuf;
+    std::cout << "duration of process buffer" << durationB.count() << "s" <<std::endl;
 
     return freqMax, pipefds[2];
 }
@@ -211,6 +231,12 @@ int processBuffer()
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startRec = std::chrono::high_resolution_clock::now();
+
+    printf("Called Record \n");
+
     if (status)
     {
         std::cout << "Stream overflow detected!" << std::endl;
@@ -232,6 +258,11 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
         //get rid of the first half of window
         window.erase(window.begin(), window.begin() + nBufferFrames);
     }
+
+    auto endRec = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationR = endRec -startRec;
+    std::cout << "duration of Record" << durationR.count() << "s" <<std::endl;
+  
 
     return 0;
 }
@@ -371,6 +402,7 @@ void GameSys::Start()
 {   
     globalContext_ = context_;
     mainScene = new Scene(globalContext_);
+    
     // Execute base class startup
     Sample::Start();
 
@@ -378,16 +410,35 @@ void GameSys::Start()
     // Create title scene
     CreateTitleScene();
 
-
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
 
+
 void AnswerHandler(bool isCorrect){
+    
+    Vector3 newShipPos = ship->GetPosition();
+    float distance = newShipPos.DistanceToPoint(cameraPos);
+    float winThreshold = 20.0f;
+    float lossThreshold = 100.0f;
+    
+    if (distance < winThreshold){
+       
+        endGame = true;
+        ourGame->CreateWinScene();
+        
+    }
+    else if (distance > lossThreshold){
+       
+        endGame = true;
+        ourGame->CreateLossScene();
+        
+    }
+    else{
+
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
-    float winThreshold = 10.0f;
-    float lossThreshold = 100.0f;
+  
         
     float MOVE_SPEED=30.0f;
     std::string correctness;
@@ -405,13 +456,22 @@ void AnswerHandler(bool isCorrect){
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-    std::string txt = "You played the "+correctness+" note";
+
+
+
+    std::string txt = { "You played the "+correctness+" note" };
+
     String txtMessage = String(txt.c_str());
+
     std::string tag = "correctnessText";
     String txtTag = String(tag.c_str());
     CreateText(txtMessage, txtTag, 200, 100);  
+
     std::cout << "You played the "+correctness+" note\n";
+    
+
     //Check if the ship is close/far enough to call the win/loss scene
+
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
@@ -424,6 +484,8 @@ void AnswerHandler(bool isCorrect){
         ourGame->CreateLossScene();
         endGame = true;
     }
+
+}
 }
 
 
@@ -435,6 +497,8 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
+    printf("inside title\n");
+
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
@@ -472,6 +536,7 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
     ui->GetRoot()->AddChild(text);
     return text;
 }
+
 
 /**
  * Creates a button on the gchar OutputNote=playNote();   
@@ -529,7 +594,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
         kill(parentpid, SIGUSR1);
@@ -582,11 +647,41 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
  */
 void GameSys::CreateInstructionsScene()
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startIn = std::chrono::high_resolution_clock::now();
+
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* backButton = CreateButton(root, "BackButton", 
         "BackText", "Back to title screen", 400, 500);   
-    auto* instructionsText = CreateText("Instruction text goes here", "Instructions", 0, 0);
+    auto* instructionsText = CreateText("Welcome to the first playable (alpha) version of Sound Pirates!  – In space, the sounds will move you! \n"
+                                        "You are about to enter a universe where starships sing to each other across the void. \n"
+                                        "Where buccaneers race the spaceways looking for loot and smugglers run their contraband \n"
+                                        "from port to shady port. In the Galaxy of Audiorum, ships travel space carrying great prizes.\n" 
+                                        "Fleets move as one in warp jumps, synchronised by ‘The Resonance’ – a tone send out \n"
+                                        "by the warp engines encoding each jump. Planned journeys are symphonies played out by ships \n"
+                                        "in glorious rhythm across the stars. You are taking on the role of Chantilly Lace, a pirate with \n"
+                                        "such genius they can tweak their engines so that the Resonance sent out by other ships is trackable \n"
+                                        "and you can catch and board great frigates in deep space in your mighty and feared ship \n"
+                                        "The Space Shanty’. The game is currently limited to C major scal and the chase is short. \n"
+                                        "With updates there will be more complexity and sub-games to help train your ear and vocal chords \n"
+                                        "or playing fingers to match whichever notes, tones, or microtones\n" 
+                                        "you might want to familiarise yourself with. \n"
+                                        "\n"
+                                        "We have tested it with raspberry pi 4 with Raspbian installed, a Disdim condenser mic \n"
+                                        "and a USB sound card. It uses the Urho3D game engine and features original art from the team.\n"
+                                        "Chantilly is a former engineer turned pirate who realised they could use \n"
+                                        "their new technology to take from the rich to give to the poor Robin Hood style. \n"
+                                        "Living outside the law means you need to work with unsavoury types though, \n"
+                                        "so Lace has built a reputation as a fearsome Captain and a hardy warrior. \n"
+                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, and feel not enough is going in \n"
+                                        "their pockets! Will you be able to guide Lace through the trials that await?", "Instructions", 0, 0);
+    instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
+
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
+    auto endIn = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationI = endIn -startIn;
+    std::cout << "duration of Record" << durationI.count() << "s" <<std::endl;
 }
 
 /**
@@ -595,7 +690,9 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-    mainScene->Clear();
+    mainScene->Clear();  
+    
+
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
@@ -612,6 +709,7 @@ void GameSys::CreateLossScene()
 {
     //delete main scene
     mainScene->Clear();
+
 
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
@@ -660,6 +758,11 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startMain = std::chrono::high_resolution_clock::now();
+
+  
     auto *cache = GetSubsystem<ResourceCache>();
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
@@ -682,10 +785,11 @@ void GameSys::CreateMainScene()
     ship = shipNode;
 
      Node* skyNode = mainScene->CreateChild("Sky");
-    skyNode->SetScale(500.0f); // The scale actually does not matter
+    skyNode->SetScale(1.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    //skybox->SetMaterial(cache->GetResource<Material>("Materials/sun.xml"));
+    skybox->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+
 
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
@@ -698,6 +802,8 @@ void GameSys::CreateMainScene()
     lightNode->Pitch(10);   // vertical
     Light* light=lightNode->CreateComponent<Light>();
     light->SetLightType(LIGHT_DIRECTIONAL);
+       
+   
 
 
     // Create a scene node for the camera, which we will move around
@@ -706,10 +812,16 @@ void GameSys::CreateMainScene()
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
+
+
+    auto endMain = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationM = endMain -startMain;
+    std::cout << "duration to create main scene " << durationM.count() << "s " <<std::endl;
     cameraNode_->SetPosition(cameraPos);
     cameraNode_->SetScale(Vector3(0, 0, 0));
    
     
+
 }
 
 /**
@@ -722,6 +834,7 @@ Node* GameSys::CreateBackground()
     auto* cache = GetSubsystem<ResourceCache>();
 
     Node* skyNode = mainScene->CreateChild("Sky");
+
     skyNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
     skyNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
     auto* skyObject = skyNode->CreateComponent<StaticModel>();
@@ -738,11 +851,11 @@ Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = mainScene->CreateChild("Box");
-    boxNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
-    boxNode->SetPosition(Vector3(0.0f, -1.0f, 35.0f));
+    boxNode->SetRotation(Quaternion(215.0f, -45.0f, 25.0f));
+    boxNode->SetPosition(Vector3(9.0f, -1.0f, 35.0f));
     boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
-    boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
+    boxObject->SetModel(cache->GetResource<Model>("Models/SpaceShip.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
     return boxNode;  
 }

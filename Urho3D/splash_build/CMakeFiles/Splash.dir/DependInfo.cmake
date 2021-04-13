@@ -36,10 +36,10 @@ set(CMAKE_TARGET_DEFINITIONS_CXX
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
   "/opt/vc/include"
   "/opt/vc/include/interface/vcos/pthreads"
-  "/home/pi/Urho3D/include"
-  "/home/pi/Urho3D/include/Urho3D/ThirdParty"
-  "/home/pi/Urho3D/include/Urho3D/ThirdParty/Bullet"
-  "/home/pi/Urho3D/include/Urho3D/ThirdParty/Lua"
+  "/home/pi/Uhro/Urho3D/include"
+  "/home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty"
+  "/home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Bullet"
+  "/home/pi/Uhro/Urho3D/include/Urho3D/ThirdParty/Lua"
   )
 
 # Targets to which this target links.
