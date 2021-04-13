@@ -211,7 +211,6 @@ int processBuffer()
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
-    printf("Called Record \n");
     if (status)
     {
         std::cout << "Stream overflow detected!" << std::endl;
@@ -247,15 +246,13 @@ void readyHandler(int signum){
 }
 
 static void correctHandler(int signum){
-    signal(SIGUSR1, correctHandler);
-    printf("Called correct\n");  
+    signal(SIGUSR1, correctHandler); 
     AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
-    signal(SIGUSR2, incorrectHandler);
-    printf("Called incorrect\n");   
+    signal(SIGUSR2, incorrectHandler);  
     AnswerHandler(false);
     return;
 }
@@ -665,18 +662,15 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
 void GameSys::CreateMainScene()
 {
     auto *cache = GetSubsystem<ResourceCache>();
-    printf("After cache\n");
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
      * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
      * optimizing manner
      */
     mainScene->CreateComponent<Octree>();
-    printf("After octree\n");
 
     //Creates the background for the scene
     Node* bgNode = CreateBackground();
-    printf("bg\n");
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
