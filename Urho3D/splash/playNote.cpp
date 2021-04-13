@@ -61,7 +61,5 @@
         
     std::cout << "Note played: " << OutputNote << "\n";
 
-return OutputNote;
-
-    
+return OutputNote;    
 }

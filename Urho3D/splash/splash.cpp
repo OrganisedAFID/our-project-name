@@ -130,6 +130,7 @@ const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
+char note_to_write;
 float time_ = 0;
 Timer countDownTimer_ = Timer();
 int pid;
@@ -187,7 +188,7 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
-    if(freqMax != 0 && ready){
+    if(freqMax != 0 && ready && !endGame){
         if(note_to_write == OutputNote){
             kill(pid, SIGUSR1);           
         } else{
@@ -210,7 +211,6 @@ int processBuffer()
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
-    printf("Called Record \n");
     if (status)
     {
         std::cout << "Stream overflow detected!" << std::endl;
@@ -239,23 +239,20 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;  
-    printf("Called ready\n");  
+    ready = false;      
     ::OutputNote = playNote();
     ready = true;
     return;
 }
 
 static void correctHandler(int signum){
-    signal(SIGUSR1, correctHandler);
-    printf("Called correct\n");  
+    signal(SIGUSR1, correctHandler); 
     AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
-    signal(SIGUSR2, incorrectHandler);
-    printf("Called incorrect\n");   
+    signal(SIGUSR2, incorrectHandler);  
     AnswerHandler(false);
     return;
 }
@@ -362,7 +359,7 @@ GameSys::GameSys(Context* context) :Sample(context)
     {
         engine_->Exit();
         audioIn();
-        
+
     }
 }
 /**
@@ -410,7 +407,7 @@ void AnswerHandler(bool isCorrect){
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
     std::string txt = "You played the "+correctness+" note";
     String txtMessage = String(txt.c_str());
-    std::string tag = correctness+"NoteText";
+    std::string tag = "correctnessText";
     String txtTag = String(tag.c_str());
     CreateText(txtMessage, txtTag, 200, 100);  
     std::cout << "You played the "+correctness+" note\n";
@@ -418,10 +415,12 @@ void AnswerHandler(bool isCorrect){
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
+        ourGame->DeleteCorrectnessText();
         ourGame->CreateWinScene();
         endGame = true;
     }
     else if (distance > lossThreshold){
+        ourGame->DeleteCorrectnessText();
         ourGame->CreateLossScene();
         endGame = true;
     }
@@ -436,27 +435,20 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-    printf("inside title\n");
     ui = GetSubsystem<UI>();
-    printf("got ui\n");
     UIElement *root = ui->GetRoot();
-    printf("got root\n");
     cache = GetSubsystem<ResourceCache>();
-    printf("got cache\n");
     
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-    printf("set default\n");
     auto* startButton = CreateButton(root, "StartButton", 
         "StartText", "Start Game!", 250, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
         "Instructions", 600, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
-    printf("Made texts\n");
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
-    printf("Subscribed!\n");
 }
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
@@ -482,7 +474,8 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
 }
 
 /**
- * Creates a button on the given root, with the given tag.
+ * Creates a button on the gchar OutputNote=playNote();   
+       playNote();iven root, with the given tag.
  * It also adds a text to the button given a name with txtName, and a content with txtCont.
  * It will place the button according to x and y coordinates.
  * Possible hAlign values = HA_LEFT, HA_CENTER, HA_RIGHT, HA_CUSTOM
@@ -538,11 +531,19 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     ::timestep = eventData[P_TIMESTEP].GetFloat();
     if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
         countDownTimer_.Reset();
+        DeleteCorrectnessText();
         kill(parentpid, SIGUSR1);
     }
 }
 
-
+void GameSys::DeleteCorrectnessText()
+{
+    //Delete existing correctness text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> correctnessText = root->GetChildrenWithTag("correctnessText");
+    if(correctnessText.Size() > 0)
+        correctnessText[0]->Remove();
+}
 /** 
  * when you click on the start button, the second scene appears
  * 
@@ -660,18 +661,15 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
 void GameSys::CreateMainScene()
 {
     auto *cache = GetSubsystem<ResourceCache>();
-    printf("After cache\n");
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
      * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
      * optimizing manner
      */
     mainScene->CreateComponent<Octree>();
-    printf("After octree\n");
 
     //Creates the background for the scene
     Node* bgNode = CreateBackground();
-    printf("bg\n");
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
