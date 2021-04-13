@@ -6,7 +6,11 @@
 
 #IncludeRegexTransform: 
 
-/home/pi/sound-pirates/Urho3D/splash/defineNote.cpp
-stdio.h
+/home/pi/sound-pirates/Urho3D/splash/defineNote.h
+
+/home/pi/sound-pirates/Urho3D/splash/test/define_note_test.cpp
+boost/test/unit_test.hpp
 -
+defineNote.h
+/home/pi/sound-pirates/Urho3D/splash/test/defineNote.h
 
