@@ -712,8 +712,9 @@ void GameSys::CreateMainScene()
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
-   // cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
-    cameraNode_->SetPosition(cameraPos);
+    cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
+    //cameraNode_->SetPosition(cameraPos);
+     cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
 }
 
 /**
