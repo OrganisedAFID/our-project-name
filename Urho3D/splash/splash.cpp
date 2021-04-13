@@ -855,7 +855,7 @@ Node* GameSys::CreateShip()
     boxNode->SetPosition(Vector3(9.0f, -1.0f, 35.0f));
     boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
-    boxObject->SetModel(cache->GetResource<Model>("Models/SpaceShip.mdl"));
+    boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
     return boxNode;  
 }
