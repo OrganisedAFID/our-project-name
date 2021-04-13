@@ -384,13 +384,13 @@ void GameSys::Start()
 {   
     globalContext_ = context_;
     mainScene = new Scene(globalContext_);
+    
     // Execute base class startup
     Sample::Start();
 
 
     // Create title scene
     CreateTitleScene();
-
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
@@ -439,20 +439,19 @@ void AnswerHandler(bool isCorrect){
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
 
+
+
     std::string txt = { "You played the "+correctness+" note" };
 
     String txtMessage = String(txt.c_str());
     std::string tag = correctness+"NoteText";
     String txtTag = String(tag.c_str()); 
-
     auto* screenText = CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
     (ui->GetRoot()->GetHeight() / 4)*3);  
     screenText-> CreateChild<Text>(txtMessage);
     std::cout << "You played the "+correctness+" note\n";
     screenText->SetHorizontalAlignment(HA_LEFT);
     screenText->SetVerticalAlignment(VA_TOP);
-
-
 
     //Check if the ship is close/far enough to call the win/loss scene
    
@@ -617,7 +616,30 @@ void GameSys::CreateInstructionsScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* backButton = CreateButton(root, "BackButton", 
         "BackText", "Back to title screen", 400, 500);   
-    auto* instructionsText = CreateText("Instruction text goes here", "Instructions", 0, 0);
+    auto* instructionsText = CreateText("Welcome to the first playable (alpha) version of Sound Pirates!  – In space, the sounds will move you! \n"
+                                        "You are about to enter a universe where starships sing to each other across the void. \n"
+                                        "Where buccaneers race the spaceways looking for loot and smugglers run their contraband \n"
+                                        "from port to shady port. In the Galaxy of Audiorum, ships travel space carrying great prizes.\n" 
+                                        "Fleets move as one in warp jumps, synchronised by ‘The Resonance’ – a tone send out \n"
+                                        "by the warp engines encoding each jump. Planned journeys are symphonies played out by ships \n"
+                                        "in glorious rhythm across the stars. You are taking on the role of Chantilly Lace, a pirate with \n"
+                                        "such genius they can tweak their engines so that the Resonance sent out by other ships is trackable \n"
+                                        "and you can catch and board great frigates in deep space in your mighty and feared ship \n"
+                                        "The Space Shanty’. The game is currently limited to C major scal and the chase is short. \n"
+                                        "With updates there will be more complexity and sub-games to help train your ear and vocal chords \n"
+                                        "or playing fingers to match whichever notes, tones, or microtones\n" 
+                                        "you might want to familiarise yourself with. \n"
+                                        "\n"
+                                        "We have tested it with raspberry pi 4 with Raspbian installed, a Disdim condenser mic \n"
+                                        "and a USB sound card. It uses the Urho3D game engine and features original art from the team.\n"
+                                        "Chantilly is a former engineer turned pirate who realised they could use \n"
+                                        "their new technology to take from the rich to give to the poor Robin Hood style. \n"
+                                        "Living outside the law means you need to work with unsavoury types though, \n"
+                                        "so Lace has built a reputation as a fearsome Captain and a hardy warrior. \n"
+                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, and feel not enough is going in \n"
+                                        "their pockets! Will you be able to guide Lace through the trials that await?", "Instructions", 0, 0);
+    instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
+
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
 }
 
@@ -723,7 +745,7 @@ void GameSys::CreateMainScene()
     skyNode->SetScale(1.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml"));
+    skybox->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
 
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
@@ -739,7 +761,8 @@ void GameSys::CreateMainScene()
     light->SetBrightness(3);
     light->SetColor(Color(1.0,.6,0.3,1));
     light->SetCastShadows(true);
-        
+    
+   
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -748,6 +771,12 @@ void GameSys::CreateMainScene()
 
     // Set an initial position for the camera scene node above the plane
      cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
+
+
+
+        auto* instructionText = ui->GetRoot()->CreateChild<Text>();
+
+
 }
 
 /**
@@ -775,7 +804,7 @@ Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = mainScene->CreateChild("Box");
-    boxNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
+    boxNode->SetRotation(Quaternion(215.0f, -45.0f, 30.0f));
     boxNode->SetPosition(Vector3(0.0f, -1.0f, 35.0f));
     boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
