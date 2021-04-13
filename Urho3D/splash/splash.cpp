@@ -409,8 +409,7 @@ void AnswerHandler(bool isCorrect){
     String txtMessage = String(txt.c_str());
     std::string tag = "correctnessText";
     String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
-        (ui->GetRoot()->GetHeight() / 4)*3);  
+    CreateText(txtMessage, txtTag, 200, 100);  
     std::cout << "You played the "+correctness+" note\n";
     //Check if the ship is close/far enough to call the win/loss scene
     Vector3 newShipPos = ship->GetPosition();
@@ -686,7 +685,7 @@ void GameSys::CreateMainScene()
     skyNode->SetScale(500.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml"));
+    //skybox->SetMaterial(cache->GetResource<Material>("Materials/sun.xml"));
 
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
@@ -699,10 +698,7 @@ void GameSys::CreateMainScene()
     lightNode->Pitch(10);   // vertical
     Light* light=lightNode->CreateComponent<Light>();
     light->SetLightType(LIGHT_DIRECTIONAL);
-    light->SetBrightness(3);
-    light->SetColor(Color(1.0,.6,0.3,1));
-    light->SetCastShadows(true);
-        
+
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -710,8 +706,10 @@ void GameSys::CreateMainScene()
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
-   // cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
     cameraNode_->SetPosition(cameraPos);
+    cameraNode_->SetScale(Vector3(0, 0, 0));
+   
+    
 }
 
 /**
@@ -724,11 +722,12 @@ Node* GameSys::CreateBackground()
     auto* cache = GetSubsystem<ResourceCache>();
 
     Node* skyNode = mainScene->CreateChild("Sky");
-    skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f)); 
-    skyNode->SetPosition(Vector3(-10.0f, 6.0f, 50.0f));
+    skyNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
+    skyNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
     auto* skyObject = skyNode->CreateComponent<StaticModel>();
     skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+    
     return skyNode;
 }
 

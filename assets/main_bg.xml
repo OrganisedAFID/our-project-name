@@ -1,4 +1,4 @@
 <material>
 	<technique name="Techniques/Diff.xml"/>
-	<texture name="Textures/HUDwithstarfield.png" unit="diffuse"/>
+	<texture name="Textures/HUDBlankwindow.png" unit="diffuse"/>
 </material>
