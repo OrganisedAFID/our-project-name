@@ -166,6 +166,11 @@ void inthand(int signum) {
  */
 int processBuffer()
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startBuf = std::chrono::high_resolution_clock::now();
+
+    
     ::freqMax;
     ::pipefds[2];
 
@@ -208,6 +213,10 @@ std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
     
     std::cout << freqMax << std::endl;
 
+    auto endBuf = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationB = endBuf -startBuf;
+    std::cout << "duration of process buffer" << durationB.count() << "s" <<std::endl;
+
     return freqMax, pipefds[2];
 }
 
@@ -220,6 +229,10 @@ std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startRec = std::chrono::high_resolution_clock::now();
+
     printf("Called Record \n");
     if (status)
     {
@@ -242,6 +255,11 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
         //get rid of the first half of window
         window.erase(window.begin(), window.begin() + nBufferFrames);
     }
+
+    auto endRec = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationR = endRec -startRec;
+    std::cout << "duration of Record" << durationR.count() << "s" <<std::endl;
+  
 
     return 0;
 }
@@ -467,7 +485,7 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-    printf("inside title\n");
+        printf("inside title\n");
     ui = GetSubsystem<UI>();
     printf("got ui\n");
     UIElement *root = ui->GetRoot();
@@ -613,6 +631,10 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
  */
 void GameSys::CreateInstructionsScene()
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startIn = std::chrono::high_resolution_clock::now();
+
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* backButton = CreateButton(root, "BackButton", 
         "BackText", "Back to title screen", 400, 500);   
@@ -641,6 +663,9 @@ void GameSys::CreateInstructionsScene()
     instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
 
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
+    auto endIn = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationI = endIn -startIn;
+    std::cout << "duration of Record" << durationI.count() << "s" <<std::endl;
 }
 
 /**
@@ -717,6 +742,11 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
+    using namespace std::literals::chrono_literals;
+
+    auto startMain = std::chrono::high_resolution_clock::now();
+
+  
     auto *cache = GetSubsystem<ResourceCache>();
     printf("After cache\n");
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
@@ -776,7 +806,9 @@ void GameSys::CreateMainScene()
 
         auto* instructionText = ui->GetRoot()->CreateChild<Text>();
 
-
+    auto endMain = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationM = endMain -startMain;
+    std::cout << "duration to create main scene " << durationM.count() << "s " <<std::endl;
 }
 
 /**
