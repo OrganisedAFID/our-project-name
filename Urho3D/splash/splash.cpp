@@ -174,7 +174,7 @@ int processBuffer()
 
     freqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 20000;
+    int amplitudeThreshold = 45000;
 
     for (int i = 51; i < 100; i++)
     {
@@ -201,6 +201,7 @@ std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
         }
         ready = false;
     } else {
+        
       std::cout<< "neither SIGUSR1 (correct) or SIGUSR2 (incorrect) called" <<"\n" ; 
     }
     
@@ -400,7 +401,7 @@ void AnswerHandler(bool isCorrect){
     
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
-    float winThreshold = 10.0f;
+    float winThreshold = 20.0f;
     float lossThreshold = 100.0f;
     
     if (distance < winThreshold){
@@ -437,15 +438,22 @@ void AnswerHandler(bool isCorrect){
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
+
     std::string txt = { "You played the "+correctness+" note" };
+
     String txtMessage = String(txt.c_str());
     std::string tag = correctness+"NoteText";
     String txtTag = String(tag.c_str()); 
- 
+
     auto* screenText = CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
     (ui->GetRoot()->GetHeight() / 4)*3);  
-       screenText-> CreateChild<Text>(txtMessage);
+    screenText-> CreateChild<Text>(txtMessage);
     std::cout << "You played the "+correctness+" note\n";
+    screenText->SetHorizontalAlignment(HA_LEFT);
+    screenText->SetVerticalAlignment(VA_TOP);
+
+
+
     //Check if the ship is close/far enough to call the win/loss scene
    
   }
@@ -561,7 +569,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
         countDownTimer_.Reset();
         kill(parentpid, SIGUSR1);
     }
@@ -620,6 +628,7 @@ void GameSys::CreateWinScene()
 {
     //delete main scene
     mainScene->Clear();  
+    
 
 
     UIElement* root = ui->GetRoot();
@@ -711,7 +720,7 @@ void GameSys::CreateMainScene()
     ship = shipNode;
 
      Node* skyNode = mainScene->CreateChild("Sky");
-    skyNode->SetScale(500.0f); // The scale actually does not matter
+    skyNode->SetScale(1.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     skybox->SetMaterial(cache->GetResource<Material>("Materials/Skybox.xml"));
