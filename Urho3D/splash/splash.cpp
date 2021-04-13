@@ -130,6 +130,7 @@ const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
+char note_to_write;
 float time_ = 0;
 Timer countDownTimer_ = Timer();
 int pid;
@@ -192,11 +193,15 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
+<<<<<<< HEAD
 
 
 std::cout<< "OutputNote (Game played): "<< OutputNote <<"\n" ;
 std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
     if(freqMax != 0 && ready){
+=======
+    if(freqMax != 0 && ready && !endGame){
+>>>>>>> main
         if(note_to_write == OutputNote){
            std::cout<< "SIGUSR1 (correct)" <<"\n" ;
             kill(pid, SIGUSR1);           
@@ -229,11 +234,14 @@ std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
+<<<<<<< HEAD
     using namespace std::literals::chrono_literals;
 
     auto startRec = std::chrono::high_resolution_clock::now();
 
     printf("Called Record \n");
+=======
+>>>>>>> main
     if (status)
     {
         std::cout << "Stream overflow detected!" << std::endl;
@@ -267,23 +275,20 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;  
-    printf("Called ready\n");  
+    ready = false;      
     ::OutputNote = playNote();
     ready = true;
     return;
 }
 
 static void correctHandler(int signum){
-    signal(SIGUSR1, correctHandler);
-    printf("Called correct\n");  
+    signal(SIGUSR1, correctHandler); 
     AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
-    signal(SIGUSR2, incorrectHandler);
-    printf("Called incorrect\n");   
+    signal(SIGUSR2, incorrectHandler);  
     AnswerHandler(false);
     return;
 }
@@ -390,7 +395,7 @@ GameSys::GameSys(Context* context) :Sample(context)
     {
         engine_->Exit();
         audioIn();
-        
+
     }
 }
 /**
@@ -462,18 +467,39 @@ void AnswerHandler(bool isCorrect){
     std::string txt = { "You played the "+correctness+" note" };
 
     String txtMessage = String(txt.c_str());
+<<<<<<< HEAD
     std::string tag = correctness+"NoteText";
     String txtTag = String(tag.c_str()); 
     auto* screenText = CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
     (ui->GetRoot()->GetHeight() / 4)*3);  
     screenText-> CreateChild<Text>(txtMessage);
+=======
+    std::string tag = "correctnessText";
+    String txtTag = String(tag.c_str());
+    CreateText(txtMessage, txtTag, 200, 100);  
+>>>>>>> main
     std::cout << "You played the "+correctness+" note\n";
     screenText->SetHorizontalAlignment(HA_LEFT);
     screenText->SetVerticalAlignment(VA_TOP);
 
     //Check if the ship is close/far enough to call the win/loss scene
+<<<<<<< HEAD
    
   }
+=======
+    Vector3 newShipPos = ship->GetPosition();
+    float distance = newShipPos.DistanceToPoint(cameraPos);
+    if (distance < winThreshold){
+        ourGame->DeleteCorrectnessText();
+        ourGame->CreateWinScene();
+        endGame = true;
+    }
+    else if (distance > lossThreshold){
+        ourGame->DeleteCorrectnessText();
+        ourGame->CreateLossScene();
+        endGame = true;
+    }
+>>>>>>> main
 }
 
 
@@ -485,27 +511,24 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
+<<<<<<< HEAD
         printf("inside title\n");
+=======
+>>>>>>> main
     ui = GetSubsystem<UI>();
-    printf("got ui\n");
     UIElement *root = ui->GetRoot();
-    printf("got root\n");
     cache = GetSubsystem<ResourceCache>();
-    printf("got cache\n");
     
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-    printf("set default\n");
     auto* startButton = CreateButton(root, "StartButton", 
         "StartText", "Start Game!", 250, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
         "Instructions", 600, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
-    printf("Made texts\n");
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
-    printf("Subscribed!\n");
 }
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
@@ -532,7 +555,8 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
 
 
 /**
- * Creates a button on the given root, with the given tag.
+ * Creates a button on the gchar OutputNote=playNote();   
+       playNote();iven root, with the given tag.
  * It also adds a text to the button given a name with txtName, and a content with txtCont.
  * It will place the button according to x and y coordinates.
  * Possible hAlign values = HA_LEFT, HA_CENTER, HA_RIGHT, HA_CUSTOM
@@ -588,11 +612,19 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     ::timestep = eventData[P_TIMESTEP].GetFloat();
     if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
         countDownTimer_.Reset();
+        DeleteCorrectnessText();
         kill(parentpid, SIGUSR1);
     }
 }
 
-
+void GameSys::DeleteCorrectnessText()
+{
+    //Delete existing correctness text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> correctnessText = root->GetChildrenWithTag("correctnessText");
+    if(correctnessText.Size() > 0)
+        correctnessText[0]->Remove();
+}
 /** 
  * when you click on the start button, the second scene appears
  * 
@@ -748,18 +780,15 @@ void GameSys::CreateMainScene()
 
   
     auto *cache = GetSubsystem<ResourceCache>();
-    printf("After cache\n");
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
      * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
      * optimizing manner
      */
     mainScene->CreateComponent<Octree>();
-    printf("After octree\n");
 
     //Creates the background for the scene
     Node* bgNode = CreateBackground();
-    printf("bg\n");
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
@@ -775,7 +804,11 @@ void GameSys::CreateMainScene()
     skyNode->SetScale(1.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+<<<<<<< HEAD
     skybox->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+=======
+    //skybox->SetMaterial(cache->GetResource<Material>("Materials/sun.xml"));
+>>>>>>> main
 
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
@@ -788,11 +821,15 @@ void GameSys::CreateMainScene()
     lightNode->Pitch(10);   // vertical
     Light* light=lightNode->CreateComponent<Light>();
     light->SetLightType(LIGHT_DIRECTIONAL);
+<<<<<<< HEAD
     light->SetBrightness(3);
     light->SetColor(Color(1.0,.6,0.3,1));
     light->SetCastShadows(true);
     
    
+=======
+
+>>>>>>> main
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
@@ -800,6 +837,7 @@ void GameSys::CreateMainScene()
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
+<<<<<<< HEAD
      cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
 
 
@@ -809,6 +847,12 @@ void GameSys::CreateMainScene()
     auto endMain = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationM = endMain -startMain;
     std::cout << "duration to create main scene " << durationM.count() << "s " <<std::endl;
+=======
+    cameraNode_->SetPosition(cameraPos);
+    cameraNode_->SetScale(Vector3(0, 0, 0));
+   
+    
+>>>>>>> main
 }
 
 /**
@@ -821,11 +865,18 @@ Node* GameSys::CreateBackground()
     auto* cache = GetSubsystem<ResourceCache>();
 
     Node* skyNode = mainScene->CreateChild("Sky");
+<<<<<<< HEAD
     skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f)); 
      skyNode->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
          auto* skyObject = skyNode->CreateComponent<StaticModel>();
+=======
+    skyNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
+    skyNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
+    auto* skyObject = skyNode->CreateComponent<StaticModel>();
+>>>>>>> main
     skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+    
     return skyNode;
 }
 
