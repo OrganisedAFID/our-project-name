@@ -130,10 +130,7 @@ const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
-<<<<<<< HEAD
 char note_to_write;
-char time_=0;
-=======
 float time_ = 0;
 Timer countDownTimer_ = Timer();
 int pid;
@@ -150,7 +147,6 @@ Context* globalContext_;
 Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
->>>>>>> main
 
 
 /**
@@ -192,7 +188,7 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
-    if(freqMax != 0 && ready){
+    if(freqMax != 0 && ready && !endGame){
         if(note_to_write == OutputNote){
             kill(pid, SIGUSR1);           
         } else{
@@ -244,8 +240,7 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;  
-    printf("Called ready\n");  
+    ready = false;      
     ::OutputNote = playNote();
     ready = true;
     return;
@@ -367,11 +362,7 @@ GameSys::GameSys(Context* context) :Sample(context)
     {
         engine_->Exit();
         audioIn();
-<<<<<<< HEAD
-       
-=======
-        
->>>>>>> main
+
     }
 }
 /**
@@ -419,7 +410,7 @@ void AnswerHandler(bool isCorrect){
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
     std::string txt = "You played the "+correctness+" note";
     String txtMessage = String(txt.c_str());
-    std::string tag = correctness+"NoteText";
+    std::string tag = "correctnessText";
     String txtTag = String(tag.c_str());
     CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
         (ui->GetRoot()->GetHeight() / 4)*3);  
@@ -428,10 +419,12 @@ void AnswerHandler(bool isCorrect){
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
+        ourGame->DeleteCorrectnessText();
         ourGame->CreateWinScene();
         endGame = true;
     }
     else if (distance > lossThreshold){
+        ourGame->DeleteCorrectnessText();
         ourGame->CreateLossScene();
         endGame = true;
     }
@@ -446,27 +439,20 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-    printf("inside title\n");
     ui = GetSubsystem<UI>();
-    printf("got ui\n");
     UIElement *root = ui->GetRoot();
-    printf("got root\n");
     cache = GetSubsystem<ResourceCache>();
-    printf("got cache\n");
     
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-    printf("set default\n");
     auto* startButton = CreateButton(root, "StartButton", 
         "StartText", "Start Game!", 250, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
         "Instructions", 600, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
-    printf("Made texts\n");
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
-    printf("Subscribed!\n");
 }
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
@@ -546,112 +532,22 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     using namespace Update;
 
     // Take the frame time step, which is stored as a float
-<<<<<<< HEAD
-    float timeStep = eventData[P_TIMESTEP].GetFloat();
-    float MOVE_SPEED=30.0f;
-    int i;
-
-    //framecount_++;
-    time_+=timeStep;
-
-    //std::cout << "Note played: " << OutputNote << "\n";
-
-    PODVector<Urho3D::Node*> ship = scene_->GetChildrenWithTag("ship");
-    Vector3 shipPos = ship[0]->GetPosition();
-    Node* shipNode = ship[0];
-
-    int fd = ::pipefds[0];
-    struct pollfd *fds;
-    fds = (pollfd *)calloc(1, sizeof(pollfd));
-    fds[0].fd = fd;
-    fds[0].events |= POLLIN;
-    int rv = poll(fds, 1, 0);
-
-    if (rv == -1)
-    {
-        printf("An error occurred: %d\n", errno);
-        return;
-    }
-
-    if (rv == 1)
-    {
-        printf("Events occurred: %d.", rv);
-        char readmessage[20];
-        read(::pipefds[0], readmessage, sizeof(readmessage));
-        printf("Child Process - Reading from pipe – Message 1 is %s\n", readmessage);
-        //ChangeTexts(readmessage);
-
-        UIElement *root = GetSubsystem<UI>()->GetRoot();
-        auto *cache = GetSubsystem<ResourceCache>();
-        auto* ui = GetSubsystem<UI>();
-
-        String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-                
-            float timeStep = eventData[P_TIMESTEP].GetFloat();
-            float MOVE_SPEED=30.0f;
-            int i;
-            char OutputNote=playNote();   
-       playNote();
-
-            if ( readmessage[20] == OutputNote ){
-                std::cout << "You played the correct note\n";
-                shipNode->Translate(Vector3(0.0f, -4.0f, 30.0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-                // Construct new Text object, set string to display and font to use
-                auto* feedback = ui->GetRoot()->CreateChild<Text>();
-                feedback->SetText(
-                    "You played the CORRECT note"
-                );
-                feedback->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 20);
-
-                // Position the text relative to the screen center
-                feedback->SetHorizontalAlignment(HA_CENTER);
-                feedback->SetVerticalAlignment(VA_CENTER);
-                feedback->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
-                    
-            }
-            else if ( readmessage[20] != OutputNote ){
-                shipNode->Translate(Vector3(0.0f, -30.0f, .0f)*timeStep*MOVE_SPEED);
-                shipNode->SetScale(Vector3(0.2f, 0.2f, 0.2));
-                SharedPtr<Text> feedback2_;
-                feedback2_=new Text(context_);
-                // Text will be updated later in the E_UPDATE handler. Keep readin'.
-                feedback2_->SetText("You played an INCORRECT note");
-                // If the engine cannot find the font, it comes with Urho3D.
-                // Set the environment variables URHO3D_HOME, URHO3D_PREFIX_PATH or
-                // change the engine parameter "ResourcePrefixPath" in the Setup method.
-                feedback2_->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"),20);
-                feedback2_->SetColor(Color(.3,0,.3));
-                feedback2_->SetHorizontalAlignment(HA_CENTER);
-                feedback2_->SetVerticalAlignment(VA_CENTER);
-                GetSubsystem<UI>()->GetRoot()->AddChild(feedback2_);
-                std::cout << "You played the INCORRECT note\n";
-
-            }
-            std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-        
-
-=======
     ::timestep = eventData[P_TIMESTEP].GetFloat();
     if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
         countDownTimer_.Reset();
+        DeleteCorrectnessText();
         kill(parentpid, SIGUSR1);
->>>>>>> main
     }
 }
 
-<<<<<<< HEAD
-    String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
-    
-     // std::cout << "Note played: " << OutputNote << "\n";
-    
-
-    // Make relevant note more opaque and all others less opaque
-    
+void GameSys::DeleteCorrectnessText()
+{
+    //Delete existing correctness text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> correctnessText = root->GetChildrenWithTag("correctnessText");
+    if(correctnessText.Size() > 0)
+        correctnessText[0]->Remove();
 }
-=======
->>>>>>> main
-
 /** 
  * when you click on the start button, the second scene appears
  * 
