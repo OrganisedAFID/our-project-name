@@ -1,9 +1,16 @@
+/**
+ * @file fft.cpp
+ * FFT function. Takes input buffer and performs Fast Fourier Transform to shift into frequency 
+ * domain. Produces new array with frequencies as position and amplitude as value
+ * called by processBuffer function
+ */
+
+
 #include "RtAudio.h"
 #include <fftw3.h>
 #include <iostream>
 #include <cstdlib>
 #include <math.h>
-#include <SFML/Graphics.hpp>
 #include <cstring>
 #include <stdio.h>
 #include <SFML/Audio.hpp>
@@ -13,12 +20,6 @@
 #include "audioIn.h"
 
 
-
-/**
- * fft function. Takes input buffer and performs Fast Fourier Transform to shift into frequency 
- * domain. Produces new array with frequencies as position and amplitude as value
- * called by processBuffer function
- **/
 void fft(std::vector<double> &rawValues, std::vector<double> &output) 
 {
     int n = rawValues.size();

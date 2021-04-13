@@ -3,7 +3,12 @@
  * Creates a splash screen
  */
 
+
+/************************************************************************/
+/*!
+
 //
+
 // Copyright (c) 2008-2020 the Urho3D project.
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -23,7 +28,8 @@
 // LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
-//
+*/
+/************************************************************************/
 
 #include "RtAudio.h"
 #include <fftw3.h>
@@ -124,8 +130,27 @@ const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
+<<<<<<< HEAD
 char note_to_write;
 char time_=0;
+=======
+float time_ = 0;
+Timer countDownTimer_ = Timer();
+int pid;
+int parentpid;
+char OutputNote;
+float timestep;
+bool ready;
+bool endGame;
+
+Node* ship;
+UI* ui;
+ResourceCache* cache;
+Context* globalContext_;
+Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
+GameSys* ourGame;
+Scene* mainScene;
+>>>>>>> main
 
 
 /**
@@ -135,7 +160,7 @@ char time_=0;
 
 void inthand(int signum) {
     stop = 1;
-return;
+    return;
 }
 
 /**
@@ -154,25 +179,26 @@ int processBuffer()
 
     freqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 10000;
+    int amplitudeThreshold = 20000;
 
     for (int i = 51; i < 100; i++)
     {
-        if (output[i] > output[freqMaxIndex] && output[i] > amplitudeThreshold)
+        if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
             freqMaxIndex = i;
-            freqMax = i * 44100.0 / window.size();
+            freqMax = i * 44100.0 / window.size();    
+            //std::cout<< "amplitude "<< output[i] <<"\n" ;
         }
-
-
     } 
-    note_to_write = define_note(freqMax); 
-       
-    if(note_to_write  != 'N'){
-    write(pipefds[1], note_to_write + "4", sizeof(note_to_write  + "4"));
-}
-else{
-    write(pipefds[1], "None", sizeof("None"));
+    char note_to_write = define_note(freqMax); 
+
+    if(freqMax != 0 && ready){
+        if(note_to_write == OutputNote){
+            kill(pid, SIGUSR1);           
+        } else{
+            kill(pid, SIGUSR2);
+        }
+        ready = false;
     }
     
     std::cout << freqMax << std::endl;
@@ -216,12 +242,34 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 }
 
 
+void readyHandler(int signum){
+    signal(SIGUSR1, readyHandler);  
+    ready = false;  
+    printf("Called ready\n");  
+    ::OutputNote = playNote();
+    ready = true;
+    return;
+}
+
+static void correctHandler(int signum){
+    signal(SIGUSR1, correctHandler);
+    printf("Called correct\n");  
+    AnswerHandler(true);
+    return;
+}
+
+static void incorrectHandler(int signum){
+    signal(SIGUSR2, incorrectHandler);
+    printf("Called incorrect\n");   
+    AnswerHandler(false);
+    return;
+}
+
 
 
 /**
  * audioIn function. 
  * calls record, which calls processBuffer,which calls fft
- * called by URHO3D_DEFINE_APPLICATION_MAIN(HelloWorld)
  * 
  */
 int audioIn()
@@ -230,15 +278,12 @@ int audioIn()
     snd_pcm_hw_params_t *hw_params;
     //access audio device
     RtAudio adc;
-    int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
-    //if (adc.getDeviceCount() < 1) {
-    if (err < 1) {
-
+    //int err = snd_pcm_open( &_soundDevice, "plughw:0,0", SND_PCM_STREAM_PLAYBACK, 0 );
+    if (adc.getDeviceCount() < 1) {
         std::cout << "No audio devices found!\n";
         return -1;
     }
-    
-    
+     
 
     //Print device infos
     unsigned int numDev = adc.getDeviceCount();
@@ -247,9 +292,7 @@ int audioIn()
     {
         // use the Debugger if you need to know deviceID
         std::cout << "Device info" << std::endl;
-        di = adc.getDeviceInfo(i);
-        //std::cout << di << std::endl;
-        
+        di = adc.getDeviceInfo(i);     
     }
 
     //Set parameters
@@ -257,9 +300,6 @@ int audioIn()
     parameters.deviceId = adc.getDefaultInputDevice();
     parameters.nChannels = 1;
     parameters.firstChannel = 0;
-
-    std::thread t1(instructionsStatements);
-    t1.join();
 
     try
     {
@@ -276,21 +316,33 @@ int audioIn()
 
     char input;
     std::cout << "\nRecording ... press <enter> to quit.\n";
-
     
+    signal(SIGUSR1, readyHandler);
+
+    //This code keeps the recording going and enables us to stop it be using ctrl-c on the command line
     signal(SIGINT, inthand);
     stop = 0;
     while(!stop){}
+    adc.stopStream();
     adc.closeStream();
     return 0;
 }
+
 
 
 /**
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
+//URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
+
+int RunApplication() { 
+    Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); 
+    ourGame = new GameSys(context);
+    Urho3D::SharedPtr<GameSys> application(ourGame); 
+    return application->Run(); 
+} 
+URHO3D_DEFINE_MAIN(RunApplication())
 
 /** 
  * GameSys function. instigates pipeline, checks and returns error if unable
@@ -298,30 +350,28 @@ URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
  * calls audioIn function and playNote function
  * 
  */ 
-GameSys::GameSys(Context* context) :
-    Sample(context)
+GameSys::GameSys(Context* context) :Sample(context)
 {   
-    ::pipefds[2];
-    int returnstatus;
-    int pid;
-    returnstatus = pipe(pipefds);
-    if (returnstatus == -1)
-    {
-        printf("Unable to create pipe\n");
-        return;
-    }
+    ::pid;
+    ::parentpid = getpid();
     pid = fork();
     //Game process
     if (pid == 0)
     {
+        signal(SIGUSR1, correctHandler);
+        signal(SIGUSR2, incorrectHandler);
+    
     }
     //SP process
     else
     {
         engine_->Exit();
-
         audioIn();
+<<<<<<< HEAD
        
+=======
+        
+>>>>>>> main
     }
 }
 /**
@@ -331,17 +381,60 @@ GameSys::GameSys(Context* context) :
  */
 void GameSys::Start()
 {   
+    globalContext_ = context_;
+    mainScene = new Scene(globalContext_);
     // Execute base class startup
     Sample::Start();
-  
+
+
     // Create title scene
     CreateTitleScene();
 
 
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
-    
-return;
+}
+
+void AnswerHandler(bool isCorrect){
+    Vector3 shipPos = ship->GetPosition();
+    UIElement *root = ui->GetRoot();
+    float winThreshold = 10.0f;
+    float lossThreshold = 100.0f;
+        
+    float MOVE_SPEED=30.0f;
+    std::string correctness;
+    float y;
+    float z;
+    if(isCorrect){
+        correctness = "correct";
+        y = 10.0f;
+        z = 0.0f;
+    }
+    else{
+        correctness = "incorrect";
+        y = -10.0f;
+        z = 0.0f;
+    }
+    ::timestep;
+    ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
+    std::string txt = "You played the "+correctness+" note";
+    String txtMessage = String(txt.c_str());
+    std::string tag = correctness+"NoteText";
+    String txtTag = String(tag.c_str());
+    CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
+        (ui->GetRoot()->GetHeight() / 4)*3);  
+    std::cout << "You played the "+correctness+" note\n";
+    //Check if the ship is close/far enough to call the win/loss scene
+    Vector3 newShipPos = ship->GetPosition();
+    float distance = newShipPos.DistanceToPoint(cameraPos);
+    if (distance < winThreshold){
+        ourGame->CreateWinScene();
+        endGame = true;
+    }
+    else if (distance > lossThreshold){
+        ourGame->CreateLossScene();
+        endGame = true;
+    }
 }
 
 
@@ -353,44 +446,48 @@ return;
  */
 void GameSys::CreateTitleScene()
 {
-    auto *ui = GetSubsystem<UI>();
+    printf("inside title\n");
+    ui = GetSubsystem<UI>();
+    printf("got ui\n");
     UIElement *root = ui->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
+    printf("got root\n");
+    cache = GetSubsystem<ResourceCache>();
+    printf("got cache\n");
+    
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-
-    auto* startButton = 
-    CreateButton(root, "StartButton", "StartText", "Start Game!", 250, 500);
-    auto* insButton = 
-    CreateButton(root, "InsButton", "InsText", "Instructions", 600, 500);
-    auto* helloText = 
-    CreateText("Welcome to Sound Pirates!", "welcomeText", 300, 300);
+    printf("set default\n");
+    auto* startButton = CreateButton(root, "StartButton", 
+        "StartText", "Start Game!", 250, 500);
+    auto* insButton = CreateButton(root, "InsButton", "InsText", 
+        "Instructions", 600, 500);
+    auto* helloText = CreateText("Welcome to Sound Pirates!", 
+        "welcomeText", 300, 300);
+    printf("Made texts\n");
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
+    printf("Subscribed!\n");
 }
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
  * returns text
  * 
  */
-Text* GameSys::CreateText(String content, String tagName, int x, int y, String fontText)
+Text* CreateText(String content, String tagName, int x, int y, String fontText)
 {  
-    auto* cache = GetSubsystem<ResourceCache>();
     Urho3D::Font* font = cache->GetResource<Font>(fontText);
     // Construct new Text object
-    SharedPtr<Text> text(new Text(context_));
+    SharedPtr<Text> text(new Text(globalContext_));
 
     // Set String to display
     text->SetText(content);
-
     // Set font and text color
     text->SetFont(font, 30);
     text->SetColor(Color(0.0f, 10.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
-
     // Add Text instance to the UI root element
-    GetSubsystem<UI>()->GetRoot()->AddChild(text);
+    ui->GetRoot()->AddChild(text);
     return text;
 }
 
@@ -438,8 +535,7 @@ void GameSys::SubscribeToEvents()
 {
     // Subscribe HandleUpdate() function for processing update events
 
-    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate));
-    
+    SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate)); 
 }
 /**
  * 
@@ -450,6 +546,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     using namespace Update;
 
     // Take the frame time step, which is stored as a float
+<<<<<<< HEAD
     float timeStep = eventData[P_TIMESTEP].GetFloat();
     float MOVE_SPEED=30.0f;
     int i;
@@ -534,18 +631,16 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
             std::this_thread::sleep_for(std::chrono::milliseconds(3000));
         
 
+=======
+    ::timestep = eventData[P_TIMESTEP].GetFloat();
+    if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
+        countDownTimer_.Reset();
+        kill(parentpid, SIGUSR1);
+>>>>>>> main
     }
 }
-/**
- * 
- * 
- */
-void GameSys::ChangeTexts(String note)
-{
 
-    UIElement *root = GetSubsystem<UI>()->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
-
+<<<<<<< HEAD
     String notes[8] = {"C4", "D4", "E4", "F4", "G4", "A4", "B4", "None"};
     
      // std::cout << "Note played: " << OutputNote << "\n";
@@ -554,6 +649,8 @@ void GameSys::ChangeTexts(String note)
     // Make relevant note more opaque and all others less opaque
     
 }
+=======
+>>>>>>> main
 
 /** 
  * when you click on the start button, the second scene appears
@@ -563,15 +660,15 @@ void GameSys::ChangeTexts(String note)
 void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
-      
-    DeleteTitleScene();
+    //delete title scene
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+
     //Show the main game screen
     CreateMainScene();
     SetupViewport();
 
     // Finally subscribe to the update event so we can move the camera.
-
-    SubscribeToEvents();    
+    SubscribeToEvents();  
 }
 
 /** 
@@ -581,9 +678,8 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
-      
-    DeleteTitleScene();
-    printf("Deleted title scene");
+    //Delete the title scene
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
 
     //Show the instructions
     CreateInstructionsScene();
@@ -595,10 +691,56 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 void GameSys::CreateInstructionsScene()
 {
     UIElement* root = GetSubsystem<UI>()->GetRoot();
-    auto* backButton = 
-    CreateButton(root, "BackButton", "BackText", "Back to title screen", 400, 500);   
+    auto* backButton = CreateButton(root, "BackButton", 
+        "BackText", "Back to title screen", 400, 500);   
     auto* instructionsText = CreateText("Instruction text goes here", "Instructions", 0, 0);
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateWinScene()
+{
+    //delete main scene
+    mainScene->Clear();
+
+    UIElement* root = ui->GetRoot();
+    auto* resetButton = 
+        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    auto* winText = CreateText("You won!", "WinText", 
+        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateLossScene()
+{
+    //delete main scene
+    mainScene->Clear();
+
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = 
+    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    auto* lossText = CreateText("You lose!", "LossText", 
+        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+}
+
+/** 
+ * when you click on the instructions button, the instructions appear
+ * 
+ */
+void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+
+    endGame = false;
+    UnsubscribeFromAllEvents();
+    CreateTitleScene();
 }
 
 /** 
@@ -611,50 +753,12 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
 
     //Delete the instructions
-    DeleteInstructionsScene();
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
 
     //Create the title scene again
     CreateTitleScene();
 }
 
-/**
- * Deletes the instructions scene
- * 
- */
-void GameSys::DeleteInstructionsScene()
-{
-    UIElement* root = GetSubsystem<UI>()->GetRoot();
-    
-    // erase instruction text
-    Urho3D::PODVector<Urho3D::UIElement*> insText = root->GetChildrenWithTag("Instructions");
-    insText[0]->Remove();
-    
-    // erase back button
-    Urho3D::PODVector<Urho3D::UIElement*> backButton = root->GetChildrenWithTag("BackButton");
-    backButton[0]->Remove();
-}
-
-/**
- * Deletes the first scene
- * 
- */
-void GameSys::DeleteTitleScene()
-{
-    UIElement *root = GetSubsystem<UI>()->GetRoot();
-    auto *cache = GetSubsystem<ResourceCache>();
-
-
-    Urho3D::PODVector<Urho3D::UIElement*> welcomeText = root->GetChildrenWithTag("welcomeText");
-    welcomeText[0]->Remove();
-    
-    // erase start button
-    Urho3D::PODVector<Urho3D::UIElement*> startButton = root->GetChildrenWithTag("StartButton");
-    startButton[0]->Remove();
-
-    // erase instructions button
-    Urho3D::PODVector<Urho3D::UIElement*> insButton = root->GetChildrenWithTag("InsButton");
-    insButton[0]->Remove();
-}
 
 /**
  * Creates the scene with the ship
@@ -665,19 +769,19 @@ void GameSys::DeleteTitleScene()
 void GameSys::CreateMainScene()
 {
     auto *cache = GetSubsystem<ResourceCache>();
-    scene_ = new Scene(context_);
-
-
+    printf("After cache\n");
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
      * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
      * optimizing manner
      */
-    scene_->CreateComponent<Octree>();
-    
+    mainScene->CreateComponent<Octree>();
+    printf("After octree\n");
 
-    Node *planeNode = CreatePlane();
-    Node *zoneNode = scene_->CreateChild("Zone");
+    //Creates the background for the scene
+    Node* bgNode = CreateBackground();
+    printf("bg\n");
+    Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
     zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
@@ -686,8 +790,9 @@ void GameSys::CreateMainScene()
     zone->SetFogEnd(500.0f);
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
+    ship = shipNode;
 
-     Node* skyNode = scene_->CreateChild("Sky");
+     Node* skyNode = mainScene->CreateChild("Sky");
     skyNode->SetScale(500.0f); // The scale actually does not matter
     auto* skybox = skyNode->CreateComponent<Skybox>();
     skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
@@ -698,82 +803,61 @@ void GameSys::CreateMainScene()
     // The light will use default settings (white light, no shadows)
             // Create a red directional light (sun)
         
-            Node* lightNode=scene_->CreateChild();
-            lightNode->SetDirection(Vector3::FORWARD);
-            lightNode->Yaw(50);     // horizontal
-            lightNode->Pitch(10);   // vertical
-            Light* light=lightNode->CreateComponent<Light>();
-            light->SetLightType(LIGHT_DIRECTIONAL);
-            light->SetBrightness(3);
-            light->SetColor(Color(1.0,.6,0.3,1));
-            light->SetCastShadows(true);
+    Node* lightNode=mainScene->CreateChild();
+    lightNode->SetDirection(Vector3::FORWARD);
+    lightNode->Yaw(50);     // horizontal
+    lightNode->Pitch(10);   // vertical
+    Light* light=lightNode->CreateComponent<Light>();
+    light->SetLightType(LIGHT_DIRECTIONAL);
+    light->SetBrightness(3);
+    light->SetColor(Color(1.0,.6,0.3,1));
+    light->SetCastShadows(true);
         
-        
-    /*Node *lightNode = scene_->CreateChild("DirectionalLight");
-    lightNode->SetDirection(Vector3(0.9f, -1.0f, 0.6f)); // The direction vector does not need to be normalized
-    auto *light = lightNode->CreateComponent<Light>();
-    light->SetLightType(LIGHT_DIRECTIONAL);*/
 
     // Create a scene node for the camera, which we will move around
     // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
-    cameraNode_ = scene_->CreateChild("Camera");
+    cameraNode_ = mainScene->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
 
     // Set an initial position for the camera scene node above the plane
    // cameraNode_->SetRotation(Quaternion(0.0f, 450.0f, 0.0f));
-    cameraNode_->SetPosition(Vector3(0.0f, -6.0f, -25.0f));
-
-
-      //  SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,HandleUpdate));
-    int i;
-    
-    //SubscribeToEvent(E_UPDATE,URHO3D_HANDLER(HelloWorld,ChangeTexts));
-    //for (i=0;i<5;i++){
-            
-        std::this_thread::sleep_for(std::chrono::milliseconds(3000));
-
-        SubscribeToEvents();
-   // }
+    cameraNode_->SetPosition(cameraPos);
 }
 
 /**
- * Creates a plane underneath the entire scene
+ * Create a background for the main scene.
+ * Implemented as a cube positioned in front of the camera with the 
+ * background png as a texture.
  */
-
-Node* GameSys::CreatePlane()
+Node* GameSys::CreateBackground()
 {
-    auto *cache = GetSubsystem<ResourceCache>();
+    auto* cache = GetSubsystem<ResourceCache>();
 
-    Node *planeNode = scene_->CreateChild("Plane");
-    planeNode->SetScale(Vector3(100.0f, 100.0f, 100.0f));
-    planeNode->SetRotation(Quaternion(90.0f, 0.0f, 0.0f));
-
-    auto *planeObject = planeNode->CreateComponent<StaticModel>();
-    planeObject->SetModel(cache->GetResource<Model>("Models/Plane.mdl"));
-    planeObject->SetMaterial(cache->GetResource<Material>("Materials/StoneTiled.xml"));
-    return planeNode;
+    Node* skyNode = mainScene->CreateChild("Sky");
+    skyNode->SetScale(Vector3(100.0f, 100.0f, 1.0f)); 
+    skyNode->SetPosition(Vector3(-10.0f, 6.0f, 50.0f));
+    auto* skyObject = skyNode->CreateComponent<StaticModel>();
+    skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+    return skyNode;
 }
 
 /**
  * CreateShip function. Creates the enemy ship to pursue
  */
-
 Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
-    Node *boxNode = scene_->CreateChild("Box");
+    Node *boxNode = mainScene->CreateChild("Box");
     boxNode->SetRotation(Quaternion(250.0f, -25.0f, 20.0f));
     boxNode->SetPosition(Vector3(0.0f, -1.0f, 35.0f));
     boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
     boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
-
-    //boxObject->SetCastShadows(true);
-
-    return boxNode;
-    
+    return boxNode;  
 }
+
 /**
  * 
  * 
@@ -838,6 +922,6 @@ void GameSys::SetupViewport()
      * at minimum. Additionally we could configure the viewport screen size and the rendering path (eg. forward / deferred) to
      * use, but now we just use full screen and default render path configured in the engine command line options
      */
-    SharedPtr<Viewport> viewport(new Viewport(context_, scene_, cameraNode_->GetComponent<Camera>()));
+    SharedPtr<Viewport> viewport(new Viewport(context_, mainScene, cameraNode_->GetComponent<Camera>()));
     renderer->SetViewport(0, viewport);
 }

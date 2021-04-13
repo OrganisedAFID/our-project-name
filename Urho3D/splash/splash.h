@@ -1,3 +1,6 @@
+/************************************************************************/
+/*!\class Gamesys
+    \brief Creates Gamesys class begin game processes.
 //
 // Copyright (c) 2008-2020 the Urho3D project.
 //
@@ -19,15 +22,13 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 //
-
+*/
+/************************************************************************/
 #pragma once
 
 #include "Sample.h"
 
-/**
- * Creates Gamesys class begin game processes.
- * 
- */
+
 class GameSys : public Sample
 {
     URHO3D_OBJECT(GameSys, Sample);
@@ -39,6 +40,8 @@ public:
     /// Setup after engine initialization and before running the main loop.
     /// Default Start function overridden to allow game loop to begin
     void Start() override;
+    void CreateWinScene();
+    void CreateLossScene();
 
 protected:
     /// Return XML patch instructions for screen joystick layout for a specific sample app, 
@@ -52,9 +55,6 @@ protected:
     }
 
 private:
-    /// Construct a new Text instance, containing the 'Welcome to Sound Pirates!' String, and 
-    /// add it to the UI root element.
-    void CreateText();
     /// Subscribe to application-wide logic update events.
     void SubscribeToEvents();
     /// Handle the logic update event.
@@ -64,9 +64,12 @@ private:
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
+    void HandleResetClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
+    
     void SetupViewport();
     void CreateTitleScene();
+    
     void DeleteTitleScene();
     void DeleteInstructionsScene();
     void CreateMainScene();
@@ -74,9 +77,17 @@ private:
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
     
-    Node* CreatePlane();
+    Node* CreateBackground();
     Node* CreateShip();
-    Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);
 };
+
+void inthand(int signum);
+void readyHandler(int signum);
+static void correctHandler(int signum);
+static void incorrectHandler(int signum);
+void AnswerHandler(bool isCorrect);
+Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
+ 
+
