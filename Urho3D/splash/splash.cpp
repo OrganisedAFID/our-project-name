@@ -187,7 +187,7 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
-    if(freqMax != 0 && ready){
+    if(freqMax != 0 && ready && !endGame){
         if(note_to_write == OutputNote){
             kill(pid, SIGUSR1);           
         } else{
@@ -239,8 +239,7 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;  
-    printf("Called ready\n");  
+    ready = false;      
     ::OutputNote = playNote();
     ready = true;
     return;
@@ -410,7 +409,7 @@ void AnswerHandler(bool isCorrect){
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
     std::string txt = "You played the "+correctness+" note";
     String txtMessage = String(txt.c_str());
-    std::string tag = correctness+"NoteText";
+    std::string tag = "correctnessText";
     String txtTag = String(tag.c_str());
     CreateText(txtMessage, txtTag, ui->GetRoot()->GetWidth()/4 -10, 
         (ui->GetRoot()->GetHeight() / 4)*3);  
@@ -437,27 +436,20 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-    printf("inside title\n");
     ui = GetSubsystem<UI>();
-    printf("got ui\n");
     UIElement *root = ui->GetRoot();
-    printf("got root\n");
     cache = GetSubsystem<ResourceCache>();
-    printf("got cache\n");
     
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
-    printf("set default\n");
     auto* startButton = CreateButton(root, "StartButton", 
         "StartText", "Start Game!", 250, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
         "Instructions", 600, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
-    printf("Made texts\n");
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
-    printf("Subscribed!\n");
 }
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
@@ -539,6 +531,12 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     ::timestep = eventData[P_TIMESTEP].GetFloat();
     if(countDownTimer_.GetMSec(false) >= 3000 && !endGame){
         countDownTimer_.Reset();
+        //Delete existing correctness text from the screen
+        UIElement* root = ui->GetRoot();
+        Urho3D::PODVector<Urho3D::UIElement*> correctnessText = root->GetChildrenWithTag("correctnessText");
+        printf("size is %d\n", correctnessText.Size());
+        if(correctnessText.Size() > 0)
+            correctnessText[0]->Remove();
         kill(parentpid, SIGUSR1);
     }
 }
