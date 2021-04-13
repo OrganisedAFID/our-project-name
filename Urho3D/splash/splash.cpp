@@ -130,6 +130,7 @@ const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
+char note_to_write;
 float time_ = 0;
 Timer countDownTimer_ = Timer();
 int pid;
@@ -361,7 +362,7 @@ GameSys::GameSys(Context* context) :Sample(context)
     {
         engine_->Exit();
         audioIn();
-        
+
     }
 }
 /**
@@ -477,7 +478,8 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
 }
 
 /**
- * Creates a button on the given root, with the given tag.
+ * Creates a button on the gchar OutputNote=playNote();   
+       playNote();iven root, with the given tag.
  * It also adds a text to the button given a name with txtName, and a content with txtCont.
  * It will place the button according to x and y coordinates.
  * Possible hAlign values = HA_LEFT, HA_CENTER, HA_RIGHT, HA_CUSTOM

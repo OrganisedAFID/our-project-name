@@ -15,11 +15,19 @@
 /**
  * Define "OutputNote" variable to define letter note that is played to user
  */
+<<<<<<< HEAD
+char playNote(){
+    
+     srand (time(NULL));
+  	int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
+  	int RandIndex = rand() % 6; //generate a random integer between 0 and 7
+=======
  char playNote(){
     char OutputNote;
     srand (time(NULL));
     int noteNum[7] = {262, 294, 330, 349, 392, 440, 494}; //frequencies responding to 4th octave
     int RandIndex = rand() % 6; //generate a random integer between 0 and 7
+>>>>>>> main
     sf::SoundBuffer buffer;
     std::vector<sf::Int16> samples;
     
@@ -56,11 +64,21 @@
         OutputNote = 'B';
     }
     else{
+<<<<<<< HEAD
+                OutputNote= 'N';
+            }
+        
+     std::cout << "Note played: " << OutputNote << "\n";
+ 
+    
+ 
+=======
         OutputNote = 'N';
     }
         
     std::cout << "Note played: " << OutputNote << "\n";
 
+>>>>>>> main
 return OutputNote;
 
     
