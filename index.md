@@ -1,10 +1,19 @@
-## Welcome to GitHub Pages
+# Sound PIrates
 
-You can use the [editor on GitHub](https://github.com/OrganisedAFID/sound-pirates/edit/gh-pages/index.md) to maintain and preview the content for your website in Markdown files.
+![image](https://user-images.githubusercontent.com/44497996/114782410-b0529700-9d71-11eb-9d58-da91cf2f99eb.png)
 
-Whenever you commit to this repository, GitHub Pages will run [Jekyll](https://jekyllrb.com/) to rebuild the pages in your site, from the content in your Markdown files.
 
-### Markdown
+## What is Sound PIrates?
+
+## How the game works
+
+## User stories
+
+## The creators
+- Alice Ravier
+- David Hughes
+- Fai Johnson
+- Isabella Sheldon
 
 Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
