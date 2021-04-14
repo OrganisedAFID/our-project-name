@@ -1,3 +1,0 @@
-/home/pi/sound-pirates/Urho3D/all_together/CMakeFiles/rebuild_cache.dir
-/home/pi/sound-pirates/Urho3D/all_together/CMakeFiles/Splash.dir
-/home/pi/sound-pirates/Urho3D/all_together/CMakeFiles/edit_cache.dir

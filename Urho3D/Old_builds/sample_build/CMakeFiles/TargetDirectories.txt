@@ -1,3 +1,0 @@
-/home/pi/sound-pirates/Urho3D/sample_build/CMakeFiles/rebuild_cache.dir
-/home/pi/sound-pirates/Urho3D/sample_build/CMakeFiles/SampleProject.dir
-/home/pi/sound-pirates/Urho3D/sample_build/CMakeFiles/edit_cache.dir
