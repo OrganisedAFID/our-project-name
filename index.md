@@ -7,7 +7,28 @@
 
 ## How the game works
 
+When the game has been installed you can build the game by navigating to the Urho3D folder and type the following lines into command line
+```markdown
+mkdir splash_build
+cd splash_build
+cmake ../splash
+cmake --build .
+cd bin
+./Splash
+```
+This will launch the game and you can start your journey of hunting sound PIrates!
+
+Launching the game will create a start screen where you can view instructions of how to play the game and a **start game** button. 
+As you select **Start game** you will hear a tone from the C major scale, it is now your job to replicate that same tone. If you are able to recognise the tone and replay the correct note you will get closer to the spaceship infront of you- one step closer to reaching your goal. 
+If you are unable to replicate the note the spacePirates will fly further away. 
+
+The game ends when either you have caught up to the space PIrates and win the game, or you have played the incorrect note too many times and let the space PIrates get away- loosing the game. 
+## What do you need to play the game?
+![image](https://user-images.githubusercontent.com/44497996/114785061-088a9880-9d74-11eb-942a-61e387437b15.png)
+
 ## User stories
+
+## Future work
 
 ## The creators
 - Alice Ravier
@@ -15,32 +36,4 @@
 - Fai Johnson
 - Isabella Sheldon
 
-Markdown is a lightweight and easy-to-use syntax for styling your writing. It includes conventions for
 
-```markdown
-Syntax highlighted code block
-
-# Header 1
-## Header 2
-### Header 3
-
-- Bulleted
-- List
-
-1. Numbered
-2. List
-
-**Bold** and _Italic_ and `Code` text
-
-[Link](url) and ![Image](src)
-```
-
-For more details see [GitHub Flavored Markdown](https://guides.github.com/features/mastering-markdown/).
-
-### Jekyll Themes
-
-Your Pages site will use the layout and styles from the Jekyll theme you have selected in your [repository settings](https://github.com/OrganisedAFID/sound-pirates/settings/pages). The name of this theme is saved in the Jekyll `_config.yml` configuration file.
-
-### Support or Contact
-
-Having trouble with Pages? Check out our [documentation](https://docs.github.com/categories/github-pages-basics/) or [contact support](https://support.github.com/contact) and we’ll help you sort it out.
