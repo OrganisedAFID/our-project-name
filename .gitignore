@@ -47,6 +47,7 @@ generated/
 build/
 /captures/
 .cxx/
+current_build/
 
 # Output files
 /Source/**/*.a
