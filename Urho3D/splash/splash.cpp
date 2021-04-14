@@ -50,6 +50,7 @@
 #include "instructionsStatements.h"
 #include "processBuffer.h"
 #include "defineNote.h"
+#include "findFreqMax.h"
 #include <alsa/asoundlib.h>
 
 
@@ -177,8 +178,8 @@ int processBuffer()
 
     std::vector<double> output;
     fft(window, output);
-
-    freqMax = 0;
+    int freqMax = 0;
+    int detectfreqMax = 0;
     int freqMaxIndex = 51;
     int amplitudeThreshold = 45000;
 
@@ -187,31 +188,24 @@ int processBuffer()
         if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
             freqMaxIndex = i;
-            freqMax = i * 44100.0 / window.size();    
-            //std::cout<< "amplitude "<< output[i] <<"\n" ;
+            
+           freqMax = findFreqMax(detectfreqMax, i, window); 
+ 
         }
     } 
     char note_to_write = define_note(freqMax); 
 
 
 
-std::cout<< "OutputNote (Game played): "<< OutputNote <<"\n" ;
-std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
 
     if(freqMax != 0 && ready && !endGame){
         if(note_to_write == OutputNote){
-           std::cout<< "SIGUSR1 (correct)" <<"\n" ;
             kill(pid, SIGUSR1);           
         } else{
-            std::cout<< "SIGUSR2 (incorrect)" <<"\n" ;
             kill(pid, SIGUSR2);
         }
         ready = false;
-    } else {
-        
-      std::cout<< "neither SIGUSR1 (correct) or SIGUSR2 (incorrect) called" <<"\n" ; 
-    }
-    
+  }
     
     std::cout << freqMax << std::endl;
 
