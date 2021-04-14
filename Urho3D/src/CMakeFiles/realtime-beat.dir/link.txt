@@ -1,0 +1,1 @@
+/usr/bin/c++ -O3 -DNDEBUG CMakeFiles/realtime-beat.dir/realtime-beat.cpp.o -o realtime-beat  /usr/lib/arm-linux-gnueabihf/libsfml-system.so /usr/lib/arm-linux-gnueabihf/libsfml-window.so /usr/lib/arm-linux-gnueabihf/libsfml-graphics.so /usr/lib/arm-linux-gnueabihf/libsfml-network.so /usr/lib/arm-linux-gnueabihf/libsfml-audio.so -lrtaudio -lfftw3 
