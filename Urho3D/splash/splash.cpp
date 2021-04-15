@@ -812,11 +812,11 @@ Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = mainScene->CreateChild("Box");
-    boxNode->SetRotation(Quaternion(215.0f, -45.0f, 25.0f));
-    boxNode->SetPosition(Vector3(9.0f, -1.0f, 35.0f));
-    boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
+    boxNode->SetRotation(Quaternion(250.0f, -20.0f, 25.0f));
+    boxNode->SetPosition(Vector3(5.0f, 8.0f, 45.0f));
+    boxNode->SetScale(Vector3(0.18f, 0.18, 0.18));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
-    boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
+    boxObject->SetModel(cache->GetResource<Model>("Models/SpaceShip.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
     return boxNode;  
 }
