@@ -31,7 +31,7 @@ cd bin
 ```
 This will launch the game and you can start your journey of hunting sound PIrates!
 
-![image](hhttps://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/Game_Image_1.jpeg)
+![image](https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/Game_Image_1.jpeg)
 
 ### After Launching the game 
 
