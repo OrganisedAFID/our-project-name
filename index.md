@@ -1,3 +1,4 @@
+
 # Sound PIrates
 
 ![image](https://user-images.githubusercontent.com/44497996/114782410-b0529700-9d71-11eb-9d58-da91cf2f99eb.png)
@@ -9,8 +10,7 @@ Sound pirates is playable if you download the developper kit for the game!
 Requires a pi, soundcard and microphone.
 
 Welcome to Sound Pirates! – In space, the sounds will move you!
-You are about to enter a universe where starships sing to each other across the void. Where buccaneers race the spaceways looking for loot and smugglers run their contraband from port to shady port. In the Galaxy of Audiorum, ships travel space carrying great prizes. Fleets move as one in warp jumps, synchronised by ‘The Resonance’ – a tone send out by the warp engines encoding each jump. Planned journeys are symphonies played out by ships in glorious rhythm across the stars.
-You are taking on the role of Chantilly Lace, a pirate with such genius they can tweak their engines so that the Resonance sent out by other ships is trackable and you can catch and board great frigates in deep space in your mighty and feared ship ‘The Space Shanty’.
+.
 The game is currently limited to the C major scale and the chase is short. With updates there will be more complexity and sub-games to help train your ear and vocal chords or playing fingers to match whichever notes, tones, or microtones you might want to familiarise yourself with. We have tested it with raspberry pi 4 with Raspbian installed, a 3.5mm jack condenser mic and a USB sound card. It uses the Urho3D game engine and features original art and 3D models from the team.
 Chantilly is a former engineer turned pirate who realised they could use their new technology to take from the rich to give to the poor Robin Hood style. Living outside the law means you need to work with unsavoury types though, so Lace has built a reputation as a fearsome Captain and a hardy warrior. The problem is, the crew of The Space Shanty can see a whole lot of wealth, and feel not enough is going in their pockets! Will you be able to guide Lace through the trials that await?
 
@@ -43,9 +43,14 @@ The game ends when either you have caught up to the space PIrates and win the ga
 
 ## Latency Analysis
 
-## User stories
+## User Stories
 
-## Future work
+## Future Work
+
+With the basic functionality in place, there is definetly scope to expand the game. Ideas were thinking of include:
+- Planning along with different scales
+- Increasing the length of the sequence of notes the player is required to replicate. 
+
 
 ## The creators
 - Alice Ravier
