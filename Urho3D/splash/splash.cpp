@@ -69,6 +69,7 @@
 #include <thread>
 #include <chrono>
 #include <signal.h>
+#include <future>
 
 
 #include <Urho3D/Urho3D.h>
@@ -247,6 +248,9 @@ void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
     ready = false;      
     ::OutputNote = playNote();
+    /*std::thread th(playNote);
+    th.join(); 
+    ::OutputNote = OutputNote;*/
     ready = true;
     return;
 }
@@ -426,7 +430,7 @@ void AnswerHandler(bool isCorrect){
     }
     else{
         correctness = "incorrect";
-        y = -10.0f;
+        y = -3.0f;
         z = 0.0f;
     }
     ::timestep;
@@ -813,8 +817,8 @@ Node* GameSys::CreateShip()
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = mainScene->CreateChild("Box");
     boxNode->SetRotation(Quaternion(250.0f, -20.0f, 25.0f));
-    boxNode->SetPosition(Vector3(5.0f, 8.0f, 45.0f));
-    boxNode->SetScale(Vector3(0.18f, 0.18, 0.18));
+    boxNode->SetPosition(Vector3(6.0f, 8.0f, 50.0f));
+    boxNode->SetScale(Vector3(0.17f, 0.17, 0.17));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
     boxObject->SetModel(cache->GetResource<Model>("Models/SpaceShip.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));

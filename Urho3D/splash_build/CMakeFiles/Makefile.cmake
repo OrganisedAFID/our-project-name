@@ -66,6 +66,7 @@ set(CMAKE_MAKEFILE_PRODUCTS
 # Dependency information for all targets:
 set(CMAKE_DEPEND_INFO_FILES
   "CMakeFiles/Splash.dir/DependInfo.cmake"
+  "test/CMakeFiles/FREQMAX_TEST.dir/DependInfo.cmake"
   "test/CMakeFiles/FFT_TEST.dir/DependInfo.cmake"
   "test/CMakeFiles/DEFINE_NOTE_TEST.dir/DependInfo.cmake"
   )

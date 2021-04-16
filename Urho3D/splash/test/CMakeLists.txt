@@ -33,7 +33,7 @@ set( header_include  ../)
 #
 add_executable (FFT_TEST fft_test.cpp ${header_include}fft.h ${header_include}fft.cpp )
 add_executable (DEFINE_NOTE_TEST define_note_test.cpp ${header_include}defineNote.h ${header_include}defineNote.cpp)
-
+add_executable (FREQMAX_TEST freqMax_test.cpp ${header_include}findFreqMax.h ${header_include}findFreqMax.cpp)
 ##
 # Specify FFT test target to use Boost's filesystem; system and unit test framework libraries
 #
@@ -53,4 +53,12 @@ target_link_libraries (DEFINE_NOTE_TEST
 	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}	
 	 )
 
+##
+# Specify FreqMax test target to use Boost's filesystem; system and unit test framework libraries
+#
+target_link_libraries (FREQMAX_TEST
+	${Boost_FILESYSTEM_LIBRARY}
+	${Boost_SYSTEM_LIBRARY}
+	${Boost_UNIT_TEST_FRAMEWORK_LIBRARY}	
+	 )
 

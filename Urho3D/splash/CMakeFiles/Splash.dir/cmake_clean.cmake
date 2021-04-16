@@ -1,10 +1,11 @@
 file(REMOVE_RECURSE
   "CMakeFiles/Splash.dir/RtAudio.cpp.o"
-  "CMakeFiles/Splash.dir/RtAudio.cpp.o.d"
-  "CMakeFiles/Splash.dir/realtime-beat.cpp.o"
-  "CMakeFiles/Splash.dir/realtime-beat.cpp.o.d"
+  "CMakeFiles/Splash.dir/defineNote.cpp.o"
+  "CMakeFiles/Splash.dir/fft.cpp.o"
+  "CMakeFiles/Splash.dir/findFreqMax.cpp.o"
+  "CMakeFiles/Splash.dir/instructionsStatements.cpp.o"
+  "CMakeFiles/Splash.dir/playNote.cpp.o"
   "CMakeFiles/Splash.dir/splash.cpp.o"
-  "CMakeFiles/Splash.dir/splash.cpp.o.d"
   "bin/Splash"
   "bin/Splash.pdb"
 )

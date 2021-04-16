@@ -47,6 +47,10 @@ add_test (NAME FFT_TEST COMMAND FFT_TEST)
 # Does the define_note function work?
 #
 add_test (NAME DEFINE_NOTE_TEST COMMAND DEFINE_NOTE_TEST)
+##
+# Does the findfreqMax function work?
+#
+add_test (NAME FREQMAX_TEST COMMAND FREQMAX_TEST)
 
 ##
 # Set CMake modules search path to find Urho3D-CMake-common module

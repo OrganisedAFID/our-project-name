@@ -9,7 +9,7 @@
 
 int findFreqMax(int freqMax, int i, std::vector<double> &window){
 
- freqMax = i * 44100.0 / window.size();
+ freqMax = i* 44100.0 / window.size();
 
 return freqMax;
 }
