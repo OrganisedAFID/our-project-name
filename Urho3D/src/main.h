@@ -80,6 +80,8 @@ private:
     void WriteToPipe(int pipefds[2]);
     
     Node* CreateBackground();
+    Node* CreateWinBackground();
+    Node* CreateLoseBackground();
     Node* CreateShip();
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);

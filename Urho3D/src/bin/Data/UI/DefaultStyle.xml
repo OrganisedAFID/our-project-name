@@ -233,7 +233,8 @@
         <attribute name="Text Effect" value="Shadow" />
     </element>
     <element type="ConsoleBackground" auto="false">
-        <attribute name="Color" value="0.15 0.15 0.15 0.8" />
+        <attribute name="Texture" value="Texture2D;Textures/UI.png" />
+
         <attribute name="Layout Border" value="4 4 4 4" />
     </element>
     <element type="ConsoleText" style="Text" auto="false">
@@ -367,3 +368,4 @@
         <attribute name="Border" value="0 0 0 0" />
     </element>
 </elements>
+

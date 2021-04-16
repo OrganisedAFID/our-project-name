@@ -148,7 +148,7 @@ Context* globalContext_;
 Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
-
+Scene* startScene;
 
 /**
  * inthand function allows close of terminal with ctrl C
@@ -384,7 +384,7 @@ void GameSys::Start()
 
     // Create title scene
     CreateTitleScene();
-
+     
     // Set the mouse mode to use in the sample
     Sample::InitMouseMode(MM_FREE);
 }
@@ -478,6 +478,8 @@ void GameSys::CreateTitleScene()
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
     
+      
+   
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
@@ -488,7 +490,9 @@ void GameSys::CreateTitleScene()
         "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
+    
 }
+
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
  * returns text
@@ -658,9 +662,7 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-    mainScene->Clear();  
-    
-
+    Node* bgNode = CreateWinBackground();
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
@@ -676,9 +678,9 @@ void GameSys::CreateWinScene()
 void GameSys::CreateLossScene()
 {
     //delete main scene
-    mainScene->Clear();
 
-
+    Node* bgNode = CreateBackground();
+     
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
     CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
@@ -748,12 +750,6 @@ void GameSys::CreateMainScene()
     shipNode->AddTag("ship");
     ship = shipNode;
 
-     Node* skyNode = mainScene->CreateChild("Sky");
-    skyNode->SetScale(1.0f); // The scale actually does not matter
-    auto* skybox = skyNode->CreateComponent<Skybox>();
-    skybox->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    skybox->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
-
 
     // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
     // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
@@ -803,6 +799,46 @@ Node* GameSys::CreateBackground()
     skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
     
     return skyNode;
+}
+
+/**
+ * Create a background for the win scene.
+ * Implemented as a cube positioned in front of the camera with the 
+ * background png as a texture.
+ */
+Node* GameSys::CreateWinBackground()
+{
+    auto* cache = GetSubsystem<ResourceCache>();
+
+    Node* winNode = mainScene->CreateChild("win");
+
+    winNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
+    winNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
+    auto* winObject = winNode->CreateComponent<StaticModel>();
+    winObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    winObject->SetMaterial(cache->GetResource<Material>("Materials/win_bg.xml"));
+    
+    return winNode;
+}
+
+/**
+ * Create a background for the lose scene.
+ * Implemented as a cube positioned in front of the camera with the 
+ * background png as a texture.
+ */
+Node* GameSys::CreateLoseBackground()
+{
+    auto* cache = GetSubsystem<ResourceCache>();
+
+    Node* loseNode = mainScene->CreateChild("lose");
+
+    loseNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
+    loseNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
+    auto* loseObject = loseNode->CreateComponent<StaticModel>();
+    loseObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    loseObject->SetMaterial(cache->GetResource<Material>("Materials/lose_bg.xml"));
+    
+    return loseNode;
 }
 
 /**
