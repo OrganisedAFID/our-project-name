@@ -744,10 +744,10 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
-    zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
+    /*zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
     zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
     zone->SetFogStart(300.0f);
-    zone->SetFogEnd(500.0f);
+    zone->SetFogEnd(500.0f);*/
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
@@ -821,7 +821,7 @@ Node* GameSys::CreateShip()
     boxNode->SetScale(Vector3(0.17f, 0.17, 0.17));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
     boxObject->SetModel(cache->GetResource<Model>("Models/SpaceShip.mdl"));
-    boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
+    boxObject->SetMaterial(cache->GetResource<Material>("Materials/ship_texture.xml"));
     return boxNode;  
 }
 
