@@ -1,4 +1,4 @@
 <material>
-<technique name="Techniques/BasicVColUnlitAlpha.xml"/>
+<technique name="Techniques/Diff.xml"/>
 <texture name="Textures/ShipTexture.png" unit="diffuse"/>
 </material>
