@@ -167,12 +167,7 @@ void inthand(int signum) {
  * 
  */
 int processBuffer()
-{
-    using namespace std::literals::chrono_literals;
-
-    auto startBuf = std::chrono::high_resolution_clock::now();
-
-    
+{  
     ::freqMax;
     ::pipefds[2];
 
@@ -208,11 +203,6 @@ int processBuffer()
   }
     
     std::cout << freqMax << std::endl;
-
-    auto endBuf = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> durationB = endBuf -startBuf;
-    std::cout << "duration of process buffer" << durationB.count() << "s" <<std::endl;
-
     return freqMax, pipefds[2];
 }
 
@@ -225,10 +215,6 @@ int processBuffer()
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
-    using namespace std::literals::chrono_literals;
-
-    auto startRec = std::chrono::high_resolution_clock::now();
-
     printf("Called Record \n");
 
     if (status)
@@ -252,11 +238,6 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
         //get rid of the first half of window
         window.erase(window.begin(), window.begin() + nBufferFrames);
     }
-
-    auto endRec = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> durationR = endRec -startRec;
-    std::cout << "duration of Record" << durationR.count() << "s" <<std::endl;
-  
 
     return 0;
 }
@@ -641,10 +622,6 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
  */
 void GameSys::CreateInstructionsScene()
 {
-    using namespace std::literals::chrono_literals;
-
-    auto startIn = std::chrono::high_resolution_clock::now();
-
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* backButton = CreateButton(root, "BackButton", 
         "BackText", "Back to title screen", 400, 500);   
@@ -673,9 +650,6 @@ void GameSys::CreateInstructionsScene()
     instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
 
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
-    auto endIn = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> durationI = endIn -startIn;
-    std::cout << "duration of Record" << durationI.count() << "s" <<std::endl;
 }
 
 /**
@@ -752,11 +726,7 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
-    using namespace std::literals::chrono_literals;
-
-    auto startMain = std::chrono::high_resolution_clock::now();
-
-  
+   
     auto *cache = GetSubsystem<ResourceCache>();
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
@@ -808,9 +778,6 @@ void GameSys::CreateMainScene()
     // Set an initial position for the camera scene node above the plane
 
 
-    auto endMain = std::chrono::high_resolution_clock::now();
-    std::chrono::duration<float> durationM = endMain -startMain;
-    std::cout << "duration to create main scene " << durationM.count() << "s " <<std::endl;
     cameraNode_->SetPosition(cameraPos);
     cameraNode_->SetScale(Vector3(0, 0, 0));
    
@@ -845,11 +812,11 @@ Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = mainScene->CreateChild("Box");
-    boxNode->SetRotation(Quaternion(215.0f, -45.0f, 25.0f));
-    boxNode->SetPosition(Vector3(9.0f, -1.0f, 35.0f));
-    boxNode->SetScale(Vector3(0.2f, 0.2, 0.2));
+    boxNode->SetRotation(Quaternion(250.0f, -20.0f, 25.0f));
+    boxNode->SetPosition(Vector3(5.0f, 8.0f, 45.0f));
+    boxNode->SetScale(Vector3(0.18f, 0.18, 0.18));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
-    boxObject->SetModel(cache->GetResource<Model>("Models/Ship.mdl"));
+    boxObject->SetModel(cache->GetResource<Model>("Models/SpaceShip.mdl"));
     boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
     return boxNode;  
 }
