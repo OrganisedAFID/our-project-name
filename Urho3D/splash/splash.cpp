@@ -193,10 +193,8 @@ int processBuffer()
     } 
     char note_to_write = define_note(freqMax); 
 
-
-
-std::cout<< "OutputNote (Game played): "<< OutputNote <<"\n" ;
-std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
+    std::cout<< "OutputNote (Game played): "<< OutputNote <<"\n" ;
+    std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
 
     if(freqMax != 0 && ready && !endGame){
         if(note_to_write == OutputNote){
@@ -211,7 +209,6 @@ std::cout<< "note_to_write (You played): "<< note_to_write <<"\n" ;
         
       std::cout<< "neither SIGUSR1 (correct) or SIGUSR2 (incorrect) called" <<"\n" ; 
     }
-    
     
     std::cout << freqMax << std::endl;
 
@@ -261,8 +258,7 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
     auto endRec = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationR = endRec -startRec;
-    std::cout << "duration of Record" << durationR.count() << "s" <<std::endl;
-  
+    std::cout << "duration of Record" << durationR.count() << "s" <<std::endl; 
 
     return 0;
 }
@@ -287,7 +283,6 @@ static void incorrectHandler(int signum){
     AnswerHandler(false);
     return;
 }
-
 
 
 /**
@@ -382,8 +377,7 @@ GameSys::GameSys(Context* context) :Sample(context)
     if (pid == 0)
     {
         signal(SIGUSR1, correctHandler);
-        signal(SIGUSR2, incorrectHandler);
-    
+        signal(SIGUSR2, incorrectHandler);   
     }
     //SP process
     else
@@ -416,29 +410,23 @@ void GameSys::Start()
 
 
 void AnswerHandler(bool isCorrect){
-    
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     float winThreshold = 20.0f;
     float lossThreshold = 100.0f;
     
-    if (distance < winThreshold){
-       
+    if (distance < winThreshold){     
         endGame = true;
-        ourGame->CreateWinScene();
-        
+        ourGame->CreateWinScene();     
     }
-    else if (distance > lossThreshold){
-       
+    else if (distance > lossThreshold){     
         endGame = true;
-        ourGame->CreateLossScene();
-        
+        ourGame->CreateLossScene();      
     }
     else{
 
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
-  
         
     float MOVE_SPEED=30.0f;
     std::string correctness;
@@ -456,8 +444,6 @@ void AnswerHandler(bool isCorrect){
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-
-
 
     std::string txt = { "You played the "+correctness+" note" };
 
