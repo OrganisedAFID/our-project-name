@@ -19,6 +19,7 @@ CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3
 CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.h
 
 CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.cpp
+CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/sinewave.cpp
 CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/sinewave.h
 
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/Uhro/Urho3D/include/Urho3D/Audio/Audio.h

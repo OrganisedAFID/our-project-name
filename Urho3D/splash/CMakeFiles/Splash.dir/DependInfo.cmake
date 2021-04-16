@@ -10,6 +10,7 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/pi/sound-pirates/Urho3D/splash/findFreqMax.cpp" "/home/pi/sound-pirates/Urho3D/splash/CMakeFiles/Splash.dir/findFreqMax.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp" "/home/pi/sound-pirates/Urho3D/splash/CMakeFiles/Splash.dir/instructionsStatements.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/playNote.cpp" "/home/pi/sound-pirates/Urho3D/splash/CMakeFiles/Splash.dir/playNote.cpp.o"
+  "/home/pi/sound-pirates/Urho3D/splash/sinewave.cpp" "/home/pi/sound-pirates/Urho3D/splash/CMakeFiles/Splash.dir/sinewave.cpp.o"
   "/home/pi/sound-pirates/Urho3D/splash/splash.cpp" "/home/pi/sound-pirates/Urho3D/splash/CMakeFiles/Splash.dir/splash.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
