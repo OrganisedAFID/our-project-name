@@ -10,6 +10,8 @@ CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 CMakeFiles/Splash.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.cpp
 
+CMakeFiles/Splash.dir/findFreqMax.cpp.o: /home/pi/sound-pirates/Urho3D/splash/findFreqMax.cpp
+
 CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/RtAudio.h
 CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
@@ -184,6 +186,7 @@ CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/Sample.
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/audioIn.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/defineNote.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/fft.h
+CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/findFreqMax.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/instructionsStatements.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.h
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/processBuffer.h

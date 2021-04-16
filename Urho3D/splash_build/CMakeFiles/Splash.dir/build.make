@@ -115,9 +115,22 @@ CMakeFiles/Splash.dir/fft.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Splash.dir/fft.cpp.s"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pi/sound-pirates/Urho3D/splash/fft.cpp -o CMakeFiles/Splash.dir/fft.cpp.s
 
+CMakeFiles/Splash.dir/findFreqMax.cpp.o: CMakeFiles/Splash.dir/flags.make
+CMakeFiles/Splash.dir/findFreqMax.cpp.o: /home/pi/sound-pirates/Urho3D/splash/findFreqMax.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Splash.dir/findFreqMax.cpp.o"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Splash.dir/findFreqMax.cpp.o -c /home/pi/sound-pirates/Urho3D/splash/findFreqMax.cpp
+
+CMakeFiles/Splash.dir/findFreqMax.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/Splash.dir/findFreqMax.cpp.i"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pi/sound-pirates/Urho3D/splash/findFreqMax.cpp > CMakeFiles/Splash.dir/findFreqMax.cpp.i
+
+CMakeFiles/Splash.dir/findFreqMax.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/Splash.dir/findFreqMax.cpp.s"
+	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pi/sound-pirates/Urho3D/splash/findFreqMax.cpp -o CMakeFiles/Splash.dir/findFreqMax.cpp.s
+
 CMakeFiles/Splash.dir/instructionsStatements.cpp.o: CMakeFiles/Splash.dir/flags.make
 CMakeFiles/Splash.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/Splash.dir/instructionsStatements.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Splash.dir/instructionsStatements.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Splash.dir/instructionsStatements.cpp.o -c /home/pi/sound-pirates/Urho3D/splash/instructionsStatements.cpp
 
 CMakeFiles/Splash.dir/instructionsStatements.cpp.i: cmake_force
@@ -130,7 +143,7 @@ CMakeFiles/Splash.dir/instructionsStatements.cpp.s: cmake_force
 
 CMakeFiles/Splash.dir/playNote.cpp.o: CMakeFiles/Splash.dir/flags.make
 CMakeFiles/Splash.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/splash/playNote.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/Splash.dir/playNote.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Splash.dir/playNote.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Splash.dir/playNote.cpp.o -c /home/pi/sound-pirates/Urho3D/splash/playNote.cpp
 
 CMakeFiles/Splash.dir/playNote.cpp.i: cmake_force
@@ -143,7 +156,7 @@ CMakeFiles/Splash.dir/playNote.cpp.s: cmake_force
 
 CMakeFiles/Splash.dir/splash.cpp.o: CMakeFiles/Splash.dir/flags.make
 CMakeFiles/Splash.dir/splash.cpp.o: /home/pi/sound-pirates/Urho3D/splash/splash.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/Splash.dir/splash.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/Splash.dir/splash.cpp.o"
 	/usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/Splash.dir/splash.cpp.o -c /home/pi/sound-pirates/Urho3D/splash/splash.cpp
 
 CMakeFiles/Splash.dir/splash.cpp.i: cmake_force
@@ -159,6 +172,7 @@ Splash_OBJECTS = \
 "CMakeFiles/Splash.dir/RtAudio.cpp.o" \
 "CMakeFiles/Splash.dir/defineNote.cpp.o" \
 "CMakeFiles/Splash.dir/fft.cpp.o" \
+"CMakeFiles/Splash.dir/findFreqMax.cpp.o" \
 "CMakeFiles/Splash.dir/instructionsStatements.cpp.o" \
 "CMakeFiles/Splash.dir/playNote.cpp.o" \
 "CMakeFiles/Splash.dir/splash.cpp.o"
@@ -169,6 +183,7 @@ Splash_EXTERNAL_OBJECTS =
 bin/Splash: CMakeFiles/Splash.dir/RtAudio.cpp.o
 bin/Splash: CMakeFiles/Splash.dir/defineNote.cpp.o
 bin/Splash: CMakeFiles/Splash.dir/fft.cpp.o
+bin/Splash: CMakeFiles/Splash.dir/findFreqMax.cpp.o
 bin/Splash: CMakeFiles/Splash.dir/instructionsStatements.cpp.o
 bin/Splash: CMakeFiles/Splash.dir/playNote.cpp.o
 bin/Splash: CMakeFiles/Splash.dir/splash.cpp.o
@@ -183,7 +198,7 @@ bin/Splash: /usr/lib/arm-linux-gnueabihf/libsfml-graphics.so
 bin/Splash: /usr/lib/arm-linux-gnueabihf/libsfml-network.so
 bin/Splash: /usr/lib/arm-linux-gnueabihf/libsfml-audio.so
 bin/Splash: CMakeFiles/Splash.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable bin/Splash"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pi/sound-pirates/Urho3D/splash_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Linking CXX executable bin/Splash"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/Splash.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
