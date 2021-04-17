@@ -245,9 +245,10 @@ void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
     ready = false;      
     ::OutputNote = playNote();
+    //std::thread t(&playNote);
     /*std::thread th(playNote);
     th.join(); 
-    ::OutputNote = OutputNote;*/
+    ::OutputNote = std::thread t(&playNote);*/
     ready = true;
     return;
 }

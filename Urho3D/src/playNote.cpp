@@ -9,7 +9,6 @@
 #include <vector>
 #include <SFML/Audio.hpp>
 #include "sinewave.h"
-//#include "sinewave.cpp"
 #include <chrono>
 #include <thread>
 #include <future>
