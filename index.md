@@ -20,14 +20,31 @@ Chantilly is a former engineer turned pirate who realised they could use their n
 ## How the game works
 
 ### Building the project
+Before installing the game the following packages must be downloaded:
+```markdown
+sudo apt-get install \
+    libx11-dev libxrandr-dev libasound2-dev libgl1-mesa-dev\
+    libboost-dev libboost-all-dev  librtaudio-dev \ 
+	libudev-dev libsfml-dev libfftw3-dev\
+    git make cmake build-essential
+```
+To install the game type the following into command line:
+```markdown
+git clone https://github.com/OrganisedAFID/sound-pirates.git
+```
 When the game has been installed you can build the game by navigating to the Urho3D folder and type the following lines into command line
 ```markdown
+cd sound-pirates/Urho3D
 mkdir current_build
 cd current_build
 cmake ../src
 cmake --build .
 cd bin
 ./sound-pirates
+```
+If it is unable to locate the Urho3D folder write
+```markdown
+export URHO3D_HOME=/path_to_your_Urho3D_folder/
 ```
 This will launch the game and you can start your journey of hunting sound PIrates!
 
@@ -44,6 +61,9 @@ The game ends when either you have caught up to the space PIrates and win the ga
 ## Latency Analysis
 
 ## User Stories
+
+## Social Media
+Sound PIrates can be found 
 
 ## Future Work
 
