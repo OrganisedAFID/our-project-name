@@ -71,9 +71,6 @@ private:
     void SetupViewport();
     void CreateTitleScene();
     
-    
-    void DeleteTitleScene();
-    void DeleteInstructionsScene();
     void CreateMainScene();
     void CreateInstructionsScene();
     void ChangeTexts(String note="None");
