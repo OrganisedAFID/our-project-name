@@ -68,6 +68,7 @@ private:
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     
+    void SetupScene();
     void SetupViewport();
     void CreateTitleScene();
     

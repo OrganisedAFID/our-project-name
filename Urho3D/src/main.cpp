@@ -360,7 +360,6 @@ GameSys::GameSys(Context* context) :Sample(context)
     {
         engine_->Exit();
         audioIn();
-
     }
 }
 /**
@@ -375,7 +374,6 @@ void GameSys::Start()
     
     // Execute base class startup
     Sample::Start();
-
 
     // Create title scene
     CreateTitleScene();
@@ -450,15 +448,11 @@ void AnswerHandler(bool isCorrect){
 }
 }
 
-
-
-/**
- * CreateTitleScene function. Start screen main, with button
- * calls CreateText, provides text content, calls Subscribe to events to allow input for state change
+/** Create the octree, camera and lighting for a scene
+ * 
  * 
  */
-void GameSys::CreateTitleScene()
-{
+void GameSys::SetupScene(){
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
      * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
@@ -488,6 +482,16 @@ void GameSys::CreateTitleScene()
     cameraNode_->SetScale(Vector3(0, 0, 0));
 
     SetupViewport();
+}
+
+/**
+ * CreateTitleScene function. Start screen main, with button
+ * calls CreateText, provides text content, calls Subscribe to events to allow input for state change
+ * 
+ */
+void GameSys::CreateTitleScene()
+{
+    SetupScene(); 
 
     CreateBackground("Materials/main_bg.xml");
     ui = GetSubsystem<UI>();
@@ -504,7 +508,6 @@ void GameSys::CreateTitleScene()
         "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
-
 }
 
 /**
@@ -539,7 +542,6 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
  * Possible hAlign values = HA_LEFT, HA_CENTER, HA_RIGHT, HA_CUSTOM
  * Possible vAlign values =  VA_TOP = 0, VA_CENTER, VA_BOTTOM, VA_CUSTOM 
  * 
-
  */ 
 Button* GameSys::CreateButton
 (UIElement* root, String tag, String txtName, String txtCont, 
@@ -678,8 +680,8 @@ void GameSys::CreateWinScene()
 {
     //delete main scene
     mainScene->Clear();
+    SetupScene();
     Node* bgNode = CreateBackground("Materials/win_bg.xml");
-
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
         CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
@@ -695,11 +697,12 @@ void GameSys::CreateLossScene()
 {
     //delete main scene
     mainScene->Clear();
+    SetupScene();
     Node* bgNode = CreateBackground("Materials/lose_bg.xml");
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
-    auto* resetButton = 
-    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    auto* resetButton = CreateButton(root, "ResetButton", 
+        "ResetText", "Back to title screen", 400, 500);   
     auto* lossText = CreateText("You lose!", "LossText", 
         ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
@@ -712,7 +715,9 @@ void GameSys::CreateLossScene()
 void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
+    //remove UI and 3D elements from the scene
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+    mainScene->Clear();
 
     endGame = false;
     UnsubscribeFromAllEvents();
