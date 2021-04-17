@@ -36,7 +36,7 @@ To build and execute this project, please do the following:
 1) ```mkdir current_build``` 
 2) ```cd current_build```
 - Run cmake: 
-1) ```cmake .```  
+1) ```cmake ../src```  
 2) ``` make```
 - Navigate to bin folder: ```cd bin```
 - Run the project: ```./sound-pirates```
