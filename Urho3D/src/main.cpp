@@ -715,7 +715,7 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
-   
+    mainScene->Clear();
     auto *cache = GetSubsystem<ResourceCache>();
     /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
      * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
