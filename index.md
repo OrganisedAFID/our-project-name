@@ -38,7 +38,7 @@ cd sound-pirates/Urho3D
 mkdir current_build
 cd current_build
 cmake ../src
-cmake --build .
+make
 cd bin
 ./sound-pirates
 ```
