@@ -459,14 +459,10 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-    printf("inside title\n");
-
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
-    
-      
-   
+     
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
@@ -649,7 +645,7 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-    Node* bgNode = CreateWinBackground();
+    Node* bgNode = CreateBackground("Materials/win_bg.xml");
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
@@ -666,7 +662,7 @@ void GameSys::CreateLossScene()
 {
     //delete main scene
 
-    Node* bgNode = CreateBackground();
+    Node* bgNode = CreateBackground("Materials/lose_bg.xml");
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
@@ -725,7 +721,7 @@ void GameSys::CreateMainScene()
     mainScene->CreateComponent<Octree>();
 
     //Creates the background for the scene
-    Node* bgNode = CreateBackground();
+    Node* bgNode = CreateBackground("Materials/main_bg.xml");
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
@@ -773,7 +769,7 @@ void GameSys::CreateMainScene()
  * Implemented as a cube positioned in front of the camera with the 
  * background png as a texture.
  */
-Node* GameSys::CreateBackground()
+Node* GameSys::CreateBackground(String path)
 {
     auto* cache = GetSubsystem<ResourceCache>();
 
@@ -783,50 +779,11 @@ Node* GameSys::CreateBackground()
     skyNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
     auto* skyObject = skyNode->CreateComponent<StaticModel>();
     skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+    skyObject->SetMaterial(cache->GetResource<Material>(path));
     
     return skyNode;
 }
 
-/**
- * Create a background for the win scene.
- * Implemented as a cube positioned in front of the camera with the 
- * background png as a texture.
- */
-Node* GameSys::CreateWinBackground()
-{
-    auto* cache = GetSubsystem<ResourceCache>();
-
-    Node* winNode = mainScene->CreateChild("win");
-
-    winNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
-    winNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
-    auto* winObject = winNode->CreateComponent<StaticModel>();
-    winObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    winObject->SetMaterial(cache->GetResource<Material>("Materials/win_bg.xml"));
-    
-    return winNode;
-}
-
-/**
- * Create a background for the lose scene.
- * Implemented as a cube positioned in front of the camera with the 
- * background png as a texture.
- */
-Node* GameSys::CreateLoseBackground()
-{
-    auto* cache = GetSubsystem<ResourceCache>();
-
-    Node* loseNode = mainScene->CreateChild("lose");
-
-    loseNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
-    loseNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
-    auto* loseObject = loseNode->CreateComponent<StaticModel>();
-    loseObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    loseObject->SetMaterial(cache->GetResource<Material>("Materials/lose_bg.xml"));
-    
-    return loseNode;
-}
 
 /**
  * CreateShip function. Creates the enemy ship to pursue
