@@ -499,7 +499,7 @@ void GameSys::CreateTitleScene()
 
     SetupScene(); 
 
-    CreateBackground("Materials/main_bg.xml");
+    CreateBackground("Materials/planet_bg.xml");
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
