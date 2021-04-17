@@ -414,7 +414,7 @@ void AnswerHandler(bool isCorrect){
     float z;
     if(isCorrect){
         correctness = "correct";
-        y = 10.0f;
+        y = 5.0f;
         z = 0.0f;
     }
     else{
