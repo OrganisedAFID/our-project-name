@@ -621,7 +621,7 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     //delete title scene UI
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
-    //elete title scene background
+    //delete title scene background
     Urho3D::PODVector<Urho3D::Node *> bg = mainScene->GetChildrenWithTag("background");
     bg[0]->Remove();
     //Show the main game screen
@@ -641,6 +641,8 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     //Delete the title scene
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+    //delete title scene background
+    mainScene->Clear();
 
     //Show the instructions
     CreateInstructionsScene();
@@ -696,8 +698,6 @@ void GameSys::CreateWinScene()
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
         CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
-    auto* winText = CreateText("You won!", "WinText", 
-        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -707,7 +707,6 @@ void GameSys::CreateWinScene()
 void GameSys::CreateLossScene()
 {
     //delete main scene
-
     mainScene->Clear();
     SetupScene();
     Node* bgNode = CreateBackground("Materials/lose_bg.xml");
@@ -715,8 +714,6 @@ void GameSys::CreateLossScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
         "ResetText", "Back to title screen", 400, 500);   
-    auto* lossText = CreateText("You lose!", "LossText", 
-        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 
 
