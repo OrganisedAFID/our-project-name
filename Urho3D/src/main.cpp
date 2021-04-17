@@ -393,7 +393,7 @@ void AnswerHandler(bool isCorrect){
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     float winThreshold = 40.0f;
-    float lossThreshold = 100.0f;
+    float lossThreshold = 110.0f;
     
     if (distance < winThreshold){     
         endGame = true;
@@ -592,6 +592,7 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
 
     //Show the main game screen
+
     CreateMainScene();
     SetupViewport();
 
@@ -654,6 +655,7 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
+
     Node* bgNode = CreateWinBackground();
 
     UIElement* root = ui->GetRoot();
@@ -691,9 +693,11 @@ void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+ 
 
     endGame = false;
     UnsubscribeFromAllEvents();
+
     CreateTitleScene();
 }
 
@@ -708,7 +712,6 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
 
     //Delete the instructions
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
-
     //Create the title scene again
     CreateTitleScene();
 }
