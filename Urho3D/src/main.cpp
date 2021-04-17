@@ -154,7 +154,6 @@ Scene* startScene;
  * inthand function allows close of terminal with ctrl C
  * 
  */
-
 void inthand(int signum) {
     stop = 1;
     return;
@@ -208,7 +207,6 @@ int processBuffer()
  * called by audioIn
  *  
  */
-
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
@@ -382,7 +380,11 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
-
+/**
+ * AnswerHandler function. checks note played and feedsback correct/incorrect.
+ * Calls CreateWinScene or CreateLossScene depending on input
+ * Gets Ships position and feedsback amount of tries
+ */
 void AnswerHandler(bool isCorrect){
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
@@ -460,10 +462,10 @@ void GameSys::SetupScene(){
      */  
     mainScene->CreateComponent<Octree>();
 
-    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
-    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
-    // The light will use default settings (white light, no shadows)
-    // Create a red directional light (sun)      
+    /// Create a directional light to the world so that we can see something. The light scene node's orientation controls the
+    /// light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
+    /// The light will use default settings (white light, no shadows)
+    /// Create a red directional light (sun)      
     Node* lightNode=mainScene->CreateChild();
     lightNode->SetDirection(Vector3::FORWARD);
     lightNode->Yaw(50);     // horizontal
@@ -472,12 +474,12 @@ void GameSys::SetupScene(){
     light->SetLightType(LIGHT_DIRECTIONAL);
        
 
-    // Create a scene node for the camera, which we will move around
-    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+    /// Create a scene node for the camera, which we will move around
+    /// The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode_ = mainScene->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
 
-    // Set an initial position for the camera scene node above the plane
+    /// Set an initial position for the camera scene node above the plane
     cameraNode_->SetPosition(cameraPos);
     cameraNode_->SetScale(Vector3(0, 0, 0));
 
