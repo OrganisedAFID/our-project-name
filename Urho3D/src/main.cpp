@@ -621,7 +621,7 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     //delete title scene UI
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
-    //elete title scene background
+    //delete title scene background
     Urho3D::PODVector<Urho3D::Node *> bg = mainScene->GetChildrenWithTag("background");
     bg[0]->Remove();
     //Show the main game screen
@@ -641,6 +641,8 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     //Delete the title scene
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+    //delete title scene background
+    mainScene->Clear();
 
     //Show the instructions
     CreateInstructionsScene();
