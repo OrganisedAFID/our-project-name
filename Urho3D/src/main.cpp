@@ -364,7 +364,6 @@ GameSys::GameSys(Context* context) :Sample(context)
     {
         engine_->Exit();
         audioIn();
-
     }
 }
 /**
@@ -379,7 +378,6 @@ void GameSys::Start()
     
     // Execute base class startup
     Sample::Start();
-
 
     // Create title scene
     CreateTitleScene();
@@ -454,6 +452,42 @@ void AnswerHandler(bool isCorrect){
 }
 }
 
+/** Create the octree, camera and lighting for a scene
+ * 
+ * 
+ */
+void GameSys::SetupScene(){
+    /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
+     * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
+     * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
+     * optimizing manner
+     */  
+    mainScene->CreateComponent<Octree>();
+
+    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
+    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
+    // The light will use default settings (white light, no shadows)
+    // Create a red directional light (sun)      
+    Node* lightNode=mainScene->CreateChild();
+    lightNode->SetDirection(Vector3::FORWARD);
+    lightNode->Yaw(50);     // horizontal
+    lightNode->Pitch(10);   // vertical
+    Light* light=lightNode->CreateComponent<Light>();
+    light->SetLightType(LIGHT_DIRECTIONAL);
+       
+
+    // Create a scene node for the camera, which we will move around
+    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+    cameraNode_ = mainScene->CreateChild("Camera");
+    cameraNode_->CreateComponent<Camera>();
+
+    // Set an initial position for the camera scene node above the plane
+    cameraNode_->SetPosition(cameraPos);
+    cameraNode_->SetScale(Vector3(0, 0, 0));
+
+    SetupViewport();
+}
+
 
 /**
  * CreateTitleScene function. Start screen main, with button
@@ -462,15 +496,14 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
-    Node* stNode = CreateBackground();
 
-    printf("inside title\n");
+    SetupScene(); 
 
+    CreateBackground("Materials/main_bg.xml");
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
-    
-   
+
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
@@ -481,7 +514,6 @@ void GameSys::CreateTitleScene()
         "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
-    
 }
 
 
@@ -517,7 +549,6 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
  * Possible hAlign values = HA_LEFT, HA_CENTER, HA_RIGHT, HA_CUSTOM
  * Possible vAlign values =  VA_TOP = 0, VA_CENTER, VA_BOTTOM, VA_CUSTOM 
  * 
-
  */ 
 Button* GameSys::CreateButton
 (UIElement* root, String tag, String txtName, String txtCont, 
@@ -588,13 +619,14 @@ void GameSys::DeleteCorrectnessText()
 void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
-    //delete title scene
+    //delete title scene UI
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
-
+    //elete title scene background
+    Urho3D::PODVector<Urho3D::Node *> bg = mainScene->GetChildrenWithTag("background");
+    bg[0]->Remove();
     //Show the main game screen
 
-    CreateMainScene();
-    SetupViewport();
+    CreateMainScene();  
 
     // Finally subscribe to the update event so we can move the camera.
     SubscribeToEvents();  
@@ -642,8 +674,9 @@ void GameSys::CreateInstructionsScene()
                                         "their new technology to take from the rich to give to the poor Robin Hood style. \n"
                                         "Living outside the law means you need to work with unsavoury types though, \n"
                                         "so Lace has built a reputation as a fearsome Captain and a hardy warrior. \n"
-                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, and feel not enough is going in \n"
-                                        "their pockets! Will you be able to guide Lace through the trials that await?", "Instructions", 0, 0);
+                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, \n"
+                                        "and feel not enough is going in their pockets! Will you be able to guide Lace \n"
+                                        "through the trials that await?", "Instructions", 0, 0);
     instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
 
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
@@ -656,7 +689,9 @@ void GameSys::CreateWinScene()
 {
     //delete main scene
 
-    Node* bgNode = CreateWinBackground();
+    mainScene->Clear();
+    SetupScene();
+    Node* bgNode = CreateBackground("Materials/win_bg.xml");
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
@@ -673,11 +708,13 @@ void GameSys::CreateLossScene()
 {
     //delete main scene
 
-    Node* bgNode = CreateLoseBackground();
+    mainScene->Clear();
+    SetupScene();
+    Node* bgNode = CreateBackground("Materials/lose_bg.xml");
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
-    auto* resetButton = 
-    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    auto* resetButton = CreateButton(root, "ResetButton", 
+        "ResetText", "Back to title screen", 400, 500);   
     auto* lossText = CreateText("You lose!", "LossText", 
         ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
@@ -692,8 +729,10 @@ void GameSys::CreateLossScene()
 void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
+    //remove UI and 3D elements from the scene
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
  
+    mainScene->Clear();
 
     endGame = false;
     UnsubscribeFromAllEvents();
@@ -725,17 +764,8 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
-   
-    auto *cache = GetSubsystem<ResourceCache>();
-    /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
-     * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
-     * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
-     * optimizing manner
-     */
-    mainScene->CreateComponent<Octree>();
-
     //Creates the background for the scene
-    Node* bgNode = CreateBackground();
+    Node* bgNode = CreateBackground("Materials/main_bg.xml");
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
@@ -746,36 +776,6 @@ void GameSys::CreateMainScene()
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
-
-
-    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
-    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
-    // The light will use default settings (white light, no shadows)
-            // Create a red directional light (sun)
-        
-    Node* lightNode=mainScene->CreateChild();
-    lightNode->SetDirection(Vector3::FORWARD);
-    lightNode->Yaw(50);     // horizontal
-    lightNode->Pitch(10);   // vertical
-    Light* light=lightNode->CreateComponent<Light>();
-    light->SetLightType(LIGHT_DIRECTIONAL);
-       
-   
-
-
-    // Create a scene node for the camera, which we will move around
-    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
-    cameraNode_ = mainScene->CreateChild("Camera");
-    cameraNode_->CreateComponent<Camera>();
-
-    // Set an initial position for the camera scene node above the plane
-
-
-    cameraNode_->SetPosition(cameraPos);
-    cameraNode_->SetScale(Vector3(0, 0, 0));
-   
-    
-
 }
 
 /**
@@ -783,7 +783,7 @@ void GameSys::CreateMainScene()
  * Implemented as a cube positioned in front of the camera with the 
  * background png as a texture.
  */
-Node* GameSys::CreateBackground()
+Node* GameSys::CreateBackground(String path)
 {
     auto* cache = GetSubsystem<ResourceCache>();
 
@@ -793,50 +793,12 @@ Node* GameSys::CreateBackground()
     skyNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
     auto* skyObject = skyNode->CreateComponent<StaticModel>();
     skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    skyObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+    skyObject->SetMaterial(cache->GetResource<Material>(path));
+    skyNode->AddTag("background");
     
     return skyNode;
 }
 
-/**
- * Create a background for the win scene.
- * Implemented as a cube positioned in front of the camera with the 
- * background png as a texture.
- */
-Node* GameSys::CreateWinBackground()
-{
-    auto* cache = GetSubsystem<ResourceCache>();
-
-    Node* winNode = mainScene->CreateChild("win");
-
-    winNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
-    winNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
-    auto* winObject = winNode->CreateComponent<StaticModel>();
-    winObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    winObject->SetMaterial(cache->GetResource<Material>("Materials/win_bg.xml"));
-    
-    return winNode;
-}
-
-/**
- * Create a background for the lose scene.
- * Implemented as a cube positioned in front of the camera with the 
- * background png as a texture.
- */
-Node* GameSys::CreateLoseBackground()
-{
-    auto* cache = GetSubsystem<ResourceCache>();
-
-    Node* loseNode = mainScene->CreateChild("lose");
-
-    loseNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
-    loseNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
-    auto* loseObject = loseNode->CreateComponent<StaticModel>();
-    loseObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
-    loseObject->SetMaterial(cache->GetResource<Material>("Materials/lose_bg.xml"));
-    
-    return loseNode;
-}
 
 /**
  * CreateShip function. Creates the enemy ship to pursue
