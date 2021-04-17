@@ -76,7 +76,7 @@ private:
     void CreateInstructionsScene();
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
-    
+
     Node* CreateBackground(String path);
     Node* CreateShip();
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,

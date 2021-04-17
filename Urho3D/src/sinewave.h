@@ -1,11 +1,8 @@
 /**
  * \headerfile sinwave.h "sinwave.h"
- * header file that generates sinewave of with a specfic frequency 
+ * function that generates sinewave with a specfic frequency 
  */
 
-
-#ifndef SINEWAVE_H
-#define SINEWAVE_H
 
 #include <math.h>
 
@@ -23,5 +20,5 @@ namespace sound{
 	}
 }
 
-#endif
+
 
