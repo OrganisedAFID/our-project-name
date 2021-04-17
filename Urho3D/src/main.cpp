@@ -414,7 +414,7 @@ void AnswerHandler(bool isCorrect){
     float z;
     if(isCorrect){
         correctness = "correct";
-        y = 3.0f;
+        y = 10.0f;
         z = 0.0f;
     }
     else{
@@ -465,16 +465,14 @@ void GameSys::CreateTitleScene()
     Node* stNode = CreateBackground();
 
     printf("inside title\n");
-    //Node* stNode = CreateTitleBackground();
 
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
     
-      
    
     // Load the style sheet from xml
-    root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/titleText.xml"));
+    root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
         "StartText", "Start Game!", 250, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
@@ -673,7 +671,7 @@ void GameSys::CreateLossScene()
 {
     //delete main scene
 
-    Node* bgNode = CreateBackground();
+    Node* bgNode = CreateLoseBackground();
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = 
@@ -681,6 +679,8 @@ void GameSys::CreateLossScene()
     auto* lossText = CreateText("You lose!", "LossText", 
         ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+
+
 }
 
 /** 
