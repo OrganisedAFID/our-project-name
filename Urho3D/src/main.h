@@ -68,20 +68,16 @@ private:
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
     
+    void SetupScene();
     void SetupViewport();
     void CreateTitleScene();
     
-    
-    void DeleteTitleScene();
-    void DeleteInstructionsScene();
     void CreateMainScene();
     void CreateInstructionsScene();
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
     
-    Node* CreateBackground();
-    Node* CreateWinBackground();
-    Node* CreateLoseBackground();
+    Node* CreateBackground(String path);
     Node* CreateShip();
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);
