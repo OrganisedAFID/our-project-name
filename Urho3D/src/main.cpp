@@ -698,8 +698,6 @@ void GameSys::CreateWinScene()
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
         CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
-    auto* winText = CreateText("You won!", "WinText", 
-        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -709,7 +707,6 @@ void GameSys::CreateWinScene()
 void GameSys::CreateLossScene()
 {
     //delete main scene
-
     mainScene->Clear();
     SetupScene();
     Node* bgNode = CreateBackground("Materials/lose_bg.xml");
@@ -717,8 +714,6 @@ void GameSys::CreateLossScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
         "ResetText", "Back to title screen", 400, 500);   
-    auto* lossText = CreateText("You lose!", "LossText", 
-        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 
 
