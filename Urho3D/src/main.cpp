@@ -459,6 +459,37 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
+    /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
+     * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
+     * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
+     * optimizing manner
+     */  
+    mainScene->CreateComponent<Octree>();
+
+    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
+    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
+    // The light will use default settings (white light, no shadows)
+    // Create a red directional light (sun)      
+    Node* lightNode=mainScene->CreateChild();
+    lightNode->SetDirection(Vector3::FORWARD);
+    lightNode->Yaw(50);     // horizontal
+    lightNode->Pitch(10);   // vertical
+    Light* light=lightNode->CreateComponent<Light>();
+    light->SetLightType(LIGHT_DIRECTIONAL);
+       
+
+    // Create a scene node for the camera, which we will move around
+    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+    cameraNode_ = mainScene->CreateChild("Camera");
+    cameraNode_->CreateComponent<Camera>();
+
+    // Set an initial position for the camera scene node above the plane
+    cameraNode_->SetPosition(cameraPos);
+    cameraNode_->SetScale(Vector3(0, 0, 0));
+
+    SetupViewport();
+
+    CreateBackground("Materials/main_bg.xml");
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
@@ -473,7 +504,7 @@ void GameSys::CreateTitleScene()
         "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
-    
+
 }
 
 /**
@@ -579,12 +610,13 @@ void GameSys::DeleteCorrectnessText()
 void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
 {
     using namespace Click;
-    //delete title scene
+    //delete title scene UI
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
-
+    //elete title scene background
+    Urho3D::PODVector<Urho3D::Node *> bg = mainScene->GetChildrenWithTag("background");
+    bg[0]->Remove();
     //Show the main game screen
-    CreateMainScene();
-    SetupViewport();
+    CreateMainScene();  
 
     // Finally subscribe to the update event so we can move the camera.
     SubscribeToEvents();  
@@ -645,6 +677,7 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
+    mainScene->Clear();
     Node* bgNode = CreateBackground("Materials/win_bg.xml");
 
     UIElement* root = ui->GetRoot();
@@ -661,7 +694,7 @@ void GameSys::CreateWinScene()
 void GameSys::CreateLossScene()
 {
     //delete main scene
-
+    mainScene->Clear();
     Node* bgNode = CreateBackground("Materials/lose_bg.xml");
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
@@ -711,15 +744,6 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
-   
-    auto *cache = GetSubsystem<ResourceCache>();
-    /** Create the Octree component to the scene. This is required before adding any drawable components, or else nothing will
-     * show up. The default octree volume will be from (-1000, -1000, -1000) to (1000, 1000, 1000) in world coordinates; it
-     * is also legal to place objects outside the volume but their visibility can then not be checked in a hierarchically
-     * optimizing manner
-     */
-    mainScene->CreateComponent<Octree>();
-
     //Creates the background for the scene
     Node* bgNode = CreateBackground("Materials/main_bg.xml");
     Node *zoneNode = mainScene->CreateChild("Zone");
@@ -732,36 +756,6 @@ void GameSys::CreateMainScene()
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
-
-
-    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
-    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
-    // The light will use default settings (white light, no shadows)
-            // Create a red directional light (sun)
-        
-    Node* lightNode=mainScene->CreateChild();
-    lightNode->SetDirection(Vector3::FORWARD);
-    lightNode->Yaw(50);     // horizontal
-    lightNode->Pitch(10);   // vertical
-    Light* light=lightNode->CreateComponent<Light>();
-    light->SetLightType(LIGHT_DIRECTIONAL);
-       
-   
-
-
-    // Create a scene node for the camera, which we will move around
-    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
-    cameraNode_ = mainScene->CreateChild("Camera");
-    cameraNode_->CreateComponent<Camera>();
-
-    // Set an initial position for the camera scene node above the plane
-
-
-    cameraNode_->SetPosition(cameraPos);
-    cameraNode_->SetScale(Vector3(0, 0, 0));
-   
-    
-
 }
 
 /**
@@ -780,6 +774,7 @@ Node* GameSys::CreateBackground(String path)
     auto* skyObject = skyNode->CreateComponent<StaticModel>();
     skyObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
     skyObject->SetMaterial(cache->GetResource<Material>(path));
+    skyNode->AddTag("background");
     
     return skyNode;
 }
