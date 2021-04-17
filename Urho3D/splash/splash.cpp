@@ -398,7 +398,7 @@ void AnswerHandler(bool isCorrect){
     
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
-    float winThreshold = 20.0f;
+    float winThreshold = 40.0f;
     float lossThreshold = 100.0f;
     
     if (distance < winThreshold){
@@ -425,12 +425,12 @@ void AnswerHandler(bool isCorrect){
     float z;
     if(isCorrect){
         correctness = "correct";
-        y = 10.0f;
+        y = 3.0f;
         z = 0.0f;
     }
     else{
         correctness = "incorrect";
-        y = -3.0f;
+        y = -10.0f;
         z = 0.0f;
     }
     ::timestep;
@@ -467,7 +467,20 @@ void AnswerHandler(bool isCorrect){
 }
 }
 
+Node* GameSys::CreateTitleBackground()
+{
+    auto* cache = GetSubsystem<ResourceCache>();
 
+    Node* titleNode = mainScene->CreateChild("Sky");
+
+    titleNode->SetScale(Vector3(145.0f, 104.0f, 1.0f)); 
+    titleNode->SetPosition(Vector3(0.0f, -5.0f, 100.0f));
+    auto* titleObject = titleNode->CreateComponent<StaticModel>();
+    titleObject->SetModel(cache->GetResource<Model>("Models/Box.mdl"));
+    titleObject->SetMaterial(cache->GetResource<Material>("Materials/main_bg.xml"));
+    
+    return titleNode;
+}
 
 /**
  * CreateTitleScene function. Start screen splash, with button
@@ -476,14 +489,17 @@ void AnswerHandler(bool isCorrect){
  */
 void GameSys::CreateTitleScene()
 {
+    Node* stNode = CreateBackground();
+
     printf("inside title\n");
+    //Node* stNode = CreateTitleBackground();
 
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
     
     // Load the style sheet from xml
-    root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
+    root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/titleText.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
         "StartText", "Start Game!", 250, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
@@ -493,6 +509,8 @@ void GameSys::CreateTitleScene()
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
 }
+
+
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
  * returns text
@@ -816,7 +834,7 @@ Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = mainScene->CreateChild("Box");
-    boxNode->SetRotation(Quaternion(250.0f, -20.0f, 25.0f));
+    boxNode->SetRotation(Quaternion(-115.0f, 0.0f, 0.0f));
     boxNode->SetPosition(Vector3(6.0f, 8.0f, 50.0f));
     boxNode->SetScale(Vector3(0.17f, 0.17, 0.17));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
