@@ -33,13 +33,13 @@ To build and execute this project, please do the following:
 - Clone the repository
 - Navigate to the project's Urho3D folder at: ```cd sound-pirates/Urho3D```
 - Create build folder and make it the current directory: 
-1) ```mkdir splash_build``` 
-2) ```cd splash_build```
+1) ```mkdir current_build``` 
+2) ```cd current_build```
 - Run cmake: 
 1) ```cmake .```  
 2) ``` make```
 - Navigate to bin folder: ```cd bin```
-- Run the project: ```./Splash```
+- Run the project: ```./sound-pirates```
 
 You're all set!
 

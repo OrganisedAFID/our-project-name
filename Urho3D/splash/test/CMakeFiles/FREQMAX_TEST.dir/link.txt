@@ -1,1 +1,0 @@
-/usr/bin/c++ -O3 -DNDEBUG -rdynamic CMakeFiles/FREQMAX_TEST.dir/freqMax_test.cpp.o CMakeFiles/FREQMAX_TEST.dir/__/findFreqMax.cpp.o -o FREQMAX_TEST   -L/home/pi/sound-pirates/Urho3D/splash  -Wl,-rpath,/home/pi/sound-pirates/Urho3D/splash -lboost_filesystem -lboost_system -lboost_unit_test_framework 

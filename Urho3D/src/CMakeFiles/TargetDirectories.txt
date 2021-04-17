@@ -1,0 +1,10 @@
+/home/pi/sound-pirates/Urho3D/src/CMakeFiles/rebuild_cache.dir
+/home/pi/sound-pirates/Urho3D/src/CMakeFiles/edit_cache.dir
+/home/pi/sound-pirates/Urho3D/src/CMakeFiles/sound-pirates.dir
+/home/pi/sound-pirates/Urho3D/src/CMakeFiles/test.dir
+/home/pi/sound-pirates/Urho3D/src/test/CMakeFiles/rebuild_cache.dir
+/home/pi/sound-pirates/Urho3D/src/test/CMakeFiles/edit_cache.dir
+/home/pi/sound-pirates/Urho3D/src/test/CMakeFiles/test.dir
+/home/pi/sound-pirates/Urho3D/src/test/CMakeFiles/FREQMAX_TEST.dir
+/home/pi/sound-pirates/Urho3D/src/test/CMakeFiles/FFT_TEST.dir
+/home/pi/sound-pirates/Urho3D/src/test/CMakeFiles/DEFINE_NOTE_TEST.dir

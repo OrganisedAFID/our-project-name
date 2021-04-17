@@ -1,0 +1,5 @@
+/home/pi/sound-pirates/Urho3D/splash/test/CMakeFiles/rebuild_cache.dir
+/home/pi/sound-pirates/Urho3D/splash/test/CMakeFiles/edit_cache.dir
+/home/pi/sound-pirates/Urho3D/splash/test/CMakeFiles/FREQMAX_TEST.dir
+/home/pi/sound-pirates/Urho3D/splash/test/CMakeFiles/FFT_TEST.dir
+/home/pi/sound-pirates/Urho3D/splash/test/CMakeFiles/DEFINE_NOTE_TEST.dir
