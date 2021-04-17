@@ -1,0 +1,90 @@
+\hypertarget{class_sample}{}\doxysection{Sample Class Reference}
+\label{class_sample}\index{Sample@{Sample}}
+
+
+{\ttfamily \#include $<$Sample.\+h$>$}
+
+Inheritance diagram for Sample\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_sample}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_sample_a394ec93f710c2015ba18c11175b44e84}\label{class_sample_a394ec93f710c2015ba18c11175b44e84}} 
+\mbox{\hyperlink{class_sample_a394ec93f710c2015ba18c11175b44e84}{Sample}} (Context $\ast$context)
+\begin{DoxyCompactList}\small\item\em Construct. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_a9b63ccdbf8b53e4465952d1eb2aa9a8c}\label{class_sample_a9b63ccdbf8b53e4465952d1eb2aa9a8c}} 
+void \mbox{\hyperlink{class_sample_a9b63ccdbf8b53e4465952d1eb2aa9a8c}{Setup}} () override
+\begin{DoxyCompactList}\small\item\em Setup before engine initialization. Modifies the engine parameters. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_afb750c82fd92d800ca718767015430f9}\label{class_sample_afb750c82fd92d800ca718767015430f9}} 
+void \mbox{\hyperlink{class_sample_afb750c82fd92d800ca718767015430f9}{Start}} () override
+\begin{DoxyCompactList}\small\item\em Setup after engine initialization. Creates the logo, console \& debug HUD. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_aeced118790e54989dd1f7cdb2c3c0cc4}\label{class_sample_aeced118790e54989dd1f7cdb2c3c0cc4}} 
+void \mbox{\hyperlink{class_sample_aeced118790e54989dd1f7cdb2c3c0cc4}{Stop}} () override
+\begin{DoxyCompactList}\small\item\em Cleanup after the main loop. Called by Application. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_sample_aaebe84c90ed017cda98723c8ffe51c66}\label{class_sample_aaebe84c90ed017cda98723c8ffe51c66}} 
+virtual String \mbox{\hyperlink{class_sample_aaebe84c90ed017cda98723c8ffe51c66}{Get\+Screen\+Joystick\+Patch\+String}} () const
+\begin{DoxyCompactList}\small\item\em Return XML patch instructions for screen joystick layout for a specific sample app, if any. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_ab1aee801fe90948b583a318283080404}\label{class_sample_ab1aee801fe90948b583a318283080404}} 
+void \mbox{\hyperlink{class_sample_ab1aee801fe90948b583a318283080404}{Init\+Touch\+Input}} ()
+\begin{DoxyCompactList}\small\item\em Initialize touch input on mobile platform. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_a408fff157b9cf885bc33cfe2587b5c0a}\label{class_sample_a408fff157b9cf885bc33cfe2587b5c0a}} 
+void \mbox{\hyperlink{class_sample_a408fff157b9cf885bc33cfe2587b5c0a}{Init\+Mouse\+Mode}} (Mouse\+Mode mode)
+\begin{DoxyCompactList}\small\item\em Initialize mouse mode on non-\/web platform. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_abe4f72b975b197e12b9997cc06edbec0}\label{class_sample_abe4f72b975b197e12b9997cc06edbec0}} 
+void \mbox{\hyperlink{class_sample_abe4f72b975b197e12b9997cc06edbec0}{Set\+Logo\+Visible}} (bool enable)
+\begin{DoxyCompactList}\small\item\em Control logo visibility. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_sample_a66c8424ef1dd22ad369596ba0ea399ef}\label{class_sample_a66c8424ef1dd22ad369596ba0ea399ef}} 
+Shared\+Ptr$<$ Sprite $>$ \mbox{\hyperlink{class_sample_a66c8424ef1dd22ad369596ba0ea399ef}{logo\+Sprite\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Logo sprite. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_a91469fda5e6e8c94eb9c00af60f1c591}\label{class_sample_a91469fda5e6e8c94eb9c00af60f1c591}} 
+Shared\+Ptr$<$ Scene $>$ \mbox{\hyperlink{class_sample_a91469fda5e6e8c94eb9c00af60f1c591}{scene\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Scene. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_a51adb323b75d1765100adb10601696e6}\label{class_sample_a51adb323b75d1765100adb10601696e6}} 
+Shared\+Ptr$<$ Node $>$ \mbox{\hyperlink{class_sample_a51adb323b75d1765100adb10601696e6}{camera\+Node\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Camera scene node. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_af0449e7a34a99ca0b18fe48efd370189}\label{class_sample_af0449e7a34a99ca0b18fe48efd370189}} 
+float \mbox{\hyperlink{class_sample_af0449e7a34a99ca0b18fe48efd370189}{yaw\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Camera yaw angle. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_ad2e96b1f5388ea292fe3cbfb82a7eeaf}\label{class_sample_ad2e96b1f5388ea292fe3cbfb82a7eeaf}} 
+float \mbox{\hyperlink{class_sample_ad2e96b1f5388ea292fe3cbfb82a7eeaf}{pitch\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Camera pitch angle. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_a529a1509cf879e03ff06f0049efc896d}\label{class_sample_a529a1509cf879e03ff06f0049efc896d}} 
+bool \mbox{\hyperlink{class_sample_a529a1509cf879e03ff06f0049efc896d}{touch\+Enabled\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Flag to indicate whether touch input has been enabled. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_sample_aec918cbf90806a80f77176f3bec9832e}\label{class_sample_aec918cbf90806a80f77176f3bec9832e}} 
+Mouse\+Mode \mbox{\hyperlink{class_sample_aec918cbf90806a80f77176f3bec9832e}{use\+Mouse\+Mode\+\_\+}}
+\begin{DoxyCompactList}\small\item\em Mouse mode option to use in the sample. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+\mbox{\hyperlink{class_sample}{Sample}} class, as framework for all samples.
+\begin{DoxyItemize}
+\item Initialization of the \mbox{\hyperlink{namespace_urho3_d}{Urho3D}} engine (in Application class)
+\item Modify engine parameters for windowed mode and to show the class name as title
+\item Create \mbox{\hyperlink{namespace_urho3_d}{Urho3D}} logo at screen
+\item Set custom window title and icon
+\item Create Console and Debug HUD, and use F1 and F2 key to toggle them
+\item Toggle rendering options from the keys 1-\/8
+\item Take screenshot with key 9
+\item Handle Esc key down to hide Console or exit application
+\item Init touch input on mobile platform using screen joysticks (patched for each individual sample) 
+\end{DoxyItemize}
+
+Definition at line 54 of file Sample.\+h.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Urho3\+D/src/Sample.\+h\item 
+Urho3\+D/src/Sample.\+inl\end{DoxyCompactItemize}

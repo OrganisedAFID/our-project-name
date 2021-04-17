@@ -1,0 +1,261 @@
+\hypertarget{main_8cpp}{}\doxysection{Urho3\+D/src/main.cpp File Reference}
+\label{main_8cpp}\index{Urho3D/src/main.cpp@{Urho3D/src/main.cpp}}
+{\ttfamily \#include \char`\"{}Rt\+Audio.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$fftw3.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$SFML/\+Graphics.\+hpp$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$SFML/\+Audio.\+hpp$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$complex$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}audio\+In.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}fft.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}play\+Note.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}instructions\+Statements.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}process\+Buffer.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}define\+Note.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}find\+Freq\+Max.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$alsa/asoundlib.\+h$>$}\newline
+{\ttfamily \#include $<$sys/types.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$fcntl.\+h$>$}\newline
+{\ttfamily \#include $<$memory$>$}\newline
+{\ttfamily \#include $<$fstream$>$}\newline
+{\ttfamily \#include $<$sstream$>$}\newline
+{\ttfamily \#include $<$unistd.\+h$>$}\newline
+{\ttfamily \#include $<$poll.\+h$>$}\newline
+{\ttfamily \#include $<$thread$>$}\newline
+{\ttfamily \#include $<$chrono$>$}\newline
+{\ttfamily \#include $<$signal.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Urho3\+D.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Core/\+Core\+Events.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Render\+Path.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Engine/\+Application.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Engine/\+Engine.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Input/\+Input.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Input/\+Input\+Events.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Resource/\+Resource\+Cache.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Resource/\+XMLFile.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+IO/\+Log.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+UI/\+UI.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+UI/\+Text.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+UI/\+Font.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+UI/\+Button.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+UI/\+UIEvents.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+UI/\+Window.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Scene/\+Scene.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Scene/\+Scene\+Events.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Graphics.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Camera.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Geometry.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Renderer.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Debug\+Renderer.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Octree.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Light.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Model.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Static\+Model.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Material.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Skybox.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Zone.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Audio/\+Sound.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Audio/\+Sound\+Source3\+D.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Audio/\+Sound\+Listener.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Audio/\+Audio.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Particle\+Emitter.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Particle\+Effect.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Graphics/\+Terrain.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Physics/\+Collision\+Shape.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Physics/\+Constraint.\+h$>$}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Physics/\+Rigid\+Body.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}main.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$Urho3\+D/\+Debug\+New.\+h$>$}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8cpp_a12842162bf9fb339ec4e1876ff66d7eb}{inthand}} (int signum)
+\item 
+int \mbox{\hyperlink{main_8cpp_a47bdca9e2d9c9d52a69b0044ec0c3bc4}{process\+Buffer}} ()
+\item 
+int \mbox{\hyperlink{main_8cpp_aca70d8b06afb12b1aa5acf9801581087}{record}} (void $\ast$output\+Buffer, void $\ast$input\+Buffer, unsigned int n\+Buffer\+Frames, double stream\+Time, \mbox{\hyperlink{_rt_audio_8h_a80e306d363583da3b0a1b65d9b57c806}{Rt\+Audio\+Stream\+Status}} status, void $\ast$user\+Data)
+\item 
+\mbox{\Hypertarget{main_8cpp_afe96f9d9fab486da366c637dfd786a3a}\label{main_8cpp_afe96f9d9fab486da366c637dfd786a3a}} 
+void {\bfseries ready\+Handler} (int signum)
+\item 
+int \mbox{\hyperlink{main_8cpp_a67f9cd25bace8cef60a4d81c92f07de6}{audio\+In}} ()
+\item 
+int \mbox{\hyperlink{main_8cpp_af47dda8713d75f898ec5b296a2f892c8}{Run\+Application}} ()
+\item 
+\mbox{\Hypertarget{main_8cpp_aec4a8253796bdf3d19c54309a8e5800a}\label{main_8cpp_aec4a8253796bdf3d19c54309a8e5800a}} 
+void {\bfseries Answer\+Handler} (bool is\+Correct)
+\item 
+Text $\ast$ \mbox{\hyperlink{main_8cpp_a913c82c860115273585881fc309cd99a}{Create\+Text}} (String content, String tag\+Name, int x, int y, String font\+Text)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+int \mbox{\hyperlink{main_8cpp_aa4c2a5552e9bc49b1816ff532f558c74}{a}} = 0
+\item 
+\mbox{\Hypertarget{main_8cpp_acdb24cd59729bca47d86bd0a95cbdf95}\label{main_8cpp_acdb24cd59729bca47d86bd0a95cbdf95}} 
+std\+::vector$<$ double $>$ {\bfseries v}
+\item 
+\mbox{\Hypertarget{main_8cpp_a347a7b965cc29df58e9db163bb0fb814}\label{main_8cpp_a347a7b965cc29df58e9db163bb0fb814}} 
+int {\bfseries pipefds} \mbox{[}2\mbox{]}
+\item 
+\mbox{\Hypertarget{main_8cpp_a771100e495d242bce043dbec0db9cac5}\label{main_8cpp_a771100e495d242bce043dbec0db9cac5}} 
+int {\bfseries freq\+Max}
+\item 
+\mbox{\Hypertarget{main_8cpp_af24be9be8b9024f59733eee7469fa403}\label{main_8cpp_af24be9be8b9024f59733eee7469fa403}} 
+std\+::vector$<$ double $>$ {\bfseries window}
+\item 
+\mbox{\Hypertarget{main_8cpp_a2b8c592d00ac6250d988342488b41060}\label{main_8cpp_a2b8c592d00ac6250d988342488b41060}} 
+const int {\bfseries band\+Number} = 128
+\item 
+\mbox{\Hypertarget{main_8cpp_a23fca789add1cce3726ae4a348024b72}\label{main_8cpp_a23fca789add1cce3726ae4a348024b72}} 
+unsigned int {\bfseries sample\+Rate} = 44100
+\item 
+\mbox{\Hypertarget{main_8cpp_a3768f49b80ad62b59676c0df7c475b0e}\label{main_8cpp_a3768f49b80ad62b59676c0df7c475b0e}} 
+unsigned int {\bfseries buffer\+Frames} = 4410
+\item 
+\mbox{\Hypertarget{main_8cpp_a3e15cc597a247a7600b92404d08940e8}\label{main_8cpp_a3e15cc597a247a7600b92404d08940e8}} 
+volatile sig\+\_\+atomic\+\_\+t {\bfseries stop}
+\item 
+\mbox{\Hypertarget{main_8cpp_a82fae556c65a554f711aa3b786b87a45}\label{main_8cpp_a82fae556c65a554f711aa3b786b87a45}} 
+char {\bfseries note\+\_\+to\+\_\+write}
+\item 
+\mbox{\Hypertarget{main_8cpp_a4f07214952f9a94e68314456c79b52a9}\label{main_8cpp_a4f07214952f9a94e68314456c79b52a9}} 
+float {\bfseries time\+\_\+} = 0
+\item 
+\mbox{\Hypertarget{main_8cpp_ad1cdec43abe8429c1193fada31188892}\label{main_8cpp_ad1cdec43abe8429c1193fada31188892}} 
+Timer {\bfseries count\+Down\+Timer\+\_\+} = Timer()
+\item 
+\mbox{\Hypertarget{main_8cpp_af500917c052066b40cf47f96b43c607b}\label{main_8cpp_af500917c052066b40cf47f96b43c607b}} 
+int {\bfseries pid}
+\item 
+\mbox{\Hypertarget{main_8cpp_a68eb07004c468adeae53ebf54a5bd849}\label{main_8cpp_a68eb07004c468adeae53ebf54a5bd849}} 
+int {\bfseries parentpid}
+\item 
+\mbox{\Hypertarget{main_8cpp_a7a5a670f0a71d8f5f3f6d72843fc9492}\label{main_8cpp_a7a5a670f0a71d8f5f3f6d72843fc9492}} 
+char {\bfseries Output\+Note}
+\item 
+\mbox{\Hypertarget{main_8cpp_ab9edcc09985767509bf717e25ac80ab7}\label{main_8cpp_ab9edcc09985767509bf717e25ac80ab7}} 
+float {\bfseries timestep}
+\item 
+\mbox{\Hypertarget{main_8cpp_a65cf7d7f8e531611b245355ab91fd749}\label{main_8cpp_a65cf7d7f8e531611b245355ab91fd749}} 
+bool {\bfseries ready}
+\item 
+\mbox{\Hypertarget{main_8cpp_ad32590fc6b612c9fc89fbf5ad8c24a2a}\label{main_8cpp_ad32590fc6b612c9fc89fbf5ad8c24a2a}} 
+bool {\bfseries end\+Game}
+\item 
+\mbox{\Hypertarget{main_8cpp_ab11e349166acc6769ce30d64b0581257}\label{main_8cpp_ab11e349166acc6769ce30d64b0581257}} 
+Node $\ast$ {\bfseries ship}
+\item 
+\mbox{\Hypertarget{main_8cpp_a2d0e892dc6408321bde8e67fa10aa72a}\label{main_8cpp_a2d0e892dc6408321bde8e67fa10aa72a}} 
+UI $\ast$ {\bfseries ui}
+\item 
+\mbox{\Hypertarget{main_8cpp_ab8779c7360fc46c242f511ec0c485ec6}\label{main_8cpp_ab8779c7360fc46c242f511ec0c485ec6}} 
+Resource\+Cache $\ast$ {\bfseries cache}
+\item 
+\mbox{\Hypertarget{main_8cpp_a27da9518aceda8a4962642155cff64e1}\label{main_8cpp_a27da9518aceda8a4962642155cff64e1}} 
+Context $\ast$ {\bfseries global\+Context\+\_\+}
+\item 
+\mbox{\Hypertarget{main_8cpp_a149e79dbf8886523051ec5cf3726dbda}\label{main_8cpp_a149e79dbf8886523051ec5cf3726dbda}} 
+Vector3 {\bfseries camera\+Pos} = Vector3(0.\+0f, -\/6.\+0f, -\/25.\+0f)
+\item 
+\mbox{\Hypertarget{main_8cpp_a67c987797aa055dd4402e4531e9680b4}\label{main_8cpp_a67c987797aa055dd4402e4531e9680b4}} 
+\mbox{\hyperlink{class_game_sys}{Game\+Sys}} $\ast$ {\bfseries our\+Game}
+\item 
+\mbox{\Hypertarget{main_8cpp_a3fcdff4376e34e6405fa629a93fbf345}\label{main_8cpp_a3fcdff4376e34e6405fa629a93fbf345}} 
+Scene $\ast$ {\bfseries main\+Scene}
+\item 
+\mbox{\Hypertarget{main_8cpp_aa4d1344e6fb1deb9752511634684d7a5}\label{main_8cpp_aa4d1344e6fb1deb9752511634684d7a5}} 
+Scene $\ast$ {\bfseries start\+Scene}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Creates a main screen 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8cpp_a67f9cd25bace8cef60a4d81c92f07de6}\label{main_8cpp_a67f9cd25bace8cef60a4d81c92f07de6}} 
+\index{main.cpp@{main.cpp}!audioIn@{audioIn}}
+\index{audioIn@{audioIn}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{audioIn()}{audioIn()}}
+{\footnotesize\ttfamily int audio\+In (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+audio\+In function. calls record, which calls process\+Buffer,which calls fft 
+
+Definition at line 269 of file main.\+cpp.
+
+\mbox{\Hypertarget{main_8cpp_a913c82c860115273585881fc309cd99a}\label{main_8cpp_a913c82c860115273585881fc309cd99a}} 
+\index{main.cpp@{main.cpp}!CreateText@{CreateText}}
+\index{CreateText@{CreateText}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{CreateText()}{CreateText()}}
+{\footnotesize\ttfamily Text$\ast$ Create\+Text (\begin{DoxyParamCaption}\item[{String}]{content,  }\item[{String}]{tag\+Name,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{String}]{font\+Text }\end{DoxyParamCaption})}
+
+Create\+Text function. Defines text parameters font (optional), colour, position returns text 
+
+Definition at line 518 of file main.\+cpp.
+
+\mbox{\Hypertarget{main_8cpp_a12842162bf9fb339ec4e1876ff66d7eb}\label{main_8cpp_a12842162bf9fb339ec4e1876ff66d7eb}} 
+\index{main.cpp@{main.cpp}!inthand@{inthand}}
+\index{inthand@{inthand}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{inthand()}{inthand()}}
+{\footnotesize\ttfamily void inthand (\begin{DoxyParamCaption}\item[{int}]{signum }\end{DoxyParamCaption})}
+
+inthand function allows close of terminal with ctrl C 
+
+Definition at line 158 of file main.\+cpp.
+
+\mbox{\Hypertarget{main_8cpp_a47bdca9e2d9c9d52a69b0044ec0c3bc4}\label{main_8cpp_a47bdca9e2d9c9d52a69b0044ec0c3bc4}} 
+\index{main.cpp@{main.cpp}!processBuffer@{processBuffer}}
+\index{processBuffer@{processBuffer}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{processBuffer()}{processBuffer()}}
+{\footnotesize\ttfamily int process\+Buffer (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+process\+Buffer fuction. Calls fft, takes output of fft and sorts max freq into note to report output freq\+Max called by record 
+
+Definition at line 169 of file main.\+cpp.
+
+\mbox{\Hypertarget{main_8cpp_aca70d8b06afb12b1aa5acf9801581087}\label{main_8cpp_aca70d8b06afb12b1aa5acf9801581087}} 
+\index{main.cpp@{main.cpp}!record@{record}}
+\index{record@{record}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{record()}{record()}}
+{\footnotesize\ttfamily int record (\begin{DoxyParamCaption}\item[{void $\ast$}]{output\+Buffer,  }\item[{void $\ast$}]{input\+Buffer,  }\item[{unsigned int}]{n\+Buffer\+Frames,  }\item[{double}]{stream\+Time,  }\item[{\mbox{\hyperlink{_rt_audio_8h_a80e306d363583da3b0a1b65d9b57c806}{Rt\+Audio\+Stream\+Status}}}]{status,  }\item[{void $\ast$}]{user\+Data }\end{DoxyParamCaption})}
+
+record function. Activate the audio input and write to buffer called by audio\+In 
+
+Definition at line 212 of file main.\+cpp.
+
+\mbox{\Hypertarget{main_8cpp_af47dda8713d75f898ec5b296a2f892c8}\label{main_8cpp_af47dda8713d75f898ec5b296a2f892c8}} 
+\index{main.cpp@{main.cpp}!RunApplication@{RunApplication}}
+\index{RunApplication@{RunApplication}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{RunApplication()}{RunApplication()}}
+{\footnotesize\ttfamily int Run\+Application (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+Main program. Starts the Urho program setup, opens pipe and sets state machine in motion 
+
+Definition at line 333 of file main.\+cpp.
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{main_8cpp_aa4c2a5552e9bc49b1816ff532f558c74}\label{main_8cpp_aa4c2a5552e9bc49b1816ff532f558c74}} 
+\index{main.cpp@{main.cpp}!a@{a}}
+\index{a@{a}!main.cpp@{main.cpp}}
+\doxysubsubsection{\texorpdfstring{a}{a}}
+{\footnotesize\ttfamily int a = 0}
+
+Copyright (c) 2008-\/2020 the \mbox{\hyperlink{namespace_urho3_d}{Urho3D}} project.
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the \char`\"{}\+Software\char`\"{}), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions\+:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED \char`\"{}\+AS IS\char`\"{}, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. global variables list to be incorporated in setup 
+
+Definition at line 125 of file main.\+cpp.
+
