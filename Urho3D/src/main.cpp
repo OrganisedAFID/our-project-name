@@ -761,7 +761,7 @@ void GameSys::CreateLossScene()
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
-        "ResetText", "Back to title screen", 400, 500);   
+        "ResetText", "Back to title screen", 500, 500);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
     
     auto endLoss = std::chrono::high_resolution_clock::now();
