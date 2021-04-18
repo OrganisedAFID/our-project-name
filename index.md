@@ -6,8 +6,9 @@
 
 ## What is Sound PIrates?
 
-Sound pirates is playable if you download the developper kit for the game!
-Requires a pi, soundcard and microphone.
+Sound PIrates is an interactive game targeted at muscicians who want to learn how to play by ear. The concept of the game is simple. A tone will be played by the game and will allow the user 4 seconds to replicate the note. If the correct note is detected this will count as a win, and if the incorrect note is detected a point will be lost. There is no penalty for not playing a note. To make it more exciting a game featuring a spaceship has been developed. The objective is for the user to catch the spaceship, therefore when a correct note is detected the spaceship will appear closer, and if the incorrect note is played the spaceship will fly further away. The game goes on untill enough wins or losses have been detected to either catch the spacehp, or it being too far out of reach. 
+
+
 
 Welcome to Sound Pirates! – In space, the sounds will move you!
 .
@@ -15,9 +16,10 @@ The game is currently limited to the C major scale and the chase is short. With 
 Chantilly is a former engineer turned pirate who realised they could use their new technology to take from the rich to give to the poor Robin Hood style. Living outside the law means you need to work with unsavoury types though, so Lace has built a reputation as a fearsome Captain and a hardy warrior. The problem is, the crew of The Space Shanty can see a whole lot of wealth, and feel not enough is going in their pockets! Will you be able to guide Lace through the trials that await?
 
 ## What do you need to play the game?
+Sound pirates is playable if you download the developper kit for the game!
+Requires a Raspberry Pi (tested on Raspberry Pi 4B), soundcard and microphone.
 ![image](https://user-images.githubusercontent.com/44497996/114785061-088a9880-9d74-11eb-942a-61e387437b15.png)
 
-## How the game works
 
 ### Building the project
 Before installing the game the following packages must be downloaded:
@@ -69,19 +71,19 @@ Purpose of sharing on social media is to establish core of followers, likely in 
 
 Instagram was the primary feed as group are established on this forum and is a viewed as a good medium to promote maker projects, with likelihood of shares high. Twitter has a secondary shorter lifespan of tweets and less tolerant of promotional accounts in general, though, Still a valid medium. 
 
-#Phase 2. Video Of function available, proper promotion, attraction of testers.
+# Phase 2. Video Of function available, proper promotion, attraction of testers.
 Start 2 posts per week, timed for highest exposure (12-3) Mon & Thurs Instagram, 5pm Twitter*
 
-/ * these were peak times pre-COVID, however there is yet to be data I could find of the current metrics. These metrics are also heavily influenced by American users so the 12-3 and 5pm UK times may be worth transposing and re-posting for the coastal zones of the US./
+ * these were peak times pre-COVID, however there is yet to be data I could find of the current metrics. These metrics are also heavily influenced by American users so the 12-3 and 5pm UK times may be worth transposing and re-posting for the coastal zones of the US.
 
-#Phase 3. Playable demo Promote game itself, invite feedback and log possible improvements & bugfixes
+# Phase 3. Playable demo Promote game itself, invite feedback and log possible improvements & bugfixes
 - Post on Raspberry Pi forums, pushing the specific to hardware nature
 - Post on reddit/r/IMadeAGame to gain feedback and exposure
 - Post on Urho3D website pushing use of game engine and unusual game mechanics
 - Post videos with link on YouTube of friends and family trying with variety of instruments, gives participants more identification with the game and investment in sharing.
 Continue posts on Insta, twitter, and Facebook.
 
-#Phase 4. Post course – gauge interest in game and development
+# Phase 4. Post course – gauge interest in game and development
 Invite collaboration on all media and develop game further or in whatever direction seems to garner most interest and excitement. To help us formulate our strategy for the game and our social media presence, the team managed to organise a chat with Colm ‘Gambrinous’ Larkin. Colm is a successful solo games developer who has expanded to a small team over the course of two games published internationally, receiving high praise and awards for them (Guild of Dungeoneering and Cardpocalypse, published by Versus Evil).
 The social media strategy formed by the team was to concentrate on Instagram posts for the build up towards the game as this was the most established forum for the team members. An account was also created on twitter. The Github page was to be referred to and the core audience would be aimed at as content was produced.
 
