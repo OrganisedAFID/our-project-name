@@ -159,6 +159,7 @@ void inthand(int signum) {
     return;
 }
 
+
 /**
  * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
  * output freqMax
