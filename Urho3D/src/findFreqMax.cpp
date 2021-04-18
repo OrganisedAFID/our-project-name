@@ -8,9 +8,13 @@
 #include <vector>
 #include <chrono>
 #include <iostream>
-
+#include <fstream>
+using namespace std;
 
 int findFreqMax(int freqMax, int i, std::vector<double> &window){
+
+    ofstream myfile;
+    myfile.open ("findFreqMax.txt");
 
     using namespace std::literals::chrono_literals;
     auto startMax = std::chrono::high_resolution_clock::now();
@@ -21,6 +25,8 @@ int findFreqMax(int freqMax, int i, std::vector<double> &window){
     std::chrono::duration<float> durationMax = endMax -startMax;
     std::cout << "duration of finding maximum frequency" << durationMax.count() << "s" <<std::endl;
   
+    myfile << durationMax.count() << "\n";
 
+    myfile.close();
 return freqMax;
 }

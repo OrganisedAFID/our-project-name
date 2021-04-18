@@ -177,6 +177,8 @@ void inthand(int signum) {
  */
 int processBuffer()
 {  
+    ofstream myfile;
+    myfile.open ("processBuffer.txt");
 
     using namespace std::literals::chrono_literals;
     auto startBuf = std::chrono::high_resolution_clock::now();
@@ -217,6 +219,10 @@ int processBuffer()
     auto endBuf = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationB = endBuf -startBuf;
     std::cout << "duration of process buffer" << durationB.count() << "s" <<std::endl;
+    
+    myfile << durationB.count() << "\n";
+
+    myfile.close();
 
     return freqMax, pipefds[2];
 }
@@ -354,7 +360,8 @@ int audioIn()
 
 int RunApplication() { 
     freopen("timings.txt", "w", stdout);
-
+    ofstream myfile;
+    myfile.open ("RunApplication.txt");
     using namespace std::literals::chrono_literals;
     auto startRun = std::chrono::high_resolution_clock::now();
 
@@ -367,7 +374,9 @@ int RunApplication() {
     auto endRun = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationRun = endRun -startRun;
     std::cout << "duration of running application" << durationRun.count() << "s" <<std::endl;
-    myfile << "Writing this to a file.\n";
+    myfile << durationRun.count() << "\n";
+
+    myfile.close();
 
 } 
 URHO3D_DEFINE_MAIN(RunApplication())
@@ -418,6 +427,9 @@ void GameSys::Start()
 
 
 void AnswerHandler(bool isCorrect){
+    ofstream myfile;
+    myfile.open ("AnswerHandler.txt");
+
     using namespace std::literals::chrono_literals;
     auto startAns = std::chrono::high_resolution_clock::now();
 
@@ -486,7 +498,10 @@ void AnswerHandler(bool isCorrect){
     auto endAns = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationAns = endAns -startAns;
     std::cout << "duration of answer handler" << durationAns.count() << "s" <<std::endl;
+    
+    myfile << durationAns.count() << "\n";
 
+    myfile.close();
 }
 
 /** Create the octree, camera and lighting for a scene
@@ -726,6 +741,9 @@ void GameSys::CreateInstructionsScene()
  */
 void GameSys::CreateWinScene()
 {
+    ofstream myfile;
+    myfile.open ("CreateWinScene.txt");
+
     //delete main scene
     using namespace std::literals::chrono_literals;
     auto startWin = std::chrono::high_resolution_clock::now();
@@ -743,6 +761,9 @@ void GameSys::CreateWinScene()
     std::chrono::duration<float> durationWin = endWin -startWin;
     std::cout << "duration of winscene creation: " << durationWin.count() << "s" <<std::endl;
 
+    myfile << durationWin.count() << "\n";
+
+    myfile.close();
 
 }
 
@@ -751,6 +772,9 @@ void GameSys::CreateWinScene()
  */
 void GameSys::CreateLossScene()
 {
+    ofstream myfile;
+    myfile.open ("CreateLossScene.txt");
+
     using namespace std::literals::chrono_literals;
     auto startLoss = std::chrono::high_resolution_clock::now();
 
@@ -768,6 +792,9 @@ void GameSys::CreateLossScene()
     std::chrono::duration<float> durationLoss = endLoss -startLoss;
     std::cout << "duration of process loss screen" << durationLoss.count() << "s" <<std::endl;
 
+    myfile << durationLoss.count() << "\n";
+
+    myfile.close();
 
 }
 
@@ -813,6 +840,9 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
+    ofstream myfile;
+    myfile.open ("CreateMainScene.txt");
+
     using namespace std::literals::chrono_literals;
     auto startMain = std::chrono::high_resolution_clock::now();
     
@@ -833,6 +863,9 @@ void GameSys::CreateMainScene()
     std::chrono::duration<float> durationMain = endMain -startMain;
     std::cout << "duration of generating main scene: " << durationMain.count() << "s" <<std::endl;
 
+    myfile << durationMain.count() << "\n";
+
+    myfile.close();
 }
 
 /**

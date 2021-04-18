@@ -19,10 +19,15 @@
 #include <string>
 #include "audioIn.h"
 #include "chrono"
-
+#include <iostream>
+#include <fstream>
+using namespace std;
 
 void fft(std::vector<double> &rawValues, std::vector<double> &output) 
 {
+    ofstream myfile;
+    myfile.open ("CreateLossScene.txt");
+
     using namespace std::literals::chrono_literals;
     auto startFft = std::chrono::high_resolution_clock::now();
 
@@ -51,6 +56,8 @@ void fft(std::vector<double> &rawValues, std::vector<double> &output)
     std::chrono::duration<float> durationFft = endFft -startFft;
     std::cout << "duration of fft" << durationFft.count() << "s" <<std::endl;
   
-    
+    myfile << durationFft.count() << "\n";
+
+    myfile.close();
     return;
 }
