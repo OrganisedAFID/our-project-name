@@ -87,7 +87,7 @@ void inthand(int signum);
 void readyHandler(int signum);
 static void correctHandler(int signum);
 static void incorrectHandler(int signum);
-void AnswerHandler(bool isCorrect);
+void AnswerHandler(bool isCorrect, bool didntPlay = false);
 Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
  
 

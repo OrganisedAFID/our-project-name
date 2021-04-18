@@ -156,7 +156,6 @@ Scene* startScene;
  * inthand function allows close of terminal with ctrl C
  * 
  */
-
 void inthand(int signum) {
     stop = 1;
     return;
@@ -205,10 +204,9 @@ int processBuffer()
 
 /**
  * record function. Activate the audio input and write to buffer
- * called by audioIn
+ * 
  *  
  */
-
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
@@ -329,8 +327,6 @@ int audioIn()
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-//URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
-
 int RunApplication() { 
     Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); 
     ourGame = new GameSys(context);
@@ -383,8 +379,16 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
-
-void AnswerHandler(bool isCorrect){
+/** React to the behaviour fo the player after a note is played
+ * If the player played the right note, make the ship move closer
+ * and tell the player they played the correct note
+ * If the player played the wrong note, make the ship move further away
+ * and tell the player they were incorrect
+ * If the player did not play anything, make the ship move further away
+ * and tell the player they did not play a note
+ * 
+ */
+void AnswerHandler(bool isCorrect, bool didntPlay){
     notePlayed = true;
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
@@ -396,15 +400,16 @@ void AnswerHandler(bool isCorrect){
     std::string correctness;
     float y;
     float z;
-    if(isCorrect){
-        correctness = "correct";
-        y = 5.0f;
-        z = 0.0f;
-    }
-    else{
+    if(!isCorrect || didntPlay){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
+        
+    }
+    else{ //if isCorrect and !didntPlay
+       correctness = "correct";
+        y = 5.0f;
+        z = 0.0f; 
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
@@ -412,10 +417,13 @@ void AnswerHandler(bool isCorrect){
     std::string txt = { "You played the "+correctness+" note" };
 
     String txtMessage = String(txt.c_str());
-
-    CreateText(txtMessage, "correctnessText", 200, 100);  
-
-    std::cout << "You played the "+correctness+" note\n";
+    if(!didntPlay){
+        CreateText(txtMessage, "correctnessText", 200, 100);  
+        std::cout << "You played the "+correctness+" note\n";
+    } else{
+        CreateText("You didn't play a note", "correctnessText", 200, 100);  
+        std::cout << "You didn't play a note\n";
+    }
     
 
     //Check if the ship is close/far enough to call the win/loss scene
@@ -589,7 +597,7 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     else if(countDownTimer_.GetMSec(false) >= 5000 && !endGame && playTime){
         DeleteCorrectnessText();
         if(notePlayed == false){
-            CreateText("You didn't play a note", "correctnessText", 200, 100);  
+            AnswerHandler(false, true);
         }
         playTime = false;
     }
