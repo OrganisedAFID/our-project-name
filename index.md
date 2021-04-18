@@ -133,7 +133,9 @@ Now just execute these commands:
 
 - Then run the game:  `./sound-pirates`
 
-![image](https://user-images.githubusercontent.com/44497996/115146732-a7064a80-a04f-11eb-8b1c-208134bc23a7.png)
+<p align="center">
+<img src= "https://user-images.githubusercontent.com/44497996/115146732-a7064a80-a04f-11eb-8b1c-208134bc23a7.png" width="500" height="500" >
+</p>
 
 ## After Launching the game 
 
