@@ -166,10 +166,10 @@ To build and execute this project, please do the following:
 You're all set!
 
 ## Credits
-Alice Ravier
-David Hughes
-Fai Johnson
-Isabella Sheldon
+[Alice Ravier] (https://github.com/Aliceravier) </br>
+[David Hughes] (https://github.com/Thisaphid) </br>
+[Fai Johnson] (https://github.com/faij2009) </br>
+[Isabella Sheldon] (https://github.com/IsabellaSheldon) </br>
 
 
 ## License 
