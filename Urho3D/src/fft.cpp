@@ -19,6 +19,7 @@
 #include <string>
 #include "audioIn.h"
 #include "chrono"
+#include <thread>         
 
 
 void fft(std::vector<double> &rawValues, std::vector<double> &output) 
@@ -35,7 +36,10 @@ void fft(std::vector<double> &rawValues, std::vector<double> &output)
         outputChannel[i][1] = 0;
     }
     fftw_plan p = fftw_plan_dft_1d(n, inputChannel, outputChannel, FFTW_FORWARD, FFTW_ESTIMATE);
-    fftw_execute(p);
+    
+    std::thread fftFunction (fftw_execute,p); 
+     fftFunction .join();  
+
     for ( i = 0; i < n / 2; i++) {
         output.push_back(sqrt(outputChannel[i][0] * outputChannel[i][0] + outputChannel[i][1] * outputChannel[i][1]));
         }
