@@ -408,22 +408,29 @@ void AnswerHandler(bool isCorrect){
         
     float MOVE_SPEED=30.0f;
     std::string correctness;
+    int score = 0;
     float y;
     float z;
     if(isCorrect){
         correctness = "correct";
         y = 5.0f;
         z = 0.0f;
+        score = score + 1;
     }
     else{
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
+        score = score -1;
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
 
     std::string txt = { "You played the "+correctness+" note" };
+    auto* Score = CreateText("Score "+score, "scoreTxt", 300, 300);
+    Score->SetHorizontalAlignment(HA_RIGHT);
+    Score->SetVerticalAlignment(VA_TOP);
+    //std::string txt = { "Score "+score};
 
     String txtMessage = String(txt.c_str());
 
