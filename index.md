@@ -197,9 +197,9 @@ With the basic functionality in place, there is definetly scope to expand the ga
 
 
 ## The creators
-- Alice Ravier: Main game developer, including graphics and designer
-- David Hughes:  Project Doxygen documentation; Game graphics and story line; and main creator of project idea 
-- Fai Johnson: Audio programming; Unit testing; Management of social media and project webpages; Management of CMake files
-- Isabella Sheldon: Audio programming; Unit testing; Latency Analysis; Management of social media and project webpages; Game and social media graphics
+- **Alice Ravier:**  Main game developer, including graphics and designer
+- **David Hughes:**  Project Doxygen documentation; Game graphics and story line; and main creator of project idea 
+- **Fai Johnson:** Audio programming; Unit testing; Management of social media and project webpages; Management of CMake files
+- **Isabella Sheldon:** Audio programming; Unit testing; Latency Analysis; Management of social media and project webpages; Game and social media graphics
 
 
