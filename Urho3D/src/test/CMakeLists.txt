@@ -4,6 +4,11 @@
 find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
 
 ##
+# set threading linker flag to be used by the executable
+#
+SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread")
+
+##
 # Include directories containing source directory (splash) boost include directories 
 #
 include_directories(${DEMO_SOURCE_DIR}/splash ${Boost_INCLUDE_DIRS})
