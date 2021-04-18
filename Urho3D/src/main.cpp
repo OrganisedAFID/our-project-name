@@ -141,6 +141,8 @@ char OutputNote;
 float timestep;
 bool ready;
 bool endGame;
+int score = 0;
+
 
 Node* ship;
 UI* ui;
@@ -254,7 +256,6 @@ void readyHandler(int signum){
 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
-    AnswerHandler(true);
     return;
 }
 
@@ -386,27 +387,9 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
-/*void GameSys::CreateScore()
-{
-    auto* cache = GetSubsystem<ResourceCache>();
-    auto* ui = GetSubsystem<UI>();
-
-    // Construct new Text object, set string to display and font to use
-    auto* scoreText = ui->GetRoot()->CreateChild<Text>();
-    scoreText->SetText(
-        "Score: "
-    );
-    scoreText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 15);
-    // The text has multiple rows. Center them in relation to each other
-
-    // Position the text relative to the screen center
-    scoreText->SetHorizontalAlignment(HA_CENTER);
-    scoreText->SetVerticalAlignment(VA_CENTER);
-    scoreText->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
-}
-*/
 
 void AnswerHandler(bool isCorrect){
+
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     float winThreshold = 40.0f;
@@ -427,7 +410,6 @@ void AnswerHandler(bool isCorrect){
         
     float MOVE_SPEED=30.0f;
     std::string correctness;
-    int score = 0;
     float y;
     float z;
     if(isCorrect){
@@ -440,23 +422,20 @@ void AnswerHandler(bool isCorrect){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
-        score = score -1;
+        score = score-1;
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-    //CreateTextScore("Score "+score, txtTag, 200, 100);  
     std::string txt = { "You played the "+correctness+" note" };
-    //CreateScore();
+    std::string scoreTxt = {std::to_string(score)};
 
-    auto* textScore = CreateText("Score "+score, "scoreTxt", 300, 300);
-    //ScoreTxt->SetText("Score "+score);
 
-    //Score->SetHorizontalAlignment(HA_RIGHT);
-    //Score->SetVerticalAlignment(VA_TOP);
-    //std::string txt = { "Score "+score};
+    String scoreMessage = String(scoreTxt.c_str());
+    std::string scoreTag = "scoreText";
+    String sTag = String(scoreTag.c_str());
+    CreateText(scoreMessage, sTag, 590, 560);
 
     String txtMessage = String(txt.c_str());
-
     std::string tag = "correctnessText";
     String txtTag = String(tag.c_str());
     CreateText(txtMessage, txtTag, 200, 100);  
@@ -470,16 +449,34 @@ void AnswerHandler(bool isCorrect){
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateWinScene();
         endGame = true;
     }
     else if (distance > lossThreshold){
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateLossScene();
         endGame = true;
     }
 
 }
+}
+void GameSys::CreateTextScore()
+{
+    auto* cache = GetSubsystem<ResourceCache>();
+    auto* ui = GetSubsystem<UI>();
+    // Construct new Text object, set string to display and font to use
+    auto* instructionText = ui->GetRoot()->CreateChild<Text>();
+    instructionText->SetText("Score");
+    auto* font = cache->GetResource<Font>("Fonts/Anonymous Pro.ttf");
+    instructionText->SetFont(font, 30
+    );
+
+    // Position the text relative to the screen center
+    instructionText->SetHorizontalAlignment(HA_CENTER);
+    instructionText->SetVerticalAlignment(VA_CENTER);
+    instructionText->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
 }
 
 /** Create the octree, camera and lighting for a scene
@@ -562,7 +559,7 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
     text->SetText(content);
     // Set font and text color
     text->SetFont(font, 30);
-    text->SetColor(Color(0.0f, 10.0f, 1.0f));
+    text->SetColor(Color(1.0f, 1.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
     // Add Text instance to the UI root element
@@ -629,8 +626,18 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
+        DeleteScoreText();
         kill(parentpid, SIGUSR1);
     }
+}
+
+void GameSys::DeleteScoreText()
+{
+    //Delete existing correctness text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> scoreText = root->GetChildrenWithTag("scoreText");
+    if(scoreText.Size() > 0)
+        scoreText[0]->Remove();
 }
 
 void GameSys::DeleteCorrectnessText()
@@ -727,7 +734,7 @@ void GameSys::CreateWinScene()
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
-        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -743,7 +750,7 @@ void GameSys::CreateLossScene()
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
-        "ResetText", "Back to title screen", 500, 500);   
+    "ResetText", "Back to title screen", 500, 500);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 
 
@@ -796,6 +803,7 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
+    CreateTextScore();
     /*zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
     zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
     zone->SetFogStart(300.0f);
