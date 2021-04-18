@@ -177,16 +177,14 @@ int processBuffer()
     int freqMax = 0;
     int detectfreqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 45000;
+    int amplitudeThreshold = 45000000; //change this back to 45000
 
     for (int i = 51; i < 100; i++)
     {
         if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
-            freqMaxIndex = i;
-            
-           freqMax = findFreqMax(detectfreqMax, i, window); 
- 
+            freqMaxIndex = i;       
+            freqMax = findFreqMax(detectfreqMax, i, window); 
         }
     } 
     char note_to_write = define_note(freqMax); 
@@ -198,7 +196,8 @@ int processBuffer()
             kill(pid, SIGUSR2);
         }
         ready = false;
-  }
+        printf("set ready to false\n");
+    }
     
     std::cout << freqMax << std::endl;
     return freqMax, pipefds[2];
@@ -243,12 +242,10 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;      
+    ::ready = false;      
     ::OutputNote = playNote();
-    /*std::thread th(playNote);
-    th.join(); 
-    ::OutputNote = OutputNote;*/
-    ready = true;
+    ::ready = true;
+    printf("set ready to true\n");
     return;
 }
 
@@ -427,9 +424,7 @@ void AnswerHandler(bool isCorrect){
 
     String txtMessage = String(txt.c_str());
 
-    std::string tag = "correctnessText";
-    String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, 200, 100);  
+    CreateText(txtMessage, "correctnessText", 200, 100);  
 
     std::cout << "You played the "+correctness+" note\n";
     
@@ -596,9 +591,13 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 1000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
+        if(ready == true){
+            printf("In if");
+            CreateText("You didn't play a note", "correctnessText", 200, 100);  
+        }
         kill(parentpid, SIGUSR1);
     }
 }
