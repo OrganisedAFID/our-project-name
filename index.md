@@ -63,7 +63,30 @@ The game ends when either you have caught up to the space PIrates and win the ga
 ## User Stories
 
 ## Social Media
-Sound PIrates can be found 
+Sound PIrates can be found on Instagram @soundpirates and Twitter @SoundPIrates. 
+
+Purpose of sharing on social media is to establish core of followers, likely in engineering, music, and game making communities. TO build our base we followed pages with similar interests and used similar hashtags to attract the attention of target users. Pact with other teams on course follow back to establish first followers as well as friends and family.
+
+Instagram was the primary feed as group are established on this forum and is a viewed as a good medium to promote maker projects, with likelihood of shares high. Twitter has a secondary shorter lifespan of tweets and less tolerant of promotional accounts in general, though, Still a valid medium. 
+
+#Phase 2. Video Of function available, proper promotion, attraction of testers.
+Start 2 posts per week, timed for highest exposure (12-3) Mon & Thurs Instagram, 5pm Twitter*
+
+/ * these were peak times pre-COVID, however there is yet to be data I could find of the current metrics. These metrics are also heavily influenced by American users so the 12-3 and 5pm UK times may be worth transposing and re-posting for the coastal zones of the US./
+
+#Phase 3. Playable demo Promote game itself, invite feedback and log possible improvements & bugfixes
+- Post on Raspberry Pi forums, pushing the specific to hardware nature
+- Post on reddit/r/IMadeAGame to gain feedback and exposure
+- Post on Urho3D website pushing use of game engine and unusual game mechanics
+- Post videos with link on YouTube of friends and family trying with variety of instruments, gives participants more identification with the game and investment in sharing.
+Continue posts on Insta, twitter, and Facebook.
+
+#Phase 4. Post course – gauge interest in game and development
+Invite collaboration on all media and develop game further or in whatever direction seems to garner most interest and excitement. To help us formulate our strategy for the game and our social media presence, the team managed to organise a chat with Colm ‘Gambrinous’ Larkin. Colm is a successful solo games developer who has expanded to a small team over the course of two games published internationally, receiving high praise and awards for them (Guild of Dungeoneering and Cardpocalypse, published by Versus Evil).
+The social media strategy formed by the team was to concentrate on Instagram posts for the build up towards the game as this was the most established forum for the team members. An account was also created on twitter. The Github page was to be referred to and the core audience would be aimed at as content was produced.
+
+On Colm’s advice, a greater push will be established when video is available as these posts do best in his experience. Colm’s advice was that the posts that really made a difference for his exposure and caught folks attention were videos of the game in action. Especially if a noticeable progress was gained from one video to the next. He also pointed out that consistency was good, posting a couple of times a week was how he saw the most benefit. Building up a small network of followers from the team members Instagram pools, we looked to angle posts to attract musicians and game developers. Starting a twitter account and posting updates and at the point of writing are establishing our Website, wiki, facebook, and Youtube presences.
+With each release or significant improvement a further video will be released and promoted. Videos of testers engaged with the game will also be created and released.
 
 ## Future Work
 
