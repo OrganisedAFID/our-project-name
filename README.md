@@ -23,7 +23,7 @@ Link to our website: https://organisedafid.github.io/sound-pirates/
 <img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/SoundPIratesHardware.gif" width="400" height="400" >
 </p>
 
-## Playing the game
+## Usage
 
 After getting the hardware, follow these steps:
 ### Setup your pi
@@ -145,7 +145,7 @@ Then run the game:
 `./sound-pirates`
   
 
-## Developper instructions
+## Contributing 
 
 To build and execute this project, please do the following:
 - Install  the following libraries: ```libboost-dev,  libboost-all-dev```
@@ -165,11 +165,11 @@ To build and execute this project, please do the following:
 
 You're all set!
 
-
-## Usage
-
-
-## Contributing 
+## Credits
+Alice Ravier
+David Hughes
+Fai Johnson
+Isabella Sheldon
 
 
 ## License 
