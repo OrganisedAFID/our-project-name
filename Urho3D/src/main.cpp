@@ -249,13 +249,15 @@ void readyHandler(int signum){
 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
-    AnswerHandler(true);
+    if(playTime) //only move the ship if we allowed to 
+        AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
     signal(SIGUSR2, incorrectHandler);  
-    AnswerHandler(false);
+    if(playTime)
+        AnswerHandler(false);
     return;
 }
 
