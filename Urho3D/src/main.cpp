@@ -114,7 +114,6 @@
 #include <Urho3D/Physics/Constraint.h>
 
 #include <Urho3D/Physics/RigidBody.h>
-
 #include "main.h"
 #include <Urho3D/DebugNew.h>
 
@@ -141,6 +140,8 @@ char OutputNote;
 float timestep;
 bool ready;
 bool endGame;
+bool notePlayed = true;
+bool playTime = true;
 
 Node* ship;
 UI* ui;
@@ -177,7 +178,7 @@ int processBuffer()
     int freqMax = 0;
     int detectfreqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 45000000; //change this back to 45000
+    int amplitudeThreshold = 45000; //change this back to 45000
 
     for (int i = 51; i < 100; i++)
     {
@@ -196,7 +197,6 @@ int processBuffer()
             kill(pid, SIGUSR2);
         }
         ready = false;
-        printf("set ready to false\n");
     }
     
     std::cout << freqMax << std::endl;
@@ -385,20 +385,9 @@ void GameSys::Start()
 
 
 void AnswerHandler(bool isCorrect){
-    Vector3 newShipPos = ship->GetPosition();
-    float distance = newShipPos.DistanceToPoint(cameraPos);
+    notePlayed = true;
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
-    
-    if (distance < winThreshold){     
-        endGame = true;
-        ourGame->CreateWinScene();     
-    }
-    else if (distance > lossThreshold){     
-        endGame = true;
-        ourGame->CreateLossScene();      
-    }
-    else{
 
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
@@ -444,7 +433,6 @@ void AnswerHandler(bool isCorrect){
         endGame = true;
     }
 
-}
 }
 
 /** Create the octree, camera and lighting for a scene
@@ -591,14 +579,19 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 1000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 6000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
-        if(ready == true){
-            printf("In if");
+        notePlayed = false;
+        playTime = true;
+        kill(parentpid, SIGUSR1);
+    }
+    else if(countDownTimer_.GetMSec(false) >= 5000 && !endGame && playTime){
+        DeleteCorrectnessText();
+        if(notePlayed == false){
             CreateText("You didn't play a note", "correctnessText", 200, 100);  
         }
-        kill(parentpid, SIGUSR1);
+        playTime = false;
     }
 }
 
