@@ -41,17 +41,16 @@ sudo apt-get install
 ### Setup your soundcard
 
 #### Step 1: I2S communication setup
+
 To setup the I2S communication execute these commands:
 
-`sudo nano /boot/config.txt`
-
-- uncomment the line `"#dtparam=i2s=on"`
-- comment the line `"dtparam=audio=on"`
+1) `sudo nano /boot/config.txt`
+2)  Uncomment the line `"#dtparam=i2s=on"`
+3)  Comment the line `"dtparam=audio=on"`
 
 #### Step 2: Select your soundcard as I/O device for your pi
 
-To set your soundcard as the input/output device, execute this command: `aplay -l`
-
+To set your soundcard as the input/output device, execute this command: `aplay -l`. 
 Then check the line which has: "Device [USB PnP Sound Device]" 
 
 It will have a number before it like this: "card 0: Device [USB PnP Sound Device]"
@@ -70,7 +69,7 @@ ctl.!default { <br>
  type hw card <number-of-your-soundcard>  <br>
 }
 
-  
+
 So, if your soundcard was card number 0, you would write:
 
 
@@ -84,23 +83,24 @@ ctl.!default { <br>
 ```
 
 #### Step 3: Reboot
+
 Now you can reboot your pi using the command: `reboot` and your soundcard should be setup!
 
 #### Step 4: Test
-You can test it with the command:
 
-`speaker-test`
+You can test it with the command: `speaker-test` which should play some white noise through the soundcard.
 
-which should play some white noise through the soundcard.
-
-If this fails, you can use this alternative method to make your soundcard work. However it will mean you can't use HDMI with your pi, so only do this if the above steps fail.
+If this fails, you can use this alternative method to make your soundcard work.
+However it will mean you can't use HDMI with your pi, so only do this if the above steps fail.
 
 ### Alternative soundcard setup (only use this if the above fails)
 
 #### Step 1: Select your soundcard as I/O device for your pi
+
 Follow the instructions for Step 2 in the normal setup. Or, if you have already done that, skip this step.
 
 #### Step 2: Blacklist all other input devices to your pi
+
 Execute the following command:
 
 `sudo nano /etc/modprobe.d/raspi-blacklist.conf`
@@ -108,18 +108,17 @@ Execute the following command:
 Write `blacklist snd_bcm2835`
 
 #### Step 3: Reboot
-Now you can reboot your pi using the command: `reboot`
 
-and your soundcard should be setup!
+Now you can reboot your pi using the command: `reboot` and your soundcard should be setup!
 
 #### Step 4: Test
-You can test it with the command: `speaker-test`
 
-which should play some white noise through the soundcard.
+You can test it with the command: `speaker-test` which should play some white noise through the soundcard.
 
 Now you should be ready to play the game :)
 
 ### Running the game
+
 With your pi and soundcard setup you're all set to play sound pirates!
 
 Now just execute these commands:
