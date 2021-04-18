@@ -247,9 +247,6 @@ void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
     ready = false;      
     ::OutputNote = playNote();
-    /*std::thread th(playNote);
-    th.join(); 
-    ::OutputNote = OutputNote;*/
     ready = true;
     return;
 }
@@ -636,8 +633,11 @@ void GameSys::DeleteScoreText()
     //Delete existing correctness text from the screen if it exists
     UIElement* root = ui->GetRoot();
     Urho3D::PODVector<Urho3D::UIElement*> scoreText = root->GetChildrenWithTag("scoreText");
+
     if(scoreText.Size() > 0)
         scoreText[0]->Remove();
+
+        
 }
 
 void GameSys::DeleteCorrectnessText()
@@ -804,10 +804,6 @@ void GameSys::CreateMainScene()
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
     CreateTextScore();
-    /*zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
-    zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
-    zone->SetFogStart(300.0f);
-    zone->SetFogEnd(500.0f);*/
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
