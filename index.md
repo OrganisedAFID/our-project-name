@@ -23,7 +23,9 @@ Sound pirates is playable if you download the developper kit for the game!
 - Headphones or speakers with jack connection
 - Instrument/Voice
 
-![image](https://user-images.githubusercontent.com/44497996/114785061-088a9880-9d74-11eb-942a-61e387437b15.png)
+<p align="center">
+<img src= "https://user-images.githubusercontent.com/44497996/114785061-088a9880-9d74-11eb-942a-61e387437b15.png" width="500" height="500" >
+</p>
 
 
 ## Building the project
