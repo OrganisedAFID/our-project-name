@@ -50,15 +50,11 @@ To setup the I2S communication execute these commands:
 
 #### Step 2: Select your soundcard as I/O device for your pi
 
-To set your soundcard as the input/output device, execute this command: `aplay -l`. 
-Then check the line which has: "Device [USB PnP Sound Device]" 
+To set your soundcard as the input/output device, execute this command: `aplay -l`. Then check the line which has: "Device [USB PnP Sound Device]" 
 
-It will have a number before it like this: "card 0: Device [USB PnP Sound Device]"
-In this case, the card number for the soundcard is 0 (Remeber this number). 
+It will have a number before it like this: "card 0: Device [USB PnP Sound Device]". In this case, the card number for the soundcard is 0 (Remeber this number). 
 
-Now, execute this line: `sudo nano /etc/asound.conf`
-
-and write:
+Now, execute this line: `sudo nano /etc/asound.conf` and write:
 
 ```
 pcm.!default  { <br>
@@ -142,11 +138,11 @@ To build and execute this project, please do the following:
 - Clone the repository
 - Navigate to the project's Urho3D folder at: ```cd sound-pirates/Urho3D```
 - Create build folder and make it the current directory: 
-1) ```mkdir current_build``` 
-2) ```cd current_build```
+    1)  ```mkdir current_build``` 
+    2)  ```cd current_build```
 - Run cmake: 
-1) ```cmake ../src```  
-2) ``` make```
+    1)  ```cmake ../src```  
+    2)  ``` make```
 - Navigate to bin folder: ```cd bin```
 - Run the project: ```./sound-pirates```
 
