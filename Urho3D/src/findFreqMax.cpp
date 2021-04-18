@@ -6,10 +6,21 @@
  */
  
 #include <vector>
+#include <chrono>
+#include <iostream>
+
 
 int findFreqMax(int freqMax, int i, std::vector<double> &window){
 
- freqMax = i* 44100.0 / window.size();
+    using namespace std::literals::chrono_literals;
+    auto startMax = std::chrono::high_resolution_clock::now();
+
+    freqMax = i* 44100.0 / window.size();
+
+    auto endMax = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationMax = endMax -startMax;
+    std::cout << "duration of finding maximum frequency" << durationMax.count() << "s" <<std::endl;
+  
 
 return freqMax;
 }

@@ -70,6 +70,8 @@
 #include <chrono>
 #include <signal.h>
 #include <future>
+#include <fstream>
+
 
 
 #include <Urho3D/Urho3D.h>
@@ -151,6 +153,11 @@ GameSys* ourGame;
 Scene* mainScene;
 Scene* startScene;
 
+using namespace std;
+
+ofstream myfile("example.txt");
+
+
 /**
  * inthand function allows close of terminal with ctrl C
  * 
@@ -169,6 +176,9 @@ void inthand(int signum) {
  */
 int processBuffer()
 {  
+    using namespace std::literals::chrono_literals;
+    auto startBuf = std::chrono::high_resolution_clock::now();
+
     ::freqMax;
     ::pipefds[2];
 
@@ -200,7 +210,12 @@ int processBuffer()
         ready = false;
   }
     
-    std::cout << freqMax << std::endl;
+    //std::cout << freqMax << std::endl;
+
+    auto endBuf = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationB = endBuf -startBuf;
+    std::cout << "duration of process buffer" << durationB.count() << "s" <<std::endl;
+
     return freqMax, pipefds[2];
 }
 
@@ -305,7 +320,7 @@ int audioIn()
         //Calls the record function
         adc.openStream(NULL, &parameters, RTAUDIO_SINT16, sampleRate, &bufferFrames, &record);
         adc.startStream();
-        std::cout << adc.getVersion();
+      //  std::cout << adc.getVersion();
     }
     catch (RtAudioError &e)
     {
@@ -314,7 +329,7 @@ int audioIn()
     }
 
     char input;
-    std::cout << "\nRecording ... press <enter> to quit.\n";
+   // std::cout << "\nRecording ... press <enter> to quit.\n";
     
     signal(SIGUSR1, readyHandler);
 
@@ -336,10 +351,21 @@ int audioIn()
 //URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
 
 int RunApplication() { 
+
+    using namespace std::literals::chrono_literals;
+    auto startRun = std::chrono::high_resolution_clock::now();
+
+    
     Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); 
     ourGame = new GameSys(context);
     Urho3D::SharedPtr<GameSys> application(ourGame); 
     return application->Run(); 
+
+    auto endRun = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationRun = endRun -startRun;
+    std::cout << "duration of running application" << durationRun.count() << "s" <<std::endl;
+    myfile << "Writing this to a file.\n";
+
 } 
 URHO3D_DEFINE_MAIN(RunApplication())
 
@@ -389,6 +415,9 @@ void GameSys::Start()
 
 
 void AnswerHandler(bool isCorrect){
+    using namespace std::literals::chrono_literals;
+    auto startAns = std::chrono::high_resolution_clock::now();
+
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
     float winThreshold = 40.0f;
@@ -432,7 +461,7 @@ void AnswerHandler(bool isCorrect){
     String txtTag = String(tag.c_str());
     CreateText(txtMessage, txtTag, 200, 100);  
 
-    std::cout << "You played the "+correctness+" note\n";
+    //std::cout << "You played the "+correctness+" note\n";
     
 
     //Check if the ship is close/far enough to call the win/loss scene
@@ -451,6 +480,10 @@ void AnswerHandler(bool isCorrect){
     }
 
 }
+    auto endAns = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationAns = endAns -startAns;
+    std::cout << "duration of answer handler" << durationAns.count() << "s" <<std::endl;
+
 }
 
 /** Create the octree, camera and lighting for a scene
@@ -691,6 +724,8 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
+    using namespace std::literals::chrono_literals;
+    auto startWin = std::chrono::high_resolution_clock::now();
 
     mainScene->Clear();
     SetupScene();
@@ -700,6 +735,12 @@ void GameSys::CreateWinScene()
     auto* resetButton = 
         CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+    
+    auto endWin = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationWin = endWin -startWin;
+    std::cout << "duration of winscene creation: " << durationWin.count() << "s" <<std::endl;
+
+
 }
 
 /**
@@ -707,6 +748,9 @@ void GameSys::CreateWinScene()
  */
 void GameSys::CreateLossScene()
 {
+    using namespace std::literals::chrono_literals;
+    auto startLoss = std::chrono::high_resolution_clock::now();
+
     //delete main scene
     mainScene->Clear();
     SetupScene();
@@ -716,6 +760,10 @@ void GameSys::CreateLossScene()
     auto* resetButton = CreateButton(root, "ResetButton", 
         "ResetText", "Back to title screen", 400, 500);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+    
+    auto endLoss = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationLoss = endLoss -startLoss;
+    std::cout << "duration of process loss screen" << durationLoss.count() << "s" <<std::endl;
 
 
 }
@@ -762,6 +810,9 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
+    using namespace std::literals::chrono_literals;
+    auto startMain = std::chrono::high_resolution_clock::now();
+    
     //Creates the background for the scene
     Node* bgNode = CreateBackground("Materials/main_bg.xml");
     Node *zoneNode = mainScene->CreateChild("Zone");
@@ -774,6 +825,11 @@ void GameSys::CreateMainScene()
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
+
+    auto endMain = std::chrono::high_resolution_clock::now();
+    std::chrono::duration<float> durationMain = endMain -startMain;
+    std::cout << "duration of generating main scene: " << durationMain.count() << "s" <<std::endl;
+
 }
 
 /**
