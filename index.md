@@ -190,8 +190,8 @@ When starting developmment of this project the following requirements were ident
 	- Training mode where the sound is played while the name of the note is displayed to get users to associate the note with the sound
 	- expand range of notes /scales 
 
-## Future Work
 
+## Future Work
 With the basic functionality in place, there is definetly scope to expand the game. Ideas were thinking of include:
 - Planning along with different scales
 - Increasing the length of the sequence of notes the player is required to replicate. 
