@@ -69,6 +69,7 @@
 #include <thread>
 #include <chrono>
 #include <signal.h>
+#include <future>
 
 
 #include <Urho3D/Urho3D.h>
@@ -243,6 +244,9 @@ void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
     ready = false;      
     ::OutputNote = playNote();
+    /*std::thread th(playNote);
+    th.join(); 
+    ::OutputNote = OutputNote;*/
     ready = true;
     return;
 }
@@ -389,8 +393,8 @@ void GameSys::Start()
 void AnswerHandler(bool isCorrect){
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
-    float winThreshold = 20.0f;
-    float lossThreshold = 100.0f;
+    float winThreshold = 40.0f;
+    float lossThreshold = 110.0f;
     
     if (distance < winThreshold){     
         endGame = true;
@@ -411,7 +415,7 @@ void AnswerHandler(bool isCorrect){
     float z;
     if(isCorrect){
         correctness = "correct";
-        y = 10.0f;
+        y = 5.0f;
         z = 0.0f;
     }
     else{
@@ -487,6 +491,7 @@ void GameSys::SetupScene(){
     SetupViewport();
 }
 
+
 /**
  * CreateTitleScene function. Start screen main, with button
  * calls CreateText, provides text content, calls Subscribe to events to allow input for state change
@@ -494,13 +499,14 @@ void GameSys::SetupScene(){
  */
 void GameSys::CreateTitleScene()
 {
+
     SetupScene(); 
 
-    CreateBackground("Materials/main_bg.xml");
+    CreateBackground("Materials/planet_bg.xml");
     ui = GetSubsystem<UI>();
     UIElement *root = ui->GetRoot();
     cache = GetSubsystem<ResourceCache>();
-     
+
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
@@ -512,6 +518,7 @@ void GameSys::CreateTitleScene()
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
 }
+
 
 /**
  * CreateText function. Defines text parameters font (optional), colour, position
@@ -617,10 +624,11 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     //delete title scene UI
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
-    //elete title scene background
+    //delete title scene background
     Urho3D::PODVector<Urho3D::Node *> bg = mainScene->GetChildrenWithTag("background");
     bg[0]->Remove();
     //Show the main game screen
+
     CreateMainScene();  
 
     // Finally subscribe to the update event so we can move the camera.
@@ -636,6 +644,8 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     //Delete the title scene
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+    //delete title scene background
+    mainScene->Clear();
 
     //Show the instructions
     CreateInstructionsScene();
@@ -669,8 +679,9 @@ void GameSys::CreateInstructionsScene()
                                         "their new technology to take from the rich to give to the poor Robin Hood style. \n"
                                         "Living outside the law means you need to work with unsavoury types though, \n"
                                         "so Lace has built a reputation as a fearsome Captain and a hardy warrior. \n"
-                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, and feel not enough is going in \n"
-                                        "their pockets! Will you be able to guide Lace through the trials that await?", "Instructions", 0, 0);
+                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, \n"
+                                        "and feel not enough is going in their pockets! Will you be able to guide Lace \n"
+                                        "through the trials that await?", "Instructions", 0, 0);
     instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
 
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
@@ -682,14 +693,14 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
+
     mainScene->Clear();
     SetupScene();
     Node* bgNode = CreateBackground("Materials/win_bg.xml");
+
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
         CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
-    auto* winText = CreateText("You won!", "WinText", 
-        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -705,10 +716,10 @@ void GameSys::CreateLossScene()
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
-        "ResetText", "Back to title screen", 400, 500);   
-    auto* lossText = CreateText("You lose!", "LossText", 
-        ui->GetRoot()->GetWidth()/2-10, ui->GetRoot()->GetHeight()/2);
+        "ResetText", "Back to title screen", 500, 500);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
+
+
 }
 
 /** 
@@ -720,10 +731,12 @@ void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
     using namespace Click;
     //remove UI and 3D elements from the scene
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+ 
     mainScene->Clear();
 
     endGame = false;
     UnsubscribeFromAllEvents();
+
     CreateTitleScene();
 }
 
@@ -738,7 +751,6 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
 
     //Delete the instructions
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
-
     //Create the title scene again
     CreateTitleScene();
 }
@@ -757,10 +769,10 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
-    zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
+    /*zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
     zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
     zone->SetFogStart(300.0f);
-    zone->SetFogEnd(500.0f);
+    zone->SetFogEnd(500.0f);*/
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
@@ -795,12 +807,12 @@ Node* GameSys::CreateShip()
 {
     auto *cache = GetSubsystem<ResourceCache>();
     Node *boxNode = mainScene->CreateChild("Box");
-    boxNode->SetRotation(Quaternion(250.0f, -20.0f, 25.0f));
-    boxNode->SetPosition(Vector3(5.0f, 8.0f, 45.0f));
-    boxNode->SetScale(Vector3(0.18f, 0.18, 0.18));
+    boxNode->SetRotation(Quaternion(-115.0f, 0.0f, 0.0f));
+    boxNode->SetPosition(Vector3(6.0f, 8.0f, 50.0f));
+    boxNode->SetScale(Vector3(0.17f, 0.17, 0.17));
     auto *boxObject = boxNode->CreateComponent<StaticModel>();
     boxObject->SetModel(cache->GetResource<Model>("Models/SpaceShip.mdl"));
-    boxObject->SetMaterial(cache->GetResource<Material>("Materials/Water.xml"));
+    boxObject->SetMaterial(cache->GetResource<Material>("Materials/ship_texture.xml"));
     return boxNode;  
 }
 
