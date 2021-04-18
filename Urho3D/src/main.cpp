@@ -386,6 +386,25 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
+/*void GameSys::CreateScore()
+{
+    auto* cache = GetSubsystem<ResourceCache>();
+    auto* ui = GetSubsystem<UI>();
+
+    // Construct new Text object, set string to display and font to use
+    auto* scoreText = ui->GetRoot()->CreateChild<Text>();
+    scoreText->SetText(
+        "Score: "
+    );
+    scoreText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 15);
+    // The text has multiple rows. Center them in relation to each other
+
+    // Position the text relative to the screen center
+    scoreText->SetHorizontalAlignment(HA_CENTER);
+    scoreText->SetVerticalAlignment(VA_CENTER);
+    scoreText->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
+}
+*/
 
 void AnswerHandler(bool isCorrect){
     Vector3 newShipPos = ship->GetPosition();
@@ -425,11 +444,15 @@ void AnswerHandler(bool isCorrect){
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-
+    //CreateTextScore("Score "+score, txtTag, 200, 100);  
     std::string txt = { "You played the "+correctness+" note" };
-    auto* Score = CreateText("Score "+score, "scoreTxt", 300, 300);
-    Score->SetHorizontalAlignment(HA_RIGHT);
-    Score->SetVerticalAlignment(VA_TOP);
+    //CreateScore();
+
+    auto* textScore = CreateText("Score "+score, "scoreTxt", 300, 300);
+    //ScoreTxt->SetText("Score "+score);
+
+    //Score->SetHorizontalAlignment(HA_RIGHT);
+    //Score->SetVerticalAlignment(VA_TOP);
     //std::string txt = { "Score "+score};
 
     String txtMessage = String(txt.c_str());

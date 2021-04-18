@@ -72,10 +72,12 @@ private:
     void SetupViewport();
     void CreateTitleScene();
     
+    void CreateScore();
     void CreateMainScene();
     void CreateInstructionsScene();
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
+    
 
     Node* CreateBackground(String path);
     Node* CreateShip();
