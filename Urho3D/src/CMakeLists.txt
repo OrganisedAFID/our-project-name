@@ -75,12 +75,6 @@ include_directories (${URHO3D_INCLUDE_DIRS})
 define_source_files ()
 
 ##
-# set threading linker flag to be used by the executable
-#
-SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread")
-
-
-##
 # Setup target with resource copying
 #
 setup_main_executable ()
@@ -95,8 +89,6 @@ add_compile_options ("-std=c++11")
 #
 find_path (FFTW_INCLUDES fftw3.h)
 find_library (FFTW_LIBRARIES NAMES fftw3)
-
-
 
 ##
 # Set CMake modules search path to find SFML; system; window; graphics; graphics; network and audio packages
@@ -115,7 +107,7 @@ find_package(SFML 2.0 REQUIRED system window graphics network audio)
 FIND_LIBRARY(REQ_LIBRARIES NAMES libfftw3 librtaudio5a asound pthread jack)
 
 ##
-# Specify Sound-pirates target to use SFML; rtaudio; fftw3; asound; pthread and jack libraries
+# Specify Splash target to use SFML; rtaudio; fftw3; asound; pthread and jack libraries
 #
 target_link_libraries(sound-pirates ${SFML_LIBRARIES} rtaudio fftw3 asound pthread jack)
 
