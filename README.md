@@ -50,18 +50,14 @@ To setup the I2S communication execute these commands:
 
 #### Step 2: Select your soundcard as I/O device for your pi
 
-To set your soundcard as the input/output device, execute this command:
-
-`aplay -l`
+To set your soundcard as the input/output device, execute this command: `aplay -l`
 
 Then check the line which has: "Device [USB PnP Sound Device]" 
 
 It will have a number before it like this: "card 0: Device [USB PnP Sound Device]"
 In this case, the card number for the soundcard is 0 (Remeber this number). 
 
-Now, execute this line:
-
-`sudo nano /etc/asound.conf`
+Now, execute this line: `sudo nano /etc/asound.conf`
 
 and write:
 
@@ -88,11 +84,7 @@ ctl.!default { <br>
 ```
 
 #### Step 3: Reboot
-Now you can reboot your pi using the command:
-
-`reboot`
-
-and your soundcard should be setup!
+Now you can reboot your pi using the command: `reboot` and your soundcard should be setup!
 
 #### Step 4: Test
 You can test it with the command:
@@ -113,19 +105,15 @@ Execute the following command:
 
 `sudo nano /etc/modprobe.d/raspi-blacklist.conf`
 
-Write blacklist snd_bcm2835
+Write `blacklist snd_bcm2835`
 
 #### Step 3: Reboot
-Now you can reboot your pi using the command:
-
-`reboot`
+Now you can reboot your pi using the command: `reboot`
 
 and your soundcard should be setup!
 
 #### Step 4: Test
-You can test it with the command:
-
-`speaker-test`
+You can test it with the command: `speaker-test`
 
 which should play some white noise through the soundcard.
 
