@@ -113,12 +113,13 @@ static void correctHandler(int signum);
 
 static void incorrectHandler(int signum);
 
+
 /**
  * AnswerHandler function. checks note played and feedsback correct/incorrect.
  * Calls CreateWinScene or CreateLossScene depending on input
  * Gets Ships position and feedsback amount of tries
  */
-void AnswerHandler(bool isCorrect);
+void AnswerHandler(bool isCorrect, bool didntPlay = false);
 
 Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
  

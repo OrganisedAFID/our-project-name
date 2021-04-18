@@ -114,7 +114,6 @@
 #include <Urho3D/Physics/Constraint.h>
 
 #include <Urho3D/Physics/RigidBody.h>
-
 #include "main.h"
 #include <Urho3D/DebugNew.h>
 
@@ -141,6 +140,8 @@ char OutputNote;
 float timestep;
 bool ready;
 bool endGame;
+bool notePlayed = true;
+bool playTime = true;
 
 Node* ship;
 UI* ui;
@@ -177,16 +178,14 @@ int processBuffer()
     int freqMax = 0;
     int detectfreqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 45000;
+    int amplitudeThreshold = 45000; //change this back to 45000
 
     for (int i = 51; i < 100; i++)
     {
         if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
-            freqMaxIndex = i;
-            
-           freqMax = findFreqMax(detectfreqMax, i, window); 
- 
+            freqMaxIndex = i;       
+            freqMax = findFreqMax(detectfreqMax, i, window); 
         }
     } 
     char note_to_write = define_note(freqMax); 
@@ -198,7 +197,7 @@ int processBuffer()
             kill(pid, SIGUSR2);
         }
         ready = false;
-  }
+    }
     
     std::cout << freqMax << std::endl;
     return freqMax, pipefds[2];
@@ -206,7 +205,7 @@ int processBuffer()
 
 /**
  * record function. Activate the audio input and write to buffer
- * called by audioIn
+ * 
  *  
  */
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
@@ -242,24 +241,24 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;      
+    ::ready = false;      
     ::OutputNote = playNote();
-    /*std::thread th(playNote);
-    th.join(); 
-    ::OutputNote = OutputNote;*/
-    ready = true;
+    ::ready = true;
+    printf("set ready to true\n");
     return;
 }
 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
-    AnswerHandler(true);
+    if(playTime) //only move the ship if we allowed to 
+        AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
     signal(SIGUSR2, incorrectHandler);  
-    AnswerHandler(false);
+    if(playTime)
+        AnswerHandler(false);
     return;
 }
 
@@ -331,8 +330,6 @@ int audioIn()
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-//URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
-
 int RunApplication() { 
     Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); 
     ourGame = new GameSys(context);
@@ -385,26 +382,21 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
-/**
- * AnswerHandler function. checks note played and feedsback correct/incorrect.
- * Calls CreateWinScene or CreateLossScene depending on input
- * Gets Ships position and feedsback amount of tries
+
+/** React to the behaviour fo the player after a note is played
+ * If the player played the right note, make the ship move closer
+ * and tell the player they played the correct note
+ * If the player played the wrong note, make the ship move further away
+ * and tell the player they were incorrect
+ * If the player did not play anything, make the ship move further away
+ * and tell the player they did not play a note
+ * 
  */
-void AnswerHandler(bool isCorrect){
-    Vector3 newShipPos = ship->GetPosition();
-    float distance = newShipPos.DistanceToPoint(cameraPos);
+void AnswerHandler(bool isCorrect, bool didntPlay){
+    notePlayed = true;
+
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
-    
-    if (distance < winThreshold){     
-        endGame = true;
-        ourGame->CreateWinScene();     
-    }
-    else if (distance > lossThreshold){     
-        endGame = true;
-        ourGame->CreateLossScene();      
-    }
-    else{
 
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
@@ -413,15 +405,16 @@ void AnswerHandler(bool isCorrect){
     std::string correctness;
     float y;
     float z;
-    if(isCorrect){
-        correctness = "correct";
-        y = 5.0f;
-        z = 0.0f;
-    }
-    else{
+    if(!isCorrect || didntPlay){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
+        
+    }
+    else{ //if isCorrect and !didntPlay
+       correctness = "correct";
+        y = 5.0f;
+        z = 0.0f; 
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
@@ -429,12 +422,13 @@ void AnswerHandler(bool isCorrect){
     std::string txt = { "You played the "+correctness+" note" };
 
     String txtMessage = String(txt.c_str());
-
-    std::string tag = "correctnessText";
-    String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, 200, 100);  
-
-    std::cout << "You played the "+correctness+" note\n";
+    if(!didntPlay){
+        CreateText(txtMessage, "correctnessText", 200, 100);  
+        std::cout << "You played the "+correctness+" note\n";
+    } else{
+        CreateText("You didn't play a note", "correctnessText", 200, 100);  
+        std::cout << "You didn't play a note\n";
+    }
     
 
     //Check if the ship is close/far enough to call the win/loss scene
@@ -452,7 +446,6 @@ void AnswerHandler(bool isCorrect){
         endGame = true;
     }
 
-}
 }
 
 /** Create the octree, camera and lighting for a scene
@@ -575,7 +568,7 @@ Button* GameSys::CreateButton
     b->CreateChild<Text>(txtName)->SetStyleAuto();
     auto *t = b->GetChildStaticCast<Text>(txtName, false);
     t->SetText(txtCont);
-    t->SetHorizontalAlignment(HA_CENTER);
+    t->SetHorizontalAlignment(HA_LEFT);
 
     return b;
 }
@@ -599,10 +592,19 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 6000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
+        notePlayed = false;
+        playTime = true;
         kill(parentpid, SIGUSR1);
+    }
+    else if(countDownTimer_.GetMSec(false) >= 5000 && !endGame && playTime){
+        DeleteCorrectnessText();
+        if(notePlayed == false){
+            AnswerHandler(false, true);
+        }
+        playTime = false;
     }
 }
 
@@ -693,14 +695,14 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
     mainScene->Clear();
     SetupScene();
     Node* bgNode = CreateBackground("Materials/win_bg.xml");
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
-        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 100, 650);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -709,6 +711,8 @@ void GameSys::CreateWinScene()
  */
 void GameSys::CreateLossScene()
 {
+    
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
     //delete main scene
     mainScene->Clear();
     SetupScene();
@@ -716,7 +720,7 @@ void GameSys::CreateLossScene()
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
-        "ResetText", "Back to title screen", 500, 500);   
+        "ResetText", "Back to title screen", 650, 100);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 
 
@@ -776,6 +780,13 @@ void GameSys::CreateMainScene()
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
+    
+           
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = CreateButton(root, "ResetButton", 
+        "ResetText", "Back to title screen", 400, 650);   
+    
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
 /**
@@ -796,6 +807,7 @@ Node* GameSys::CreateBackground(String path)
     skyObject->SetMaterial(cache->GetResource<Material>(path));
     skyNode->AddTag("background");
     
+
     return skyNode;
 }
 
