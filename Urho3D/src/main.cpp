@@ -149,6 +149,7 @@ Context* globalContext_;
 Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
+Scene* startScene;
 
 /**
  * inthand function allows close of terminal with ctrl C
@@ -242,14 +243,11 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false; 
-    
-    ::OutputNote= playNote();   
-    
-    char (*OutputNote)(){ &playNote };
-    std::thread playFunction(playNote);
-    playFunction.join(); 
-    
+    ready = false;      
+    ::OutputNote = playNote();
+    /*std::thread th(playNote);
+    th.join(); 
+    ::OutputNote = OutputNote;*/
     ready = true;
     return;
 }
