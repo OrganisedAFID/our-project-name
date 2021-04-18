@@ -23,7 +23,99 @@ Link to our website: https://organisedafid.github.io/sound-pirates/
 <img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/SoundPIratesHardware.gif" width="400" height="400" >
 </p>
 
-## Installation
+## Playing the game
+
+After getting the hardware, follow these steps:
+### Setup your pi
+
+### Setup your soundcard
+#### Step 1: I2S communication setup
+To setup the I2S communication execute these commands:
+
+`sudo nano /boot/config.txt`
+- uncomment the line "#dtparam=i2s=on"
+- comment the line "dtparam=audio=on"
+
+#### Step 2: Select your soundcard as I/O device for your pi
+To set your soundcard as the input/output device, execute this command:
+
+`aplay -l`
+
+Then check the line which has:
+"Device [USB PnP Sound Device]" 
+It will have a number before it like this: 
+"card 0: Device [USB PnP Sound Device]"
+In this case, the card number for the soundcard is 0
+
+Remeber this number. Now, execute this line:
+
+`sudo nano /etc/asound.conf`
+and write:
+
+pcm.!default  {
+ type hw card <number-of-your-soundcard>
+}
+ctl.!default {
+ type hw card <number-of-your-soundcard>
+}
+  
+So, if your soundcard was card number 0, you would write:
+
+pcm.!default  {
+ type hw card 0
+}
+ctl.!default {
+ type hw card 0
+}
+
+#### Step 3: Reboot
+Now you can reboot your pi using the command:
+`reboot`
+and your soundcard should be setup!
+
+#### Step 4: Test
+You can test it with the command:
+`speaker-test`
+which should play some white noise through the soundcard.
+
+If this fails, you can use this alternative method to make your soundcard work. However it will mean you can't use HDMI with your pi, so only do this if the above steps fail.
+
+### Alternative soundcard setup (only use this if the above fails)
+
+#### Step 1: Select your soundcard as I/O device for your pi
+Follow the instructions for Step 2 in the normal setup. Or, if you hae already done that, skip this step.
+
+#### Step 2: Blacklist all other input devices to your pi
+Execute the following command:
+`sudo nano /etc/modprobe.d/raspi-blacklist.conf`
+Write blacklist snd_bcm2835
+
+#### Step 3: Reboot
+Now you can reboot your pi using the command:
+`reboot`
+and your soundcard should be setup!
+
+#### Step 4: Test
+You can test it with the command:
+`speaker-test`
+which should play some white noise through the soundcard.
+
+Now you should be ready to play the game :)
+
+### Running the game
+With your pi and soundcard setup you're all set to play sound pirates!
+
+Now just execute these commands:
+Go into a directory in which you want the game to be.
+Clone the repo by running:
+`git clone https://github.com/OrganisedAFID/sound-pirates.git`
+Then go to our executable by running:
+`cd sound-pirates/Urho3D/release_build/bin`
+Then run the game:
+`./sound-pirates`
+  
+
+## Developper instructions
 
 To build and execute this project, please do the following:
 - Install  the following libraries: ```libboost-dev,  libboost-all-dev```
