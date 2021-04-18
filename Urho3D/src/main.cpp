@@ -156,6 +156,7 @@ Scene* startScene;
 using namespace std;
 
 ofstream myfile("example.txt");
+//freopen( "output.txt", "w", stdout );
 
 
 /**
@@ -176,6 +177,7 @@ void inthand(int signum) {
  */
 int processBuffer()
 {  
+
     using namespace std::literals::chrono_literals;
     auto startBuf = std::chrono::high_resolution_clock::now();
 
@@ -351,6 +353,7 @@ int audioIn()
 //URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
 
 int RunApplication() { 
+    freopen("timings.txt", "w", stdout);
 
     using namespace std::literals::chrono_literals;
     auto startRun = std::chrono::high_resolution_clock::now();
