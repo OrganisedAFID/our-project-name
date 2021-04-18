@@ -100,7 +100,7 @@ If this fails, you can use this alternative method to make your soundcard work. 
 ### Alternative soundcard setup (only use this if the above fails)
 
 #### Step 1: Select your soundcard as I/O device for your pi
-Follow the instructions for Step 2 in the normal setup. Or, if you hae already done that, skip this step.
+Follow the instructions for Step 2 in the normal setup. Or, if you have already done that, skip this step.
 
 #### Step 2: Blacklist all other input devices to your pi
 Execute the following command:
