@@ -4,50 +4,132 @@
 ![image](https://user-images.githubusercontent.com/44497996/114782410-b0529700-9d71-11eb-9d58-da91cf2f99eb.png)
 
 
+
 ## What is Sound PIrates?
 
-Sound PIrates is an interactive game targeted at muscicians who want to learn how to play by ear. The concept of the game is simple. A tone will be played by the game and will allow the user 3 seconds to replicate the note. If the correct note is detected this will count as a win, and if the incorrect note is detected a point will be lost. There is no penalty for not playing a note. To make it more exciting a game featuring a spaceship has been developed. The objective is for the user to catch the spaceship, therefore when a correct note is detected the spaceship will appear closer, and if the incorrect note is played the spaceship will fly further away. The game goes on untill enough wins or losses have been detected to either catch the spacehp, or it being too far out of reach. 
+Sound PIrates is an interactive game targeted at musicians who want to learn how to play by ear. The concept of the game is simple. A short tone, within the C Major scale,  will be played out and the user has approximately 3 seconds to replicate the note on their chosen instrument. If the note played by the user and by the game is a match then a point is rewarded, and if the incorrect note is detected a point will be lost. There is no penalty for not playing a note. To make it more exciting a game featuring a spaceship has been developed. The objective is for the user to catch the spaceship, therefore when a correct note is detected the spaceship will appear closer, and if the incorrect note is played the spaceship will fly further away. The game goes on until enough wins or losses have been detected to either catch the spaceship, or it being too far out of reach. 
 
-
-Welcome to Sound Pirates! – In space, the sounds will move you!
-
-The game is currently limited to the C major scale and the chase is short. With updates there will be more complexity and sub-games to help train your ear and vocal chords or playing fingers to match whichever notes, tones, or microtones you might want to familiarise yourself with. We have tested it with raspberry pi 4 with Raspbian installed, a 3.5mm jack condenser mic and a USB sound card. It uses the Urho3D game engine and features original art and 3D models from the team.
-Chantilly is a former engineer turned pirate who realised they could use their new technology to take from the rich to give to the poor Robin Hood style. Living outside the law means you need to work with unsavoury types though, so Lace has built a reputation as a fearsome Captain and a hardy warrior. The problem is, the crew of The Space Shanty can see a whole lot of wealth, and feel not enough is going in their pockets! Will you be able to guide Lace through the trials that await?
+The game is currently limited to the C major scale and the chase is short. With updates there will be more complexity and sub-games to help train your ear and vocal chords or playing fingers to match whichever notes, tones, or microtones you might want to familiarise yourself with. We have tested it with raspberry pi 4 with Raspbian installed, a jack condenser input mic and a USB sound card. It uses the Urho3D game engine (https://urho3d.github.io/) and features original art and 3D models from the team.
 
 ## What do you need to play the game?
+
 Sound pirates is playable if you download the developper kit for the game!
-Requires a Raspberry Pi (tested on Raspberry Pi 4B), soundcard and microphone.
+
+### Required Hardware
+
+- Raspberry Pi (tested on Raspberry Pi 4B)
+- USB Sound Card
+- Microphone with jack connection
+- Headphones or speakers with jack connection
+- Instrument/Voice
+
 ![image](https://user-images.githubusercontent.com/44497996/114785061-088a9880-9d74-11eb-942a-61e387437b15.png)
 
 
 ## Building the project
+
+After getting the hardware, follow these steps:
+
+### Setup your pi
+
 Before installing the game the following packages must be downloaded:
 ```markdown
-sudo apt-get install \
-    libx11-dev libxrandr-dev libasound2-dev libgl1-mesa-dev\
-    libboost-dev libboost-all-dev  librtaudio-dev \ 
-    libudev-dev libsfml-dev libfftw3-dev\
+sudo apt-get install 
+    libx11-dev libxrandr-dev libasound2-dev libgl1-mesa-dev
+    libboost-dev libboost-all-dev  librtaudio-dev 
+    libudev-dev libsfml-dev libfftw3-dev
     git make cmake build-essential
 ```
-To install the game type the following into command line:
-```markdown
-git clone https://github.com/OrganisedAFID/sound-pirates.git
+
+### Setup your soundcard
+
+#### Step 1: I2S communication setup
+
+To setup the I2S communication execute these commands:
+
+1) `sudo nano /boot/config.txt`
+2)  Uncomment the line `"#dtparam=i2s=on"`
+3)  Comment the line `"dtparam=audio=on"`
+
+#### Step 2: Select your soundcard as I/O device for your pi
+
+To set your soundcard as the input/output device, execute this command: `aplay -l`. Then check the line which has: "Device [USB PnP Sound Device]" 
+
+It will have a number before it like this: "card 0: Device [USB PnP Sound Device]". In this case, the card number for the soundcard is 0 (Remeber this number). 
+
+Now, execute this line: `sudo nano /etc/asound.conf` and write:
+
 ```
-When the game has been installed you can build the game by navigating to the Urho3D folder and type the following lines into command line
-```markdown
-cd sound-pirates/Urho3D
-mkdir current_build
-cd current_build
-cmake ../src
-make
-cd bin
-./sound-pirates
+pcm.!default  { <br>
+ type hw card <number-of-your-soundcard> <br>
+}
+
+ctl.!default { <br>
+ type hw card <number-of-your-soundcard>  <br>
+}
+
+
+So, if your soundcard was card number 0, you would write:
+
+
+pcm.!default  { <br>
+ type hw card 0 <br>
+}
+
+ctl.!default { <br>
+ type hw card 0 <br>
+}
 ```
-If it is unable to locate the Urho3D folder write
-```markdown
-export URHO3D_HOME=/path_to_your_Urho3D_folder/
-```
-This will launch the game and you can start your journey of hunting sound PIrates!
+
+#### Step 3: Reboot
+
+Now you can reboot your pi using the command: `reboot` and your soundcard should be setup!
+
+#### Step 4: Test
+
+You can test it with the command: `speaker-test` which should play some white noise through the soundcard.
+
+If this fails, you can use this alternative method to make your soundcard work.
+However it will mean you can't use HDMI with your pi, so only do this if the above steps fail.
+
+
+### Alternative soundcard setup (only use this if the above fails)
+
+#### Step 1: Select your soundcard as I/O device for your pi
+
+Follow the instructions for Step 2 in the normal setup. Or, if you have already done that, skip this step.
+
+#### Step 2: Blacklist all other input devices to your pi
+
+Execute the following command:
+
+`sudo nano /etc/modprobe.d/raspi-blacklist.conf`
+
+Write `blacklist snd_bcm2835`
+
+#### Step 3: Reboot
+
+Now you can reboot your pi using the command: `reboot` and your soundcard should be setup!
+
+#### Step 4: Test
+
+You can test it with the command: `speaker-test` which should play some white noise through the soundcard.
+
+Now you should be ready to play the game :)
+
+### Running the game
+
+With your pi and soundcard setup you're all set to play sound pirates!
+
+Now just execute these commands:
+
+- Go into a directory in which you want the game to be.
+
+- Clone the repo by running: `git clone https://github.com/OrganisedAFID/sound-pirates.git`
+
+- Then go to our executable by running:  `cd sound-pirates/Urho3D/release_build/bin`
+
+- Then run the game:  `./sound-pirates`
 
 ![image](https://user-images.githubusercontent.com/44497996/115146732-a7064a80-a04f-11eb-8b1c-208134bc23a7.png)
 
@@ -63,26 +145,24 @@ The game ends when either you have caught up to the space PIrates and win the ga
 
 ## User Stories
 
+So far, the game has been played with the clarinet, flute, violin and guitar. From feedback recived, users could quickly see how playing by ear is a difficult task to accoplish, yet the game is "addictive".  
+
 ## Social Media
+
 Sound PIrates can be found on Instagram @soundpirates and Twitter @SoundPIrates. 
 
-Purpose of sharing on social media is to establish core of followers, likely in engineering, music, and game making communities. TO build our base we followed pages with similar interests and used similar hashtags to attract the attention of target users. Pact with other teams on course follow back to establish first followers as well as friends and family.
+Purpose of sharing on social media is to establish core of followers, likely in engineering, music, and game making communities. To build our base we followed pages with similar interests and used similar hashtags to attract the attention of target users. 
 
 Instagram was the primary feed as group are established on this forum and is a viewed as a good medium to promote maker projects, with likelihood of shares high. Twitter has a secondary shorter lifespan of tweets and less tolerant of promotional accounts in general, though, Still a valid medium. 
 
- **Phase 2.** Video Of function available, proper promotion, attraction of testers.
-Start 2 posts per week, timed for highest exposure (12-3) Mon & Thurs Instagram, 5pm Twitter*
-
- * these were peak times pre-COVID, however there is yet to be data I could find of the current metrics. These metrics are also heavily influenced by American users so the 12-3 and 5pm UK times may be worth transposing and re-posting for the coastal zones of the US.
-
- **Phase 3.** Playable demo Promote game itself, invite feedback and log possible improvements & bugfixes
+### Playable demo Promote game itself, invite feedback and log possible improvements & bugfixes
 - Post on Raspberry Pi forums, pushing the specific to hardware nature
 - Post on reddit/r/IMadeAGame to gain feedback and exposure
 - Post on Urho3D website pushing use of game engine and unusual game mechanics
 - Post videos with link on YouTube of friends and family trying with variety of instruments, gives participants more identification with the game and investment in sharing.
 Continue posts on Insta, twitter, and Facebook.
 
-**Phase 4.** Post course – gauge interest in game and development
+### Post course – gauge interest in game and development
 Invite collaboration on all media and develop game further or in whatever direction seems to garner most interest and excitement. To help us formulate our strategy for the game and our social media presence, the team managed to organise a chat with Colm ‘Gambrinous’ Larkin. Colm is a successful solo games developer who has expanded to a small team over the course of two games published internationally, receiving high praise and awards for them (Guild of Dungeoneering and Cardpocalypse, published by Versus Evil).
 The social media strategy formed by the team was to concentrate on Instagram posts for the build up towards the game as this was the most established forum for the team members. An account was also created on twitter. The Github page was to be referred to and the core audience would be aimed at as content was produced.
 
@@ -117,9 +197,9 @@ With the basic functionality in place, there is definetly scope to expand the ga
 
 
 ## The creators
-- Alice Ravier
-- David Hughes
-- Fai Johnson
-- Isabella Sheldon
+- Alice Ravier: Main game developer, including graphics and designer
+- David Hughes:  Project Doxygen documentation; Game graphics and story line; and main creator of project idea 
+- Fai Johnson: Audio programming; Unit testing; Management of social media and project webpages; Management of CMake files
+- Isabella Sheldon: Audio programming; Unit testing; Latency Analysis; Management of social media and project webpages; Game and social media graphics
 
 
