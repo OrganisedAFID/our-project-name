@@ -113,7 +113,7 @@ You can test it with the command: `speaker-test` which should play some white no
 
 Now you should be ready to play the game :)
 
-### Running the game
+## Running the game
 
 With your pi and soundcard setup you're all set to play sound pirates!
 
