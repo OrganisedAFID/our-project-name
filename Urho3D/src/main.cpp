@@ -505,6 +505,7 @@ void GameSys::CreateTitleScene()
 {
 
     SetupScene(); 
+    score = 0;
 
     CreateBackground("Materials/planet_bg.xml");
     ui = GetSubsystem<UI>();
