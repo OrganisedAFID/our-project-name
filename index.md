@@ -159,14 +159,14 @@ Purpose of sharing on social media is to establish core of followers, likely in 
 
 Instagram was the primary feed as group are established on this forum and is a viewed as a good medium to promote maker projects, with likelihood of shares high. Twitter has a secondary shorter lifespan of tweets and less tolerant of promotional accounts in general, though, Still a valid medium. 
 
-### Playable demo Promote game itself, invite feedback and log possible improvements & bugfixes
+**Playable demo Promote game itself, invite feedback and log possible improvements & bugfixes**
 - Post on Raspberry Pi forums, pushing the specific to hardware nature
 - Post on reddit/r/IMadeAGame to gain feedback and exposure
 - Post on Urho3D website pushing use of game engine and unusual game mechanics
 - Post videos with link on YouTube of friends and family trying with variety of instruments, gives participants more identification with the game and investment in sharing.
 Continue posts on Insta, twitter, and Facebook.
 
-### Post course – gauge interest in game and development
+**Post course – gauge interest in game and development**
 Invite collaboration on all media and develop game further or in whatever direction seems to garner most interest and excitement. To help us formulate our strategy for the game and our social media presence, the team managed to organise a chat with Colm ‘Gambrinous’ Larkin. Colm is a successful solo games developer who has expanded to a small team over the course of two games published internationally, receiving high praise and awards for them (Guild of Dungeoneering and Cardpocalypse, published by Versus Evil).
 The social media strategy formed by the team was to concentrate on Instagram posts for the build up towards the game as this was the most established forum for the team members. An account was also created on twitter. The Github page was to be referred to and the core audience would be aimed at as content was produced.
 
