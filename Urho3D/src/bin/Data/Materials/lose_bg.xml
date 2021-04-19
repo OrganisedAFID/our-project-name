@@ -1,0 +1,4 @@
+<material>
+	<technique name="Techniques/Diff.xml"/>
+	<texture name="Textures/Failure.png" unit="diffuse"/>
+</material>
