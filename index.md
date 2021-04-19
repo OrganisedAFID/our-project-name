@@ -121,6 +121,8 @@ Now you should be ready to play the game :)
 
 ### Running the game
 
+https://user-images.githubusercontent.com/44497996/115253892-befbce00-a124-11eb-8b01-39e2d0b4e289.mp4
+
 With your pi and soundcard setup you're all set to play sound pirates!
 
 Now just execute these commands:
@@ -144,6 +146,7 @@ As you select **Start game** you will hear a tone from the C major scale, it is 
 If you are unable to replicate the note the space ship will fly further away. 
 
 The game ends when either you have caught up to the space PIrates and win the game, or you have played the incorrect note too many times and let the space PIrates get away- loosing the game. 
+
 
 ## Latency Analysis
 For the game to appear to be running in real-time the latency must be low. In gaming anything below 100ms is considered acceptable, while the standard latency is 20-40ms.
