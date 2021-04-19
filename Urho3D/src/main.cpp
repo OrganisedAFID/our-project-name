@@ -245,15 +245,21 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     return 0;
 }
 
-
+/** Handles the ready interrupt signal sent by the game process
+ *  Plays a note and sets ready to true, thus enabling the SP to 
+ *  listen for user input.
+ */ 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ::ready = false;      
-    ::OutputNote = playNote();
+    ready = false;      
+    OutputNote = playNote();
     ready = true;
     return;
 }
 
+/** Handles the correct interrupt signal sent by the SP
+ *  Moves the ship closer and increments the score via Answerhandler
+ */ 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
     if(playTime) //only move the ship if we allowed to 
@@ -261,6 +267,9 @@ static void correctHandler(int signum){
     return;
 }
 
+/** Handles the incorrect interrupt signal sent by the SP
+ *  Moves the ship further and decrements the score via Answerhandler
+ */ 
 static void incorrectHandler(int signum){
     signal(SIGUSR2, incorrectHandler);  
     if(playTime)
