@@ -122,17 +122,12 @@
  * 
  * global variables list to be incorporated in setup
  */
-int a = 0;
-std::vector<double> v;
 int pipefds[2];
 int freqMax;  
 std::vector<double> window;
-const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
 volatile sig_atomic_t stop;
-char note_to_write;
-float time_ = 0;
 Timer countDownTimer_ = Timer();
 int pid;
 int parentpid;
@@ -151,7 +146,6 @@ Context* globalContext_;
 Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
-Scene* startScene;
 Text* scoreText;
 
 /**
