@@ -85,9 +85,10 @@ private:
     //! Handle the click event of Back to Title button from main game/Lore/Instructions to Title
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
     
+    //! Handle the click event for the reset button to go back to title screen
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
     
-    void MoveCamera(float timeStep);
+
     void CreateTextScore();
 
     
