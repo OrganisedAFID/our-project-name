@@ -114,7 +114,6 @@
 #include <Urho3D/Physics/Constraint.h>
 
 #include <Urho3D/Physics/RigidBody.h>
-
 #include "main.h"
 #include <Urho3D/DebugNew.h>
 
@@ -142,7 +141,8 @@ float timestep;
 bool ready;
 bool endGame;
 int score = 0;
-
+bool notePlayed = true;
+bool playTime = true;
 
 Node* ship;
 UI* ui;
@@ -158,7 +158,6 @@ Text* scoreText;
  * inthand function allows close of terminal with ctrl C
  * 
  */
-
 void inthand(int signum) {
     stop = 1;
     return;
@@ -180,16 +179,14 @@ int processBuffer()
     int freqMax = 0;
     int detectfreqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 45000;
+    int amplitudeThreshold = 45000; //change this back to 45000
 
     for (int i = 51; i < 100; i++)
     {
         if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
-            freqMaxIndex = i;
-            
-           freqMax = findFreqMax(detectfreqMax, i, window); 
- 
+            freqMaxIndex = i;       
+            freqMax = findFreqMax(detectfreqMax, i, window); 
         }
     } 
     char note_to_write = define_note(freqMax); 
@@ -201,7 +198,7 @@ int processBuffer()
             kill(pid, SIGUSR2);
         }
         ready = false;
-  }
+    }
     
     std::cout << freqMax << std::endl;
     return freqMax, pipefds[2];
@@ -209,10 +206,9 @@ int processBuffer()
 
 /**
  * record function. Activate the audio input and write to buffer
- * called by audioIn
+ * 
  *  
  */
-
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
@@ -246,7 +242,7 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;      
+    ::ready = false;      
     ::OutputNote = playNote();
     ready = true;
     return;
@@ -254,12 +250,15 @@ void readyHandler(int signum){
 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
+    if(playTime) //only move the ship if we allowed to 
+        AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
     signal(SIGUSR2, incorrectHandler);  
-    AnswerHandler(false);
+    if(playTime)
+        AnswerHandler(false);
     return;
 }
 
@@ -331,8 +330,6 @@ int audioIn()
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-//URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
-
 int RunApplication() { 
     Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); 
     ourGame = new GameSys(context);
@@ -385,23 +382,19 @@ void GameSys::Start()
     Sample::InitMouseMode(MM_FREE);
 }
 
-
-void AnswerHandler(bool isCorrect){
-
-    Vector3 newShipPos = ship->GetPosition();
-    float distance = newShipPos.DistanceToPoint(cameraPos);
+/** React to the behaviour fo the player after a note is played
+ * If the player played the right note, make the ship move closer
+ * and tell the player they played the correct note
+ * If the player played the wrong note, make the ship move further away
+ * and tell the player they were incorrect
+ * If the player did not play anything, make the ship move further away
+ * and tell the player they did not play a note
+ * 
+ */
+void AnswerHandler(bool isCorrect, bool didntPlay){
+    notePlayed = true;
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
-    
-    if (distance < winThreshold){     
-        endGame = true;
-        ourGame->CreateWinScene();     
-    }
-    else if (distance > lossThreshold){     
-        endGame = true;
-        ourGame->CreateLossScene();      
-    }
-    else{
 
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
@@ -410,21 +403,21 @@ void AnswerHandler(bool isCorrect){
     std::string correctness;
     float y;
     float z;
-    if(isCorrect){
-        correctness = "correct";
-        y = 5.0f;
-        z = 0.0f;
-        score = score + 1;
-    }
-    else{
+    if(!isCorrect || didntPlay){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
+        score = score + 1;
+    }
+    else{ //if isCorrect and !didntPlay
+       correctness = "correct";
+        y = 5.0f;
+        z = 0.0f; 
         score = score-1;
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
-    std::string txt = { "You played the "+correctness+" note" };
+    
 
     std::string scoreTxt = {"Score: "+std::to_string(score)};
     String scoreMessage = String(scoreTxt.c_str());
@@ -436,14 +429,15 @@ void AnswerHandler(bool isCorrect){
         scoreText = CreateText(scoreMessage, "scoreText", 590, 560);
     }
     
-    
-
+    std::string txt = { "You played the "+correctness+" note" };
     String txtMessage = String(txt.c_str());
-    std::string tag = "correctnessText";
-    String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, 200, 100);  
-
-    std::cout << "You played the "+correctness+" note\n";
+    if(!didntPlay){
+        CreateText(txtMessage, "correctnessText", 200, 100);  
+        std::cout << "You played the "+correctness+" note\n";
+    } else{
+        CreateText("You didn't play a note", "correctnessText", 200, 100);  
+        std::cout << "You didn't play a note\n";
+    }
     
 
     //Check if the ship is close/far enough to call the win/loss scene
@@ -463,23 +457,6 @@ void AnswerHandler(bool isCorrect){
         endGame = true;
     }
 
-}
-}
-void GameSys::CreateTextScore()
-{
-    auto* cache = GetSubsystem<ResourceCache>();
-    auto* ui = GetSubsystem<UI>();
-    // Construct new Text object, set string to display and font to use
-    auto* instructionText = ui->GetRoot()->CreateChild<Text>();
-    instructionText->SetText("Score");
-    auto* font = cache->GetResource<Font>("Fonts/Anonymous Pro.ttf");
-    instructionText->SetFont(font, 30
-    );
-
-    // Position the text relative to the screen center
-    instructionText->SetHorizontalAlignment(HA_CENTER);
-    instructionText->SetVerticalAlignment(VA_CENTER);
-    instructionText->SetPosition(0, ui->GetRoot()->GetHeight() / 4);
 }
 
 /** Create the octree, camera and lighting for a scene
@@ -626,10 +603,19 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 6000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
+        notePlayed = false;
+        playTime = true;
         kill(parentpid, SIGUSR1);
+    }
+    else if(countDownTimer_.GetMSec(false) >= 5000 && !endGame && playTime){
+        DeleteCorrectnessText();
+        if(notePlayed == false){
+            AnswerHandler(false, true);
+        }
+        playTime = false;
     }
 }
 
@@ -807,7 +793,6 @@ void GameSys::CreateMainScene()
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
     scoreText = CreateText("Score: 0", "scoreText",  590, 560);
-    //CreateTextScore();
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;

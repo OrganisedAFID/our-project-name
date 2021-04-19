@@ -47,7 +47,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/sound-pirates/Urho3D/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/sound-pirates/Urho3D/current_build
+CMAKE_BINARY_DIR = /home/pi/sound-pirates/Urho3D/release_build
 
 #=============================================================================
 # Directory level rules for the build root directory
@@ -98,14 +98,14 @@ test/clean: test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean
 CMakeFiles/sound-pirates.dir/all:
 	$(MAKE) -f CMakeFiles/sound-pirates.dir/build.make CMakeFiles/sound-pirates.dir/depend
 	$(MAKE) -f CMakeFiles/sound-pirates.dir/build.make CMakeFiles/sound-pirates.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=10,11,12,13,14,15,16,17,18 "Built target sound-pirates"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=10,11,12,13,14,15,16,17,18 "Built target sound-pirates"
 .PHONY : CMakeFiles/sound-pirates.dir/all
 
 # Build rule for subdir invocation for target.
 CMakeFiles/sound-pirates.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 9
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 9
 	$(MAKE) -f CMakeFiles/Makefile2 CMakeFiles/sound-pirates.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 0
 .PHONY : CMakeFiles/sound-pirates.dir/rule
 
 # Convenience name for target.
@@ -125,14 +125,14 @@ CMakeFiles/sound-pirates.dir/clean:
 test/CMakeFiles/FREQMAX_TEST.dir/all:
 	$(MAKE) -f test/CMakeFiles/FREQMAX_TEST.dir/build.make test/CMakeFiles/FREQMAX_TEST.dir/depend
 	$(MAKE) -f test/CMakeFiles/FREQMAX_TEST.dir/build.make test/CMakeFiles/FREQMAX_TEST.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=7,8,9 "Built target FREQMAX_TEST"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=7,8,9 "Built target FREQMAX_TEST"
 .PHONY : test/CMakeFiles/FREQMAX_TEST.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/FREQMAX_TEST.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/FREQMAX_TEST.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 0
 .PHONY : test/CMakeFiles/FREQMAX_TEST.dir/rule
 
 # Convenience name for target.
@@ -152,14 +152,14 @@ test/CMakeFiles/FREQMAX_TEST.dir/clean:
 test/CMakeFiles/FFT_TEST.dir/all:
 	$(MAKE) -f test/CMakeFiles/FFT_TEST.dir/build.make test/CMakeFiles/FFT_TEST.dir/depend
 	$(MAKE) -f test/CMakeFiles/FFT_TEST.dir/build.make test/CMakeFiles/FFT_TEST.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=4,5,6 "Built target FFT_TEST"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=4,5,6 "Built target FFT_TEST"
 .PHONY : test/CMakeFiles/FFT_TEST.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/FFT_TEST.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/FFT_TEST.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 0
 .PHONY : test/CMakeFiles/FFT_TEST.dir/rule
 
 # Convenience name for target.
@@ -179,14 +179,14 @@ test/CMakeFiles/FFT_TEST.dir/clean:
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/all:
 	$(MAKE) -f test/CMakeFiles/DEFINE_NOTE_TEST.dir/build.make test/CMakeFiles/DEFINE_NOTE_TEST.dir/depend
 	$(MAKE) -f test/CMakeFiles/DEFINE_NOTE_TEST.dir/build.make test/CMakeFiles/DEFINE_NOTE_TEST.dir/build
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=1,2,3 "Built target DEFINE_NOTE_TEST"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=1,2,3 "Built target DEFINE_NOTE_TEST"
 .PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/all
 
 # Build rule for subdir invocation for target.
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/rule: cmake_check_build_system
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 3
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 3
 	$(MAKE) -f CMakeFiles/Makefile2 test/CMakeFiles/DEFINE_NOTE_TEST.dir/all
-	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles 0
+	$(CMAKE_COMMAND) -E cmake_progress_start /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles 0
 .PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/rule
 
 # Convenience name for target.

@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/sound-pirates/Urho3D/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/sound-pirates/Urho3D/current_build
+CMAKE_BINARY_DIR = /home/pi/sound-pirates/Urho3D/release_build
 
 # Include any dependencies generated for this target.
 include CMakeFiles/sound-pirates.dir/depend.make
@@ -59,7 +59,7 @@ include CMakeFiles/sound-pirates.dir/flags.make
 
 CMakeFiles/sound-pirates.dir/RtAudio.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/RtAudio.cpp.o: /home/pi/sound-pirates/Urho3D/src/RtAudio.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sound-pirates.dir/RtAudio.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/sound-pirates.dir/RtAudio.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/RtAudio.cpp.o -c /home/pi/sound-pirates/Urho3D/src/RtAudio.cpp
 
 CMakeFiles/sound-pirates.dir/RtAudio.cpp.i: cmake_force
@@ -72,7 +72,7 @@ CMakeFiles/sound-pirates.dir/RtAudio.cpp.s: cmake_force
 
 CMakeFiles/sound-pirates.dir/defineNote.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/defineNote.cpp.o: /home/pi/sound-pirates/Urho3D/src/defineNote.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sound-pirates.dir/defineNote.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/sound-pirates.dir/defineNote.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/defineNote.cpp.o -c /home/pi/sound-pirates/Urho3D/src/defineNote.cpp
 
 CMakeFiles/sound-pirates.dir/defineNote.cpp.i: cmake_force
@@ -85,7 +85,7 @@ CMakeFiles/sound-pirates.dir/defineNote.cpp.s: cmake_force
 
 CMakeFiles/sound-pirates.dir/fft.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/fft.cpp.o: /home/pi/sound-pirates/Urho3D/src/fft.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sound-pirates.dir/fft.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/sound-pirates.dir/fft.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/fft.cpp.o -c /home/pi/sound-pirates/Urho3D/src/fft.cpp
 
 CMakeFiles/sound-pirates.dir/fft.cpp.i: cmake_force
@@ -98,7 +98,7 @@ CMakeFiles/sound-pirates.dir/fft.cpp.s: cmake_force
 
 CMakeFiles/sound-pirates.dir/findFreqMax.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/findFreqMax.cpp.o: /home/pi/sound-pirates/Urho3D/src/findFreqMax.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/sound-pirates.dir/findFreqMax.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/sound-pirates.dir/findFreqMax.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/findFreqMax.cpp.o -c /home/pi/sound-pirates/Urho3D/src/findFreqMax.cpp
 
 CMakeFiles/sound-pirates.dir/findFreqMax.cpp.i: cmake_force
@@ -111,7 +111,7 @@ CMakeFiles/sound-pirates.dir/findFreqMax.cpp.s: cmake_force
 
 CMakeFiles/sound-pirates.dir/instructionsStatements.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/instructionsStatements.cpp.o: /home/pi/sound-pirates/Urho3D/src/instructionsStatements.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/sound-pirates.dir/instructionsStatements.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/sound-pirates.dir/instructionsStatements.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/instructionsStatements.cpp.o -c /home/pi/sound-pirates/Urho3D/src/instructionsStatements.cpp
 
 CMakeFiles/sound-pirates.dir/instructionsStatements.cpp.i: cmake_force
@@ -124,7 +124,7 @@ CMakeFiles/sound-pirates.dir/instructionsStatements.cpp.s: cmake_force
 
 CMakeFiles/sound-pirates.dir/main.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/main.cpp.o: /home/pi/sound-pirates/Urho3D/src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/sound-pirates.dir/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/sound-pirates.dir/main.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/main.cpp.o -c /home/pi/sound-pirates/Urho3D/src/main.cpp
 
 CMakeFiles/sound-pirates.dir/main.cpp.i: cmake_force
@@ -137,7 +137,7 @@ CMakeFiles/sound-pirates.dir/main.cpp.s: cmake_force
 
 CMakeFiles/sound-pirates.dir/playNote.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/playNote.cpp.o: /home/pi/sound-pirates/Urho3D/src/playNote.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/sound-pirates.dir/playNote.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Building CXX object CMakeFiles/sound-pirates.dir/playNote.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/playNote.cpp.o -c /home/pi/sound-pirates/Urho3D/src/playNote.cpp
 
 CMakeFiles/sound-pirates.dir/playNote.cpp.i: cmake_force
@@ -150,7 +150,7 @@ CMakeFiles/sound-pirates.dir/playNote.cpp.s: cmake_force
 
 CMakeFiles/sound-pirates.dir/sinewave.cpp.o: CMakeFiles/sound-pirates.dir/flags.make
 CMakeFiles/sound-pirates.dir/sinewave.cpp.o: /home/pi/sound-pirates/Urho3D/src/sinewave.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/sound-pirates.dir/sinewave.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_8) "Building CXX object CMakeFiles/sound-pirates.dir/sinewave.cpp.o"
 	/usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/sound-pirates.dir/sinewave.cpp.o -c /home/pi/sound-pirates/Urho3D/src/sinewave.cpp
 
 CMakeFiles/sound-pirates.dir/sinewave.cpp.i: cmake_force
@@ -194,7 +194,7 @@ bin/sound-pirates: /usr/lib/arm-linux-gnueabihf/libsfml-graphics.so
 bin/sound-pirates: /usr/lib/arm-linux-gnueabihf/libsfml-network.so
 bin/sound-pirates: /usr/lib/arm-linux-gnueabihf/libsfml-audio.so
 bin/sound-pirates: CMakeFiles/sound-pirates.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable bin/sound-pirates"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_9) "Linking CXX executable bin/sound-pirates"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/sound-pirates.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
@@ -207,6 +207,6 @@ CMakeFiles/sound-pirates.dir/clean:
 .PHONY : CMakeFiles/sound-pirates.dir/clean
 
 CMakeFiles/sound-pirates.dir/depend:
-	cd /home/pi/sound-pirates/Urho3D/current_build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pi/sound-pirates/Urho3D/src /home/pi/sound-pirates/Urho3D/src /home/pi/sound-pirates/Urho3D/current_build /home/pi/sound-pirates/Urho3D/current_build /home/pi/sound-pirates/Urho3D/current_build/CMakeFiles/sound-pirates.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/pi/sound-pirates/Urho3D/release_build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pi/sound-pirates/Urho3D/src /home/pi/sound-pirates/Urho3D/src /home/pi/sound-pirates/Urho3D/release_build /home/pi/sound-pirates/Urho3D/release_build /home/pi/sound-pirates/Urho3D/release_build/CMakeFiles/sound-pirates.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : CMakeFiles/sound-pirates.dir/depend
 
