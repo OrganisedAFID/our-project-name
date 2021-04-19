@@ -683,29 +683,19 @@ void GameSys::CreateInstructionsScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* backButton = CreateButton(root, "BackButton", 
         "BackText", "Back to title screen", 400, 500);   
-    auto* instructionsText = CreateText("Welcome to the first playable (alpha) version of Sound Pirates!  – In space, the sounds will move you! \n"
-                                        "You are about to enter a universe where starships sing to each other across the void. \n"
-                                        "Where buccaneers race the spaceways looking for loot and smugglers run their contraband \n"
-                                        "from port to shady port. In the Galaxy of Audiorum, ships travel space carrying great prizes.\n" 
-                                        "Fleets move as one in warp jumps, synchronised by ‘The Resonance’ – a tone send out \n"
-                                        "by the warp engines encoding each jump. Planned journeys are symphonies played out by ships \n"
-                                        "in glorious rhythm across the stars. You are taking on the role of Chantilly Lace, a pirate with \n"
-                                        "such genius they can tweak their engines so that the Resonance sent out by other ships is trackable \n"
-                                        "and you can catch and board great frigates in deep space in your mighty and feared ship \n"
-                                        "The Space Shanty’. The game is currently limited to C major scal and the chase is short. \n"
-                                        "With updates there will be more complexity and sub-games to help train your ear and vocal chords \n"
-                                        "or playing fingers to match whichever notes, tones, or microtones\n" 
-                                        "you might want to familiarise yourself with. \n"
-                                        "\n"
-                                        "We have tested it with raspberry pi 4 with Raspbian installed, a Disdim condenser mic \n"
-                                        "and a USB sound card. It uses the Urho3D game engine and features original art from the team.\n"
-                                        "Chantilly is a former engineer turned pirate who realised they could use \n"
-                                        "their new technology to take from the rich to give to the poor Robin Hood style. \n"
-                                        "Living outside the law means you need to work with unsavoury types though, \n"
-                                        "so Lace has built a reputation as a fearsome Captain and a hardy warrior. \n"
-                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, \n"
-                                        "and feel not enough is going in their pockets! Will you be able to guide Lace \n"
-                                        "through the trials that await?", "Instructions", 0, 0);
+    auto* instructionsText = CreateText(
+        "When the game begins you are chasing your ship.\n"
+        "To get closer you need to match the note that is played \n"
+        "as closely and as quickly as you can. \n"
+        "If you get the note right you’ll go closer to your ship,\n"
+        "wrong, they get further away until either you catch them, \n"
+        "or you’re stranded in space! \n\n"
+        "So a tone will sound and you’ll have five seconds to play and match it. \n"
+        "If you’re too slow, or too quiet, the system may not pick you up, \n"
+        "so loud and fast and long! \n"
+        "The notes will all be in middle C so that should give you a good starting point. \n"
+        "Good Luck!", 
+        "Instructions", 100, 100);
     instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
 
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
