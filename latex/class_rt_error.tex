@@ -1,0 +1,143 @@
+\hypertarget{class_rt_error}{}\doxysection{Rt\+Error Class Reference}
+\label{class_rt_error}\index{RtError@{RtError}}
+
+
+Exception handling class for \mbox{\hyperlink{class_rt_audio}{Rt\+Audio}} \& Rt\+Midi.  
+
+
+
+
+{\ttfamily \#include $<$Rt\+Error.\+h$>$}
+
+Inheritance diagram for Rt\+Error\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_rt_error}
+\end{center}
+\end{figure}
+\doxysubsection*{Public Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}{Type}} \{ \newline
+\mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca3a1603c24a56cbdaf5f8ae4ddcb86398}{WARNING}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca20e5a369394d19b704ace17002007eba}{DEBUG\+\_\+\+WARNING}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca444efd3ccf774b2ba9f9bde70ec71cd6}{UNSPECIFIED}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaf267eb2d710f33d649ba840eeab6ff82}{NO\+\_\+\+DEVICES\+\_\+\+FOUND}}
+, \newline
+\mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903acad6064062066fffdba258237a7c2159b1}{INVALID\+\_\+\+DEVICE}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903acab4f813e5a36905c89d4081a59497432e}{MEMORY\+\_\+\+ERROR}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaa3eabf0f71120beaba94148a1b78fed6}{INVALID\+\_\+\+PARAMETER}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca8e65f51a3fbdc1a4a1552b3260df36bc}{INVALID\+\_\+\+USE}}
+, \newline
+\mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca995e97ecf6beeedaba525022a63aec6b}{DRIVER\+\_\+\+ERROR}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca8947d0a2e2a84ecf3646271844e06a6b}{SYSTEM\+\_\+\+ERROR}}
+, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaeb6282f991e2d93ab294a4272fc3f6c6}{THREAD\+\_\+\+ERROR}}
+ \}
+\begin{DoxyCompactList}\small\item\em Defined \mbox{\hyperlink{class_rt_error}{Rt\+Error}} types. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_rt_error_aa479a305ccbe56be0fd9137b9b405a37}\label{class_rt_error_aa479a305ccbe56be0fd9137b9b405a37}} 
+\mbox{\hyperlink{class_rt_error_aa479a305ccbe56be0fd9137b9b405a37}{Rt\+Error}} (const std\+::string \&message, \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}{Type}} type=\mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca444efd3ccf774b2ba9f9bde70ec71cd6}{Rt\+Error\+::\+UNSPECIFIED}})  throw ()
+\begin{DoxyCompactList}\small\item\em The constructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rt_error_a6793e03386e7e69ffafb65a296dfa48c}\label{class_rt_error_a6793e03386e7e69ffafb65a296dfa48c}} 
+virtual \mbox{\hyperlink{class_rt_error_a6793e03386e7e69ffafb65a296dfa48c}{$\sim$\+Rt\+Error}} (void)  throw ()
+\begin{DoxyCompactList}\small\item\em The destructor. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rt_error_ada41f7472122f45bc5b4677f066e0943}\label{class_rt_error_ada41f7472122f45bc5b4677f066e0943}} 
+virtual void \mbox{\hyperlink{class_rt_error_ada41f7472122f45bc5b4677f066e0943}{print\+Message}} (void)  throw ()
+\begin{DoxyCompactList}\small\item\em Prints thrown error message to stderr. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rt_error_a4ee7df9728d73f533afbaddcd9ca4d9c}\label{class_rt_error_a4ee7df9728d73f533afbaddcd9ca4d9c}} 
+virtual const \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}{Type}} \& \mbox{\hyperlink{class_rt_error_a4ee7df9728d73f533afbaddcd9ca4d9c}{get\+Type}} (void)  throw ()
+\begin{DoxyCompactList}\small\item\em Returns the thrown error message type. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rt_error_ac7f467788e29d246333d7af050801164}\label{class_rt_error_ac7f467788e29d246333d7af050801164}} 
+virtual const std\+::string \& \mbox{\hyperlink{class_rt_error_ac7f467788e29d246333d7af050801164}{get\+Message}} (void)  throw ()
+\begin{DoxyCompactList}\small\item\em Returns the thrown error message string. \end{DoxyCompactList}\item 
+\mbox{\Hypertarget{class_rt_error_ac50a34fee5369fd85e4ac3652caf594d}\label{class_rt_error_ac50a34fee5369fd85e4ac3652caf594d}} 
+virtual const char $\ast$ \mbox{\hyperlink{class_rt_error_ac50a34fee5369fd85e4ac3652caf594d}{what}} (void) const  throw ()
+\begin{DoxyCompactList}\small\item\em Returns the thrown error message as a c-\/style string. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\Hypertarget{class_rt_error_a6f63960ea24c5281cddd244d053d479c}\label{class_rt_error_a6f63960ea24c5281cddd244d053d479c}} 
+std\+::string {\bfseries message\+\_\+}
+\item 
+\mbox{\Hypertarget{class_rt_error_ab4f7a5e085eb9fce8e1d264944e53ab3}\label{class_rt_error_ab4f7a5e085eb9fce8e1d264944e53ab3}} 
+\mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}{Type}} {\bfseries type\+\_\+}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+Exception handling class for \mbox{\hyperlink{class_rt_audio}{Rt\+Audio}} \& Rt\+Midi. 
+
+The \mbox{\hyperlink{class_rt_error}{Rt\+Error}} class is quite simple but it does allow errors to be \char`\"{}caught\char`\"{} by \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}{Rt\+Error\+::\+Type}}. See the \mbox{\hyperlink{class_rt_audio}{Rt\+Audio}} and Rt\+Midi documentation to know which methods can throw an \mbox{\hyperlink{class_rt_error}{Rt\+Error}}. 
+
+Definition at line 19 of file Rt\+Error.\+h.
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}} 
+\index{RtError@{RtError}!Type@{Type}}
+\index{Type@{Type}!RtError@{RtError}}
+\doxysubsubsection{\texorpdfstring{Type}{Type}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_rt_error_ab04667aae01bffc354a9ac6bda6903ac}{Rt\+Error\+::\+Type}}}
+
+
+
+Defined \mbox{\hyperlink{class_rt_error}{Rt\+Error}} types. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{WARNING@{WARNING}!RtError@{RtError}}\index{RtError@{RtError}!WARNING@{WARNING}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca3a1603c24a56cbdaf5f8ae4ddcb86398}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca3a1603c24a56cbdaf5f8ae4ddcb86398}} 
+WARNING&A non-\/critical error. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DEBUG\_WARNING@{DEBUG\_WARNING}!RtError@{RtError}}\index{RtError@{RtError}!DEBUG\_WARNING@{DEBUG\_WARNING}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca20e5a369394d19b704ace17002007eba}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca20e5a369394d19b704ace17002007eba}} 
+DEBUG\+\_\+\+WARNING&A non-\/critical error which might be useful for debugging. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UNSPECIFIED@{UNSPECIFIED}!RtError@{RtError}}\index{RtError@{RtError}!UNSPECIFIED@{UNSPECIFIED}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca444efd3ccf774b2ba9f9bde70ec71cd6}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca444efd3ccf774b2ba9f9bde70ec71cd6}} 
+UNSPECIFIED&The default, unspecified error type. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{NO\_DEVICES\_FOUND@{NO\_DEVICES\_FOUND}!RtError@{RtError}}\index{RtError@{RtError}!NO\_DEVICES\_FOUND@{NO\_DEVICES\_FOUND}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaf267eb2d710f33d649ba840eeab6ff82}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaf267eb2d710f33d649ba840eeab6ff82}} 
+NO\+\_\+\+DEVICES\+\_\+\+FOUND&No devices found on system. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INVALID\_DEVICE@{INVALID\_DEVICE}!RtError@{RtError}}\index{RtError@{RtError}!INVALID\_DEVICE@{INVALID\_DEVICE}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903acad6064062066fffdba258237a7c2159b1}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903acad6064062066fffdba258237a7c2159b1}} 
+INVALID\+\_\+\+DEVICE&An invalid device ID was specified. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{MEMORY\_ERROR@{MEMORY\_ERROR}!RtError@{RtError}}\index{RtError@{RtError}!MEMORY\_ERROR@{MEMORY\_ERROR}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903acab4f813e5a36905c89d4081a59497432e}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903acab4f813e5a36905c89d4081a59497432e}} 
+MEMORY\+\_\+\+ERROR&An error occured during memory allocation. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INVALID\_PARAMETER@{INVALID\_PARAMETER}!RtError@{RtError}}\index{RtError@{RtError}!INVALID\_PARAMETER@{INVALID\_PARAMETER}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaa3eabf0f71120beaba94148a1b78fed6}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaa3eabf0f71120beaba94148a1b78fed6}} 
+INVALID\+\_\+\+PARAMETER&An invalid parameter was specified to a function. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INVALID\_USE@{INVALID\_USE}!RtError@{RtError}}\index{RtError@{RtError}!INVALID\_USE@{INVALID\_USE}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca8e65f51a3fbdc1a4a1552b3260df36bc}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca8e65f51a3fbdc1a4a1552b3260df36bc}} 
+INVALID\+\_\+\+USE&The function was called incorrectly. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DRIVER\_ERROR@{DRIVER\_ERROR}!RtError@{RtError}}\index{RtError@{RtError}!DRIVER\_ERROR@{DRIVER\_ERROR}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca995e97ecf6beeedaba525022a63aec6b}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca995e97ecf6beeedaba525022a63aec6b}} 
+DRIVER\+\_\+\+ERROR&A system driver error occured. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SYSTEM\_ERROR@{SYSTEM\_ERROR}!RtError@{RtError}}\index{RtError@{RtError}!SYSTEM\_ERROR@{SYSTEM\_ERROR}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca8947d0a2e2a84ecf3646271844e06a6b}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903aca8947d0a2e2a84ecf3646271844e06a6b}} 
+SYSTEM\+\_\+\+ERROR&A system error occured. \\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{THREAD\_ERROR@{THREAD\_ERROR}!RtError@{RtError}}\index{RtError@{RtError}!THREAD\_ERROR@{THREAD\_ERROR}}}\mbox{\Hypertarget{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaeb6282f991e2d93ab294a4272fc3f6c6}\label{class_rt_error_ab04667aae01bffc354a9ac6bda6903acaeb6282f991e2d93ab294a4272fc3f6c6}} 
+THREAD\+\_\+\+ERROR&A thread error occured. \\
+\hline
+
+\end{DoxyEnumFields}
+
+
+Definition at line 23 of file Rt\+Error.\+h.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Urho3\+D/src/Rt\+Error.\+h\end{DoxyCompactItemize}
