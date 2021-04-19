@@ -167,6 +167,7 @@ Instagram was the primary feed as group are established on this forum and is a v
 Continue posts on Insta, twitter, and Facebook.
 
 **Post course – gauge interest in game and development**
+
 Invite collaboration on all media and develop game further or in whatever direction seems to garner most interest and excitement. To help us formulate our strategy for the game and our social media presence, the team managed to organise a chat with Colm ‘Gambrinous’ Larkin. Colm is a successful solo games developer who has expanded to a small team over the course of two games published internationally, receiving high praise and awards for them (Guild of Dungeoneering and Cardpocalypse, published by Versus Evil).
 The social media strategy formed by the team was to concentrate on Instagram posts for the build up towards the game as this was the most established forum for the team members. An account was also created on twitter. The Github page was to be referred to and the core audience would be aimed at as content was produced.
 
