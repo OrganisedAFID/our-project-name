@@ -153,15 +153,19 @@ The game ends when either you have caught up to the space PIrates and win the ga
 ## Latency Analysis
 For the game to appear to be running in real-time the latency must be low. In gaming anything below 100ms is considered acceptable, while the standard latency is 20-40ms.
 
-To assess the realtime responsiveness a latency analysis has been performed by timing various parts of the code. Simplified, the game will generate a screen, play a note, wait for the user to play a note, convert this into the frequency spectrum and identify the most dominant frequency, identify the note as correct/incorrect and finally have the spaceship in the game move depending on the detected note. Each of these were timed and the average of 5 games  running  start to finish as seen in the list below. 
+To assess the realtime responsiveness a latency analysis has been performed by timing various parts of the code. Simplified, the game will generate a screen, play a note, wait for the user to play a note, convert this into the frequency spectrum and identify the most dominant frequency, identify the note as correct/incorrect and finally have the spaceship in the game move depending on the detected note. Each of these were timed and the average of 5 games running  start to finish as seen in the list below. 
 
 - scene generation: 430 ms
 - process buffer: 2.2 ms
 - finding maximum frequency: 0.000088 ms
 - FFT: 1.5 ms
-- Identify correct/incorrect note and move object: 40 ms
+- Identify correct/incorrect note and move object (answer handler): 40 ms
 
-This means that from a note has been detected to the spaceship moving in response to the note that was played takes a total of 6 ms. Generating new scenes by far took the longest time with an average of 430 ms.
+This means that from a note has been detected to the spaceship moving in response to the note that was played takes a total of 44 ms. As seen in the boxplots below the majority of answer handler was significantly lower, around 0.3 ms, but a few significantly longer runs of answer handler brought the average up. Generating new scenes by far took the longest time with an average of 430 ms. The box plots of the timing of different functions are seen in the graphs below.  
+
+
+![latency](https://user-images.githubusercontent.com/44497996/115292637-2712da00-a14e-11eb-8898-db9682023f2a.png)
+
 
 ## User Stories
 
