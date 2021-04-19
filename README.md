@@ -165,7 +165,7 @@ Note you can get the lastest version in ```experimental_build ```
 
 You're all set!
 
-## Credits
+## Credits (for responsibilities see the wiki)
 [Alice Ravier](https://github.com/Aliceravier) </br>
 [David Hughes](https://github.com/Thisaphid) </br>
 [Fai Johnson](https://github.com/faij2009) </br>
