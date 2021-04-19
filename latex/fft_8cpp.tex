@@ -1,0 +1,36 @@
+\hypertarget{fft_8cpp}{}\doxysection{Urho3\+D/src/fft.cpp File Reference}
+\label{fft_8cpp}\index{Urho3D/src/fft.cpp@{Urho3D/src/fft.cpp}}
+{\ttfamily \#include \char`\"{}Rt\+Audio.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$fftw3.\+h$>$}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$math.\+h$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$SFML/\+Audio.\+hpp$>$}\newline
+{\ttfamily \#include $<$vector$>$}\newline
+{\ttfamily \#include $<$complex$>$}\newline
+{\ttfamily \#include $<$string$>$}\newline
+{\ttfamily \#include \char`\"{}audio\+In.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}chrono\char`\"{}}\newline
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{fft_8cpp_aeee95879afdb074816ee7b45e055d203}{fft}} (std\+::vector$<$ double $>$ \&raw\+Values, std\+::vector$<$ double $>$ \&output)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Detailed Description}
+FFT function. Takes input buffer and performs Fast Fourier Transform to shift into frequency domain. Produces new array with frequencies as position and amplitude as value called by process\+Buffer function 
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{fft_8cpp_aeee95879afdb074816ee7b45e055d203}\label{fft_8cpp_aeee95879afdb074816ee7b45e055d203}} 
+\index{fft.cpp@{fft.cpp}!fft@{fft}}
+\index{fft@{fft}!fft.cpp@{fft.cpp}}
+\doxysubsubsection{\texorpdfstring{fft()}{fft()}}
+{\footnotesize\ttfamily void fft (\begin{DoxyParamCaption}\item[{std\+::vector$<$ double $>$ \&}]{raw\+Values,  }\item[{std\+::vector$<$ double $>$ \&}]{output }\end{DoxyParamCaption})}
+
+header file for fft function 
+
+Definition at line 24 of file fft.\+cpp.
+

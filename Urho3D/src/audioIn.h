@@ -6,7 +6,11 @@
 
 #ifndef AUDIOIN_H
 #define AUDIOIN_H
-
+/**
+ * audioIn function. 
+ * calls record, which calls processBuffer,which calls fft
+ * 
+ */
 int audioIn();
 
 #endif

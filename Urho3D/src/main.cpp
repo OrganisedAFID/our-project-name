@@ -114,7 +114,6 @@
 #include <Urho3D/Physics/Constraint.h>
 
 #include <Urho3D/Physics/RigidBody.h>
-
 #include "main.h"
 #include <Urho3D/DebugNew.h>
 
@@ -141,6 +140,9 @@ char OutputNote;
 float timestep;
 bool ready;
 bool endGame;
+int score = 0;
+bool notePlayed = true;
+bool playTime = true;
 
 Node* ship;
 UI* ui;
@@ -149,16 +151,18 @@ Context* globalContext_;
 Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
+Scene* startScene;
+Text* scoreText;
 
 /**
  * inthand function allows close of terminal with ctrl C
  * 
  */
-
 void inthand(int signum) {
     stop = 1;
     return;
 }
+
 
 /**
  * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
@@ -176,16 +180,14 @@ int processBuffer()
     int freqMax = 0;
     int detectfreqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 45000;
+    int amplitudeThreshold = 45000; //change this back to 45000
 
     for (int i = 51; i < 100; i++)
     {
         if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
-            freqMaxIndex = i;
-            
-           freqMax = findFreqMax(detectfreqMax, i, window); 
- 
+            freqMaxIndex = i;       
+            freqMax = findFreqMax(detectfreqMax, i, window); 
         }
     } 
     char note_to_write = define_note(freqMax); 
@@ -197,7 +199,7 @@ int processBuffer()
             kill(pid, SIGUSR2);
         }
         ready = false;
-  }
+    }
     
     std::cout << freqMax << std::endl;
     return freqMax, pipefds[2];
@@ -205,10 +207,9 @@ int processBuffer()
 
 /**
  * record function. Activate the audio input and write to buffer
- * called by audioIn
+ * 
  *  
  */
-
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
@@ -242,27 +243,23 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false; 
-    
-    ::OutputNote= playNote();   
-    
-    char (*OutputNote)(){ &playNote };
-    std::thread playFunction(playNote);
-    playFunction.join(); 
-    
+    ::ready = false;      
+    ::OutputNote = playNote();
     ready = true;
     return;
 }
 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
-    AnswerHandler(true);
+    if(playTime) //only move the ship if we allowed to 
+        AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
     signal(SIGUSR2, incorrectHandler);  
-    AnswerHandler(false);
+    if(playTime)
+        AnswerHandler(false);
     return;
 }
 
@@ -334,8 +331,6 @@ int audioIn()
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-//URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
-
 int RunApplication() { 
     Urho3D::SharedPtr<Urho3D::Context> context(new Urho3D::Context()); 
     ourGame = new GameSys(context);
@@ -389,21 +384,20 @@ void GameSys::Start()
 }
 
 
-void AnswerHandler(bool isCorrect){
-    Vector3 newShipPos = ship->GetPosition();
-    float distance = newShipPos.DistanceToPoint(cameraPos);
+/** React to the behaviour fo the player after a note is played
+ * If the player played the right note, make the ship move closer
+ * and tell the player they played the correct note
+ * If the player played the wrong note, make the ship move further away
+ * and tell the player they were incorrect
+ * If the player did not play anything, make the ship move further away
+ * and tell the player they did not play a note
+ * 
+ */
+void AnswerHandler(bool isCorrect, bool didntPlay){
+    notePlayed = true;
+
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
-    
-    if (distance < winThreshold){     
-        endGame = true;
-        ourGame->CreateWinScene();     
-    }
-    else if (distance > lossThreshold){     
-        endGame = true;
-        ourGame->CreateLossScene();      
-    }
-    else{
 
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
@@ -412,28 +406,41 @@ void AnswerHandler(bool isCorrect){
     std::string correctness;
     float y;
     float z;
-    if(isCorrect){
-        correctness = "correct";
-        y = 5.0f;
-        z = 0.0f;
-    }
-    else{
+    if(!isCorrect || didntPlay){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
+        score = score - 1;
+    }
+    else{ //if isCorrect and !didntPlay
+       correctness = "correct";
+        y = 5.0f;
+        z = 0.0f; 
+        score = score+1;
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
+    
 
+    std::string scoreTxt = {"Score: "+std::to_string(score)};
+    String scoreMessage = String(scoreTxt.c_str());
+    Urho3D::PODVector<Urho3D::UIElement*> scoreVec = root->GetChildrenWithTag("scoreText");
+    if (scoreVec.Size() > 0){
+        scoreText->SetText(scoreMessage);
+    }
+    else{
+        scoreText = CreateText(scoreMessage, "scoreText", 590, 560);
+    }
+    
     std::string txt = { "You played the "+correctness+" note" };
-
     String txtMessage = String(txt.c_str());
-
-    std::string tag = "correctnessText";
-    String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, 200, 100);  
-
-    std::cout << "You played the "+correctness+" note\n";
+    if(!didntPlay){
+        CreateText(txtMessage, "correctnessText", 200, 100);  
+        std::cout << "You played the "+correctness+" note\n";
+    } else{
+        CreateText("You didn't play a note", "correctnessText", 200, 100);  
+        std::cout << "You didn't play a note\n";
+    }
     
 
     //Check if the ship is close/far enough to call the win/loss scene
@@ -442,16 +449,17 @@ void AnswerHandler(bool isCorrect){
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateWinScene();
         endGame = true;
     }
     else if (distance > lossThreshold){
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateLossScene();
         endGame = true;
     }
 
-}
 }
 
 /** Create the octree, camera and lighting for a scene
@@ -466,10 +474,10 @@ void GameSys::SetupScene(){
      */  
     mainScene->CreateComponent<Octree>();
 
-    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
-    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
-    // The light will use default settings (white light, no shadows)
-    // Create a red directional light (sun)      
+    /// Create a directional light to the world so that we can see something. The light scene node's orientation controls the
+    /// light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
+    /// The light will use default settings (white light, no shadows)
+    /// Create a red directional light (sun)      
     Node* lightNode=mainScene->CreateChild();
     lightNode->SetDirection(Vector3::FORWARD);
     lightNode->Yaw(50);     // horizontal
@@ -478,12 +486,12 @@ void GameSys::SetupScene(){
     light->SetLightType(LIGHT_DIRECTIONAL);
        
 
-    // Create a scene node for the camera, which we will move around
-    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+    /// Create a scene node for the camera, which we will move around
+    /// The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode_ = mainScene->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
 
-    // Set an initial position for the camera scene node above the plane
+    /// Set an initial position for the camera scene node above the plane
     cameraNode_->SetPosition(cameraPos);
     cameraNode_->SetScale(Vector3(0, 0, 0));
 
@@ -500,6 +508,7 @@ void GameSys::CreateTitleScene()
 {
 
     SetupScene(); 
+    score = 0;
 
     CreateBackground("Materials/planet_bg.xml");
     ui = GetSubsystem<UI>();
@@ -509,13 +518,16 @@ void GameSys::CreateTitleScene()
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
-        "StartText", "Start Game!", 250, 500);
+        "StartText", "Start Game!", 50, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
-        "Instructions", 600, 500);
+        "Instructions", 400, 500);
+    auto* loreButton = CreateButton(root, "LoreButton", "LoreText", 
+        "Lore", 750, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
+    SubscribeToEvent(loreButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleLoreClick));
 }
 
 
@@ -534,7 +546,7 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
     text->SetText(content);
     // Set font and text color
     text->SetFont(font, 30);
-    text->SetColor(Color(0.0f, 10.0f, 1.0f));
+    text->SetColor(Color(1.0f, 1.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
     // Add Text instance to the UI root element
@@ -574,7 +586,7 @@ Button* GameSys::CreateButton
     b->CreateChild<Text>(txtName)->SetStyleAuto();
     auto *t = b->GetChildStaticCast<Text>(txtName, false);
     t->SetText(txtCont);
-    t->SetHorizontalAlignment(HA_CENTER);
+    t->SetHorizontalAlignment(HA_LEFT);
 
     return b;
 }
@@ -598,11 +610,30 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 6000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
+        notePlayed = false;
+        playTime = true;
         kill(parentpid, SIGUSR1);
     }
+    else if(countDownTimer_.GetMSec(false) >= 5000 && !endGame && playTime){
+        DeleteCorrectnessText();
+        if(notePlayed == false){
+            AnswerHandler(false, true);
+        }
+        playTime = false;
+    }
+}
+
+void GameSys::DeleteScoreText()
+{
+    //Delete existing score text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> scoreText = root->GetChildrenWithTag("scoreText");
+
+    if(scoreText.Size() > 0)
+        scoreText[0]->Remove();       
 }
 
 void GameSys::DeleteCorrectnessText()
@@ -650,6 +681,60 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
     CreateInstructionsScene();
 }
 
+/** 
+ * when you click on the lore button, the lore appears
+ * 
+ */
+void GameSys::HandleLoreClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+    //Delete the title scene
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+    //delete title scene background
+    mainScene->Clear();
+
+    //Show the instructions
+    CreateLoreScene();
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateLoreScene()
+{
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* backButton = CreateButton(root, "BackButton", 
+        "BackText", "Back to title screen", 700, 500);   
+    auto* instructionsText = CreateText(
+        "You are about to enter a universe where starships sing\n"
+        "to each other across the void. Where buccaneers race the\n"
+        "spaceways looking for loot and smugglers run their contraband\n"
+        "from port to shady port. In the Galaxy of Audiorum, ships travel\n"
+        "space carrying great prizes. Fleets move as one in warp jumps,\n"
+        "synchronised by ‘The Resonance’ – a tone send out by the warp\n"
+        "engines encoding each jump. Planned journeys are symphonies\n"
+        "played out by ships in glorious rhythm across the stars.\n\n"
+        "You are taking on the role of Chantilly Lace, a pirate with\n"
+        "such genius they can tweak their engines so that the Resonance\n"
+        "sent out by other ships is trackable and you can catch and board\n"
+        "great frigates in deep space in your mighty and feared ship\n"
+        "‘The Space Shanty’.\n\n"
+        "Chantilly is a former engineer turned pirate who realised\n"
+        "they could use their new technology to take from the rich\n"
+        "to give to the poor Robin Hood style.\n"
+        "Living outside the law means you need to work with\n"
+        "unsavoury types though, so Lace has built a reputation\n"
+        "as a fearsome Captain and a hardy warrior.\n"
+        "The problem is, the crew of The Space Shanty can see a\n"
+        "whole lot of wealth, and feel not enough is going in their\n"
+        "pockets! Will you be able to guide Lace through the trials\n"
+        "that await?", 
+        "Instructions", 100, 100);
+    instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
+
+    SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
+}
+
 /**
  * Shows the instruction text onto the screen
  */
@@ -658,29 +743,19 @@ void GameSys::CreateInstructionsScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* backButton = CreateButton(root, "BackButton", 
         "BackText", "Back to title screen", 400, 500);   
-    auto* instructionsText = CreateText("Welcome to the first playable (alpha) version of Sound Pirates!  – In space, the sounds will move you! \n"
-                                        "You are about to enter a universe where starships sing to each other across the void. \n"
-                                        "Where buccaneers race the spaceways looking for loot and smugglers run their contraband \n"
-                                        "from port to shady port. In the Galaxy of Audiorum, ships travel space carrying great prizes.\n" 
-                                        "Fleets move as one in warp jumps, synchronised by ‘The Resonance’ – a tone send out \n"
-                                        "by the warp engines encoding each jump. Planned journeys are symphonies played out by ships \n"
-                                        "in glorious rhythm across the stars. You are taking on the role of Chantilly Lace, a pirate with \n"
-                                        "such genius they can tweak their engines so that the Resonance sent out by other ships is trackable \n"
-                                        "and you can catch and board great frigates in deep space in your mighty and feared ship \n"
-                                        "The Space Shanty’. The game is currently limited to C major scal and the chase is short. \n"
-                                        "With updates there will be more complexity and sub-games to help train your ear and vocal chords \n"
-                                        "or playing fingers to match whichever notes, tones, or microtones\n" 
-                                        "you might want to familiarise yourself with. \n"
-                                        "\n"
-                                        "We have tested it with raspberry pi 4 with Raspbian installed, a Disdim condenser mic \n"
-                                        "and a USB sound card. It uses the Urho3D game engine and features original art from the team.\n"
-                                        "Chantilly is a former engineer turned pirate who realised they could use \n"
-                                        "their new technology to take from the rich to give to the poor Robin Hood style. \n"
-                                        "Living outside the law means you need to work with unsavoury types though, \n"
-                                        "so Lace has built a reputation as a fearsome Captain and a hardy warrior. \n"
-                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, \n"
-                                        "and feel not enough is going in their pockets! Will you be able to guide Lace \n"
-                                        "through the trials that await?", "Instructions", 0, 0);
+    auto* instructionsText = CreateText(
+        "When the game begins you are chasing your ship.\n"
+        "To get closer you need to match the note that is played \n"
+        "as closely and as quickly as you can. \n"
+        "If you get the note right you’ll go closer to your ship,\n"
+        "wrong, they get further away until either you catch them, \n"
+        "or you’re stranded in space! \n\n"
+        "So a tone will sound and you’ll have five seconds to play and match it. \n"
+        "If you’re too slow, or too quiet, the system may not pick you up, \n"
+        "so loud and fast and long! \n"
+        "The notes will all be in middle C so that should give you a good starting point. \n"
+        "Good Luck!", 
+        "Instructions", 100, 100);
     instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
 
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
@@ -692,14 +767,14 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
     mainScene->Clear();
     SetupScene();
     Node* bgNode = CreateBackground("Materials/win_bg.xml");
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
-        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 100, 650);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -708,6 +783,8 @@ void GameSys::CreateWinScene()
  */
 void GameSys::CreateLossScene()
 {
+    
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
     //delete main scene
     mainScene->Clear();
     SetupScene();
@@ -715,10 +792,8 @@ void GameSys::CreateLossScene()
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
-        "ResetText", "Back to title screen", 500, 500);   
+        "ResetText", "Back to title screen", 650, 100);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
-
-
 }
 
 /** 
@@ -768,13 +843,17 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
-    /*zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
-    zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
-    zone->SetFogStart(300.0f);
-    zone->SetFogEnd(500.0f);*/
+    scoreText = CreateText("Score: 0", "scoreText",  590, 560);
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
+    
+           
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = CreateButton(root, "ResetButton", 
+        "ResetText", "Back to title screen", 400, 650);   
+    
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
 /**
@@ -795,6 +874,7 @@ Node* GameSys::CreateBackground(String path)
     skyObject->SetMaterial(cache->GetResource<Material>(path));
     skyNode->AddTag("background");
     
+
     return skyNode;
 }
 
