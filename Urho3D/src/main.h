@@ -49,6 +49,8 @@ public:
     
     
     void DeleteCorrectnessText();
+    void DeleteScoreText();
+
 
 protected:
     /// Return XML patch instructions for screen joystick layout for a specific sample app, 
@@ -75,12 +77,16 @@ private:
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
     
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
-    
+
+    void HandleLoreClick(StringHash eventType, VariantMap& eventData);
+
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
     
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
     
     void MoveCamera(float timeStep);
+    void CreateTextScore();
+
     
     void SetupScene();
     
@@ -88,13 +94,18 @@ private:
     
     void CreateTitleScene();
     
+    void CreateScore();
     void CreateMainScene();
     
     void CreateInstructionsScene();
-    
+
+    void CreateLoreScene();
+
     void ChangeTexts(String note="None");
     
     void WriteToPipe(int pipefds[2]);
+
+    
 
     Node* CreateBackground(String path);
     Node* CreateShip();
