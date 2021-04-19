@@ -66,6 +66,7 @@ private:
     void HandleCloserClick(StringHash eventType, VariantMap& eventData);
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
+    void HandleLoreClick(StringHash eventType, VariantMap& eventData);
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
     void MoveCamera(float timeStep);
@@ -79,6 +80,7 @@ private:
     void CreateScore();
     void CreateMainScene();
     void CreateInstructionsScene();
+    void CreateLoreScene();
     void ChangeTexts(String note="None");
     void WriteToPipe(int pipefds[2]);
 

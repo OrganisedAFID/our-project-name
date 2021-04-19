@@ -515,13 +515,16 @@ void GameSys::CreateTitleScene()
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
-        "StartText", "Start Game!", 250, 500);
+        "StartText", "Start Game!", 50, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
-        "Instructions", 600, 500);
+        "Instructions", 400, 500);
+    auto* loreButton = CreateButton(root, "LoreButton", "LoreText", 
+        "Lore", 750, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
+    SubscribeToEvent(loreButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleLoreClick));
 }
 
 
@@ -673,6 +676,60 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 
     //Show the instructions
     CreateInstructionsScene();
+}
+
+/** 
+ * when you click on the lore button, the lore appears
+ * 
+ */
+void GameSys::HandleLoreClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+    //Delete the title scene
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+    //delete title scene background
+    mainScene->Clear();
+
+    //Show the instructions
+    CreateLoreScene();
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateLoreScene()
+{
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* backButton = CreateButton(root, "BackButton", 
+        "BackText", "Back to title screen", 700, 500);   
+    auto* instructionsText = CreateText(
+        "You are about to enter a universe where starships sing\n"
+        "to each other across the void. Where buccaneers race the\n"
+        "spaceways looking for loot and smugglers run their contraband\n"
+        "from port to shady port. In the Galaxy of Audiorum, ships travel\n"
+        "space carrying great prizes. Fleets move as one in warp jumps,\n"
+        "synchronised by ‘The Resonance’ – a tone send out by the warp\n"
+        "engines encoding each jump. Planned journeys are symphonies\n"
+        "played out by ships in glorious rhythm across the stars.\n\n"
+        "You are taking on the role of Chantilly Lace, a pirate with\n"
+        "such genius they can tweak their engines so that the Resonance\n"
+        "sent out by other ships is trackable and you can catch and board\n"
+        "great frigates in deep space in your mighty and feared ship\n"
+        "‘The Space Shanty’.\n\n"
+        "Chantilly is a former engineer turned pirate who realised\n"
+        "they could use their new technology to take from the rich\n"
+        "to give to the poor Robin Hood style.\n"
+        "Living outside the law means you need to work with\n"
+        "unsavoury types though, so Lace has built a reputation\n"
+        "as a fearsome Captain and a hardy warrior.\n"
+        "The problem is, the crew of The Space Shanty can see a\n"
+        "whole lot of wealth, and feel not enough is going in their\n"
+        "pockets! Will you be able to guide Lace through the trials\n"
+        "that await?", 
+        "Instructions", 100, 100);
+    instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
+
+    SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
 }
 
 /**
