@@ -8,6 +8,7 @@ Current status: Beta version released
 Check out our social media pages to keep up to date with  our progress
 - Instagram:  https://www.instagram.com/soundpirates/
 - Twitter: https://twitter.com/SoundPIrates
+- Youtube: https://youtu.be/NzJbUrqUhCU
 
 Link to our website: https://organisedafid.github.io/sound-pirates/
 
@@ -16,6 +17,9 @@ Link to our website: https://organisedafid.github.io/sound-pirates/
 Sound PIrates is an interactive game targeted at musicians who want to learn how to play by ear. The concept of the game is simple. A short tone, within the C Major scale,  will be played out and the user has approximately 3 seconds to replicate the note on their chosen instrument. If the note played by the user and by the game is a match then a point is rewarded, and if no note or the incorrect note is detected a point will be lost. 
 
 To make it more exciting a game featuring a spaceship has been developed. The objective is for the user to catch the spaceship, therefore when a correct note is detected the spaceship will appear closer, and if the incorrect note is played the spaceship will fly further away. The game goes on until enough wins or losses have been detected to either catch the spaceship, or it being too far out of reach. 
+<p align="center">
+<img src= "https://user-images.githubusercontent.com/44497996/115268362-18b6c500-a132-11eb-896d-6549926aac19.gif" width="600" height="400" >
+</p>
 
 <p align="center">
 <img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/GameImage1.jpeg" width="600" height="400" >
