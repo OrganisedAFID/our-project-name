@@ -226,12 +226,12 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     }
 
     int i = 0;
-    signed short *a = (signed short *)inputBuffer;
+    signed short *input_buffer = (signed short *)inputBuffer;
 
     //Add nBufferFrames values from the input buffer into window
     while (window.size() < nBufferFrames * 2 && i < nBufferFrames)
     {
-        window.push_back(a[i++]);
+        window.push_back(input_buffer[i++]);
     }
 
     processBuffer();
