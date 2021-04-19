@@ -146,6 +146,17 @@ If you are unable to replicate the note the space ship will fly further away.
 The game ends when either you have caught up to the space PIrates and win the game, or you have played the incorrect note too many times and let the space PIrates get away- loosing the game. 
 
 ## Latency Analysis
+For the game to appear to be running in real-time the latency must be low. In gaming anything below 100ms is considered acceptable, while the standard latency is 20-40ms.
+
+To assess the realtime responsiveness a latency analysis has been performed by timing various parts of the code. Simplified, the game will generate a screen, play a note, wait for the user to play a note, convert this into the frequncy spectrum and identify the most dominant frequency, identify the note as correct/incorrect and finally have the spaceship in the game move depending on the detected note. Each of these were timed and the average of 5 games runing start to finish as seen in the list below. 
+
+- scene generation: 430 ms
+- process buffer: 4.4 ms
+- finding maximum frequency: 0.000088 ms
+- FFT: 1.5 ms
+- Identify correct/incorrect note and move object: 0.037 ms
+
+This means that from a note has been detected to the spaceship moving in response to the note that was played takes a total of 6 ms. Generating new scenes by far took the longest time with an average of 430 ms.
 
 ## User Stories
 
