@@ -614,7 +614,16 @@ void GameSys::SubscribeToEvents()
 
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate)); 
 }
-/**
+
+/** Handle the update called every frame of the game
+ *  Takes in some informatio nabout the previous frame
+ *  Loops the play tone -> user input every 6secs
+ *  After 5s of the loop, makes user input impossible
+ *  and shows a feedback message if the user did not
+ *  play a note
+ * 
+ *  Also updates the timestep variable to be the time taken 
+ *  of the previous frame
  * 
  * 
  */
@@ -640,6 +649,9 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     }
 }
 
+/** Delete the score text node from the main scene
+ * 
+ */ 
 void GameSys::DeleteScoreText()
 {
     //Delete existing score text from the screen if it exists
@@ -650,6 +662,9 @@ void GameSys::DeleteScoreText()
         scoreText[0]->Remove();       
 }
 
+/** Delete the correctness text node from the main scene
+ * 
+ */ 
 void GameSys::DeleteCorrectnessText()
 {
     //Delete existing correctness text from the screen if it exists
@@ -658,6 +673,7 @@ void GameSys::DeleteCorrectnessText()
     if(correctnessText.Size() > 0)
         correctnessText[0]->Remove();
 }
+
 /** 
  * when you click on the start button, the second scene appears
  * 
@@ -910,8 +926,8 @@ Node* GameSys::CreateShip()
 }
 
 
-/**
- * 
+/** Setup the viewport for the scene, enabling the user to see things
+ *  Do this after setting up lighting and a camera in a scene
  * 
  */
 void GameSys::SetupViewport()
