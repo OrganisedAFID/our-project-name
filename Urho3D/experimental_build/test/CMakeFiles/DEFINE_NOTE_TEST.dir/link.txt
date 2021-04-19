@@ -1,0 +1,1 @@
+/usr/bin/c++  -O3 -DNDEBUG   -pthread -rdynamic CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.o CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.o  -o DEFINE_NOTE_TEST   -L/home/pi/sound-pirates/Urho3D/src  -Wl,-rpath,/home/pi/sound-pirates/Urho3D/src -lboost_filesystem -lboost_system -lboost_unit_test_framework 

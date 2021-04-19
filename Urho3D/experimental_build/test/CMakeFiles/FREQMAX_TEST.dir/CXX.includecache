@@ -1,0 +1,22 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/pi/sound-pirates/Urho3D/src/findFreqMax.cpp
+vector
+-
+
+/home/pi/sound-pirates/Urho3D/src/findFreqMax.h
+
+/home/pi/sound-pirates/Urho3D/src/test/freqMax_test.cpp
+boost/test/unit_test.hpp
+-
+vector
+-
+findFreqMax.h
+/home/pi/sound-pirates/Urho3D/src/test/findFreqMax.h
+
