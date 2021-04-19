@@ -1,0 +1,140 @@
+\hypertarget{_rt_audio_8cpp}{}\doxysection{Urho3\+D/src/\+Rt\+Audio.cpp File Reference}
+\label{_rt_audio_8cpp}\index{Urho3D/src/RtAudio.cpp@{Urho3D/src/RtAudio.cpp}}
+{\ttfamily \#include \char`\"{}Rt\+Audio.\+h\char`\"{}}\newline
+{\ttfamily \#include $<$iostream$>$}\newline
+{\ttfamily \#include $<$cstdlib$>$}\newline
+{\ttfamily \#include $<$cstring$>$}\newline
+{\ttfamily \#include $<$climits$>$}\newline
+{\ttfamily \#include $<$cmath$>$}\newline
+{\ttfamily \#include $<$algorithm$>$}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_static_assert}{Static\+Assert$<$ b $>$}}
+\item 
+class \mbox{\hyperlink{class_static_assert_3_01true_01_4}{Static\+Assert$<$ true $>$}}
+\item 
+class \mbox{\hyperlink{class_static_assertions}{Static\+Assertions}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \mbox{\hyperlink{_rt_audio_8cpp_af30c971a89224adb16687a42e47e24fd}{MUTEX\+\_\+\+INITIALIZE}}(A)~abs($\ast$A)
+\item 
+\#define \mbox{\hyperlink{_rt_audio_8cpp_ae6ee550bf8eb770af06d439689b17980}{MUTEX\+\_\+\+DESTROY}}(A)~abs($\ast$A)
+\end{DoxyCompactItemize}
+\doxysubsection*{Variables}
+\begin{DoxyCompactItemize}
+\item 
+const char $\ast$ \mbox{\hyperlink{_rt_audio_8cpp_a9a4a82da114ed97a90c3e58e78e1bdca}{rtaudio\+\_\+api\+\_\+names}} \mbox{[}$\,$\mbox{]}\mbox{[}2\mbox{]}
+\item 
+const unsigned int \mbox{\hyperlink{_rt_audio_8cpp_a99166f78d13e4b61c20720ff148b53d9}{rtaudio\+\_\+num\+\_\+api\+\_\+names}}
+\item 
+const \mbox{\hyperlink{class_rt_audio_ac9b6f625da88249d08a8409a9db0d849}{Rt\+Audio\+::\+Api}} \mbox{\hyperlink{_rt_audio_8cpp_a6fc476d55cd49c3e5192e19786e3d716}{rtaudio\+\_\+compiled\+\_\+apis}} \mbox{[}$\,$\mbox{]}
+\item 
+const unsigned int \mbox{\hyperlink{_rt_audio_8cpp_a899a6726b3dd86791062ccb33b673475}{rtaudio\+\_\+num\+\_\+compiled\+\_\+apis}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Macro Definition Documentation}
+\mbox{\Hypertarget{_rt_audio_8cpp_ae6ee550bf8eb770af06d439689b17980}\label{_rt_audio_8cpp_ae6ee550bf8eb770af06d439689b17980}} 
+\index{RtAudio.cpp@{RtAudio.cpp}!MUTEX\_DESTROY@{MUTEX\_DESTROY}}
+\index{MUTEX\_DESTROY@{MUTEX\_DESTROY}!RtAudio.cpp@{RtAudio.cpp}}
+\doxysubsubsection{\texorpdfstring{MUTEX\_DESTROY}{MUTEX\_DESTROY}}
+{\footnotesize\ttfamily \#define MUTEX\+\_\+\+DESTROY(\begin{DoxyParamCaption}\item[{}]{A }\end{DoxyParamCaption})~abs($\ast$A)}
+
+\mbox{\Hypertarget{_rt_audio_8cpp_af30c971a89224adb16687a42e47e24fd}\label{_rt_audio_8cpp_af30c971a89224adb16687a42e47e24fd}} 
+\index{RtAudio.cpp@{RtAudio.cpp}!MUTEX\_INITIALIZE@{MUTEX\_INITIALIZE}}
+\index{MUTEX\_INITIALIZE@{MUTEX\_INITIALIZE}!RtAudio.cpp@{RtAudio.cpp}}
+\doxysubsubsection{\texorpdfstring{MUTEX\_INITIALIZE}{MUTEX\_INITIALIZE}}
+{\footnotesize\ttfamily \#define MUTEX\+\_\+\+INITIALIZE(\begin{DoxyParamCaption}\item[{}]{A }\end{DoxyParamCaption})~abs($\ast$A)}
+
+
+
+\doxysubsection{Variable Documentation}
+\mbox{\Hypertarget{_rt_audio_8cpp_a9a4a82da114ed97a90c3e58e78e1bdca}\label{_rt_audio_8cpp_a9a4a82da114ed97a90c3e58e78e1bdca}} 
+\index{RtAudio.cpp@{RtAudio.cpp}!rtaudio\_api\_names@{rtaudio\_api\_names}}
+\index{rtaudio\_api\_names@{rtaudio\_api\_names}!RtAudio.cpp@{RtAudio.cpp}}
+\doxysubsubsection{\texorpdfstring{rtaudio\_api\_names}{rtaudio\_api\_names}}
+{\footnotesize\ttfamily const char$\ast$ rtaudio\+\_\+api\+\_\+names\mbox{[}$\,$\mbox{]}\mbox{[}2\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}unspecified"{}} , \textcolor{stringliteral}{"{}Unknown"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}alsa"{}}        , \textcolor{stringliteral}{"{}ALSA"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}pulse"{}}       , \textcolor{stringliteral}{"{}Pulse"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}oss"{}}         , \textcolor{stringliteral}{"{}OpenSoundSystem"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}jack"{}}        , \textcolor{stringliteral}{"{}Jack"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}core"{}}        , \textcolor{stringliteral}{"{}CoreAudio"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}wasapi"{}}      , \textcolor{stringliteral}{"{}WASAPI"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}asio"{}}        , \textcolor{stringliteral}{"{}ASIO"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}ds"{}}          , \textcolor{stringliteral}{"{}DirectSound"{}} \},}
+\DoxyCodeLine{  \{ \textcolor{stringliteral}{"{}dummy"{}}       , \textcolor{stringliteral}{"{}Dummy"{}} \},}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_rt_audio_8cpp_a6fc476d55cd49c3e5192e19786e3d716}\label{_rt_audio_8cpp_a6fc476d55cd49c3e5192e19786e3d716}} 
+\index{RtAudio.cpp@{RtAudio.cpp}!rtaudio\_compiled\_apis@{rtaudio\_compiled\_apis}}
+\index{rtaudio\_compiled\_apis@{rtaudio\_compiled\_apis}!RtAudio.cpp@{RtAudio.cpp}}
+\doxysubsubsection{\texorpdfstring{rtaudio\_compiled\_apis}{rtaudio\_compiled\_apis}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_rt_audio_ac9b6f625da88249d08a8409a9db0d849}{Rt\+Audio\+::\+Api}} rtaudio\+\_\+compiled\+\_\+apis\mbox{[}$\,$\mbox{]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \mbox{\hyperlink{class_rt_audio_ac9b6f625da88249d08a8409a9db0d849ab06b8fd88bf18c9a2b8271f6961ae2d1}{RtAudio::RTAUDIO\_DUMMY}},}
+\DoxyCodeLine{}
+\DoxyCodeLine{  \mbox{\hyperlink{class_rt_audio_ac9b6f625da88249d08a8409a9db0d849aa49af3ac767106158bc6cad74fb214ae}{RtAudio::UNSPECIFIED}},}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_rt_audio_8cpp_a99166f78d13e4b61c20720ff148b53d9}\label{_rt_audio_8cpp_a99166f78d13e4b61c20720ff148b53d9}} 
+\index{RtAudio.cpp@{RtAudio.cpp}!rtaudio\_num\_api\_names@{rtaudio\_num\_api\_names}}
+\index{rtaudio\_num\_api\_names@{rtaudio\_num\_api\_names}!RtAudio.cpp@{RtAudio.cpp}}
+\doxysubsubsection{\texorpdfstring{rtaudio\_num\_api\_names}{rtaudio\_num\_api\_names}}
+{\footnotesize\ttfamily const unsigned int rtaudio\+\_\+num\+\_\+api\+\_\+names}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= }
+\DoxyCodeLine{  \textcolor{keyword}{sizeof}(\mbox{\hyperlink{_rt_audio_8cpp_a9a4a82da114ed97a90c3e58e78e1bdca}{rtaudio\_api\_names}})/\textcolor{keyword}{sizeof}(\mbox{\hyperlink{_rt_audio_8cpp_a9a4a82da114ed97a90c3e58e78e1bdca}{rtaudio\_api\_names}}[0])}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{_rt_audio_8cpp_a899a6726b3dd86791062ccb33b673475}\label{_rt_audio_8cpp_a899a6726b3dd86791062ccb33b673475}} 
+\index{RtAudio.cpp@{RtAudio.cpp}!rtaudio\_num\_compiled\_apis@{rtaudio\_num\_compiled\_apis}}
+\index{rtaudio\_num\_compiled\_apis@{rtaudio\_num\_compiled\_apis}!RtAudio.cpp@{RtAudio.cpp}}
+\doxysubsubsection{\texorpdfstring{rtaudio\_num\_compiled\_apis}{rtaudio\_num\_compiled\_apis}}
+{\footnotesize\ttfamily const unsigned int rtaudio\+\_\+num\+\_\+compiled\+\_\+apis}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{=}
+\DoxyCodeLine{  \textcolor{keyword}{sizeof}(\mbox{\hyperlink{_rt_audio_8cpp_a6fc476d55cd49c3e5192e19786e3d716}{rtaudio\_compiled\_apis}})/\textcolor{keyword}{sizeof}(\mbox{\hyperlink{_rt_audio_8cpp_a6fc476d55cd49c3e5192e19786e3d716}{rtaudio\_compiled\_apis}}[0])-\/1}
+
+\end{DoxyCode}

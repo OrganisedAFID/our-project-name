@@ -1,0 +1,513 @@
+\hypertarget{class_rt_api}{}\doxysection{Rt\+Api Class Reference}
+\label{class_rt_api}\index{RtApi@{RtApi}}
+
+
+{\ttfamily \#include $<$Rt\+Audio.\+h$>$}
+
+Inheritance diagram for Rt\+Api\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_rt_api}
+\end{center}
+\end{figure}
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \mbox{\hyperlink{struct_rt_api_1_1_convert_info}{Convert\+Info}}
+\item 
+struct \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream}{Rt\+Api\+Stream}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{class_rt_api_abb8d6a34fdef926feea06ba0925e16bb}{Rt\+Api}} ()
+\item 
+virtual \mbox{\hyperlink{class_rt_api_a7880ecf5954c116aebcbe1ff6bb1c658}{$\sim$\+Rt\+Api}} ()
+\item 
+virtual \mbox{\hyperlink{class_rt_audio_ac9b6f625da88249d08a8409a9db0d849}{Rt\+Audio\+::\+Api}} \mbox{\hyperlink{class_rt_api_aace5faa22a1615993d038c7acb37dbf4}{get\+Current\+Api}} (void)=0
+\item 
+virtual unsigned int \mbox{\hyperlink{class_rt_api_a4efee04d90b46722e80fce09cd72dfb3}{get\+Device\+Count}} (void)=0
+\item 
+virtual \mbox{\hyperlink{struct_rt_audio_1_1_device_info}{Rt\+Audio\+::\+Device\+Info}} \mbox{\hyperlink{class_rt_api_a62787b01c30a6addb243cd7da794dfdc}{get\+Device\+Info}} (unsigned int device)=0
+\item 
+virtual unsigned int \mbox{\hyperlink{class_rt_api_a6178ebc0e78bfdd277d7fedf7b88d44f}{get\+Default\+Input\+Device}} (void)
+\item 
+virtual unsigned int \mbox{\hyperlink{class_rt_api_afbe763b59fb7a3d346eb0c95945950c7}{get\+Default\+Output\+Device}} (void)
+\item 
+void \mbox{\hyperlink{class_rt_api_a5db36650d77680d2af18ab0b6ff2f3a9}{open\+Stream}} (\mbox{\hyperlink{struct_rt_audio_1_1_stream_parameters}{Rt\+Audio\+::\+Stream\+Parameters}} $\ast$output\+Parameters, \mbox{\hyperlink{struct_rt_audio_1_1_stream_parameters}{Rt\+Audio\+::\+Stream\+Parameters}} $\ast$input\+Parameters, \mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} format, unsigned int \mbox{\hyperlink{main_8cpp_a23fca789add1cce3726ae4a348024b72}{sample\+Rate}}, unsigned int $\ast$\mbox{\hyperlink{main_8cpp_a3768f49b80ad62b59676c0df7c475b0e}{buffer\+Frames}}, \mbox{\hyperlink{_rt_audio_8h_aa96e52a4e057d224cda0c39926e5c652}{Rt\+Audio\+Callback}} callback, void $\ast$user\+Data, \mbox{\hyperlink{struct_rt_audio_1_1_stream_options}{Rt\+Audio\+::\+Stream\+Options}} $\ast$options, \mbox{\hyperlink{_rt_audio_8h_a255b480e1e3c2818d838fb12d13f3123}{Rt\+Audio\+Error\+Callback}} error\+Callback)
+\item 
+virtual void \mbox{\hyperlink{class_rt_api_a13e0f615a63a540446bd8bb7e44c293f}{close\+Stream}} (void)
+\item 
+virtual void \mbox{\hyperlink{class_rt_api_a10ee2f45dc6c1200da231365b4686ac8}{start\+Stream}} (void)=0
+\item 
+virtual void \mbox{\hyperlink{class_rt_api_af17a556cb2534b53da961d3a6acba11e}{stop\+Stream}} (void)=0
+\item 
+virtual void \mbox{\hyperlink{class_rt_api_af65fd257cc358db6da29fbcef90287c7}{abort\+Stream}} (void)=0
+\item 
+long \mbox{\hyperlink{class_rt_api_afa13bea09f646779d8b9cbc829d7675f}{get\+Stream\+Latency}} (void)
+\item 
+unsigned int \mbox{\hyperlink{class_rt_api_a349576b3f0982428bef389a82946009d}{get\+Stream\+Sample\+Rate}} (void)
+\item 
+virtual double \mbox{\hyperlink{class_rt_api_a5b3e624c2833c692674069cd0d13d2dc}{get\+Stream\+Time}} (void)
+\item 
+virtual void \mbox{\hyperlink{class_rt_api_a30c5120d03bdc68c4c096a1e279ea0fe}{set\+Stream\+Time}} (double time)
+\item 
+bool \mbox{\hyperlink{class_rt_api_ae8f31ee5f44c3be1c2d6fd5d5f251bdc}{is\+Stream\+Open}} (void) const
+\item 
+bool \mbox{\hyperlink{class_rt_api_abf9243dd0551fa0d990ca29db59e372f}{is\+Stream\+Running}} (void) const
+\item 
+void \mbox{\hyperlink{class_rt_api_a3c28d90eda75287192b012eba92718ec}{show\+Warnings}} (bool value)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Types}
+\begin{DoxyCompactItemize}
+\item 
+enum \{ \mbox{\hyperlink{class_rt_api_a0961487803bbd8de0a36936d96aec8c5ab51a4532db173f4dc9202260fd08aaee}{FAILURE}}
+, \mbox{\hyperlink{class_rt_api_a0961487803bbd8de0a36936d96aec8c5a653bd8f777a5f2a796cdc63aaec21c82}{SUCCESS}}
+ \}
+\item 
+enum \mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7}{Stream\+State}} \{ \mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a3fde6860b0950833916151591fc5e388}{STREAM\+\_\+\+STOPPED}}
+, \mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7af36cb28cf5c2810470b295890dd5bfcb}{STREAM\+\_\+\+STOPPING}}
+, \mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a98203a905c6a37d6b91c1f1746dad965}{STREAM\+\_\+\+RUNNING}}
+, \mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a2a41212ed5336686b1566295a25e319b}{STREAM\+\_\+\+CLOSED}} = -\/50
+ \}
+\item 
+enum \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Stream\+Mode}} \{ \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebdaeb2b4bed5a164cb6fdbefaf4208785cc}{OUTPUT}}
+, \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebda8c798d6bca4bc1e040edf99735ece43e}{INPUT}}
+, \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebda30eca962e4abb8147d3b460ad065d757}{DUPLEX}}
+, \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebdae1206e4422d260aecd6740de4bf8d021}{UNINITIALIZED}} = -\/75
+ \}
+\item 
+typedef \mbox{\hyperlink{class_s24}{S24}} \mbox{\hyperlink{class_rt_api_a9dc07a6666436dc0809c38435885db81}{Int24}}
+\item 
+typedef signed short \mbox{\hyperlink{class_rt_api_aa5a524a28ea28f031ca0a0a9e024ff39}{Int16}}
+\item 
+typedef signed int \mbox{\hyperlink{class_rt_api_a438fed76129128575398354b306a4cc2}{Int32}}
+\item 
+typedef float \mbox{\hyperlink{class_rt_api_aefb8b52708f6a43a62fcb31da11c0484}{Float32}}
+\item 
+typedef double \mbox{\hyperlink{class_rt_api_ae10c5228f8184b69c1102f5d90992f23}{Float64}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \mbox{\hyperlink{class_rt_api_a7cb2af485df310d803e7a35d3e4a2c1b}{probe\+Device\+Open}} (unsigned int device, \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Stream\+Mode}} mode, unsigned int channels, unsigned int first\+Channel, unsigned int \mbox{\hyperlink{main_8cpp_a23fca789add1cce3726ae4a348024b72}{sample\+Rate}}, \mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} format, unsigned int $\ast$buffer\+Size, \mbox{\hyperlink{struct_rt_audio_1_1_stream_options}{Rt\+Audio\+::\+Stream\+Options}} $\ast$options)
+\item 
+void \mbox{\hyperlink{class_rt_api_ae20a4060301413ddcddc6bf149bbf911}{tick\+Stream\+Time}} (void)
+\begin{DoxyCompactList}\small\item\em A protected function used to increment the stream time. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rt_api_adb7ab7111510e3db1f0884a68926b5a4}{clear\+Stream\+Info}} ()
+\begin{DoxyCompactList}\small\item\em Protected common method to clear an \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream}{Rt\+Api\+Stream}} structure. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rt_api_acb0a053f68f082bb0f7ed4d056be1ea6}{verify\+Stream}} (void)
+\item 
+void \mbox{\hyperlink{class_rt_api_a991f6626a0b1a79f0fec1c6a7bcebb9e}{error}} (\mbox{\hyperlink{class_rt_audio_error_a85bdee746d5ba80d655ac98ded21d073}{Rt\+Audio\+Error\+::\+Type}} type)
+\begin{DoxyCompactList}\small\item\em Protected common error method to allow global control over error handling. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rt_api_a85ed0a3827faddf0c796869e72800850}{convert\+Buffer}} (char $\ast$out\+Buffer, char $\ast$in\+Buffer, \mbox{\hyperlink{struct_rt_api_1_1_convert_info}{Convert\+Info}} \&info)
+\item 
+void \mbox{\hyperlink{class_rt_api_a0d1b716b762e865a5b460be2117bb5ed}{byte\+Swap\+Buffer}} (char $\ast$buffer, unsigned int samples, \mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} format)
+\begin{DoxyCompactList}\small\item\em Protected common method used to perform byte-\/swapping on buffers. \end{DoxyCompactList}\item 
+unsigned int \mbox{\hyperlink{class_rt_api_a61fd2ec8b7bb72580bcf0233fd150f5f}{format\+Bytes}} (\mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} format)
+\begin{DoxyCompactList}\small\item\em Protected common method that returns the number of bytes for a given format. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_rt_api_af06289f7963ccc23dcd64eab911b26cd}{set\+Convert\+Info}} (\mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Stream\+Mode}} mode, unsigned int first\+Channel)
+\begin{DoxyCompactList}\small\item\em Protected common method that sets up the parameters for buffer conversion. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+std\+::ostringstream \mbox{\hyperlink{class_rt_api_a3498df7d2f954d691d52c75f29dd8873}{error\+Stream\+\_\+}}
+\item 
+std\+::string \mbox{\hyperlink{class_rt_api_ab512557e93839a7cbb997160b08d3c18}{error\+Text\+\_\+}}
+\item 
+bool \mbox{\hyperlink{class_rt_api_aa9142cb3f4df970af4ee37fedb2f16b1}{show\+Warnings\+\_\+}}
+\item 
+\mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream}{Rt\+Api\+Stream}} \mbox{\hyperlink{class_rt_api_a818637ca9005b0270d56eaaea4697b34}{stream\+\_\+}}
+\item 
+bool \mbox{\hyperlink{class_rt_api_a27b79744725ac8f8f56d2de8868fa242}{first\+Error\+Occurred\+\_\+}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+static const unsigned int \mbox{\hyperlink{class_rt_api_a59917a16adcd5eb468dd88d4c5b8c289}{MAX\+\_\+\+SAMPLE\+\_\+\+RATES}} = 14
+\item 
+static const unsigned int \mbox{\hyperlink{class_rt_api_a84f89655b9f487005d10929ff9453ad2}{SAMPLE\+\_\+\+RATES}} \mbox{[}$\,$\mbox{]}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Typedef Documentation}
+\mbox{\Hypertarget{class_rt_api_aefb8b52708f6a43a62fcb31da11c0484}\label{class_rt_api_aefb8b52708f6a43a62fcb31da11c0484}} 
+\index{RtApi@{RtApi}!Float32@{Float32}}
+\index{Float32@{Float32}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{Float32}{Float32}}
+{\footnotesize\ttfamily typedef float \mbox{\hyperlink{class_rt_api_aefb8b52708f6a43a62fcb31da11c0484}{Rt\+Api\+::\+Float32}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_ae10c5228f8184b69c1102f5d90992f23}\label{class_rt_api_ae10c5228f8184b69c1102f5d90992f23}} 
+\index{RtApi@{RtApi}!Float64@{Float64}}
+\index{Float64@{Float64}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{Float64}{Float64}}
+{\footnotesize\ttfamily typedef double \mbox{\hyperlink{class_rt_api_ae10c5228f8184b69c1102f5d90992f23}{Rt\+Api\+::\+Float64}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_aa5a524a28ea28f031ca0a0a9e024ff39}\label{class_rt_api_aa5a524a28ea28f031ca0a0a9e024ff39}} 
+\index{RtApi@{RtApi}!Int16@{Int16}}
+\index{Int16@{Int16}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{Int16}{Int16}}
+{\footnotesize\ttfamily typedef signed short \mbox{\hyperlink{class_rt_api_aa5a524a28ea28f031ca0a0a9e024ff39}{Rt\+Api\+::\+Int16}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_a9dc07a6666436dc0809c38435885db81}\label{class_rt_api_a9dc07a6666436dc0809c38435885db81}} 
+\index{RtApi@{RtApi}!Int24@{Int24}}
+\index{Int24@{Int24}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{Int24}{Int24}}
+{\footnotesize\ttfamily typedef \mbox{\hyperlink{class_s24}{S24}} \mbox{\hyperlink{class_rt_api_a9dc07a6666436dc0809c38435885db81}{Rt\+Api\+::\+Int24}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_a438fed76129128575398354b306a4cc2}\label{class_rt_api_a438fed76129128575398354b306a4cc2}} 
+\index{RtApi@{RtApi}!Int32@{Int32}}
+\index{Int32@{Int32}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{Int32}{Int32}}
+{\footnotesize\ttfamily typedef signed int \mbox{\hyperlink{class_rt_api_a438fed76129128575398354b306a4cc2}{Rt\+Api\+::\+Int32}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+\doxysubsection{Member Enumeration Documentation}
+\mbox{\Hypertarget{class_rt_api_a0961487803bbd8de0a36936d96aec8c5}\label{class_rt_api_a0961487803bbd8de0a36936d96aec8c5}} 
+\doxysubsubsection{\texorpdfstring{anonymous enum}{anonymous enum}}
+{\footnotesize\ttfamily anonymous enum\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{FAILURE@{FAILURE}!RtApi@{RtApi}}\index{RtApi@{RtApi}!FAILURE@{FAILURE}}}\mbox{\Hypertarget{class_rt_api_a0961487803bbd8de0a36936d96aec8c5ab51a4532db173f4dc9202260fd08aaee}\label{class_rt_api_a0961487803bbd8de0a36936d96aec8c5ab51a4532db173f4dc9202260fd08aaee}} 
+FAILURE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{SUCCESS@{SUCCESS}!RtApi@{RtApi}}\index{RtApi@{RtApi}!SUCCESS@{SUCCESS}}}\mbox{\Hypertarget{class_rt_api_a0961487803bbd8de0a36936d96aec8c5a653bd8f777a5f2a796cdc63aaec21c82}\label{class_rt_api_a0961487803bbd8de0a36936d96aec8c5a653bd8f777a5f2a796cdc63aaec21c82}} 
+SUCCESS&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}\label{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}} 
+\index{RtApi@{RtApi}!StreamMode@{StreamMode}}
+\index{StreamMode@{StreamMode}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{StreamMode}{StreamMode}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Rt\+Api\+::\+Stream\+Mode}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{OUTPUT@{OUTPUT}!RtApi@{RtApi}}\index{RtApi@{RtApi}!OUTPUT@{OUTPUT}}}\mbox{\Hypertarget{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebdaeb2b4bed5a164cb6fdbefaf4208785cc}\label{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebdaeb2b4bed5a164cb6fdbefaf4208785cc}} 
+OUTPUT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{INPUT@{INPUT}!RtApi@{RtApi}}\index{RtApi@{RtApi}!INPUT@{INPUT}}}\mbox{\Hypertarget{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebda8c798d6bca4bc1e040edf99735ece43e}\label{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebda8c798d6bca4bc1e040edf99735ece43e}} 
+INPUT&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{DUPLEX@{DUPLEX}!RtApi@{RtApi}}\index{RtApi@{RtApi}!DUPLEX@{DUPLEX}}}\mbox{\Hypertarget{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebda30eca962e4abb8147d3b460ad065d757}\label{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebda30eca962e4abb8147d3b460ad065d757}} 
+DUPLEX&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{UNINITIALIZED@{UNINITIALIZED}!RtApi@{RtApi}}\index{RtApi@{RtApi}!UNINITIALIZED@{UNINITIALIZED}}}\mbox{\Hypertarget{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebdae1206e4422d260aecd6740de4bf8d021}\label{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebdae1206e4422d260aecd6740de4bf8d021}} 
+UNINITIALIZED&\\
+\hline
+
+\end{DoxyEnumFields}
+\mbox{\Hypertarget{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7}\label{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7}} 
+\index{RtApi@{RtApi}!StreamState@{StreamState}}
+\index{StreamState@{StreamState}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{StreamState}{StreamState}}
+{\footnotesize\ttfamily enum \mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7}{Rt\+Api\+::\+Stream\+State}}\hspace{0.3cm}{\ttfamily [protected]}}
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STREAM\_STOPPED@{STREAM\_STOPPED}!RtApi@{RtApi}}\index{RtApi@{RtApi}!STREAM\_STOPPED@{STREAM\_STOPPED}}}\mbox{\Hypertarget{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a3fde6860b0950833916151591fc5e388}\label{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a3fde6860b0950833916151591fc5e388}} 
+STREAM\+\_\+\+STOPPED&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STREAM\_STOPPING@{STREAM\_STOPPING}!RtApi@{RtApi}}\index{RtApi@{RtApi}!STREAM\_STOPPING@{STREAM\_STOPPING}}}\mbox{\Hypertarget{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7af36cb28cf5c2810470b295890dd5bfcb}\label{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7af36cb28cf5c2810470b295890dd5bfcb}} 
+STREAM\+\_\+\+STOPPING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STREAM\_RUNNING@{STREAM\_RUNNING}!RtApi@{RtApi}}\index{RtApi@{RtApi}!STREAM\_RUNNING@{STREAM\_RUNNING}}}\mbox{\Hypertarget{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a98203a905c6a37d6b91c1f1746dad965}\label{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a98203a905c6a37d6b91c1f1746dad965}} 
+STREAM\+\_\+\+RUNNING&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{STREAM\_CLOSED@{STREAM\_CLOSED}!RtApi@{RtApi}}\index{RtApi@{RtApi}!STREAM\_CLOSED@{STREAM\_CLOSED}}}\mbox{\Hypertarget{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a2a41212ed5336686b1566295a25e319b}\label{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7a2a41212ed5336686b1566295a25e319b}} 
+STREAM\+\_\+\+CLOSED&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_rt_api_abb8d6a34fdef926feea06ba0925e16bb}\label{class_rt_api_abb8d6a34fdef926feea06ba0925e16bb}} 
+\index{RtApi@{RtApi}!RtApi@{RtApi}}
+\index{RtApi@{RtApi}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{RtApi()}{RtApi()}}
+{\footnotesize\ttfamily Rt\+Api\+::\+Rt\+Api (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rt_api_a7880ecf5954c116aebcbe1ff6bb1c658}\label{class_rt_api_a7880ecf5954c116aebcbe1ff6bb1c658}} 
+\index{RtApi@{RtApi}!````~RtApi@{$\sim$RtApi}}
+\index{````~RtApi@{$\sim$RtApi}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{$\sim$RtApi()}{~RtApi()}}
+{\footnotesize\ttfamily Rt\+Api\+::$\sim$\+Rt\+Api (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+\doxysubsection{Member Function Documentation}
+\mbox{\Hypertarget{class_rt_api_af65fd257cc358db6da29fbcef90287c7}\label{class_rt_api_af65fd257cc358db6da29fbcef90287c7}} 
+\index{RtApi@{RtApi}!abortStream@{abortStream}}
+\index{abortStream@{abortStream}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{abortStream()}{abortStream()}}
+{\footnotesize\ttfamily virtual void Rt\+Api\+::abort\+Stream (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_rt_api_dummy_ad6e5a08e9ead62580d7558e6f67f95f2}{Rt\+Api\+Dummy}}.
+
+\mbox{\Hypertarget{class_rt_api_a0d1b716b762e865a5b460be2117bb5ed}\label{class_rt_api_a0d1b716b762e865a5b460be2117bb5ed}} 
+\index{RtApi@{RtApi}!byteSwapBuffer@{byteSwapBuffer}}
+\index{byteSwapBuffer@{byteSwapBuffer}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{byteSwapBuffer()}{byteSwapBuffer()}}
+{\footnotesize\ttfamily void Rt\+Api\+::byte\+Swap\+Buffer (\begin{DoxyParamCaption}\item[{char $\ast$}]{buffer,  }\item[{unsigned int}]{samples,  }\item[{\mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}}}]{format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Protected common method used to perform byte-\/swapping on buffers. 
+
+\mbox{\Hypertarget{class_rt_api_adb7ab7111510e3db1f0884a68926b5a4}\label{class_rt_api_adb7ab7111510e3db1f0884a68926b5a4}} 
+\index{RtApi@{RtApi}!clearStreamInfo@{clearStreamInfo}}
+\index{clearStreamInfo@{clearStreamInfo}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{clearStreamInfo()}{clearStreamInfo()}}
+{\footnotesize\ttfamily void Rt\+Api\+::clear\+Stream\+Info (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Protected common method to clear an \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream}{Rt\+Api\+Stream}} structure. 
+
+\mbox{\Hypertarget{class_rt_api_a13e0f615a63a540446bd8bb7e44c293f}\label{class_rt_api_a13e0f615a63a540446bd8bb7e44c293f}} 
+\index{RtApi@{RtApi}!closeStream@{closeStream}}
+\index{closeStream@{closeStream}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{closeStream()}{closeStream()}}
+{\footnotesize\ttfamily void Rt\+Api\+::close\+Stream (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+
+
+Reimplemented in \mbox{\hyperlink{class_rt_api_dummy_a3c977f919de64b6fc232c3b7d012d226}{Rt\+Api\+Dummy}}.
+
+\mbox{\Hypertarget{class_rt_api_a85ed0a3827faddf0c796869e72800850}\label{class_rt_api_a85ed0a3827faddf0c796869e72800850}} 
+\index{RtApi@{RtApi}!convertBuffer@{convertBuffer}}
+\index{convertBuffer@{convertBuffer}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{convertBuffer()}{convertBuffer()}}
+{\footnotesize\ttfamily void Rt\+Api\+::convert\+Buffer (\begin{DoxyParamCaption}\item[{char $\ast$}]{out\+Buffer,  }\item[{char $\ast$}]{in\+Buffer,  }\item[{\mbox{\hyperlink{struct_rt_api_1_1_convert_info}{Convert\+Info}} \&}]{info }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Protected method used to perform format, channel number, and/or interleaving conversions between the user and device buffers. \mbox{\Hypertarget{class_rt_api_a991f6626a0b1a79f0fec1c6a7bcebb9e}\label{class_rt_api_a991f6626a0b1a79f0fec1c6a7bcebb9e}} 
+\index{RtApi@{RtApi}!error@{error}}
+\index{error@{error}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{error()}{error()}}
+{\footnotesize\ttfamily void Rt\+Api\+::error (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rt_audio_error_a85bdee746d5ba80d655ac98ded21d073}{Rt\+Audio\+Error\+::\+Type}}}]{type }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Protected common error method to allow global control over error handling. 
+
+\mbox{\Hypertarget{class_rt_api_a61fd2ec8b7bb72580bcf0233fd150f5f}\label{class_rt_api_a61fd2ec8b7bb72580bcf0233fd150f5f}} 
+\index{RtApi@{RtApi}!formatBytes@{formatBytes}}
+\index{formatBytes@{formatBytes}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{formatBytes()}{formatBytes()}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::format\+Bytes (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}}}]{format }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Protected common method that returns the number of bytes for a given format. 
+
+\mbox{\Hypertarget{class_rt_api_aace5faa22a1615993d038c7acb37dbf4}\label{class_rt_api_aace5faa22a1615993d038c7acb37dbf4}} 
+\index{RtApi@{RtApi}!getCurrentApi@{getCurrentApi}}
+\index{getCurrentApi@{getCurrentApi}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getCurrentApi()}{getCurrentApi()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{class_rt_audio_ac9b6f625da88249d08a8409a9db0d849}{Rt\+Audio\+::\+Api}} Rt\+Api\+::get\+Current\+Api (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_rt_api_dummy_a7ff0b3ec102299faad6e2449caf4e83d}{Rt\+Api\+Dummy}}.
+
+\mbox{\Hypertarget{class_rt_api_a6178ebc0e78bfdd277d7fedf7b88d44f}\label{class_rt_api_a6178ebc0e78bfdd277d7fedf7b88d44f}} 
+\index{RtApi@{RtApi}!getDefaultInputDevice@{getDefaultInputDevice}}
+\index{getDefaultInputDevice@{getDefaultInputDevice}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getDefaultInputDevice()}{getDefaultInputDevice()}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::get\+Default\+Input\+Device (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{class_rt_api_afbe763b59fb7a3d346eb0c95945950c7}\label{class_rt_api_afbe763b59fb7a3d346eb0c95945950c7}} 
+\index{RtApi@{RtApi}!getDefaultOutputDevice@{getDefaultOutputDevice}}
+\index{getDefaultOutputDevice@{getDefaultOutputDevice}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getDefaultOutputDevice()}{getDefaultOutputDevice()}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::get\+Default\+Output\+Device (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{class_rt_api_a4efee04d90b46722e80fce09cd72dfb3}\label{class_rt_api_a4efee04d90b46722e80fce09cd72dfb3}} 
+\index{RtApi@{RtApi}!getDeviceCount@{getDeviceCount}}
+\index{getDeviceCount@{getDeviceCount}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getDeviceCount()}{getDeviceCount()}}
+{\footnotesize\ttfamily virtual unsigned int Rt\+Api\+::get\+Device\+Count (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_rt_api_dummy_abd6e4121dca8d5b9d162aa1c51fc7f3e}{Rt\+Api\+Dummy}}.
+
+\mbox{\Hypertarget{class_rt_api_a62787b01c30a6addb243cd7da794dfdc}\label{class_rt_api_a62787b01c30a6addb243cd7da794dfdc}} 
+\index{RtApi@{RtApi}!getDeviceInfo@{getDeviceInfo}}
+\index{getDeviceInfo@{getDeviceInfo}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getDeviceInfo()}{getDeviceInfo()}}
+{\footnotesize\ttfamily virtual \mbox{\hyperlink{struct_rt_audio_1_1_device_info}{Rt\+Audio\+::\+Device\+Info}} Rt\+Api\+::get\+Device\+Info (\begin{DoxyParamCaption}\item[{unsigned int}]{device }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_rt_api_dummy_a1373a7859d0baad8bdb1ba89312d1914}{Rt\+Api\+Dummy}}.
+
+\mbox{\Hypertarget{class_rt_api_afa13bea09f646779d8b9cbc829d7675f}\label{class_rt_api_afa13bea09f646779d8b9cbc829d7675f}} 
+\index{RtApi@{RtApi}!getStreamLatency@{getStreamLatency}}
+\index{getStreamLatency@{getStreamLatency}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getStreamLatency()}{getStreamLatency()}}
+{\footnotesize\ttfamily long Rt\+Api\+::get\+Stream\+Latency (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rt_api_a349576b3f0982428bef389a82946009d}\label{class_rt_api_a349576b3f0982428bef389a82946009d}} 
+\index{RtApi@{RtApi}!getStreamSampleRate@{getStreamSampleRate}}
+\index{getStreamSampleRate@{getStreamSampleRate}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getStreamSampleRate()}{getStreamSampleRate()}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::get\+Stream\+Sample\+Rate (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rt_api_a5b3e624c2833c692674069cd0d13d2dc}\label{class_rt_api_a5b3e624c2833c692674069cd0d13d2dc}} 
+\index{RtApi@{RtApi}!getStreamTime@{getStreamTime}}
+\index{getStreamTime@{getStreamTime}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{getStreamTime()}{getStreamTime()}}
+{\footnotesize\ttfamily double Rt\+Api\+::get\+Stream\+Time (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{class_rt_api_ae8f31ee5f44c3be1c2d6fd5d5f251bdc}\label{class_rt_api_ae8f31ee5f44c3be1c2d6fd5d5f251bdc}} 
+\index{RtApi@{RtApi}!isStreamOpen@{isStreamOpen}}
+\index{isStreamOpen@{isStreamOpen}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{isStreamOpen()}{isStreamOpen()}}
+{\footnotesize\ttfamily bool Rt\+Api\+::is\+Stream\+Open (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_rt_api_abf9243dd0551fa0d990ca29db59e372f}\label{class_rt_api_abf9243dd0551fa0d990ca29db59e372f}} 
+\index{RtApi@{RtApi}!isStreamRunning@{isStreamRunning}}
+\index{isStreamRunning@{isStreamRunning}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{isStreamRunning()}{isStreamRunning()}}
+{\footnotesize\ttfamily bool Rt\+Api\+::is\+Stream\+Running (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_rt_api_a5db36650d77680d2af18ab0b6ff2f3a9}\label{class_rt_api_a5db36650d77680d2af18ab0b6ff2f3a9}} 
+\index{RtApi@{RtApi}!openStream@{openStream}}
+\index{openStream@{openStream}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{openStream()}{openStream()}}
+{\footnotesize\ttfamily void Rt\+Api\+::open\+Stream (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_rt_audio_1_1_stream_parameters}{Rt\+Audio\+::\+Stream\+Parameters}} $\ast$}]{output\+Parameters,  }\item[{\mbox{\hyperlink{struct_rt_audio_1_1_stream_parameters}{Rt\+Audio\+::\+Stream\+Parameters}} $\ast$}]{input\+Parameters,  }\item[{\mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}}}]{format,  }\item[{unsigned int}]{sample\+Rate,  }\item[{unsigned int $\ast$}]{buffer\+Frames,  }\item[{\mbox{\hyperlink{_rt_audio_8h_aa96e52a4e057d224cda0c39926e5c652}{Rt\+Audio\+Callback}}}]{callback,  }\item[{void $\ast$}]{user\+Data,  }\item[{\mbox{\hyperlink{struct_rt_audio_1_1_stream_options}{Rt\+Audio\+::\+Stream\+Options}} $\ast$}]{options,  }\item[{\mbox{\hyperlink{_rt_audio_8h_a255b480e1e3c2818d838fb12d13f3123}{Rt\+Audio\+Error\+Callback}}}]{error\+Callback }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{class_rt_api_a7cb2af485df310d803e7a35d3e4a2c1b}\label{class_rt_api_a7cb2af485df310d803e7a35d3e4a2c1b}} 
+\index{RtApi@{RtApi}!probeDeviceOpen@{probeDeviceOpen}}
+\index{probeDeviceOpen@{probeDeviceOpen}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{probeDeviceOpen()}{probeDeviceOpen()}}
+{\footnotesize\ttfamily bool Rt\+Api\+::probe\+Device\+Open (\begin{DoxyParamCaption}\item[{unsigned int}]{device,  }\item[{\mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Stream\+Mode}}}]{mode,  }\item[{unsigned int}]{channels,  }\item[{unsigned int}]{first\+Channel,  }\item[{unsigned int}]{sample\+Rate,  }\item[{\mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}}}]{format,  }\item[{unsigned int $\ast$}]{buffer\+Size,  }\item[{\mbox{\hyperlink{struct_rt_audio_1_1_stream_options}{Rt\+Audio\+::\+Stream\+Options}} $\ast$}]{options }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}, {\ttfamily [virtual]}}
+
+Protected, api-\/specific method that attempts to open a device with the given parameters. This function MUST be implemented by all subclasses. If an error is encountered during the probe, a \char`\"{}warning\char`\"{} message is reported and FAILURE is returned. A successful probe is indicated by a return value of SUCCESS. \mbox{\Hypertarget{class_rt_api_af06289f7963ccc23dcd64eab911b26cd}\label{class_rt_api_af06289f7963ccc23dcd64eab911b26cd}} 
+\index{RtApi@{RtApi}!setConvertInfo@{setConvertInfo}}
+\index{setConvertInfo@{setConvertInfo}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{setConvertInfo()}{setConvertInfo()}}
+{\footnotesize\ttfamily void Rt\+Api\+::set\+Convert\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Stream\+Mode}}}]{mode,  }\item[{unsigned int}]{first\+Channel }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+Protected common method that sets up the parameters for buffer conversion. 
+
+\mbox{\Hypertarget{class_rt_api_a30c5120d03bdc68c4c096a1e279ea0fe}\label{class_rt_api_a30c5120d03bdc68c4c096a1e279ea0fe}} 
+\index{RtApi@{RtApi}!setStreamTime@{setStreamTime}}
+\index{setStreamTime@{setStreamTime}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{setStreamTime()}{setStreamTime()}}
+{\footnotesize\ttfamily void Rt\+Api\+::set\+Stream\+Time (\begin{DoxyParamCaption}\item[{double}]{time }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+\mbox{\Hypertarget{class_rt_api_a3c28d90eda75287192b012eba92718ec}\label{class_rt_api_a3c28d90eda75287192b012eba92718ec}} 
+\index{RtApi@{RtApi}!showWarnings@{showWarnings}}
+\index{showWarnings@{showWarnings}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{showWarnings()}{showWarnings()}}
+{\footnotesize\ttfamily void Rt\+Api\+::show\+Warnings (\begin{DoxyParamCaption}\item[{bool}]{value }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+\mbox{\Hypertarget{class_rt_api_a10ee2f45dc6c1200da231365b4686ac8}\label{class_rt_api_a10ee2f45dc6c1200da231365b4686ac8}} 
+\index{RtApi@{RtApi}!startStream@{startStream}}
+\index{startStream@{startStream}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{startStream()}{startStream()}}
+{\footnotesize\ttfamily virtual void Rt\+Api\+::start\+Stream (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_rt_api_dummy_af5fff1f6a68cfbde8c243f23b18d62dd}{Rt\+Api\+Dummy}}.
+
+\mbox{\Hypertarget{class_rt_api_af17a556cb2534b53da961d3a6acba11e}\label{class_rt_api_af17a556cb2534b53da961d3a6acba11e}} 
+\index{RtApi@{RtApi}!stopStream@{stopStream}}
+\index{stopStream@{stopStream}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{stopStream()}{stopStream()}}
+{\footnotesize\ttfamily virtual void Rt\+Api\+::stop\+Stream (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Implemented in \mbox{\hyperlink{class_rt_api_dummy_ae107020b6e369376050df702ee55d5ae}{Rt\+Api\+Dummy}}.
+
+\mbox{\Hypertarget{class_rt_api_ae20a4060301413ddcddc6bf149bbf911}\label{class_rt_api_ae20a4060301413ddcddc6bf149bbf911}} 
+\index{RtApi@{RtApi}!tickStreamTime@{tickStreamTime}}
+\index{tickStreamTime@{tickStreamTime}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{tickStreamTime()}{tickStreamTime()}}
+{\footnotesize\ttfamily void Rt\+Api\+::tick\+Stream\+Time (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+A protected function used to increment the stream time. 
+
+\mbox{\Hypertarget{class_rt_api_acb0a053f68f082bb0f7ed4d056be1ea6}\label{class_rt_api_acb0a053f68f082bb0f7ed4d056be1ea6}} 
+\index{RtApi@{RtApi}!verifyStream@{verifyStream}}
+\index{verifyStream@{verifyStream}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{verifyStream()}{verifyStream()}}
+{\footnotesize\ttfamily void Rt\+Api\+::verify\+Stream (\begin{DoxyParamCaption}\item[{void}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [protected]}}
+
+Protected common method that throws an \mbox{\hyperlink{class_rt_audio_error}{Rt\+Audio\+Error}} (type = INVALID\+\_\+\+USE) if a stream is not open. 
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{class_rt_api_a3498df7d2f954d691d52c75f29dd8873}\label{class_rt_api_a3498df7d2f954d691d52c75f29dd8873}} 
+\index{RtApi@{RtApi}!errorStream\_@{errorStream\_}}
+\index{errorStream\_@{errorStream\_}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{errorStream\_}{errorStream\_}}
+{\footnotesize\ttfamily std\+::ostringstream Rt\+Api\+::error\+Stream\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_ab512557e93839a7cbb997160b08d3c18}\label{class_rt_api_ab512557e93839a7cbb997160b08d3c18}} 
+\index{RtApi@{RtApi}!errorText\_@{errorText\_}}
+\index{errorText\_@{errorText\_}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{errorText\_}{errorText\_}}
+{\footnotesize\ttfamily std\+::string Rt\+Api\+::error\+Text\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_a27b79744725ac8f8f56d2de8868fa242}\label{class_rt_api_a27b79744725ac8f8f56d2de8868fa242}} 
+\index{RtApi@{RtApi}!firstErrorOccurred\_@{firstErrorOccurred\_}}
+\index{firstErrorOccurred\_@{firstErrorOccurred\_}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{firstErrorOccurred\_}{firstErrorOccurred\_}}
+{\footnotesize\ttfamily bool Rt\+Api\+::first\+Error\+Occurred\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_a59917a16adcd5eb468dd88d4c5b8c289}\label{class_rt_api_a59917a16adcd5eb468dd88d4c5b8c289}} 
+\index{RtApi@{RtApi}!MAX\_SAMPLE\_RATES@{MAX\_SAMPLE\_RATES}}
+\index{MAX\_SAMPLE\_RATES@{MAX\_SAMPLE\_RATES}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{MAX\_SAMPLE\_RATES}{MAX\_SAMPLE\_RATES}}
+{\footnotesize\ttfamily const unsigned int Rt\+Api\+::\+MAX\+\_\+\+SAMPLE\+\_\+\+RATES = 14\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_a84f89655b9f487005d10929ff9453ad2}\label{class_rt_api_a84f89655b9f487005d10929ff9453ad2}} 
+\index{RtApi@{RtApi}!SAMPLE\_RATES@{SAMPLE\_RATES}}
+\index{SAMPLE\_RATES@{SAMPLE\_RATES}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{SAMPLE\_RATES}{SAMPLE\_RATES}}
+{\footnotesize\ttfamily const unsigned int Rt\+Api\+::\+SAMPLE\+\_\+\+RATES\hspace{0.3cm}{\ttfamily [static]}, {\ttfamily [protected]}}
+
+{\bfseries Initial value\+:}
+\begin{DoxyCode}{0}
+\DoxyCodeLine{= \{}
+\DoxyCodeLine{  4000, 5512, 8000, 9600, 11025, 16000, 22050,}
+\DoxyCodeLine{  32000, 44100, 48000, 88200, 96000, 176400, 192000}
+\DoxyCodeLine{\}}
+
+\end{DoxyCode}
+\mbox{\Hypertarget{class_rt_api_aa9142cb3f4df970af4ee37fedb2f16b1}\label{class_rt_api_aa9142cb3f4df970af4ee37fedb2f16b1}} 
+\index{RtApi@{RtApi}!showWarnings\_@{showWarnings\_}}
+\index{showWarnings\_@{showWarnings\_}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{showWarnings\_}{showWarnings\_}}
+{\footnotesize\ttfamily bool Rt\+Api\+::show\+Warnings\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+\mbox{\Hypertarget{class_rt_api_a818637ca9005b0270d56eaaea4697b34}\label{class_rt_api_a818637ca9005b0270d56eaaea4697b34}} 
+\index{RtApi@{RtApi}!stream\_@{stream\_}}
+\index{stream\_@{stream\_}!RtApi@{RtApi}}
+\doxysubsubsection{\texorpdfstring{stream\_}{stream\_}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream}{Rt\+Api\+Stream}} Rt\+Api\+::stream\+\_\+\hspace{0.3cm}{\ttfamily [protected]}}
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+Urho3\+D/src/\mbox{\hyperlink{_rt_audio_8h}{Rt\+Audio.\+h}}\item 
+Urho3\+D/src/\mbox{\hyperlink{_rt_audio_8cpp}{Rt\+Audio.\+cpp}}\end{DoxyCompactItemize}

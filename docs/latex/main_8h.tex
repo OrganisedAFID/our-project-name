@@ -1,0 +1,48 @@
+\hypertarget{main_8h}{}\doxysection{Urho3\+D/src/main.h File Reference}
+\label{main_8h}\index{Urho3D/src/main.h@{Urho3D/src/main.h}}
+{\ttfamily \#include \char`\"{}Sample.\+h\char`\"{}}\newline
+\doxysubsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+class \mbox{\hyperlink{class_game_sys}{Game\+Sys}}
+\end{DoxyCompactItemize}
+\doxysubsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+void \mbox{\hyperlink{main_8h_a12842162bf9fb339ec4e1876ff66d7eb}{inthand}} (int signum)
+\item 
+void \mbox{\hyperlink{main_8h_afe96f9d9fab486da366c637dfd786a3a}{ready\+Handler}} (int signum)
+\item 
+void \mbox{\hyperlink{main_8h_aca80ab0c4530390ea529fd5e9fe674ea}{Answer\+Handler}} (bool is\+Correct, bool didnt\+Play=false)
+\item 
+Text $\ast$ \mbox{\hyperlink{main_8h_a5a10316995bb8467a8f97cd43ed98426}{Create\+Text}} (String content, String tag\+Name, int x, int y, String font=\char`\"{}Fonts/Anonymous Pro.\+ttf\char`\"{})
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Function Documentation}
+\mbox{\Hypertarget{main_8h_aca80ab0c4530390ea529fd5e9fe674ea}\label{main_8h_aca80ab0c4530390ea529fd5e9fe674ea}} 
+\index{main.h@{main.h}!AnswerHandler@{AnswerHandler}}
+\index{AnswerHandler@{AnswerHandler}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{AnswerHandler()}{AnswerHandler()}}
+{\footnotesize\ttfamily void Answer\+Handler (\begin{DoxyParamCaption}\item[{bool}]{is\+Correct,  }\item[{bool}]{didnt\+Play }\end{DoxyParamCaption})}
+
+Answer\+Handler function. checks note played and feedsback correct/incorrect. Calls Create\+Win\+Scene or Create\+Loss\+Scene depending on input Gets Ships position and feedsback amount of tries
+
+React to the behaviour fo the player after a note is played If the player played the right note, make the ship move closer and tell the player they played the correct note If the player played the wrong note, make the ship move further away and tell the player they were incorrect If the player did not play anything, make the ship move further away and tell the player they did not play a note \mbox{\Hypertarget{main_8h_a5a10316995bb8467a8f97cd43ed98426}\label{main_8h_a5a10316995bb8467a8f97cd43ed98426}} 
+\index{main.h@{main.h}!CreateText@{CreateText}}
+\index{CreateText@{CreateText}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{CreateText()}{CreateText()}}
+{\footnotesize\ttfamily Text$\ast$ Create\+Text (\begin{DoxyParamCaption}\item[{String}]{content,  }\item[{String}]{tag\+Name,  }\item[{int}]{x,  }\item[{int}]{y,  }\item[{String}]{font\+Text }\end{DoxyParamCaption})}
+
+Create\+Text function. Defines text parameters font (optional), colour, position returns text \mbox{\Hypertarget{main_8h_a12842162bf9fb339ec4e1876ff66d7eb}\label{main_8h_a12842162bf9fb339ec4e1876ff66d7eb}} 
+\index{main.h@{main.h}!inthand@{inthand}}
+\index{inthand@{inthand}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{inthand()}{inthand()}}
+{\footnotesize\ttfamily void inthand (\begin{DoxyParamCaption}\item[{int}]{signum }\end{DoxyParamCaption})}
+
+inthand function allows close of terminal with ctrl C \mbox{\Hypertarget{main_8h_afe96f9d9fab486da366c637dfd786a3a}\label{main_8h_afe96f9d9fab486da366c637dfd786a3a}} 
+\index{main.h@{main.h}!readyHandler@{readyHandler}}
+\index{readyHandler@{readyHandler}!main.h@{main.h}}
+\doxysubsubsection{\texorpdfstring{readyHandler()}{readyHandler()}}
+{\footnotesize\ttfamily void ready\+Handler (\begin{DoxyParamCaption}\item[{int}]{signum }\end{DoxyParamCaption})}
+

@@ -1,0 +1,215 @@
+\hypertarget{struct_rt_api_1_1_rt_api_stream}{}\doxysection{Rt\+Api\+::Rt\+Api\+Stream Struct Reference}
+\label{struct_rt_api_1_1_rt_api_stream}\index{RtApi::RtApiStream@{RtApi::RtApiStream}}
+
+
+{\ttfamily \#include $<$Rt\+Audio.\+h$>$}
+
+\doxysubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_ae40149669eaecbdbdc3092e74fb2ecfb}{Rt\+Api\+Stream}} ()
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Attributes}
+\begin{DoxyCompactItemize}
+\item 
+unsigned int \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a38633b94968f0bde718b6124f91649c4}{device}} \mbox{[}2\mbox{]}
+\item 
+void $\ast$ \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a7e3a1a42bb786be6dd4085540a56e49f}{api\+Handle}}
+\item 
+\mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Stream\+Mode}} \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a5989e685a5bbe545705a962caa66c259}{mode}}
+\item 
+\mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7}{Stream\+State}} \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_accf19137332f916e96dd35f0f4259697}{state}}
+\item 
+char $\ast$ \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a67b21c4ad9f22c91f605d2b24a96c87a}{user\+Buffer}} \mbox{[}2\mbox{]}
+\item 
+char $\ast$ \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a253293c901cfb48e3d7a7abb76ea80b7}{device\+Buffer}}
+\item 
+bool \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a5ea1c0ba6fc1f41360e8c7f759078b00}{do\+Convert\+Buffer}} \mbox{[}2\mbox{]}
+\item 
+bool \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a957e664adba79f05a242c8cbd7f82a19}{user\+Interleaved}}
+\item 
+bool \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_aa3c2f2146434ed0f50ebbb32be718f94}{device\+Interleaved}} \mbox{[}2\mbox{]}
+\item 
+bool \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a5a610c6c9631b68bba44493f138fd876}{do\+Byte\+Swap}} \mbox{[}2\mbox{]}
+\item 
+unsigned int \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a0735dea0723fe8f3b46a895770610fad}{sample\+Rate}}
+\item 
+unsigned int \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_aa1c9c02713b522b8b608fdd9a00e8aee}{buffer\+Size}}
+\item 
+unsigned int \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a69d3064085e04c168fd487366ec4abbe}{n\+Buffers}}
+\item 
+unsigned int \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a90d44ecf300e122947b8f978fc800bd4}{n\+User\+Channels}} \mbox{[}2\mbox{]}
+\item 
+unsigned int \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_abe5008f70705044703ef34ff1b5be61b}{n\+Device\+Channels}} \mbox{[}2\mbox{]}
+\item 
+unsigned int \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_ae0a1f16f7df99453d177caa7b93964ab}{channel\+Offset}} \mbox{[}2\mbox{]}
+\item 
+unsigned long \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a18e198e9cd90da09b380ebe54fc6cd05}{latency}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_adc6fab24ece3a7e0318f77d687f90866}{user\+Format}}
+\item 
+\mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a9eb0511e02ce60efb17fa6725fd4bea3}{device\+Format}} \mbox{[}2\mbox{]}
+\item 
+\mbox{\hyperlink{_rt_audio_8h_aee70a2c8c580d0a15b1a9a74943d41d2}{Stream\+Mutex}} \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a8b7f7b5ada995d6885a76ac09fdc0a58}{mutex}}
+\item 
+\mbox{\hyperlink{struct_callback_info}{Callback\+Info}} \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_ab6194fc15a14da5667c493502380ec6d}{callback\+Info}}
+\item 
+\mbox{\hyperlink{struct_rt_api_1_1_convert_info}{Convert\+Info}} \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a28b8a898ae50d607976b8d7c56422c52}{convert\+Info}} \mbox{[}2\mbox{]}
+\item 
+double \mbox{\hyperlink{struct_rt_api_1_1_rt_api_stream_a517fc9043b838bea61d32e8f9f156fdb}{stream\+Time}}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_ae40149669eaecbdbdc3092e74fb2ecfb}\label{struct_rt_api_1_1_rt_api_stream_ae40149669eaecbdbdc3092e74fb2ecfb}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!RtApiStream@{RtApiStream}}
+\index{RtApiStream@{RtApiStream}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{RtApiStream()}{RtApiStream()}}
+{\footnotesize\ttfamily Rt\+Api\+::\+Rt\+Api\+Stream\+::\+Rt\+Api\+Stream (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [inline]}}
+
+
+
+\doxysubsection{Member Data Documentation}
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a7e3a1a42bb786be6dd4085540a56e49f}\label{struct_rt_api_1_1_rt_api_stream_a7e3a1a42bb786be6dd4085540a56e49f}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!apiHandle@{apiHandle}}
+\index{apiHandle@{apiHandle}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{apiHandle}{apiHandle}}
+{\footnotesize\ttfamily void$\ast$ Rt\+Api\+::\+Rt\+Api\+Stream\+::api\+Handle}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_aa1c9c02713b522b8b608fdd9a00e8aee}\label{struct_rt_api_1_1_rt_api_stream_aa1c9c02713b522b8b608fdd9a00e8aee}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!bufferSize@{bufferSize}}
+\index{bufferSize@{bufferSize}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{bufferSize}{bufferSize}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::\+Rt\+Api\+Stream\+::buffer\+Size}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_ab6194fc15a14da5667c493502380ec6d}\label{struct_rt_api_1_1_rt_api_stream_ab6194fc15a14da5667c493502380ec6d}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!callbackInfo@{callbackInfo}}
+\index{callbackInfo@{callbackInfo}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{callbackInfo}{callbackInfo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_callback_info}{Callback\+Info}} Rt\+Api\+::\+Rt\+Api\+Stream\+::callback\+Info}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_ae0a1f16f7df99453d177caa7b93964ab}\label{struct_rt_api_1_1_rt_api_stream_ae0a1f16f7df99453d177caa7b93964ab}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!channelOffset@{channelOffset}}
+\index{channelOffset@{channelOffset}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{channelOffset}{channelOffset}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::\+Rt\+Api\+Stream\+::channel\+Offset\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a28b8a898ae50d607976b8d7c56422c52}\label{struct_rt_api_1_1_rt_api_stream_a28b8a898ae50d607976b8d7c56422c52}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!convertInfo@{convertInfo}}
+\index{convertInfo@{convertInfo}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{convertInfo}{convertInfo}}
+{\footnotesize\ttfamily \mbox{\hyperlink{struct_rt_api_1_1_convert_info}{Convert\+Info}} Rt\+Api\+::\+Rt\+Api\+Stream\+::convert\+Info\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a38633b94968f0bde718b6124f91649c4}\label{struct_rt_api_1_1_rt_api_stream_a38633b94968f0bde718b6124f91649c4}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!device@{device}}
+\index{device@{device}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{device}{device}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::\+Rt\+Api\+Stream\+::device\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a253293c901cfb48e3d7a7abb76ea80b7}\label{struct_rt_api_1_1_rt_api_stream_a253293c901cfb48e3d7a7abb76ea80b7}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!deviceBuffer@{deviceBuffer}}
+\index{deviceBuffer@{deviceBuffer}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{deviceBuffer}{deviceBuffer}}
+{\footnotesize\ttfamily char$\ast$ Rt\+Api\+::\+Rt\+Api\+Stream\+::device\+Buffer}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a9eb0511e02ce60efb17fa6725fd4bea3}\label{struct_rt_api_1_1_rt_api_stream_a9eb0511e02ce60efb17fa6725fd4bea3}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!deviceFormat@{deviceFormat}}
+\index{deviceFormat@{deviceFormat}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{deviceFormat}{deviceFormat}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} Rt\+Api\+::\+Rt\+Api\+Stream\+::device\+Format\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_aa3c2f2146434ed0f50ebbb32be718f94}\label{struct_rt_api_1_1_rt_api_stream_aa3c2f2146434ed0f50ebbb32be718f94}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!deviceInterleaved@{deviceInterleaved}}
+\index{deviceInterleaved@{deviceInterleaved}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{deviceInterleaved}{deviceInterleaved}}
+{\footnotesize\ttfamily bool Rt\+Api\+::\+Rt\+Api\+Stream\+::device\+Interleaved\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a5a610c6c9631b68bba44493f138fd876}\label{struct_rt_api_1_1_rt_api_stream_a5a610c6c9631b68bba44493f138fd876}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!doByteSwap@{doByteSwap}}
+\index{doByteSwap@{doByteSwap}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{doByteSwap}{doByteSwap}}
+{\footnotesize\ttfamily bool Rt\+Api\+::\+Rt\+Api\+Stream\+::do\+Byte\+Swap\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a5ea1c0ba6fc1f41360e8c7f759078b00}\label{struct_rt_api_1_1_rt_api_stream_a5ea1c0ba6fc1f41360e8c7f759078b00}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!doConvertBuffer@{doConvertBuffer}}
+\index{doConvertBuffer@{doConvertBuffer}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{doConvertBuffer}{doConvertBuffer}}
+{\footnotesize\ttfamily bool Rt\+Api\+::\+Rt\+Api\+Stream\+::do\+Convert\+Buffer\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a18e198e9cd90da09b380ebe54fc6cd05}\label{struct_rt_api_1_1_rt_api_stream_a18e198e9cd90da09b380ebe54fc6cd05}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!latency@{latency}}
+\index{latency@{latency}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{latency}{latency}}
+{\footnotesize\ttfamily unsigned long Rt\+Api\+::\+Rt\+Api\+Stream\+::latency\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a5989e685a5bbe545705a962caa66c259}\label{struct_rt_api_1_1_rt_api_stream_a5989e685a5bbe545705a962caa66c259}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!mode@{mode}}
+\index{mode@{mode}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{mode}{mode}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rt_api_a7df4fd666bdd1ec02cffd4921cbcbebd}{Stream\+Mode}} Rt\+Api\+::\+Rt\+Api\+Stream\+::mode}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a8b7f7b5ada995d6885a76ac09fdc0a58}\label{struct_rt_api_1_1_rt_api_stream_a8b7f7b5ada995d6885a76ac09fdc0a58}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!mutex@{mutex}}
+\index{mutex@{mutex}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{mutex}{mutex}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_rt_audio_8h_aee70a2c8c580d0a15b1a9a74943d41d2}{Stream\+Mutex}} Rt\+Api\+::\+Rt\+Api\+Stream\+::mutex}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a69d3064085e04c168fd487366ec4abbe}\label{struct_rt_api_1_1_rt_api_stream_a69d3064085e04c168fd487366ec4abbe}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!nBuffers@{nBuffers}}
+\index{nBuffers@{nBuffers}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{nBuffers}{nBuffers}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::\+Rt\+Api\+Stream\+::n\+Buffers}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_abe5008f70705044703ef34ff1b5be61b}\label{struct_rt_api_1_1_rt_api_stream_abe5008f70705044703ef34ff1b5be61b}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!nDeviceChannels@{nDeviceChannels}}
+\index{nDeviceChannels@{nDeviceChannels}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{nDeviceChannels}{nDeviceChannels}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::\+Rt\+Api\+Stream\+::n\+Device\+Channels\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a90d44ecf300e122947b8f978fc800bd4}\label{struct_rt_api_1_1_rt_api_stream_a90d44ecf300e122947b8f978fc800bd4}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!nUserChannels@{nUserChannels}}
+\index{nUserChannels@{nUserChannels}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{nUserChannels}{nUserChannels}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::\+Rt\+Api\+Stream\+::n\+User\+Channels\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a0735dea0723fe8f3b46a895770610fad}\label{struct_rt_api_1_1_rt_api_stream_a0735dea0723fe8f3b46a895770610fad}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!sampleRate@{sampleRate}}
+\index{sampleRate@{sampleRate}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{sampleRate}{sampleRate}}
+{\footnotesize\ttfamily unsigned int Rt\+Api\+::\+Rt\+Api\+Stream\+::sample\+Rate}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_accf19137332f916e96dd35f0f4259697}\label{struct_rt_api_1_1_rt_api_stream_accf19137332f916e96dd35f0f4259697}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!state@{state}}
+\index{state@{state}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{state}{state}}
+{\footnotesize\ttfamily \mbox{\hyperlink{class_rt_api_a9941bf8dc3ead0a3de58fd8823390da7}{Stream\+State}} Rt\+Api\+::\+Rt\+Api\+Stream\+::state}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a517fc9043b838bea61d32e8f9f156fdb}\label{struct_rt_api_1_1_rt_api_stream_a517fc9043b838bea61d32e8f9f156fdb}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!streamTime@{streamTime}}
+\index{streamTime@{streamTime}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{streamTime}{streamTime}}
+{\footnotesize\ttfamily double Rt\+Api\+::\+Rt\+Api\+Stream\+::stream\+Time}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a67b21c4ad9f22c91f605d2b24a96c87a}\label{struct_rt_api_1_1_rt_api_stream_a67b21c4ad9f22c91f605d2b24a96c87a}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!userBuffer@{userBuffer}}
+\index{userBuffer@{userBuffer}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{userBuffer}{userBuffer}}
+{\footnotesize\ttfamily char$\ast$ Rt\+Api\+::\+Rt\+Api\+Stream\+::user\+Buffer\mbox{[}2\mbox{]}}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_adc6fab24ece3a7e0318f77d687f90866}\label{struct_rt_api_1_1_rt_api_stream_adc6fab24ece3a7e0318f77d687f90866}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!userFormat@{userFormat}}
+\index{userFormat@{userFormat}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{userFormat}{userFormat}}
+{\footnotesize\ttfamily \mbox{\hyperlink{_rt_audio_8h_aafca92882d25915560018873221e44b8}{Rt\+Audio\+Format}} Rt\+Api\+::\+Rt\+Api\+Stream\+::user\+Format}
+
+\mbox{\Hypertarget{struct_rt_api_1_1_rt_api_stream_a957e664adba79f05a242c8cbd7f82a19}\label{struct_rt_api_1_1_rt_api_stream_a957e664adba79f05a242c8cbd7f82a19}} 
+\index{RtApi::RtApiStream@{RtApi::RtApiStream}!userInterleaved@{userInterleaved}}
+\index{userInterleaved@{userInterleaved}!RtApi::RtApiStream@{RtApi::RtApiStream}}
+\doxysubsubsection{\texorpdfstring{userInterleaved}{userInterleaved}}
+{\footnotesize\ttfamily bool Rt\+Api\+::\+Rt\+Api\+Stream\+::user\+Interleaved}
+
+
+
+The documentation for this struct was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+Urho3\+D/src/\mbox{\hyperlink{_rt_audio_8h}{Rt\+Audio.\+h}}\end{DoxyCompactItemize}
