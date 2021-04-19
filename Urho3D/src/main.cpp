@@ -140,6 +140,7 @@ char OutputNote;
 float timestep;
 bool ready;
 bool endGame;
+int score = 0;
 bool notePlayed = true;
 bool playTime = true;
 
@@ -151,6 +152,7 @@ Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
 Scene* startScene;
+Text* scoreText;
 
 /**
  * inthand function allows close of terminal with ctrl C
@@ -242,8 +244,7 @@ void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
     ::ready = false;      
     ::OutputNote = playNote();
-    ::ready = true;
-    printf("set ready to true\n");
+    ready = true;
     return;
 }
 
@@ -406,18 +407,29 @@ void AnswerHandler(bool isCorrect, bool didntPlay){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
-        
+        score = score - 1;
     }
     else{ //if isCorrect and !didntPlay
        correctness = "correct";
         y = 5.0f;
         z = 0.0f; 
+        score = score+1;
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
+    
 
+    std::string scoreTxt = {"Score: "+std::to_string(score)};
+    String scoreMessage = String(scoreTxt.c_str());
+    Urho3D::PODVector<Urho3D::UIElement*> scoreVec = root->GetChildrenWithTag("scoreText");
+    if (scoreVec.Size() > 0){
+        scoreText->SetText(scoreMessage);
+    }
+    else{
+        scoreText = CreateText(scoreMessage, "scoreText", 590, 560);
+    }
+    
     std::string txt = { "You played the "+correctness+" note" };
-
     String txtMessage = String(txt.c_str());
     if(!didntPlay){
         CreateText(txtMessage, "correctnessText", 200, 100);  
@@ -434,11 +446,13 @@ void AnswerHandler(bool isCorrect, bool didntPlay){
     float distance = newShipPos.DistanceToPoint(cameraPos);
     if (distance < winThreshold){
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateWinScene();
         endGame = true;
     }
     else if (distance > lossThreshold){
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateLossScene();
         endGame = true;
     }
@@ -525,7 +539,7 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
     text->SetText(content);
     // Set font and text color
     text->SetFont(font, 30);
-    text->SetColor(Color(0.0f, 10.0f, 1.0f));
+    text->SetColor(Color(1.0f, 1.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
     // Add Text instance to the UI root element
@@ -603,6 +617,16 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
         }
         playTime = false;
     }
+}
+
+void GameSys::DeleteScoreText()
+{
+    //Delete existing score text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> scoreText = root->GetChildrenWithTag("scoreText");
+
+    if(scoreText.Size() > 0)
+        scoreText[0]->Remove();       
 }
 
 void GameSys::DeleteCorrectnessText()
@@ -719,8 +743,6 @@ void GameSys::CreateLossScene()
     auto* resetButton = CreateButton(root, "ResetButton", 
         "ResetText", "Back to title screen", 650, 100);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
-
-
 }
 
 /** 
@@ -770,10 +792,7 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
-    /*zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
-    zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
-    zone->SetFogStart(300.0f);
-    zone->SetFogEnd(500.0f);*/
+    scoreText = CreateText("Score: 0", "scoreText",  590, 560);
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
