@@ -47,8 +47,11 @@ public:
     /// Displays the loss message and art.
     void CreateLossScene();
     
-    
+    /// Removes the message advising if note was correct or not
     void DeleteCorrectnessText();
+    
+    /// Removes the score text used in main game screen if back to title is pressed
+    /// or if win or loss screen is changed to
     void DeleteScoreText();
 
 
@@ -70,20 +73,22 @@ private:
     //! Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
     
+    //! Handle the click input to start the main game loop
     void HandleStartClick(StringHash eventType, VariantMap& eventData);
     
-    void HandleCloserClick(StringHash eventType, VariantMap& eventData);
-    
-    void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
-    
+    //! Handle the click of Instructions button event switching to Instructions text screen
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
 
+    //! Handle the click of Lore button event switching to Lore text screen
     void HandleLoreClick(StringHash eventType, VariantMap& eventData);
 
+    //! Handle the click event of Back to Title button from main game/Lore/Instructions to Title
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
     
+    //! Handle the click event for the reset button to go back to title screen
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
     
+
     void CreateTextScore();
 
     

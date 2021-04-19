@@ -122,28 +122,38 @@
  * 
  * global variables list to be incorporated in setup
  */
-int a = 0;
-std::vector<double> v;
-int pipefds[2];
-int freqMax;  
+// Parameters for the sound processing (SP)
 std::vector<double> window;
-const int bandNumber = 128;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
+
+char OutputNote; //note played out by the game
+
+// Boolean to activate ctrl-c behaviour and stop the SP process
 volatile sig_atomic_t stop;
-char note_to_write;
-float time_ = 0;
+
+// Timer used for the game process to know when to ask SP 
+// to play a note and get user input
 Timer countDownTimer_ = Timer();
+
+// Pids used for communication between processes
 int pid;
 int parentpid;
-char OutputNote;
-float timestep;
-bool ready;
-bool endGame;
-int score = 0;
-bool notePlayed = true;
-bool playTime = true;
 
+// Used to move the ship smoothly (this doesn't work at the moment because movement isn't in update) 
+float timestep;
+
+// Used to control the flow of the game
+bool ready; //signal for SP to playNote and listen for user
+bool endGame; //says whether or not the game is active
+bool notePlayed = true; //says whether or not the user played a note
+bool playTime = true; //says if it is time for the user to play a note
+
+int score = 0; // user's score
+
+
+// Elements from GameSys which are needed globally 
+// so functions out of the GameSys clas can access them
 Node* ship;
 UI* ui;
 ResourceCache* cache;
@@ -151,7 +161,6 @@ Context* globalContext_;
 Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
-Scene* startScene;
 Text* scoreText;
 
 /**
@@ -167,14 +176,10 @@ void inthand(int signum) {
 /**
  * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
  * output freqMax
- * called by record
  * 
  */
 int processBuffer()
 {  
-    ::freqMax;
-    ::pipefds[2];
-
     std::vector<double> output;
     fft(window, output);
     int freqMax = 0;
@@ -184,10 +189,11 @@ int processBuffer()
 
 
      freqMax = findFreqMax(detectfreqMax, output, window); 
-    char note_to_write = define_note(freqMax); 
+    char noteUserPlayed= define_note(freqMax); 
+
 
     if(freqMax != 0 && ready && !endGame){
-        if(note_to_write == OutputNote){
+        if(noteUserPlayed == OutputNote){
             kill(pid, SIGUSR1);           
         } else{
             kill(pid, SIGUSR2);
@@ -196,7 +202,7 @@ int processBuffer()
     }
     
     std::cout << freqMax << std::endl;
-    return freqMax, pipefds[2];
+    return freqMax;
 }
 
 /**
@@ -215,12 +221,12 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     }
 
     int i = 0;
-    signed short *a = (signed short *)inputBuffer;
+    signed short *input_buffer = (signed short *)inputBuffer;
 
     //Add nBufferFrames values from the input buffer into window
     while (window.size() < nBufferFrames * 2 && i < nBufferFrames)
     {
-        window.push_back(a[i++]);
+        window.push_back(input_buffer[i++]);
     }
 
     processBuffer();
@@ -234,15 +240,21 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
     return 0;
 }
 
-
+/** Handles the ready interrupt signal sent by the game process
+ *  Plays a note and sets ready to true, thus enabling the SP to 
+ *  listen for user input.
+ */ 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ::ready = false;      
-    ::OutputNote = playNote();
+    ready = false;      
+    OutputNote = playNote();
     ready = true;
     return;
 }
 
+/** Handles the correct interrupt signal sent by the SP
+ *  Moves the ship closer and increments the score via Answerhandler
+ */ 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
     if(playTime) //only move the ship if we allowed to 
@@ -250,6 +262,9 @@ static void correctHandler(int signum){
     return;
 }
 
+/** Handles the incorrect interrupt signal sent by the SP
+ *  Moves the ship further and decrements the score via Answerhandler
+ */ 
 static void incorrectHandler(int signum){
     signal(SIGUSR2, incorrectHandler);  
     if(playTime)
@@ -412,7 +427,7 @@ void AnswerHandler(bool isCorrect, bool didntPlay){
         z = 0.0f; 
         score = score+1;
     }
-    ::timestep;
+
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
     
 
@@ -594,7 +609,16 @@ void GameSys::SubscribeToEvents()
 
     SubscribeToEvent(E_UPDATE, URHO3D_HANDLER(GameSys, HandleUpdate)); 
 }
-/**
+
+/** Handle the update called every frame of the game
+ *  Takes in some informatio nabout the previous frame
+ *  Loops the play tone -> user input every 6secs
+ *  After 5s of the loop, makes user input impossible
+ *  and shows a feedback message if the user did not
+ *  play a note
+ * 
+ *  Also updates the timestep variable to be the time taken 
+ *  of the previous frame
  * 
  * 
  */
@@ -620,6 +644,9 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     }
 }
 
+/** Delete the score text node from the main scene
+ * 
+ */ 
 void GameSys::DeleteScoreText()
 {
     //Delete existing score text from the screen if it exists
@@ -630,6 +657,9 @@ void GameSys::DeleteScoreText()
         scoreText[0]->Remove();       
 }
 
+/** Delete the correctness text node from the main scene
+ * 
+ */ 
 void GameSys::DeleteCorrectnessText()
 {
     //Delete existing correctness text from the screen if it exists
@@ -638,6 +668,7 @@ void GameSys::DeleteCorrectnessText()
     if(correctnessText.Size() > 0)
         correctnessText[0]->Remove();
 }
+
 /** 
  * when you click on the start button, the second scene appears
  * 
@@ -791,7 +822,7 @@ void GameSys::CreateLossScene()
 }
 
 /** 
- * when you click on the instructions button, the instructions appear
+ * when you click on the return to title screen, the scene is removed and title reset
  * 
  */
 void GameSys::HandleResetClick(StringHash eventType, VariantMap& eventData)
@@ -889,10 +920,11 @@ Node* GameSys::CreateShip()
     return boxNode;  
 }
 
-/**
- * 
- * 
- */
+
+
+/** Setup the viewport for the scene, enabling the user to see things
+ *  Do this after setting up lighting and a camera in a scene
+*/
 void GameSys::SetupViewport()
 {
     auto *renderer = GetSubsystem<Renderer>();
