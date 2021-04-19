@@ -215,16 +215,16 @@ With the basic functionality in place, there is definetly scope to expand the ga
 
 ## The creators
 
-### **Alice:**  
+**Alice:**  
 Main game developer; Tech lead; Team management
 
-### **David:**  
+**David:**  
 Managed project's Doxygen documentation; Code refactoring; Game's graphics and story line; and main creator of project idea 
 
-### **Fai:** 
+**Fai:** 
 Audio programmer; Unit testing; Management of social media and project webpages; Management of project's CMakeLists files
+**Isabella:** 
 
-### **Isabella:** 
 Audio programmer; Unit testing; Latency Analysis; Management of social media and project webpages; Game and social media graphics
 
 
