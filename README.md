@@ -11,6 +11,19 @@ Check out our social media pages to keep up to date with  our progress
 
 Link to our website: https://organisedafid.github.io/sound-pirates/
 
+## About the game
+
+Sound PIrates is an interactive game targeted at musicians who want to learn how to play by ear. The concept of the game is simple. A short tone, within the C Major scale,  will be played out and the user has approximately 3 seconds to replicate the note on their chosen instrument. If the note played by the user and by the game is a match then a point is rewarded, and if no note or the incorrect note is detected a point will be lost. 
+
+To make it more exciting a game featuring a spaceship has been developed. The objective is for the user to catch the spaceship, therefore when a correct note is detected the spaceship will appear closer, and if the incorrect note is played the spaceship will fly further away. The game goes on until enough wins or losses have been detected to either catch the spaceship, or it being too far out of reach. 
+
+<p align="center">
+<img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/GameImage1.jpeg" width="600" height="400" >
+</p>
+
+The game is currently limited to the C major scale and the chase is short. With updates there will be more complexity and sub-games to help train your ear and vocal chords or playing fingers to match whichever notes, tones, or microtones you might want to familiarise yourself with. We have tested it with raspberry pi 4 with Raspbian installed, a jack condenser input mic and a USB sound card. It uses the Urho3D game engine (https://urho3d.github.io/) and features original art and 3D models from the team.
+
+
 ## Required Hardware
 
 - Raspberry Pi
@@ -23,7 +36,7 @@ Link to our website: https://organisedafid.github.io/sound-pirates/
 <img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/SoundPIratesHardware.gif" width="400" height="400" >
 </p>
 
-## Usage
+## Running the game
 
 After getting the hardware, follow these steps:
 
@@ -130,7 +143,7 @@ Now just execute these commands:
 
 ## Contributing 
 
-To build and execute this project, please do the following:
+Alternatively, to build and execute this project, please do the following:
 - Install the following libraries to excute the unit tests: ```libboost-dev,  libboost-all-dev```
 - Install the Urho3D Game engine: a free lightweight, cross-platform 2D and 3D game engine implemented in C++ and released under the MIT license. Visit https://urho3d.github.io/ and follow install instructions for Raspberry Pi
 - Set the environment variable for the Urho3D folder on command line:\
