@@ -13,7 +13,7 @@ The game is currently limited to the C major scale and the chase is short. With 
 
 ## What do you need to play the game?
 
-Sound pirates is playable if you download the developper kit for the game!
+Sound pirates is playable if you download the developer kit for the game!
 
 ### Required Hardware
 
@@ -145,13 +145,13 @@ Launching the game will create a start screen where you can view instructions of
 As you select **Start game** you will hear a tone from the C major scale, it is now your job to replicate that same tone. If you are able to recognise the tone and replay the correct note you will get closer to the spaceship infront of you- one step closer to reaching your goal. 
 If you are unable to replicate the note the space ship will fly further away. 
 
-The game ends when either you have caught up to the space PIrates and win the game, or you have played the incorrect note too many times and let the space PIrates get away- loosing the game. 
+The game ends when either you have caught up to the space PIrates and win the game, or you have played the incorrect note too many times and let the space PIrates get away. 
 
 
 ## Latency Analysis
 For the game to appear to be running in real-time the latency must be low. In gaming anything below 100ms is considered acceptable, while the standard latency is 20-40ms.
 
-To assess the realtime responsiveness a latency analysis has been performed by timing various parts of the code. Simplified, the game will generate a screen, play a note, wait for the user to play a note, convert this into the frequncy spectrum and identify the most dominant frequency, identify the note as correct/incorrect and finally have the spaceship in the game move depending on the detected note. Each of these were timed and the average of 5 games runing start to finish as seen in the list below. 
+To assess the realtime responsiveness a latency analysis has been performed by timing various parts of the code. Simplified, the game will generate a screen, play a note, wait for the user to play a note, convert this into the frequency spectrum and identify the most dominant frequency, identify the note as correct/incorrect and finally have the spaceship in the game move depending on the detected note. Each of these were timed and the average of 5 games  running  start to finish as seen in the list below. 
 
 - scene generation: 430 ms
 - process buffer: 2.2 ms
@@ -187,7 +187,7 @@ Continue posts on Instagram, twitter, and Facebook.
 Invite collaboration on all media and develop game further or in whatever direction seems to garner most interest and excitement. To help us formulate our strategy for the game and our social media presence, the team managed to organise a chat with Colm ‘Gambrinous’ Larkin. Colm is a successful solo games developer who has expanded to a small team over the course of two games published internationally, receiving high praise and awards for them (Guild of Dungeoneering and Cardpocalypse, published by Versus Evil).
 The social media strategy formed by the team was to concentrate on Instagram posts for the build up towards the game as this was the most established forum for the team members. An account was also created on twitter. The Github page was to be referred to and the core audience would be aimed at as content was produced.
 
-On Colm’s advice, a greater push will be established when video is available as these posts do best in his experience. Colm’s advice was that the posts that really made a difference for his exposure and caught folks attention were videos of the game in action. Especially if a noticeable progress was gained from one video to the next. He also pointed out that consistency was good, posting a couple of times a week was how he saw the most benefit. Building up a small network of followers from the team members Instagram pools, we looked to angle posts to attract musicians and game developers. Starting a twitter account and posting updates and at the point of writing are establishing our Website, wiki, facebook, and Youtube presences.
+On Colm’s advice, a greater push will be established when video is available as these posts do best in his experience. Colm’s advice was that the posts that really made a difference for his exposure and caught people's attention were videos of the game in action. Especially if a noticeable progress was gained from one video to the next. He also pointed out that consistency was good, posting a couple of times a week was how he saw the most benefit. Building up a small network of followers from the team members Instagram pools, we looked to angle posts to attract musicians and game developers. Starting a twitter account and posting updates and at the point of writing are establishing our Website, wiki, facebook, and Youtube presences.
 With each release or significant improvement a further video will be released and promoted. Videos of testers engaged with the game will also be created and released.
 
 Our interaction on social media is visualized in the graphs (updated 18/04/2021 14:18)
@@ -197,7 +197,7 @@ Our interaction on social media is visualized in the graphs (updated 18/04/2021 
 When starting developmment of this project the following requirements were identified:
 - **M**ust have:
 	- Play specified frequency
-	- Detect what not has been played by the user
+	- Detect what has not been played by the user
 	- Identify user's note as correct/incorrect
 	- realtime audio processing
 	- realtime responsiveness
@@ -213,7 +213,7 @@ When starting developmment of this project the following requirements were ident
 
 
 ## Future Work
-With the basic functionality in place, there is definetly scope to expand the game. Ideas were thinking of include:
+With the basic functionality in place, there is definitely scope to expand the game. Ideas were thinking of include:
 - Planning along with different scales
 - Increasing the length of the sequence of notes the player is required to replicate. 
 
