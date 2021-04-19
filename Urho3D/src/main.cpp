@@ -183,8 +183,7 @@ int processBuffer()
 
     using namespace std::literals::chrono_literals;
     auto startBuf = std::chrono::high_resolution_clock::now();
-
-    ::freqMax;
+::freqMax;
     ::pipefds[2];
 
     std::vector<double> output;
@@ -213,7 +212,6 @@ int processBuffer()
         ready = false;
     }
     
-    //std::cout << freqMax << std::endl;
 
     auto endBuf = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationB = endBuf -startBuf;
@@ -438,7 +436,7 @@ void AnswerHandler(bool isCorrect, bool didntPlay)
     using namespace std::literals::chrono_literals;
     auto startAns = std::chrono::high_resolution_clock::now();
 
-
+    notePlayed = true;
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
 
@@ -497,7 +495,7 @@ void AnswerHandler(bool isCorrect, bool didntPlay)
     auto endAns = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationAns = endAns -startAns;
     std::cout << "duration of answer handler" << durationAns.count() << "s" <<std::endl;
-    fprintf(pFile,"%f",durationAns.count());
+    fprintf(pFile,"%f\n",durationAns.count());
     fflush(pFile);
 }
 
@@ -697,6 +695,7 @@ void GameSys::HandleStartClick(StringHash eventType, VariantMap& eventData)
  */
 void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
 {
+    
     using namespace Click;
     //Delete the title scene
     GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
