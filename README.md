@@ -10,7 +10,7 @@ Check out our social media pages to keep up to date with  our progress
 - Twitter: https://twitter.com/SoundPIrates
 - Youtube: https://youtu.be/fhjWzMPJlKY
 
-Link to our website: https://organisedafid.github.io/sound-pirates/
+Link to our website: https://organisedafid.github.io/Sound-PIrates-webpage/
 
 ## About the game
 
