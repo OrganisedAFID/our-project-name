@@ -184,9 +184,10 @@ int processBuffer()
     fft(window, output);
     int freqMax = 0;
     int detectfreqMax = 0;
-    int freqMaxIndex = 51;
-    int amplitudeThreshold = 45000; //change this back to 45000
+  
+    int amplitudeThreshold = 45000; 
 
+<<<<<<< HEAD
     for (int i = 51; i < 100; i++)
     {
         if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
@@ -196,6 +197,11 @@ int processBuffer()
         }
     } 
     char noteUserPlayed = define_note(freqMax); 
+=======
+
+     freqMax = findFreqMax(detectfreqMax, output, window); 
+    char note_to_write = define_note(freqMax); 
+>>>>>>> main
 
     if(freqMax != 0 && ready && !endGame){
         if(noteUserPlayed == OutputNote){
@@ -925,9 +931,14 @@ Node* GameSys::CreateShip()
     return boxNode;  
 }
 
+<<<<<<< HEAD
 
 /** Setup the viewport for the scene, enabling the user to see things
  *  Do this after setting up lighting and a camera in a scene
+=======
+/**
+ * 
+>>>>>>> main
  * 
  */
 void GameSys::SetupViewport()
