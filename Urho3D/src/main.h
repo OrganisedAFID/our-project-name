@@ -70,11 +70,8 @@ private:
     //! Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
     
+    //! Handle the click input to start the main game loop
     void HandleStartClick(StringHash eventType, VariantMap& eventData);
-    
-    void HandleCloserClick(StringHash eventType, VariantMap& eventData);
-    
-    void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
     
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
 
