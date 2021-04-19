@@ -122,23 +122,38 @@
  * 
  * global variables list to be incorporated in setup
  */
-int pipefds[2];
-int freqMax;  
+// Parameters for the sound processing (SP)
 std::vector<double> window;
 unsigned int sampleRate = 44100;
 unsigned int bufferFrames = 4410; // 512 sample frames
+
+char OutputNote; //note played out by the game
+
+// Boolean to activate ctrl-c behaviour and stop the SP process
 volatile sig_atomic_t stop;
+
+// Timer used for the game process to know when to ask SP 
+// to play a note and get user input
 Timer countDownTimer_ = Timer();
+
+// Pids used for communication between processes
 int pid;
 int parentpid;
-char OutputNote;
-float timestep;
-bool ready;
-bool endGame;
-int score = 0;
-bool notePlayed = true;
-bool playTime = true;
 
+// Used to move the ship smoothly (this doesn't work at the moment because movement isn't in update) 
+float timestep;
+
+// Used to control the flow of the game
+bool ready; //signal for SP to playNote and listen for user
+bool endGame; //says whether or not the game is active
+bool notePlayed = true; //says whether or not the user played a note
+bool playTime = true; //says if it is time for the user to play a note
+
+int score = 0; // user's score
+
+
+// Elements from GameSys which are needed globally 
+// so functions out of the GameSys clas can access them
 Node* ship;
 UI* ui;
 ResourceCache* cache;
@@ -161,14 +176,10 @@ void inthand(int signum) {
 /**
  * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
  * output freqMax
- * called by record
  * 
  */
 int processBuffer()
 {  
-    ::freqMax;
-    ::pipefds[2];
-
     std::vector<double> output;
     fft(window, output);
     int freqMax = 0;
@@ -184,10 +195,10 @@ int processBuffer()
             freqMax = findFreqMax(detectfreqMax, i, window); 
         }
     } 
-    char note_to_write = define_note(freqMax); 
+    char noteUserPlayed = define_note(freqMax); 
 
     if(freqMax != 0 && ready && !endGame){
-        if(note_to_write == OutputNote){
+        if(noteUserPlayed == OutputNote){
             kill(pid, SIGUSR1);           
         } else{
             kill(pid, SIGUSR2);
@@ -196,7 +207,7 @@ int processBuffer()
     }
     
     std::cout << freqMax << std::endl;
-    return freqMax, pipefds[2];
+    return freqMax;
 }
 
 /**
@@ -412,7 +423,7 @@ void AnswerHandler(bool isCorrect, bool didntPlay){
         z = 0.0f; 
         score = score+1;
     }
-    ::timestep;
+
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
     
 
