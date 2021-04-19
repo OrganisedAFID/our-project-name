@@ -152,6 +152,7 @@ Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
 Scene* startScene;
+Text* scoreText;
 
 /**
  * inthand function allows close of terminal with ctrl C
@@ -424,13 +425,18 @@ void AnswerHandler(bool isCorrect){
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
     std::string txt = { "You played the "+correctness+" note" };
-    std::string scoreTxt = {std::to_string(score)};
 
-
+    std::string scoreTxt = {"Score: "+std::to_string(score)};
     String scoreMessage = String(scoreTxt.c_str());
-    std::string scoreTag = "scoreText";
-    String sTag = String(scoreTag.c_str());
-    CreateText(scoreMessage, sTag, 590, 560);
+    Urho3D::PODVector<Urho3D::UIElement*> scoreVec = root->GetChildrenWithTag("scoreText");
+    if (scoreVec.Size() > 0){
+        scoreText->SetText(scoreMessage);
+    }
+    else{
+        scoreText = CreateText(scoreMessage, "scoreText", 590, 560);
+    }
+    
+    
 
     String txtMessage = String(txt.c_str());
     std::string tag = "correctnessText";
@@ -623,21 +629,18 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
-        DeleteScoreText();
         kill(parentpid, SIGUSR1);
     }
 }
 
 void GameSys::DeleteScoreText()
 {
-    //Delete existing correctness text from the screen if it exists
+    //Delete existing score text from the screen if it exists
     UIElement* root = ui->GetRoot();
     Urho3D::PODVector<Urho3D::UIElement*> scoreText = root->GetChildrenWithTag("scoreText");
 
     if(scoreText.Size() > 0)
-        scoreText[0]->Remove();
-
-        
+        scoreText[0]->Remove();       
 }
 
 void GameSys::DeleteCorrectnessText()
@@ -803,7 +806,8 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
-    CreateTextScore();
+    scoreText = CreateText("Score: 0", "scoreText",  590, 560);
+    //CreateTextScore();
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
