@@ -12,6 +12,8 @@ Check out our social media pages to keep up to date with  our progress
 
 Link to our website: https://organisedafid.github.io/Sound-PIrates-webpage/
 
+Link to our documentation: https://organisedafid.github.io/sound-pirates/
+
 ## About the game
 
 Sound PIrates is an interactive game targeted at musicians who want to learn how to play by ear. The concept of the game is simple. A short tone, within the C Major scale,  will be played out and the user has approximately 3 seconds to replicate the note on their chosen instrument. If the note played by the user and by the game is a match then a point is rewarded, and if no note or the incorrect note is detected a point will be lost. 
