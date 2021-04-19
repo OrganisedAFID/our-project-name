@@ -84,7 +84,6 @@ private:
     
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
     
-    void MoveCamera(float timeStep);
     void CreateTextScore();
 
     

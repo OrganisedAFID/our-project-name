@@ -5,5 +5,5 @@
 
 #ifndef FINDFREQMAX_H
 #define FINDFREQMAX_H
-int findFreqMax(int freqMax, int i, std::vector<double> &window); 
+int findFreqMax(int freqMax,std::vector<double> output, std::vector<double> &window); 
 #endif
