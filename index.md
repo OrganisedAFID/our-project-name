@@ -134,7 +134,9 @@ Now just execute these commands:
 - Then run the game:  `./sound-pirates`
 
 <p align="center">
-<img src= "https://user-images.githubusercontent.com/44497996/115146732-a7064a80-a04f-11eb-8b1c-208134bc23a7.png" width="500" height="500" >
+![image](https://user-images.githubusercontent.com/44497996/115207735-c22a9600-a0f3-11eb-869b-6be9d694287c.png)
+
+<img src= "https://user-images.githubusercontent.com/44497996/115207735-c22a9600-a0f3-11eb-869b-6be9d694287c.png" width="500" height="500" >
 </p>
 
 ## After Launching the game 
@@ -185,7 +187,7 @@ The social media strategy formed by the team was to concentrate on Instagram pos
 On Colm’s advice, a greater push will be established when video is available as these posts do best in his experience. Colm’s advice was that the posts that really made a difference for his exposure and caught folks attention were videos of the game in action. Especially if a noticeable progress was gained from one video to the next. He also pointed out that consistency was good, posting a couple of times a week was how he saw the most benefit. Building up a small network of followers from the team members Instagram pools, we looked to angle posts to attract musicians and game developers. Starting a twitter account and posting updates and at the point of writing are establishing our Website, wiki, facebook, and Youtube presences.
 With each release or significant improvement a further video will be released and promoted. Videos of testers engaged with the game will also be created and released.
 
-OUr interaction on social media is visualized in the graphs (updated 18/04/2021 14:18)
+Our interaction on social media is visualized in the graphs (updated 18/04/2021 14:18)
 ![image](https://user-images.githubusercontent.com/44497996/115147018-fa2ccd00-a050-11eb-821e-05f71197e53e.png)
 
 ## Game development and requirements
