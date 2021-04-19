@@ -8,7 +8,7 @@ Current status: Beta version released
 Check out our social media pages to keep up to date with  our progress
 - Instagram:  https://www.instagram.com/soundpirates/
 - Twitter: https://twitter.com/SoundPIrates
-- Youtube: https://youtu.be/NzJbUrqUhCU
+- Youtube: https://youtu.be/fhjWzMPJlKY
 
 Link to our website: https://organisedafid.github.io/sound-pirates/
 
