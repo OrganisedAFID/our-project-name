@@ -174,8 +174,8 @@ Instagram was the primary feed as group are established on this forum and is a v
 - Post on Raspberry Pi forums, pushing the specific to hardware nature
 - Post on reddit/r/IMadeAGame to gain feedback and exposure
 - Post on Urho3D website pushing use of game engine and unusual game mechanics
-- Post videos with link on YouTube of friends and family trying with variety of instruments, gives participants more identification with the game and investment in sharing.
-Continue posts on Insta, twitter, and Facebook.
+- Post videos with links to clips of friends and family trying with variety of instruments. This would give participants more identification with the game and investment in sharing.
+Continue posts on Instagram, twitter, and Facebook.
 
 **Post course – gauge interest in game and development**
 
