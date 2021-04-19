@@ -21,10 +21,6 @@ To make it more exciting a game featuring a spaceship has been developed. The ob
 <img src= "https://user-images.githubusercontent.com/44497996/115268362-18b6c500-a132-11eb-896d-6549926aac19.gif" width="600" height="400" >
 </p>
 
-<p align="center">
-<img src= "https://raw.githubusercontent.com/OrganisedAFID/sound-pirates/main/assets/GameImage1.jpeg" width="600" height="400" >
-</p>
-
 The game is currently limited to the C major scale and the chase is short. With updates there will be more complexity and sub-games to help train your ear and vocal chords or playing fingers to match whichever notes, tones, or microtones you might want to familiarise yourself with. We have tested it with raspberry pi 4 with Raspbian installed, a jack condenser input mic and a USB sound card. It uses the Urho3D game engine (https://urho3d.github.io/) and features original art and 3D models from the team.
 
 
