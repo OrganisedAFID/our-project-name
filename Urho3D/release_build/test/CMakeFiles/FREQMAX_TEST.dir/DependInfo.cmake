@@ -4,8 +4,8 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/pi/sound-pirates/Urho3D/src/findFreqMax.cpp" "/home/pi/sound-pirates/Urho3D/current_build/test/CMakeFiles/FREQMAX_TEST.dir/__/findFreqMax.cpp.o"
-  "/home/pi/sound-pirates/Urho3D/src/test/freqMax_test.cpp" "/home/pi/sound-pirates/Urho3D/current_build/test/CMakeFiles/FREQMAX_TEST.dir/freqMax_test.cpp.o"
+  "/home/pi/sound-pirates/Urho3D/src/findFreqMax.cpp" "/home/pi/sound-pirates/Urho3D/release_build/test/CMakeFiles/FREQMAX_TEST.dir/__/findFreqMax.cpp.o"
+  "/home/pi/sound-pirates/Urho3D/src/test/freqMax_test.cpp" "/home/pi/sound-pirates/Urho3D/release_build/test/CMakeFiles/FREQMAX_TEST.dir/freqMax_test.cpp.o"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 

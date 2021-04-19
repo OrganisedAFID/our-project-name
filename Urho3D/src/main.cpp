@@ -116,7 +116,6 @@
 #include <Urho3D/Physics/Constraint.h>
 
 #include <Urho3D/Physics/RigidBody.h>
-
 #include "main.h"
 #include <Urho3D/DebugNew.h>
 
@@ -143,6 +142,8 @@ char OutputNote;
 float timestep;
 bool ready;
 bool endGame;
+bool notePlayed = true;
+bool playTime = true;
 
 Node* ship;
 UI* ui;
@@ -163,7 +164,6 @@ ofstream myfile("example.txt");
  * inthand function allows close of terminal with ctrl C
  * 
  */
-
 void inthand(int signum) {
     stop = 1;
     return;
@@ -177,8 +177,9 @@ void inthand(int signum) {
  */
 int processBuffer()
 {  
-    ofstream myfile;
-    myfile.open ("processBuffer.txt");
+    FILE *pFile;
+    pFile = fopen ("processBuffer.txt","a");    
+
 
     using namespace std::literals::chrono_literals;
     auto startBuf = std::chrono::high_resolution_clock::now();
@@ -191,16 +192,14 @@ int processBuffer()
     int freqMax = 0;
     int detectfreqMax = 0;
     int freqMaxIndex = 51;
-    int amplitudeThreshold = 45000;
+    int amplitudeThreshold = 45000; //change this back to 45000
 
     for (int i = 51; i < 100; i++)
     {
         if (output[i] >= output[freqMaxIndex] && output[i] > amplitudeThreshold)
         {
-            freqMaxIndex = i;
-            
-           freqMax = findFreqMax(detectfreqMax, i, window); 
- 
+            freqMaxIndex = i;       
+            freqMax = findFreqMax(detectfreqMax, i, window); 
         }
     } 
     char note_to_write = define_note(freqMax); 
@@ -212,7 +211,7 @@ int processBuffer()
             kill(pid, SIGUSR2);
         }
         ready = false;
-  }
+    }
     
     //std::cout << freqMax << std::endl;
 
@@ -220,19 +219,18 @@ int processBuffer()
     std::chrono::duration<float> durationB = endBuf -startBuf;
     std::cout << "duration of process buffer" << durationB.count() << "s" <<std::endl;
     
-    myfile << durationB.count() << "\n";
-
-    myfile.close();
+    
+    fprintf(pFile,"%f\n",durationB.count());
+    fflush(pFile);
 
     return freqMax, pipefds[2];
 }
 
 /**
  * record function. Activate the audio input and write to buffer
- * called by audioIn
+ * 
  *  
  */
-
 int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
            double streamTime, RtAudioStreamStatus status, void *userData)
 {
@@ -266,25 +264,24 @@ int record(void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
-    ready = false;      
+    ::ready = false;      
     ::OutputNote = playNote();
-    //std::thread t(&playNote);
-    /*std::thread th(playNote);
-    th.join(); 
-    ::OutputNote = std::thread t(&playNote);*/
-    ready = true;
+    ::ready = true;
+    printf("set ready to true\n");
     return;
 }
 
 static void correctHandler(int signum){
     signal(SIGUSR1, correctHandler); 
-    AnswerHandler(true);
+    if(playTime) //only move the ship if we allowed to 
+        AnswerHandler(true);
     return;
 }
 
 static void incorrectHandler(int signum){
     signal(SIGUSR2, incorrectHandler);  
-    AnswerHandler(false);
+    if(playTime)
+        AnswerHandler(false);
     return;
 }
 
@@ -356,12 +353,10 @@ int audioIn()
  * Main program. Starts the Urho program setup, opens pipe and sets state machine in motion
  * 
  */
-//URHO3D_DEFINE_APPLICATION_MAIN(GameSys)
-
 int RunApplication() { 
-    freopen("timings.txt", "w", stdout);
-    ofstream myfile;
-    myfile.open ("RunApplication.txt");
+    FILE *pFile;
+    pFile = fopen ("RunApplication.txt","a");    
+
     using namespace std::literals::chrono_literals;
     auto startRun = std::chrono::high_resolution_clock::now();
 
@@ -374,9 +369,8 @@ int RunApplication() {
     auto endRun = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationRun = endRun -startRun;
     std::cout << "duration of running application" << durationRun.count() << "s" <<std::endl;
-    myfile << durationRun.count() << "\n";
-
-    myfile.close();
+    fprintf(pFile,"%f\n",durationRun.count());
+    fflush(pFile);
 
 } 
 URHO3D_DEFINE_MAIN(RunApplication())
@@ -426,27 +420,27 @@ void GameSys::Start()
 }
 
 
-void AnswerHandler(bool isCorrect){
-    ofstream myfile;
-    myfile.open ("AnswerHandler.txt");
+/** React to the behaviour fo the player after a note is played
+ * If the player played the right note, make the ship move closer
+ * and tell the player they played the correct note
+ * If the player played the wrong note, make the ship move further away
+ * and tell the player they were incorrect
+ * If the player did not play anything, make the ship move further away
+ * and tell the player they did not play a note
+ * 
+ */
+void AnswerHandler(bool isCorrect, bool didntPlay)
+{
+    FILE *pFile;
+    pFile = fopen ("AnswerHandler.txt","a");
+
 
     using namespace std::literals::chrono_literals;
     auto startAns = std::chrono::high_resolution_clock::now();
 
-    Vector3 newShipPos = ship->GetPosition();
-    float distance = newShipPos.DistanceToPoint(cameraPos);
+
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
-    
-    if (distance < winThreshold){     
-        endGame = true;
-        ourGame->CreateWinScene();     
-    }
-    else if (distance > lossThreshold){     
-        endGame = true;
-        ourGame->CreateLossScene();      
-    }
-    else{
 
     Vector3 shipPos = ship->GetPosition();
     UIElement *root = ui->GetRoot();
@@ -455,15 +449,16 @@ void AnswerHandler(bool isCorrect){
     std::string correctness;
     float y;
     float z;
-    if(isCorrect){
-        correctness = "correct";
-        y = 5.0f;
-        z = 0.0f;
-    }
-    else{
+    if(!isCorrect || didntPlay){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
+        
+    }
+    else{ //if isCorrect and !didntPlay
+       correctness = "correct";
+        y = 5.0f;
+        z = 0.0f; 
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
@@ -472,37 +467,40 @@ void AnswerHandler(bool isCorrect){
 
     String txtMessage = String(txt.c_str());
 
-    std::string tag = "correctnessText";
-    String txtTag = String(tag.c_str());
-    CreateText(txtMessage, txtTag, 200, 100);  
-
-    //std::cout << "You played the "+correctness+" note\n";
+    if(!didntPlay){
+        CreateText(txtMessage, "correctnessText", 200, 100);  
+        std::cout << "You played the "+correctness+" note\n";
+    } else{
+        CreateText("You didn't play a note", "correctnessText", 200, 100);  
+        std::cout << "You didn't play a note\n";
+    }
     
 
     //Check if the ship is close/far enough to call the win/loss scene
 
     Vector3 newShipPos = ship->GetPosition();
     float distance = newShipPos.DistanceToPoint(cameraPos);
-    if (distance < winThreshold){
+    if (distance < winThreshold)
+    {
         ourGame->DeleteCorrectnessText();
         ourGame->CreateWinScene();
         endGame = true;
     }
-    else if (distance > lossThreshold){
+    else if (distance > lossThreshold)
+    {
         ourGame->DeleteCorrectnessText();
         ourGame->CreateLossScene();
         endGame = true;
     }
 
-}
+
     auto endAns = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationAns = endAns -startAns;
     std::cout << "duration of answer handler" << durationAns.count() << "s" <<std::endl;
-    
-    myfile << durationAns.count() << "\n";
-
-    myfile.close();
+    fprintf(pFile,"%f",durationAns.count());
+    fflush(pFile);
 }
+
 
 /** Create the octree, camera and lighting for a scene
  * 
@@ -624,7 +622,7 @@ Button* GameSys::CreateButton
     b->CreateChild<Text>(txtName)->SetStyleAuto();
     auto *t = b->GetChildStaticCast<Text>(txtName, false);
     t->SetText(txtCont);
-    t->SetHorizontalAlignment(HA_CENTER);
+    t->SetHorizontalAlignment(HA_LEFT);
 
     return b;
 }
@@ -648,10 +646,19 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
 
     // Take the frame time step, which is stored as a float
     ::timestep = eventData[P_TIMESTEP].GetFloat();
-    if(countDownTimer_.GetMSec(false) >= 5000 && !endGame){
+    if(countDownTimer_.GetMSec(false) >= 6000 && !endGame){
         countDownTimer_.Reset();
         DeleteCorrectnessText();
+        notePlayed = false;
+        playTime = true;
         kill(parentpid, SIGUSR1);
+    }
+    else if(countDownTimer_.GetMSec(false) >= 5000 && !endGame && playTime){
+        DeleteCorrectnessText();
+        if(notePlayed == false){
+            AnswerHandler(false, true);
+        }
+        playTime = false;
     }
 }
 
@@ -741,29 +748,30 @@ void GameSys::CreateInstructionsScene()
  */
 void GameSys::CreateWinScene()
 {
-    ofstream myfile;
-    myfile.open ("CreateWinScene.txt");
+    FILE *pFile;
+    pFile = fopen ("CreateWinScreen.txt","a");    
 
     //delete main scene
+
     using namespace std::literals::chrono_literals;
     auto startWin = std::chrono::high_resolution_clock::now();
 
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
     mainScene->Clear();
     SetupScene();
     Node* bgNode = CreateBackground("Materials/win_bg.xml");
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
-        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 100, 650);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
     
     auto endWin = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationWin = endWin -startWin;
     std::cout << "duration of winscene creation: " << durationWin.count() << "s" <<std::endl;
 
-    myfile << durationWin.count() << "\n";
-
-    myfile.close();
+    fprintf(pFile,"%f\n",durationWin.count());
+    fflush(pFile);
 
 }
 
@@ -772,11 +780,14 @@ void GameSys::CreateWinScene()
  */
 void GameSys::CreateLossScene()
 {
-    ofstream myfile;
-    myfile.open ("CreateLossScene.txt");
+    FILE *pFile;
+    pFile = fopen ("CreateLossScene.txt","a");    
+
 
     using namespace std::literals::chrono_literals;
     auto startLoss = std::chrono::high_resolution_clock::now();
+
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
 
     //delete main scene
     mainScene->Clear();
@@ -785,16 +796,15 @@ void GameSys::CreateLossScene()
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
-        "ResetText", "Back to title screen", 500, 500);   
+        "ResetText", "Back to title screen", 650, 100);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
     
     auto endLoss = std::chrono::high_resolution_clock::now();
     std::chrono::duration<float> durationLoss = endLoss -startLoss;
     std::cout << "duration of process loss screen" << durationLoss.count() << "s" <<std::endl;
 
-    myfile << durationLoss.count() << "\n";
-
-    myfile.close();
+    fprintf(pFile,"%f\n",durationLoss.count());
+    fflush(pFile);
 
 }
 
@@ -840,8 +850,8 @@ void GameSys::HandleBackClick(StringHash eventType, VariantMap& eventData)
  */ 
 void GameSys::CreateMainScene()
 {
-    ofstream myfile;
-    myfile.open ("CreateMainScene.txt");
+    FILE *pFile;
+    pFile = fopen ("CreateMainScene.txt","a");    
 
     using namespace std::literals::chrono_literals;
     auto startMain = std::chrono::high_resolution_clock::now();
@@ -851,10 +861,6 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
-    /*zone->SetAmbientColor(Color(0.15f, 0.15f, 0.15f));
-    zone->SetFogColor(Color(0.2f, 0.2f, 0.2f));
-    zone->SetFogStart(300.0f);
-    zone->SetFogEnd(500.0f);*/
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
@@ -863,9 +869,14 @@ void GameSys::CreateMainScene()
     std::chrono::duration<float> durationMain = endMain -startMain;
     std::cout << "duration of generating main scene: " << durationMain.count() << "s" <<std::endl;
 
-    myfile << durationMain.count() << "\n";
-
-    myfile.close();
+    fprintf(pFile,"%f\n",durationMain.count());
+    fflush(pFile);
+       
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = CreateButton(root, "ResetButton", 
+        "ResetText", "Back to title screen", 400, 650);   
+    
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
 /**
@@ -886,6 +897,7 @@ Node* GameSys::CreateBackground(String path)
     skyObject->SetMaterial(cache->GetResource<Material>(path));
     skyNode->AddTag("background");
     
+
     return skyNode;
 }
 

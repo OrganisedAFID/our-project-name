@@ -25,8 +25,9 @@ using namespace std;
 
 void fft(std::vector<double> &rawValues, std::vector<double> &output) 
 {
-    ofstream myfile;
-    myfile.open ("CreateLossScene.txt");
+    FILE *pFile;
+    pFile = fopen ("Fft.txt","a");    
+
 
     using namespace std::literals::chrono_literals;
     auto startFft = std::chrono::high_resolution_clock::now();
@@ -56,8 +57,7 @@ void fft(std::vector<double> &rawValues, std::vector<double> &output)
     std::chrono::duration<float> durationFft = endFft -startFft;
     std::cout << "duration of fft" << durationFft.count() << "s" <<std::endl;
   
-    myfile << durationFft.count() << "\n";
-
-    myfile.close();
+    fprintf(pFile,"%f\n",durationFft.count());
+    fflush(pFile);
     return;
 }

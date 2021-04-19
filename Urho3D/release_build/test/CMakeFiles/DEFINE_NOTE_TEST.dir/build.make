@@ -46,7 +46,7 @@ EQUALS = =
 CMAKE_SOURCE_DIR = /home/pi/sound-pirates/Urho3D/src
 
 # The top-level build directory on which CMake was run.
-CMAKE_BINARY_DIR = /home/pi/sound-pirates/Urho3D/current_build
+CMAKE_BINARY_DIR = /home/pi/sound-pirates/Urho3D/release_build
 
 # Include any dependencies generated for this target.
 include test/CMakeFiles/DEFINE_NOTE_TEST.dir/depend.make
@@ -59,29 +59,29 @@ include test/CMakeFiles/DEFINE_NOTE_TEST.dir/flags.make
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.o: test/CMakeFiles/DEFINE_NOTE_TEST.dir/flags.make
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.o: /home/pi/sound-pirates/Urho3D/src/test/define_note_test.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.o"
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.o -c /home/pi/sound-pirates/Urho3D/src/test/define_note_test.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object test/CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.o"
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.o -c /home/pi/sound-pirates/Urho3D/src/test/define_note_test.cpp
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.i"
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pi/sound-pirates/Urho3D/src/test/define_note_test.cpp > CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.i
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pi/sound-pirates/Urho3D/src/test/define_note_test.cpp > CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.i
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.s"
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pi/sound-pirates/Urho3D/src/test/define_note_test.cpp -o CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.s
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pi/sound-pirates/Urho3D/src/test/define_note_test.cpp -o CMakeFiles/DEFINE_NOTE_TEST.dir/define_note_test.cpp.s
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.o: test/CMakeFiles/DEFINE_NOTE_TEST.dir/flags.make
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.o: /home/pi/sound-pirates/Urho3D/src/defineNote.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object test/CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.o"
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.o -c /home/pi/sound-pirates/Urho3D/src/defineNote.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object test/CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.o"
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && /usr/bin/c++  $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.o -c /home/pi/sound-pirates/Urho3D/src/defineNote.cpp
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.i: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.i"
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pi/sound-pirates/Urho3D/src/defineNote.cpp > CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.i
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/pi/sound-pirates/Urho3D/src/defineNote.cpp > CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.i
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.s: cmake_force
 	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.s"
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pi/sound-pirates/Urho3D/src/defineNote.cpp -o CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.s
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && /usr/bin/c++ $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/pi/sound-pirates/Urho3D/src/defineNote.cpp -o CMakeFiles/DEFINE_NOTE_TEST.dir/__/defineNote.cpp.s
 
 # Object files for target DEFINE_NOTE_TEST
 DEFINE_NOTE_TEST_OBJECTS = \
@@ -98,8 +98,8 @@ test/DEFINE_NOTE_TEST: /usr/lib/arm-linux-gnueabihf/libboost_filesystem.so
 test/DEFINE_NOTE_TEST: /usr/lib/arm-linux-gnueabihf/libboost_system.so
 test/DEFINE_NOTE_TEST: /usr/lib/arm-linux-gnueabihf/libboost_unit_test_framework.so
 test/DEFINE_NOTE_TEST: test/CMakeFiles/DEFINE_NOTE_TEST.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pi/sound-pirates/Urho3D/current_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable DEFINE_NOTE_TEST"
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/DEFINE_NOTE_TEST.dir/link.txt --verbose=$(VERBOSE)
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/pi/sound-pirates/Urho3D/release_build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Linking CXX executable DEFINE_NOTE_TEST"
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && $(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/DEFINE_NOTE_TEST.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/build: test/DEFINE_NOTE_TEST
@@ -107,10 +107,10 @@ test/CMakeFiles/DEFINE_NOTE_TEST.dir/build: test/DEFINE_NOTE_TEST
 .PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/build
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean:
-	cd /home/pi/sound-pirates/Urho3D/current_build/test && $(CMAKE_COMMAND) -P CMakeFiles/DEFINE_NOTE_TEST.dir/cmake_clean.cmake
+	cd /home/pi/sound-pirates/Urho3D/release_build/test && $(CMAKE_COMMAND) -P CMakeFiles/DEFINE_NOTE_TEST.dir/cmake_clean.cmake
 .PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/clean
 
 test/CMakeFiles/DEFINE_NOTE_TEST.dir/depend:
-	cd /home/pi/sound-pirates/Urho3D/current_build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pi/sound-pirates/Urho3D/src /home/pi/sound-pirates/Urho3D/src/test /home/pi/sound-pirates/Urho3D/current_build /home/pi/sound-pirates/Urho3D/current_build/test /home/pi/sound-pirates/Urho3D/current_build/test/CMakeFiles/DEFINE_NOTE_TEST.dir/DependInfo.cmake --color=$(COLOR)
+	cd /home/pi/sound-pirates/Urho3D/release_build && $(CMAKE_COMMAND) -E cmake_depends "Unix Makefiles" /home/pi/sound-pirates/Urho3D/src /home/pi/sound-pirates/Urho3D/src/test /home/pi/sound-pirates/Urho3D/release_build /home/pi/sound-pirates/Urho3D/release_build/test /home/pi/sound-pirates/Urho3D/release_build/test/CMakeFiles/DEFINE_NOTE_TEST.dir/DependInfo.cmake --color=$(COLOR)
 .PHONY : test/CMakeFiles/DEFINE_NOTE_TEST.dir/depend
 
