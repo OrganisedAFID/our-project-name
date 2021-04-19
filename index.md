@@ -151,16 +151,18 @@ For the game to appear to be running in real-time the latency must be low. In ga
 To assess the realtime responsiveness a latency analysis has been performed by timing various parts of the code. Simplified, the game will generate a screen, play a note, wait for the user to play a note, convert this into the frequncy spectrum and identify the most dominant frequency, identify the note as correct/incorrect and finally have the spaceship in the game move depending on the detected note. Each of these were timed and the average of 5 games runing start to finish as seen in the list below. 
 
 - scene generation: 430 ms
-- process buffer: 4.4 ms
+- process buffer: 2.2 ms
 - finding maximum frequency: 0.000088 ms
 - FFT: 1.5 ms
-- Identify correct/incorrect note and move object: 0.037 ms
+- Identify correct/incorrect note and move object: 40 ms
 
 This means that from a note has been detected to the spaceship moving in response to the note that was played takes a total of 6 ms. Generating new scenes by far took the longest time with an average of 430 ms.
 
 ## User Stories
 
 So far, the game has been played with the clarinet, flute, violin and guitar. From feedback recived, users could quickly see how playing by ear is a difficult task to accoplish, yet the game is "addictive".  
+
+![image](https://user-images.githubusercontent.com/44497996/115219661-a5945b00-a0ff-11eb-9959-3433e40e8265.png)
 
 ## Social Media
 
