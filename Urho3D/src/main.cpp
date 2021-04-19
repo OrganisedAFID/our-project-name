@@ -579,7 +579,7 @@ Button* GameSys::CreateButton
     b->CreateChild<Text>(txtName)->SetStyleAuto();
     auto *t = b->GetChildStaticCast<Text>(txtName, false);
     t->SetText(txtCont);
-    t->SetHorizontalAlignment(HA_CENTER);
+    t->SetHorizontalAlignment(HA_LEFT);
 
     return b;
 }
@@ -716,14 +716,14 @@ void GameSys::CreateInstructionsScene()
 void GameSys::CreateWinScene()
 {
     //delete main scene
-
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
     mainScene->Clear();
     SetupScene();
     Node* bgNode = CreateBackground("Materials/win_bg.xml");
 
     UIElement* root = ui->GetRoot();
     auto* resetButton = 
-    CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 400, 500);   
+        CreateButton(root, "ResetButton", "ResetText", "Back to title screen", 100, 650);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
@@ -732,6 +732,8 @@ void GameSys::CreateWinScene()
  */
 void GameSys::CreateLossScene()
 {
+    
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
     //delete main scene
     mainScene->Clear();
     SetupScene();
@@ -739,10 +741,8 @@ void GameSys::CreateLossScene()
      
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* resetButton = CreateButton(root, "ResetButton", 
-    "ResetText", "Back to title screen", 500, 500);   
+        "ResetText", "Back to title screen", 650, 100);   
     SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
-
-
 }
 
 /** 
@@ -796,6 +796,13 @@ void GameSys::CreateMainScene()
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;
+    
+           
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* resetButton = CreateButton(root, "ResetButton", 
+        "ResetText", "Back to title screen", 400, 650);   
+    
+    SubscribeToEvent(resetButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleResetClick));
 }
 
 /**
@@ -816,6 +823,7 @@ Node* GameSys::CreateBackground(String path)
     skyObject->SetMaterial(cache->GetResource<Material>(path));
     skyNode->AddTag("background");
     
+
     return skyNode;
 }
 
