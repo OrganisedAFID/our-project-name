@@ -407,13 +407,13 @@ void AnswerHandler(bool isCorrect, bool didntPlay){
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
-        score = score + 1;
+        score = score - 1;
     }
     else{ //if isCorrect and !didntPlay
        correctness = "correct";
         y = 5.0f;
         z = 0.0f; 
-        score = score-1;
+        score = score+1;
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
