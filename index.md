@@ -10,6 +10,7 @@
 Sound PIrates is an interactive game targeted at musicians who want to learn how to play by ear. The concept of the game is simple. A short tone, within the C Major scale,  will be played out and the user has approximately 3 seconds to replicate the note on their chosen instrument. If the note played by the user and by the game is a match then a point is rewarded, and if the incorrect note is detected a point will be lost. There is no penalty for not playing a note. To make it more exciting a game featuring a spaceship has been developed. The objective is for the user to catch the spaceship, therefore when a correct note is detected the spaceship will appear closer, and if the incorrect note is played the spaceship will fly further away. The game goes on until enough wins or losses have been detected to either catch the spaceship, or it being too far out of reach. 
 
 The game is currently limited to the C major scale and the chase is short. With updates there will be more complexity and sub-games to help train your ear and vocal chords or playing fingers to match whichever notes, tones, or microtones you might want to familiarise yourself with. We have tested it with raspberry pi 4 with Raspbian installed, a jack condenser input mic and a USB sound card. It uses the Urho3D game engine (https://urho3d.github.io/) and features original art and 3D models from the team.
+![Sound PIrates_Trim](https://user-images.githubusercontent.com/44497996/115269380-2a4c9c80-a133-11eb-842b-642176235fca.gif)
 
 ## What do you need to play the game?
 
@@ -135,6 +136,7 @@ Now just execute these commands:
 
 - Then run the game:  `./sound-pirates`
 
+To watch a video of the install process go to: https://youtu.be/NzJbUrqUhCU 
 <p align="center">
 <img src= "https://user-images.githubusercontent.com/44497996/115208295-4ed55400-a0f4-11eb-8695-d28dd2b2fcbe.png" width="500" height="500" >
 </p>
