@@ -142,6 +142,7 @@ char OutputNote;
 float timestep;
 bool ready;
 bool endGame;
+int score = 0;
 bool notePlayed = true;
 bool playTime = true;
 
@@ -153,6 +154,7 @@ Vector3 cameraPos = Vector3(0.0f, -6.0f, -25.0f);
 GameSys* ourGame;
 Scene* mainScene;
 Scene* startScene;
+Text* scoreText;
 
 using namespace std;
 
@@ -168,6 +170,7 @@ void inthand(int signum) {
     stop = 1;
     return;
 }
+
 
 /**
  * processBuffer fuction. Calls fft, takes output of fft and sorts max freq into note to report
@@ -264,8 +267,7 @@ void readyHandler(int signum){
     signal(SIGUSR1, readyHandler);  
     ::ready = false;      
     ::OutputNote = playNote();
-    ::ready = true;
-    printf("set ready to true\n");
+    ready = true;
     return;
 }
 
@@ -437,6 +439,7 @@ void AnswerHandler(bool isCorrect, bool didntPlay)
     auto startAns = std::chrono::high_resolution_clock::now();
 
     notePlayed = true;
+
     float winThreshold = 40.0f;
     float lossThreshold = 110.0f;
 
@@ -451,18 +454,29 @@ void AnswerHandler(bool isCorrect, bool didntPlay)
         correctness = "incorrect";
         y = -10.0f;
         z = 0.0f;
-        
+        score = score - 1;
     }
     else{ //if isCorrect and !didntPlay
        correctness = "correct";
         y = 5.0f;
         z = 0.0f; 
+        score = score+1;
     }
     ::timestep;
     ship->Translate(Vector3(0.0f, y, z)*timestep*MOVE_SPEED);
+    
 
+    std::string scoreTxt = {"Score: "+std::to_string(score)};
+    String scoreMessage = String(scoreTxt.c_str());
+    Urho3D::PODVector<Urho3D::UIElement*> scoreVec = root->GetChildrenWithTag("scoreText");
+    if (scoreVec.Size() > 0){
+        scoreText->SetText(scoreMessage);
+    }
+    else{
+        scoreText = CreateText(scoreMessage, "scoreText", 590, 560);
+    }
+    
     std::string txt = { "You played the "+correctness+" note" };
-
     String txtMessage = String(txt.c_str());
 
     if(!didntPlay){
@@ -481,12 +495,14 @@ void AnswerHandler(bool isCorrect, bool didntPlay)
     if (distance < winThreshold)
     {
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateWinScene();
         endGame = true;
     }
     else if (distance > lossThreshold)
     {
         ourGame->DeleteCorrectnessText();
+        ourGame->DeleteScoreText();
         ourGame->CreateLossScene();
         endGame = true;
     }
@@ -512,10 +528,10 @@ void GameSys::SetupScene(){
      */  
     mainScene->CreateComponent<Octree>();
 
-    // Create a directional light to the world so that we can see something. The light scene node's orientation controls the
-    // light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
-    // The light will use default settings (white light, no shadows)
-    // Create a red directional light (sun)      
+    /// Create a directional light to the world so that we can see something. The light scene node's orientation controls the
+    /// light direction; we will use the SetDirection() function which calculates the orientation from a forward direction vector.
+    /// The light will use default settings (white light, no shadows)
+    /// Create a red directional light (sun)      
     Node* lightNode=mainScene->CreateChild();
     lightNode->SetDirection(Vector3::FORWARD);
     lightNode->Yaw(50);     // horizontal
@@ -524,12 +540,12 @@ void GameSys::SetupScene(){
     light->SetLightType(LIGHT_DIRECTIONAL);
        
 
-    // Create a scene node for the camera, which we will move around
-    // The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
+    /// Create a scene node for the camera, which we will move around
+    /// The camera will use default settings (1000 far clip distance, 45 degrees FOV, set aspect ratio automatically)
     cameraNode_ = mainScene->CreateChild("Camera");
     cameraNode_->CreateComponent<Camera>();
 
-    // Set an initial position for the camera scene node above the plane
+    /// Set an initial position for the camera scene node above the plane
     cameraNode_->SetPosition(cameraPos);
     cameraNode_->SetScale(Vector3(0, 0, 0));
 
@@ -546,6 +562,7 @@ void GameSys::CreateTitleScene()
 {
 
     SetupScene(); 
+    score = 0;
 
     CreateBackground("Materials/planet_bg.xml");
     ui = GetSubsystem<UI>();
@@ -555,13 +572,16 @@ void GameSys::CreateTitleScene()
     // Load the style sheet from xml
     root->SetDefaultStyle(cache->GetResource<XMLFile>("UI/DefaultStyle.xml"));
     auto* startButton = CreateButton(root, "StartButton", 
-        "StartText", "Start Game!", 250, 500);
+        "StartText", "Start Game!", 50, 500);
     auto* insButton = CreateButton(root, "InsButton", "InsText", 
-        "Instructions", 600, 500);
+        "Instructions", 400, 500);
+    auto* loreButton = CreateButton(root, "LoreButton", "LoreText", 
+        "Lore", 750, 500);
     auto* helloText = CreateText("Welcome to Sound Pirates!", 
         "welcomeText", 300, 300);
     SubscribeToEvent(startButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleStartClick));
     SubscribeToEvent(insButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleInsClick));
+    SubscribeToEvent(loreButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleLoreClick));
 }
 
 
@@ -580,7 +600,7 @@ Text* CreateText(String content, String tagName, int x, int y, String fontText)
     text->SetText(content);
     // Set font and text color
     text->SetFont(font, 30);
-    text->SetColor(Color(0.0f, 10.0f, 1.0f));
+    text->SetColor(Color(1.0f, 1.0f, 1.0f));
     text->SetPosition(IntVector2(x, y));
     text->AddTag(tagName);
     // Add Text instance to the UI root element
@@ -660,6 +680,16 @@ void GameSys::HandleUpdate(StringHash eventType, VariantMap& eventData)
     }
 }
 
+void GameSys::DeleteScoreText()
+{
+    //Delete existing score text from the screen if it exists
+    UIElement* root = ui->GetRoot();
+    Urho3D::PODVector<Urho3D::UIElement*> scoreText = root->GetChildrenWithTag("scoreText");
+
+    if(scoreText.Size() > 0)
+        scoreText[0]->Remove();       
+}
+
 void GameSys::DeleteCorrectnessText()
 {
     //Delete existing correctness text from the screen if it exists
@@ -706,6 +736,60 @@ void GameSys::HandleInsClick(StringHash eventType, VariantMap& eventData)
     CreateInstructionsScene();
 }
 
+/** 
+ * when you click on the lore button, the lore appears
+ * 
+ */
+void GameSys::HandleLoreClick(StringHash eventType, VariantMap& eventData)
+{
+    using namespace Click;
+    //Delete the title scene
+    GetSubsystem<UI>()->GetRoot()->RemoveAllChildren();
+    //delete title scene background
+    mainScene->Clear();
+
+    //Show the instructions
+    CreateLoreScene();
+}
+
+/**
+ * Shows the instruction text onto the screen
+ */
+void GameSys::CreateLoreScene()
+{
+    UIElement* root = GetSubsystem<UI>()->GetRoot();
+    auto* backButton = CreateButton(root, "BackButton", 
+        "BackText", "Back to title screen", 700, 500);   
+    auto* instructionsText = CreateText(
+        "You are about to enter a universe where starships sing\n"
+        "to each other across the void. Where buccaneers race the\n"
+        "spaceways looking for loot and smugglers run their contraband\n"
+        "from port to shady port. In the Galaxy of Audiorum, ships travel\n"
+        "space carrying great prizes. Fleets move as one in warp jumps,\n"
+        "synchronised by ‘The Resonance’ – a tone send out by the warp\n"
+        "engines encoding each jump. Planned journeys are symphonies\n"
+        "played out by ships in glorious rhythm across the stars.\n\n"
+        "You are taking on the role of Chantilly Lace, a pirate with\n"
+        "such genius they can tweak their engines so that the Resonance\n"
+        "sent out by other ships is trackable and you can catch and board\n"
+        "great frigates in deep space in your mighty and feared ship\n"
+        "‘The Space Shanty’.\n\n"
+        "Chantilly is a former engineer turned pirate who realised\n"
+        "they could use their new technology to take from the rich\n"
+        "to give to the poor Robin Hood style.\n"
+        "Living outside the law means you need to work with\n"
+        "unsavoury types though, so Lace has built a reputation\n"
+        "as a fearsome Captain and a hardy warrior.\n"
+        "The problem is, the crew of The Space Shanty can see a\n"
+        "whole lot of wealth, and feel not enough is going in their\n"
+        "pockets! Will you be able to guide Lace through the trials\n"
+        "that await?", 
+        "Instructions", 100, 100);
+    instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
+
+    SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
+}
+
 /**
  * Shows the instruction text onto the screen
  */
@@ -714,29 +798,19 @@ void GameSys::CreateInstructionsScene()
     UIElement* root = GetSubsystem<UI>()->GetRoot();
     auto* backButton = CreateButton(root, "BackButton", 
         "BackText", "Back to title screen", 400, 500);   
-    auto* instructionsText = CreateText("Welcome to the first playable (alpha) version of Sound Pirates!  – In space, the sounds will move you! \n"
-                                        "You are about to enter a universe where starships sing to each other across the void. \n"
-                                        "Where buccaneers race the spaceways looking for loot and smugglers run their contraband \n"
-                                        "from port to shady port. In the Galaxy of Audiorum, ships travel space carrying great prizes.\n" 
-                                        "Fleets move as one in warp jumps, synchronised by ‘The Resonance’ – a tone send out \n"
-                                        "by the warp engines encoding each jump. Planned journeys are symphonies played out by ships \n"
-                                        "in glorious rhythm across the stars. You are taking on the role of Chantilly Lace, a pirate with \n"
-                                        "such genius they can tweak their engines so that the Resonance sent out by other ships is trackable \n"
-                                        "and you can catch and board great frigates in deep space in your mighty and feared ship \n"
-                                        "The Space Shanty’. The game is currently limited to C major scal and the chase is short. \n"
-                                        "With updates there will be more complexity and sub-games to help train your ear and vocal chords \n"
-                                        "or playing fingers to match whichever notes, tones, or microtones\n" 
-                                        "you might want to familiarise yourself with. \n"
-                                        "\n"
-                                        "We have tested it with raspberry pi 4 with Raspbian installed, a Disdim condenser mic \n"
-                                        "and a USB sound card. It uses the Urho3D game engine and features original art from the team.\n"
-                                        "Chantilly is a former engineer turned pirate who realised they could use \n"
-                                        "their new technology to take from the rich to give to the poor Robin Hood style. \n"
-                                        "Living outside the law means you need to work with unsavoury types though, \n"
-                                        "so Lace has built a reputation as a fearsome Captain and a hardy warrior. \n"
-                                        "The problem is, the crew of the Space Shanty can see a whole lot of wealth, \n"
-                                        "and feel not enough is going in their pockets! Will you be able to guide Lace \n"
-                                        "through the trials that await?", "Instructions", 0, 0);
+    auto* instructionsText = CreateText(
+        "When the game begins you are chasing your ship.\n"
+        "To get closer you need to match the note that is played \n"
+        "as closely and as quickly as you can. \n"
+        "If you get the note right you’ll go closer to your ship,\n"
+        "wrong, they get further away until either you catch them, \n"
+        "or you’re stranded in space! \n\n"
+        "So a tone will sound and you’ll have five seconds to play and match it. \n"
+        "If you’re too slow, or too quiet, the system may not pick you up, \n"
+        "so loud and fast and long! \n"
+        "The notes will all be in middle C so that should give you a good starting point. \n"
+        "Good Luck!", 
+        "Instructions", 100, 100);
     instructionsText->SetFont(cache->GetResource<Font>("Fonts/Anonymous Pro.ttf"), 14);
 
     SubscribeToEvent(backButton, E_CLICK, URHO3D_HANDLER(GameSys, HandleBackClick));
@@ -860,6 +934,8 @@ void GameSys::CreateMainScene()
     Node *zoneNode = mainScene->CreateChild("Zone");
     auto *zone = zoneNode->CreateComponent<Zone>();
     zone->SetBoundingBox(BoundingBox(-1000.0f, 1000.0f));
+
+    scoreText = CreateText("Score: 0", "scoreText",  590, 560);
     Node *shipNode = CreateShip();
     shipNode->AddTag("ship");
     ship = shipNode;

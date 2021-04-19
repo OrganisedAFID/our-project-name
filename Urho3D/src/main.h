@@ -40,9 +40,17 @@ public:
     /// Setup after engine initialization and before running the main loop.
     /// Default Start function overridden to allow game loop to begin
     void Start() override;
+    
+    /// Displays the winning message and art.
     void CreateWinScene();
+    
+    /// Displays the loss message and art.
     void CreateLossScene();
+    
+    
     void DeleteCorrectnessText();
+    void DeleteScoreText();
+
 
 protected:
     /// Return XML patch instructions for screen joystick layout for a specific sample app, 
@@ -56,38 +64,74 @@ protected:
     }
 
 private:
-    /// Subscribe to application-wide logic update events.
+    //! Subscribe to application-wide logic update events.
     void SubscribeToEvents();
-    /// Handle the logic update event.
+    
+    //! Handle the logic update event.
     void HandleUpdate(StringHash eventType, VariantMap& eventData);
+    
     void HandleStartClick(StringHash eventType, VariantMap& eventData);
+    
     void HandleCloserClick(StringHash eventType, VariantMap& eventData);
+    
     void HandleFurtherClick(StringHash eventType, VariantMap& eventData);
+    
     void HandleInsClick(StringHash eventType, VariantMap& eventData);
+
+    void HandleLoreClick(StringHash eventType, VariantMap& eventData);
+
     void HandleBackClick(StringHash eventType, VariantMap& eventData);
+    
     void HandleResetClick(StringHash eventType, VariantMap& eventData);
+    
     void MoveCamera(float timeStep);
+    void CreateTextScore();
+
     
     void SetupScene();
+    
     void SetupViewport();
+    
     void CreateTitleScene();
     
+    void CreateScore();
     void CreateMainScene();
+    
     void CreateInstructionsScene();
+
+    void CreateLoreScene();
+
     void ChangeTexts(String note="None");
+    
     void WriteToPipe(int pipefds[2]);
+
+    
 
     Node* CreateBackground(String path);
     Node* CreateShip();
     Button* CreateButton(UIElement* root, String tag, String txtName, String txtCont,
      int x, int y, int width=250);
 };
-
+/**
+ * inthand function allows close of terminal with ctrl C
+ * 
+ */
 void inthand(int signum);
+
 void readyHandler(int signum);
+
 static void correctHandler(int signum);
+
 static void incorrectHandler(int signum);
+
+
+/**
+ * AnswerHandler function. checks note played and feedsback correct/incorrect.
+ * Calls CreateWinScene or CreateLossScene depending on input
+ * Gets Ships position and feedsback amount of tries
+ */
 void AnswerHandler(bool isCorrect, bool didntPlay = false);
+
 Text* CreateText(String content, String tagName, int x, int y, String font="Fonts/Anonymous Pro.ttf");
  
 
