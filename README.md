@@ -161,6 +161,8 @@ Alternatively, to build and execute this project, please do the following:
 - Navigate to bin folder: ```cd bin```
 - Run the project: ```./sound-pirates```
 
+Note you can get the lastest version in ```experimental_build ```
+
 You're all set!
 
 ## Credits
