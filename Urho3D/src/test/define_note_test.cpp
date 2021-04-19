@@ -18,7 +18,7 @@
 
 
 
-#define BOOST_TEST_MODULE SplashTests
+#define BOOST_TEST_MODULE MainTests
 #include <boost/test/unit_test.hpp>
 #include "defineNote.h"
 

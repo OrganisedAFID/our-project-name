@@ -1,4 +1,0 @@
-<material>
-	<technique name="Techniques/Diff.xml"/>
-	<texture name="Textures/MainGameBackground.png" unit="diffuse"/>
-</material>

@@ -9,9 +9,9 @@ find_package(Boost COMPONENTS system filesystem unit_test_framework REQUIRED)
 SET(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -pthread")
 
 ##
-# Include directories containing source directory (splash) boost include directories 
+# Include directories containing source directory (src) boost include directories 
 #
-include_directories(${DEMO_SOURCE_DIR}/splash ${Boost_INCLUDE_DIRS})
+include_directories(${DEMO_SOURCE_DIR}/src ${Boost_INCLUDE_DIRS})
 
 ##
 # Define "-DBOOST_TEST_DYN_LINK" flag to build/use dynamic library.
